@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <style type="text/css">
+      body {      
+        margin: 0px;
+        padding: 0px;
+        font:100% Verdana;
+      }
+      .container {
+        width : 800px;
+        margin: 8px auto;
+      }
+      .box {
+        margin: 8px auto;
+        text-align:center;
+      }
+    </style>
+    <link rel="stylesheet" type="text/css" href="../../src/envision.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../src/CommitsIssues.css" />
+  </head>
+  <body>
+    <p><img src="bitergia-logo.png"><h1>Evolution of GNOME Shell: Commits and Issues</h1></p>
+    <div class="box">
+    <div class="container" id="commits-issues-time"></div>
+    <div>
+    <br>
+    <p>Top chart shows number of commits and issues opened and closed per month. 
+    Below it, number of committers active during the same month. 
+    The bottom chart shows also number of commits per month, and allows the selection of the 
+    period to show in the upper charts. Move the pointer over the upper charts 
+    to see the numbers.
+    </p>
+    </div>
+    <div> 
+    JSON data for [<a href="data/json/commits-timeserie.json">Commits</a>] and [<a href="data/json/its-timeserie.json">Issues</a>]. <a href="README">Replicate me!</a></p>
+    </div>
+    
+
+    <!--[if IE]>
+    <script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
+    <![endif]-->
+    <script type="text/javascript" src="../../src/envision.js"></script>
+    <script type="text/javascript" src="../../src/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="../../src/swscopio.js"></script>
+    <script type="text/javascript" src="../../src/CommitsIssues.js"></script>
+    <script type="text/javascript" src="../../src/markers.js"></script>
+    
+    <script type="text/javascript">
+      (function () {
+        // FIXME: Commits and Issues should be sync in JSON files
+        var offset_time_commits_issues = -1;
+        displayEvoCommitsIssues ('commits-issues-time', 
+                'data/json/commits-timeserie.json', 'data/json/its-timeserie.json', 'data/json/markers.json', offset_time_commits_issues);
+      }) ()
+    </script>
+  </body>
+</html>

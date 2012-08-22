@@ -1,0 +1,93 @@
+/* Dimensions */
+/* .swscopio-commits, .swscopio-issues-closed {
+  width: 600px;
+} */
+
+.swscopio-commits-commits .envision-component,
+.swscopio-issues-closed .envision-component, 
+.swscopio-issues-opened .envision-component
+{
+  height : 400px;
+}
+
+.swscopio-commits-committers .envision-component {
+  height : 60px;
+}
+.swscopio-commits-connection .envision-component {
+  height: 16px;
+}
+.swscopio-commits-summary .envision-component {
+  cursor: all-scroll;
+  height : 70px;
+  margin-top: -2px;
+}
+
+/* Bubble Borders */
+.swscopio-commits-commits,
+.swscopio-issues-closed,
+.swscopio-issues-opened,
+.swscopio-commits-committers {
+  border: 1px solid #FFA500;
+  background: #fff;
+}
+.swscopio-commits-commits,
+.swscopio-issues-closed,
+.swscopio-issues-opened
+{
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+.swscopio-commits-committers {
+  border-top: 0px;
+}
+
+/* Connection overlay */
+.swscopio-commits-connection canvas {
+  z-index: 10;
+  background: #fff;
+}
+.swscopio-commits-connection canvas object {
+  position: absolute;
+  top: 0px;
+}
+
+/* Y-Axis Labels */
+.swscopio-commits-commits .flotr-grid-label {
+  margin-left: 4px;
+}
+.swscopio-commits-commits .flotr-grid-label.first {
+  margin-top: -6px;
+}
+.swscopio-commits-commits .flotr-grid-label.last {
+  margin-top: 6px;
+}
+
+/* X-Axis Labels */
+.swscopio-commits-summary .flotr-grid-label {
+  margin-top: 3px;
+}
+
+/* Mouse Tracker */
+.swscopio-commits-commits .flotr-mouse-value {
+    font-size: 12px;
+}
+.swscopio-commits-committers .flotr-mouse-value {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .swscopio-commits-commits, .swscopio-issues-clossed {
+    width: 100%;
+  }  
+ 
+  .swscopio-commits-commits .envision-component,
+  .swscopio-issues-closed, .swscopio-issues-opened 
+   {
+    height: 120px;
+  }
+  .swscopio-commits-summary .envision-component,
+  .swscopio-commits-committers .envision-component {
+    height: 40px;
+  }
+}
