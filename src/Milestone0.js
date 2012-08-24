@@ -3,7 +3,7 @@
  * 
  */
 
-function displayM0EvoSCM (id, commits, markers, offset) {
+function displayM0EvoSCM (id, commits, markers) {
 
  var
  container = document.getElementById(id);
@@ -72,14 +72,11 @@ function displayM0EvoSCM (id, commits, markers, offset) {
   });
 }
 
-function displayM0EvoITS (id, issues, markers, offset) {
+function displayM0EvoITS (id, issues, markers) {
 
     var
     container = document.getElementById(id);
     
-    // TODO: remove this and be sure JSON are created correctly
-    offset = 0;
-
     $.getJSON(issues, function (history) {
         $.getJSON(markers, issues, function (markers) {
             var
@@ -108,12 +105,12 @@ function displayM0EvoITS (id, issues, markers, offset) {
                     value;
                     
                     value = history.date[index] + ": ";
-                    value += "Issues closed: " + history.closed[index+offset];
-                    value += ", opened: " + history.open[index+offset];
-                    value += ", chnaged: " + history.changed[index+offset];
-                    value += "<br>Closers: " + history.closers[index+offset];
-                    value += ", openers: " + history.openers[index+offset];
-                    value += ", chnagers: " + history.changers[index+offset];
+                    value += "Issues closed: " + history.closed[index];
+                    value += ", opened: " + history.open[index];
+                    value += ", chnaged: " + history.changed[index];
+                    value += "<br>Closers: " + history.closers[index];
+                    value += ", openers: " + history.openers[index];
+                    value += ", chnagers: " + history.changers[index];
 
                     return value;
                 },
@@ -140,7 +137,7 @@ function displayM0EvoITS (id, issues, markers, offset) {
     });         
 }
 
-function basic_lines(container, json_file, column, labels, title) {
+function basic_lines(div_id, json_file, column, labels, title) {
     $.getJSON(json_file, function(history) {
         var line_data = [];
 
@@ -148,7 +145,9 @@ function basic_lines(container, json_file, column, labels, title) {
             line_data[i] = [ i, parseInt(history[column][i]) ];
         }
 
-        var i, graph;
+        var graph;
+
+        var container = document.getElementById(div_id);
 
         // Draw Graph
         if (labels) {
