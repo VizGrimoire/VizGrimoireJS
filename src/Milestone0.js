@@ -137,7 +137,7 @@ function displayM0EvoITS (id, issues, markers) {
     });         
 }
 
-function basic_lines(div_id, json_file, column, labels, title) {
+function basic_lines(container, json_file, column, labels, title) {
     $.getJSON(json_file, function(history) {
         var line_data = [];
 
@@ -146,8 +146,6 @@ function basic_lines(div_id, json_file, column, labels, title) {
         }
 
         var graph;
-
-        var container = document.getElementById(div_id);
 
         // Draw Graph
         if (labels) {
