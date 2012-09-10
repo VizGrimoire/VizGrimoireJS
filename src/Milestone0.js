@@ -107,10 +107,10 @@ function displayM0EvoITS (id, issues, markers) {
                     value = history.date[index] + ": ";
                     value += "Issues closed: " + history.closed[index];
                     value += ", opened: " + history.open[index];
-                    value += ", chnaged: " + history.changed[index];
+                    value += ", changed: " + history.changed[index];
                     value += "<br>Closers: " + history.closers[index];
                     value += ", openers: " + history.openers[index];
-                    value += ", chnagers: " + history.changers[index];
+                    value += ", changers: " + history.changers[index];
 
                     return value;
                 },
