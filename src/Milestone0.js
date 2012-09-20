@@ -155,7 +155,10 @@ function basic_lines(container, json_file, column, labels, title) {
                     minorTickFreq : 4,
                 //showLabels : false,
                     tickFormatter: function(x) {
-                        return history.date[x];
+                       if (history.date) {
+                             x = history.date[parseInt(x)];
+                        }
+                        return x;
                     }
                 },
                 yaxis : {
