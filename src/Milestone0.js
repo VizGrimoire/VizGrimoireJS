@@ -153,7 +153,6 @@ function basic_lines(container, json_file, column, labels, title) {
                 title : title,
                 xaxis : {
                     minorTickFreq : 4,
-                //showLabels : false,
                     tickFormatter: function(x) {
                        if (history.date) {
                              x = history.date[parseInt(x)];
@@ -163,14 +162,21 @@ function basic_lines(container, json_file, column, labels, title) {
                 },
                 yaxis : {
                     minorTickFreq : 1000,
+                    tickFormatter: function(y) {
+                         return parseInt(y)+"";
+                     }
                 },
+                
                 grid : {
                     show : false,
                 // minorVerticalLines: true
                 },
                 mouse : {
                     track : true,
-                    trackY : false
+                    trackY : false,
+                    trackFormatter : function(o) {
+                        return history.date[parseInt(o.x)]+": "+parseInt (o.y);
+                    }
                 }
             });
         } else {
@@ -181,6 +187,9 @@ function basic_lines(container, json_file, column, labels, title) {
                 },
                 yaxis : {
                     showLabels : false,
+                    tickFormatter: function(y) {
+                        return parseInt(y)+"";
+                    }
                 },
                 grid : {
                     show : false,
@@ -188,7 +197,14 @@ function basic_lines(container, json_file, column, labels, title) {
                 },
                 mouse : {
                     track : true,
-                    trackY : false
+                    trackY : false,
+                    mouse : {
+                        track : true,
+                        trackY : false,
+                        trackFormatter : function(o) {
+                            return history.date[parseInt(o.x)]+": "+parseInt (o.y);
+                        }
+                    }
                 }
             });
 

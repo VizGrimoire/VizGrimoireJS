@@ -76,51 +76,54 @@
 	 <figure class="logo"> 
         <p><a href="index.html"><img src="bitergia-logo.png" alt="Bitergia logo" id="logo" height="45" width="159" border=0 style="float: right"></a>
     	</figure>
-        <h2>GNOME Shell Analysis</h2></p>
+        <h2>Libre Plan Analysis</h2></p>
 		
     </div>
-    
-    <div id="info-column1">
-      <div id="info-pill">
+
+  <div id="info-column1" style="width:200px;">
+    <div id="info-pill">
       
-       <h1> General Data </h1>
-       <p>SCM: git://git.gnome.org/gnome-shell</p>
-       <p>ITS: https://bugzilla.gnome.org/</p>
-       <p>Initial date - 2008-10-31</p>
-       <p>Final date - 2012-07-25</p>
-       
-       
-      
-      </div>
-             
-       <div id="info-pill">
-        <h1> General Notes</h1>
-        <p> The dataset presented is based on 
-        the information publicly available 
-        in the data sources found in the GNOME Shell
-        project. <br> Our main concern is 
-        to provide products and services as transparent
-        as possible generating a trustable relationship
-        with our costumers. With this respect, please,
-        if you find any inconsistencies in the data, we 
-        would like to know about this to provide the best
-        analysis about open source projects!. <br> Thanks for your support!  <p>
-      </div>
-      
-       <div id="info-pill">
-        <h1> Other tips</h1>
-        <p> We proudly participate in the development of the
-        data mining tools used in this analysis. Those can be found at
-        the Metrics Grimoire project in GitHub. <p>
-        <p> In addition, the visualization part has been partially modified
-        to obtain the current set of charts that you can see. All of them based
-        on Flotr2 by the HumbleSoftware guys, where you will also find some
-        activity from us! </p>
-        <p> Finally, let us introduce you R, an incredible statistical tool
-        that help us to analyze dataset and obtain actual in depth analysis
-        of your favorite project</p>
-      </div>
+      <h1>Reference Card</h1>
+      <p><a href="http://libreplan.git.sourceforge.net/git/gitweb.cgi?p=libreplan/libreplan;a=tree">SCM (git)</a>: <br/>
+         git://libreplan.git.sourceforge.net/</p>
+      <p>Initial date: 2009-04-23</p>
+      <p>Final date: 2012-12-31</p>
+      <p>ITS (Bugzilla): <a href="http://bugs.libreplan.org/">http://bugs.libreplan.org/</a></p>
+      <p><a href="data/db">MySQL database dumps</a> with the complete retrieved datasets</p>
+      <p><a href="data/json">JSON files</a> serving the data shown in the plots</p>
+      <p><a href="http://blog.bitergia.com/2012/10/03/basic-analysis-of-zentyal/">Blog post with some more details</a></p> 
     </div>
+             
+    <div id="info-pill">
+          <h1> General Notes</h1>
+          <p> This is a simple report produced by <a href="http://bitergia.com">Bitergia</a>.</p>
+          <p> The dataset presented is based on 
+            the information publicly available 
+            in the development repositories of the <a href="http://www.libreplan.com/">LibrePlan
+              project</a>, and should be exact for the timespan and repositories analyzed.<p>
+    </div>
+      
+    <div id="info-pill">
+          <h1> Other comments</h1>
+          <p> We proudly participate in the development of the
+            data mining tools used in this analysis, which are all of them free / open source software. Those can be found at
+            the <a href="https://github.com/MetricsGrimoire">Metrics Grimoire project</a>. <p>
+          <p> The visualization part is also based on partially modified free software code, most of it being <a href="http://humblesoftware.com/envision/">Envision</a> by HumbleSoftware. The rest of the toolchain is mainly <a href="http://www.r-project.org/">R</a>, an incredible statistical tool
+            that helps us to analyze the dataset and produce the cooked data which is shown.</p>
+    </div>
+      
+    <div id="info-pill">
+          <h1>More information and feedback</h1>
+          <p> There is some more information in the <a href="http://blog.bitergia.com/">blog post about this analysis</a>. <p>
+      <p> Our main concern as a company is 
+            to provide products and services as transparent
+            as possible, generating a trustable relationship
+            with our costumers. Therefore,
+            if you find any inconsistencies in the data, or have any other kind of feedback, please let us know by posting a comment to that blog entry.</p>
+      <p>Thanks for your interest and support!</p>
+    </div>
+   </div>
+    
     
     <div id="info-column2">
        <div id="info-pill">
@@ -221,10 +224,7 @@
 
     <script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/src/csv2json.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/src/pie.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/src/bar.js"></script>
     <script type="text/javascript">
     
         var container = document.getElementById('container_commits');
@@ -245,22 +245,22 @@
 
 
         var container = document.getElementById('container_open_bugs');
-        basic_lines (container, "data/json/its-timeserie.json", "open", 1, "open");
+        basic_lines (container, "data/json/its-milestone0.json", "open", 1, "open");
         
         var container = document.getElementById('container_openers');
-        basic_lines (container, "data/json/its-timeserie.json", "openers", 1, "openers");
+        basic_lines (container, "data/json/its-milestone0.json", "openers", 1, "openers");
         
         var container = document.getElementById('container_close_bugs');
-        basic_lines (container, "data/json/its-timeserie.json", "closed", 1, "closed");
+        basic_lines (container, "data/json/its-milestone0.json", "closed", 1, "closed");
         
         var container = document.getElementById('container_closers');
-        basic_lines (container, "data/json/its-timeserie.json", "closers", 1, "closers");
+        basic_lines (container, "data/json/its-milestone0.json", "closers", 1, "closers");
        
         var container = document.getElementById('container_changes');
-        basic_lines (container, "data/json/its-timeserie.json", "changed", 1, "changed");
+        basic_lines (container, "data/json/its-milestone0.json", "changed", 1, "changed");
         
         var container = document.getElementById('container_changers');
-        basic_lines (container, "data/json/its-timeserie.json", "changers", 1, "changers");
+        basic_lines (container, "data/json/its-milestone0.json", "changers", 1, "changers");
 
     </script>
 </body></html>
