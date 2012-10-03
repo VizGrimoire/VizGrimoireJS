@@ -52,12 +52,12 @@ function getDefaultsMarkers (option, markers, dates) {
 }
 
 function getDefaults (markers, dates) {
+    var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
   return {
     commits : {
       name : 'milestone0-scm-commits',
       config : {
-        //colors: ['#00A8F0', '#C0D800', '#CB4B4B', '#4DA74D', '#9440ED'],
-        colors: ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'],
+        colors: defaults_colors,
         'lite-lines' : {          
           lineWidth : 1,
           show : true,
@@ -88,9 +88,11 @@ function getDefaults (markers, dates) {
           min : 0
         },
         legend : {
-            position : 'se',
-            noColumns : 3,
-            backgroundColor : '#D2E8FF' // A light blue background color
+            position : 'nw',
+            noColumns : 1,
+            backgroundColor : '#FFFFFF', // A light blue background color
+            backgroundOpacity: 0,
+
         },
       },
       processData : processData
@@ -98,13 +100,12 @@ function getDefaults (markers, dates) {
     files : {
         name : 'milestone0-scm-files',
         config : {
+            colors: defaults_colors,
           'lite-lines' : {
             lineWidth : 1,
             show : true,
             fill : true,
-            fillOpacity : 0.2,
-            color: '#ffa500',
-            fillColor: '#ffa500'
+            fillOpacity : 0.2
           },
           mouse : {
             track: true,
@@ -124,13 +125,12 @@ function getDefaults (markers, dates) {
       branches : {
           name : 'milestone0-scm-branches',
           config : {
+            colors: defaults_colors,
             'lite-lines' : {
               lineWidth : 1,
               show : true,
               fill : true,
               fillOpacity : 0.2,
-              color: '#ffa500',
-              fillColor: '#ffa500'
             },
             mouse : {
               track: true,
@@ -148,10 +148,10 @@ function getDefaults (markers, dates) {
       committers : {
         name : 'milestone0-scm-committers',
         config : {
+            colors: defaults_colors,
             whiskers : {
               show : true,
-              lineWidth : 2,
-              color: '#ffa500'
+              lineWidth : 2
         },
         mouse: {
           track: true,
@@ -168,10 +168,10 @@ function getDefaults (markers, dates) {
     repositories : {
         name : 'milestone0-scm-repositories',
         config : {
+          colors: defaults_colors,
           whiskers : {
             show : true,
-            lineWidth : 2,
-            color: '#ffa500'
+            lineWidth : 2
           },
           mouse: {
             track: true,
@@ -188,14 +188,13 @@ function getDefaults (markers, dates) {
     summary : {
       name : 'milestone0-scm-summary',
       config : {
+        colors: defaults_colors,
         'lite-lines' : {
           show : true,
           lineWidth : 1,
           fill : true,
           fillOpacity : 0.2,
-          fillBorder : true,
-          color: '#ffa500',
-          fillColor: '#ff7500'
+          fillBorder : true
         },
         xaxis : {
           noTicks: 10,

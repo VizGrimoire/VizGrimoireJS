@@ -52,14 +52,12 @@ function getDefaultsMarkers (option, markers, dates) {
 }
 
 function getDefaults (markers, dates) {
-    var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
   return {
-      
-    open : {
-      name : 'milestone0-its-open',
+    sent : {
+      name : 'milestone0-mls-sent',
       config : {
         //colors: ['#00A8F0', '#C0D800', '#CB4B4B', '#4DA74D', '#9440ED'],
-        colors: defaults_colors,
+        colors: ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'],
         'lite-lines' : {          
           lineWidth : 1,
           show : true,
@@ -87,88 +85,30 @@ function getDefaults (markers, dates) {
           show: true,
           autoscale : true,
           autoscaleMargin : 0.05,
-          noTicks : 4,
+          noTicks : 1,
           showLabels : true,
-          min : 0
-        },        
+          min : 0,
+          tickFormatter: function(y) {
+              return parseInt(y)+"";
+          }
+        },
         legend : {
             position : 'nw',
             noColumns : 1,
-            margin: 5,
+	    margin: 5,
             backgroundOpacity: 0,
         },
       },
       processData : processData
     },
-    close : {
-        name : 'milestone0-its-close',
-        config : {
-            colors: defaults_colors,
-          'lite-lines' : {
-            lineWidth : 1,
-            show : true,
-            fill : true,
-            fillOpacity : 0.2
-          },
-          mouse : {
-            track: true,
-            trackY: false,
-            trackAll: true,
-            sensibility: 1,
-            trackDecimals: 4,
-            position: 'ne'
-          },
-          yaxis : { 
-            autoscale : true,
-            autoscaleMargin : 0.05,
-            noTicks : 4,
-            showLabels : false,
-            min : 0
-          },
-          legend : {
-              position : 'nw',
-              noColumns : 1,
-              margin: 5,
-              backgroundOpacity: 0,
-          }
-        },
-        processData : processData
-      },
-      change : {
-          name : 'milestone0-its-change',
-          config : {
-            colors: defaults_colors,
-            'lite-lines' : {
-              lineWidth : 1,
-              show : true,
-              fill : true,
-              fillOpacity : 0.2
-            },
-            mouse : {
-              track: true,
-              trackY: false,
-              trackAll: true,
-              sensibility: 1,
-              trackDecimals: 4,
-              position: 'ne'
-            },
-            yaxis : { 
-              autoscale : true,
-              autoscaleMargin : 0.05,
-              noTicks : 4,
-              showLabels : false,
-              min : 0
-            }
-          },
-          processData : processData
-        },  
-    openers : {
-      name : 'milestone0-its-openers',
+    senders : {
+      name : 'milestone0-mls-senders',
       config : {
-        colors: defaults_colors,
+        colors: ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'],
         whiskers : {
           show : true,
-          lineWidth : 2
+          lineWidth : 2,
+          color: '#ffa500'
         },
         mouse: {
           track: true,
@@ -177,72 +117,45 @@ function getDefaults (markers, dates) {
         },
         yaxis : {
           autoscale : true,
-          autoscaleMargin : 0.5 
+          autoscaleMargin : 0.5,
+          tickFormatter: function(y) {
+              return parseInt(y)+"";
+          }
+        },
+        legend : {
+            position : 'nw',
+            noColumns : 1,
+	    margin: 5,
+            backgroundOpacity: 0,
         }
       },
       processData : processData
     },
-    closers : {
-        name : 'milestone0-its-closers',
-        config : {
-          colors: defaults_colors,
-          whiskers : {
-            show : true,
-            lineWidth : 2
-          },
-          mouse: {
-            track: true,
-            trackY: false,
-            trackAll: true
-          },
-          yaxis : {
-            autoscale : true,
-            autoscaleMargin : 0.5 
-          }
-        },
-        processData : processData
-      },
-      changers : {
-          name : 'milestone0-its-changers',
-          config : {
-            colors: defaults_colors,
-            whiskers : {
-              show : true,
-              lineWidth : 2
-            },
-            mouse: {
-              track: true,
-              trackY: false,
-              trackAll: true
-            },
-            yaxis : {
-              autoscale : true,
-              autoscaleMargin : 0.5 
-            }
-          },
-          processData : processData
-      },    
       summary : {
-      name : 'milestone0-its-summary',
+      name : 'milestone0-mls-summary',
       config : {
-        colors: defaults_colors,
         'lite-lines' : {
           show : true,
           lineWidth : 1,
           fill : true,
           fillOpacity : 0.2,
           fillBorder : true,
+          color: '#ffa500',
+          fillColor: '#ff7500'
         },
         xTickFormatter: function(o) {
             return "X";
         },
         xaxis : {
-          noTicks: 10,
+          noTicks: 5,
           showLabels : true,
         },
         yaxis : {
           autoscale : true,
-          autoscaleMargin : 0.1
+          autoscaleMargin : 0.1,
+          tickFormatter: function(y) {
+              return parseInt(y)+"";
+          }
         },
         handles : {
           show : true
@@ -263,23 +176,23 @@ function getDefaults (markers, dates) {
       },      
     },
     connection : {
-      name : 'milestone0-its-connection',
+      name : 'milestone0-mls-connection',
       adapterConstructor : V.components.QuadraticDrawing
     }
   };
 }
 
-function ITS_Milestone0 (options) {
+function MLS_Milestone0 (options) {
 
   var
     data = options.data,
     defaults = getDefaults(data.markers, data.dates),
     vis = new V.Visualization({
-        name : 'milestone0-its',
+        name : 'milestone0-mls',
         }),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
-    open, close, change, openers, closers, changers, markers;
+    sent, senders, markers;
 
   if (options.defaults) {
     defaults = Flotr.merge(options.defaults, defaults);
@@ -287,68 +200,50 @@ function ITS_Milestone0 (options) {
 
   // Data for plotting the graphs
   // defaults.commits.config.data = [
-  defaults.open.data = [
-      {label:"opened", data: data.open}, 
+  defaults.sent.data = [
+      {label:"Messages", data: data.sent}, 
 //      {label:"issues opened", data: data.issues_opened},
 //      {label:"issues closed", data: data.issues_closed} 
   ];
-  series_number = defaults.open.data.length;
+  series_number = defaults.sent.data.length;
   series_drawn = 0;
 
-  defaults.change.data = [{label:"changed", data:data.change}];
-  defaults.close.data = [{label:"closed", data:data.close}];
+  defaults.senders.data = [{label:"Senders", data:data.senders}];
+  defaults.summary.data = data.summary;
 
-  defaults.openers.data = [{label:"openers", data:data.openers}];
-  defaults.closers.data = [{label:"closers", data:data.closers}];
-  defaults.changers.data = [{label:"changers", data:data.changers}];
-  defaults.summary.data = [{label:"open", data:data.summary}];
-  
-  defaults.open.config.mouse.trackFormatter = options.trackFormatter;
+  defaults.sent.config.mouse.trackFormatter = options.trackFormatter;
   
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
-  defaults.open.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
+  defaults.sent.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
     return '$' + n;
   };
 
-  open = new V.Component(defaults.open);
-  close = new V.Component(defaults.close);
-  change = new V.Component(defaults.change);
-  openers = new V.Component(defaults.openers);
-  closers = new V.Component(defaults.closers);
-  changers = new V.Component(defaults.changers);
-
+  sent = new V.Component(defaults.sent);
+  senders = new V.Component(defaults.senders);
   
   connection = new V.Component(defaults.connection);  
   summary = new V.Component(defaults.summary);  
 
   // Render visualization
   vis
-    .add(open)
-    .add(close)
-    .add(change)
-    .add(openers)
-    .add(closers)
-    .add(changers)
+    .add(sent)
+    .add(senders)
     .add(connection)
     .add(summary)
     .render(options.container);
 
   // Define the selection zooming interaction
   selection
-    .follower(open)
-    .follower(close)
-    .follower(change)
-    .follower(openers)
-    .follower(closers)
-    .follower(changers)
+    .follower(sent)
+    .follower(senders)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
   hit    
-    .group([open, close, change, openers, closers, changers])    
+    .group([sent, senders])    
     .add(V.actions.hit);
 
   // Optional initial selection
@@ -360,15 +255,11 @@ function ITS_Milestone0 (options) {
   this.vis = vis;
   this.selection = selection;
   this.hit = hit;
-  this.open = open;
-  this.close = close;
-  this.change = change; 
-  this.openers = openers;
-  this.closers = closers;
-  this.changers = changers;
+  this.sent = sent;
+  this.senders = senders;
   this.summary = summary;
 }
 
-V.templates.ITS_Milestone0 = ITS_Milestone0;
+V.templates.MLS_Milestone0 = MLS_Milestone0;
 
 })();
