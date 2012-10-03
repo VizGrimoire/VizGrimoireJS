@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html lang="en" class="ie6"><![endif]-->
+<!--[if IE 7]><html lang="en" class="ie7"><![endif]-->
+<!--[if IE 8]><html lang="en" class="ie8"><![endif]-->
+<!--[if IE 9]><html lang="en" class="ie9"><![endif]-->
+<!--[if gt IE 9]><html lang="en"><![endif]-->
+<!--[if !IE]>-->
+<html lang="en"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0">
+<meta name="description" content="Bitergia company website" />
+<meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
+<link rel="stylesheet" type="text/css" id="theme" href="bitergia2.css" />
+<title>Bitergia Company GNOME Shell Analysis</title>
+<!--[if lte IE 8]><script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
+<!--[if lte IE 8]><script src="scripts/css3-mediaqueries.js"></script><![endif]-->
+<style type="text/css">
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+      #container_commits {
+        width : 180px;
+        height: 100px;
+      }
+      #container_committers {
+        width : 180px;
+        height: 100px;
+      }
+      #container_files{
+        width : 180px;
+        height: 100px;
+      }
+      #container_branches {
+        width : 180px;
+        height: 100px;
+      }
+      #container_repositories {
+        width : 180px;
+        height: 100px;
+      }
+
+      #container_open_bugs {
+        width : 180px;
+        height: 100px;
+      }
+      #container_openers {
+        width : 180px;
+        height: 100px;
+      }
+      #container_close_bugs{
+        width : 180px;
+        height: 100px;
+      }
+      #container_closers {
+        width : 180px;
+        height: 100px;
+      }
+      #container_changes {
+        width : 180px;
+        height: 100px;
+      }
+      
+      #container_changers {
+        width : 180px;
+        height: 100px;
+      }
+</style>
+</head>
+
+<body>
+<div id="wrapper">
+
+	<div id="header">
+	 <figure class="logo"> 
+        <p><a href="index.html"><img src="bitergia-logo.png" alt="Bitergia logo" id="logo" height="45" width="159" border=0 style="float: right"></a>
+    	</figure>
+        <h2>GNOME Shell Analysis</h2></p>
+		
+    </div>
+    
+    <div id="info-column1">
+      <div id="info-pill">
+      
+       <h1> General Data </h1>
+       <p>SCM: git://git.gnome.org/gnome-shell</p>
+       <p>ITS: https://bugzilla.gnome.org/</p>
+       <p>Initial date - 2008-10-31</p>
+       <p>Final date - 2012-07-25</p>
+       
+       
+      
+      </div>
+             
+       <div id="info-pill">
+        <h1> General Notes</h1>
+        <p> The dataset presented is based on 
+        the information publicly available 
+        in the data sources found in the GNOME Shell
+        project. <br> Our main concern is 
+        to provide products and services as transparent
+        as possible generating a trustable relationship
+        with our costumers. With this respect, please,
+        if you find any inconsistencies in the data, we 
+        would like to know about this to provide the best
+        analysis about open source projects!. <br> Thanks for your support!  <p>
+      </div>
+      
+       <div id="info-pill">
+        <h1> Other tips</h1>
+        <p> We proudly participate in the development of the
+        data mining tools used in this analysis. Those can be found at
+        the Metrics Grimoire project in GitHub. <p>
+        <p> In addition, the visualization part has been partially modified
+        to obtain the current set of charts that you can see. All of them based
+        on Flotr2 by the HumbleSoftware guys, where you will also find some
+        activity from us! </p>
+        <p> Finally, let us introduce you R, an incredible statistical tool
+        that help us to analyze dataset and obtain actual in depth analysis
+        of your favorite project</p>
+      </div>
+    </div>
+    
+    <div id="info-column2">
+       <div id="info-pill">
+        <h1>SCM ANALYSIS</h1>
+       </div>
+
+        <div id="info-pill" style="height:130px;">
+         <h1>Commits</h1>
+         <div id="container_commits" style="float:right;   right:10px;"> </div>
+         <p>Evolution of the number of commits (aggregating branches)</p>
+        </div>
+
+
+        <div id="info-pill" style="height:130px;">
+         <h1>Committers</h1>
+         <div id="container_committers" style="float:right;   right:10px;"> </div>
+         <p>Unique committers making changes to the source code</p>
+        </div>
+
+     
+        <div id="info-pill" style="height:130px;">
+         <h1>Files</h1>
+         <div id="container_files" style="float:right;   right:10px;"> </div>
+         <p>Evolution of the number of unique files handled by the community</p>
+        </div>
+  
+		
+        <div id="info-pill" style="height:130px;">
+         <h1>Branches</h1>
+         <div id="container_branches" style="float:right;   right:10px;"> </div>
+         <p>Evolution of the number of branches</p>
+        </div>
+
+        <div id="info-pill" style="height:130px;">
+         <h1>Repositories</h1>
+         <div id="container_repositories" style="float:right;   right:10px;"> </div>
+         <p>Evolution of the number of repositories</p>
+        </div>
+
+
+    </div>
+    
+    <div id="info-column3">
+       <div id="info-pill">
+        <h1>ITS ANALYSIS </h1>
+       </div>
+        
+         <div id="info-pill" style="height:130px;">
+         <h1>Open Bugs</h1>
+         <div id="container_open_bugs" style="float:right;   right:10px;"> </div>
+         <p>Evolution of the number of open bugs </p>
+        </div>
+
+
+        <div id="info-pill" style="height:130px;">
+         <h1>Openers</h1>
+         <div id="container_openers" style="float:right;   right:10px;"> </div>
+         <p>Unique people opening bug reports</p>
+        </div>
+
+     
+        <div id="info-pill" style="height:130px;">
+         <h1>Close Bugs</h1>
+         <div id="container_close_bugs" style="float:right;   right:10px;"> </div>
+         <p>Bugs being closed</p>
+        </div>
+  
+		
+        <div id="info-pill" style="height:130px;">
+         <h1>Closers</h1>
+         <div id="container_closers" style="float:right;   right:10px;"> </div>
+         <p>People closing bug reports</p>
+        </div>
+
+        <div id="info-pill" style="height:130px;">
+         <h1>Changes</h1>
+         <div id="container_changes" style="float:right;   right:10px;"> </div>
+         <p>Evolution in the number of changes (aggregated)</p>
+        </div>
+        
+         <div id="info-pill" style="height:130px;">
+         <h1>Changers</h1>
+         <div id="container_changers" style="float:right;   right:10px;"> </div>
+         <p>Evolution in the number of unique people making changes to the reports</p>
+        </div>
+       
+
+    </div>
+
+	
+    <div id="footer">
+    	<div id="about">
+            <p>&#169; 2011-2012 Bitergia</p>
+        </div>
+    </div>
+    
+</div>
+
+    <script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/csv2json.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/pie.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/bar.js"></script>
+    <script type="text/javascript">
+    
+        var container = document.getElementById('container_commits');
+        basic_lines (container, "data/json/scm-milestone0.json", "commits", 1, "commits");
+        
+        var container = document.getElementById('container_committers');
+        basic_lines (container, "data/json/scm-milestone0.json", "committers", 1, "committers");
+        
+        var container = document.getElementById('container_files');
+        basic_lines (container, "data/json/scm-milestone0.json", "files", 1, "files");
+        
+        var container = document.getElementById('container_branches');
+        basic_lines (container, "data/json/scm-milestone0.json", "branches", 1, "branches");
+       
+        var container = document.getElementById('container_repositories');
+        basic_lines (container, "data/json/scm-milestone0.json", "repositories", 1, "repositories");
+
+
+
+        var container = document.getElementById('container_open_bugs');
+        basic_lines (container, "data/json/its-timeserie.json", "open", 1, "open");
+        
+        var container = document.getElementById('container_openers');
+        basic_lines (container, "data/json/its-timeserie.json", "openers", 1, "openers");
+        
+        var container = document.getElementById('container_close_bugs');
+        basic_lines (container, "data/json/its-timeserie.json", "closed", 1, "closed");
+        
+        var container = document.getElementById('container_closers');
+        basic_lines (container, "data/json/its-timeserie.json", "closers", 1, "closers");
+       
+        var container = document.getElementById('container_changes');
+        basic_lines (container, "data/json/its-timeserie.json", "changed", 1, "changed");
+        
+        var container = document.getElementById('container_changers');
+        basic_lines (container, "data/json/its-timeserie.json", "changers", 1, "changers");
+
+    </script>
+</body></html>
