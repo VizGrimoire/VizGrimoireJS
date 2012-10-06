@@ -1,0 +1,26 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    font: 100% Verdana;
+}
+
+.column-right {
+    width: 450px;
+    margin: 8px auto;
+    float: right;
+}
+
+.column-left {
+    width: 450px;
+    margin: 8px auto;
+    float: left;
+}
+
+.box {
+    margin: 8px auto;
+    text-align: center;
+}
+
+.title {
+    text-align: center;
+}
