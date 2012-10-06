@@ -6,17 +6,16 @@ http://www.springerlink.com/content/j501w21183375u1r/?MUD=MP
 SCM: Source Code Management
 ITS: Issue Tracking System
 
-* Data source: GNOME Shell repository
+* Data source: LibrePlan repository
 
-- SCM: git://git.gnome.org/gnome-shell
-- ITS: https://bugzilla.gnome.org, GNOME Shell product
+- SCM: git://libreplan.git.sourceforge.net/
+- ITS: http://bugs.libreplan.org/
 
 * Retrieval Methodology
 
-- SCM: git clone git://git.gnome.org/gnome-shell
-- ITS: 
-bicho --db-user-out=root --db-password-out="" --db-database-out=bichognomeshell -d 5 -b bg -u \ 
-https://bugzilla.gnome.org/buglist.cgi?product=gnome-shell
+- SCM: git clone git://libreplan.git.sourceforge.net/gitroot/libreplan/libreplan
+- ITS: bicho -g --db-user-out=dbuser --db-password-out=dbpass --db-database-out=bichoLibrePlan -d 1 --backend-user="xxx" --backend-password=xxxx -b bg -u https://bugs.libreplan.org/buglist.cgi?product=NavalPlan
+
 
 * Raw dataset
 
@@ -25,7 +24,7 @@ https://bugzilla.gnome.org/buglist.cgi?product=gnome-shell
 
 * Extraction methodology
 
-- SCM: cvsanaly2 -u root -d cvsanalygnomeshell --extensions=CommitsLOC,CommitsLOCDet,Months
+- SCM: cvsanaly2 -g -u libreplan -p libreplan -d cvsanalyLibrePlan --extensions=Months
 - ITS: Already done by Bicho
 
 * Study paramenters
@@ -35,29 +34,25 @@ https://bugzilla.gnome.org/buglist.cgi?product=gnome-shell
 
 * Processed dataset
 
-- cvsanaly2 and bicho databases: cvsanalygnomeshell, bichognomeshell
+- cvsanaly2 and bicho databases: cvsanalyLibrePlan, bichoLibrePlan
 
 * Analysis methodology
 
 Extract a timeline for commits, open and close issues with GNOME releases. Use MySQL and R for the analysis.
 
-- SCM: R --no-restore --no-save --args cvsanalygnomeshell dbuser dbpasswd < scm-analysis.R > script.out
-- ITS: R --no-restore --no-save --args bichognomeshell dbuser bdpasswd < its-analysis.R > script.out 
+- SCM: R --no-restore --no-save --args cvsanalyLibrePlan libreplan libreplan < scm-milestone0.R
+- ITS: R --no-restore --no-save --args bichoLibrePlan libreplan libreplan < its-milestone0.R
 
 * Results dataset
 
 JSON files with time series with the study parameters use for visualization.
 
-- SCM: commits-timeserie.json
-- ITS: its-timeserie.json
+- SCM: scm-milestone0.json
+- ITS: its-milestone0.json
 
 * Visualization
 
-- Envisionjs with lines graph for each studied param and markers for the different GNOME releases.
+- VizGrimoireJS
 
 Comments:   info@bitergia.com
-Report URL: http://bitergia.com/public/reports/gnomeshell/commits-issues.html
-
-* Updates
-
-- update.sh is a proof of concept on how to update the report
+Report URL: Final report URL publication
