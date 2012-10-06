@@ -137,9 +137,12 @@ function displayM0EvoITS (id, issues, markers) {
     });         
 }
 
-function basic_lines(container, json_file, column, labels, title) {
+function basic_lines(div_id, json_file, column, labels, title) {
     $.getJSON(json_file, function(history) {
+        
         var line_data = [];
+        container = document.getElementById(div_id);
+
 
         for ( var i = 0; i < history[column].length; i++) {
             line_data[i] = [ i, parseInt(history[column][i]) ];
