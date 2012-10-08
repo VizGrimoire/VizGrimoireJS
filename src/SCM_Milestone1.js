@@ -167,7 +167,7 @@ function getDefaults (markers, dates) {
         name : 'milestone1-scm-authors',
         config : {
             colors: ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'],
-            lines : {
+            whiskers : {
               show : true,
               lineWidth : 2,
               // color: '#ffa500'
@@ -274,14 +274,13 @@ function SCM_Milestone1 (options) {
     {label:"lines added",data:data.lines_added},
     {label:"lines removed",data:data.lines_removed}];
   defaults.commits.data = [
-      {label:"commits", data: data.commits},
-      {label:"commits noLR", data: data.commits_noLiferay},
-  ];
+      {label:"commits", data: data.commits}];
+      // {label:"commits noLR", data: data.commits_noLiferay}];
   series_number = defaults.commits.data.length;
   series_drawn = 0;
   defaults.committers.data = [{label:"committers",data:data.committers}];
-  defaults.authors.data = [{label:"authors",data:data.authors},
-                           {label:"authors noLR",data:data.authors_noLiferay}];
+  defaults.authors.data = [{label:"authors",data:data.authors}];
+ //                          {label:"authors noLR",data:data.authors_noLiferay}];
   defaults.files.data = [{label:"files",data:data.files}];
   defaults.size.data = [{label:"size",data:data.lines_size}];
   defaults.summary.data = data.summary;
@@ -308,7 +307,7 @@ function SCM_Milestone1 (options) {
   // Render visualization
   vis
     .add(commits)
-    .add(committers)
+    //.add(committers)
     .add(authors)
     .add(lines)
     .add(files)
@@ -320,7 +319,7 @@ function SCM_Milestone1 (options) {
   // Define the selection zooming interaction
   selection
     .follower(commits)
-    .follower(committers)
+    //.follower(committers)
     .follower(authors)
     .follower(lines)
     .follower(files)
@@ -331,7 +330,9 @@ function SCM_Milestone1 (options) {
 
   // Define the mouseover hit interaction
   hit    
-    .group([commits, committers, authors, lines, files, size])
+    .group([commits, 
+            // committers, 
+            authors, lines, files, size])
     .add(V.actions.hit);
 
   // Optional initial selection
