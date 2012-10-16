@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, maximum-scale=1.0">
 <meta name="description" content="Bitergia company website" />
 <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
-<link rel="stylesheet" type="text/css" id="theme" href="bitergia2.css" />
+<link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
 <title>Bitergia Company GNOME Shell Analysis</title>
 <!--[if lte IE 8]><script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
 <!--[if lte IE 8]><script src="scripts/css3-mediaqueries.js"></script><![endif]-->
@@ -227,40 +227,19 @@
     <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
     <script type="text/javascript">
     
-        var container = document.getElementById('container_commits');
-        basic_lines (container, "data/json/scm-milestone0.json", "commits", 1, "commits");
-        
-        var container = document.getElementById('container_committers');
-        basic_lines (container, "data/json/scm-milestone0.json", "committers", 1, "committers");
-        
-        var container = document.getElementById('container_files');
-        basic_lines (container, "data/json/scm-milestone0.json", "files", 1, "files");
-        
-        var container = document.getElementById('container_branches');
-        basic_lines (container, "data/json/scm-milestone0.json", "branches", 1, "branches");
-       
-        var container = document.getElementById('container_repositories');
-        basic_lines (container, "data/json/scm-milestone0.json", "repositories", 1, "repositories");
 
+        basic_lines ('container_commits', "data/json/scm-milestone0.json", "commits", 1, "commits");        
+        basic_lines ('container_committers', "data/json/scm-milestone0.json", "committers", 1, "committers");        
+        basic_lines ('container_files', "data/json/scm-milestone0.json", "files", 1, "files");        
+        basic_lines ('container_branches', "data/json/scm-milestone0.json", "branches", 1, "branches");       
+        basic_lines ('container_repositories', "data/json/scm-milestone0.json", "repositories", 1, "repositories");
 
-
-        var container = document.getElementById('container_open_bugs');
-        basic_lines (container, "data/json/its-milestone0.json", "open", 1, "open");
-        
-        var container = document.getElementById('container_openers');
-        basic_lines (container, "data/json/its-milestone0.json", "openers", 1, "openers");
-        
-        var container = document.getElementById('container_close_bugs');
-        basic_lines (container, "data/json/its-milestone0.json", "closed", 1, "closed");
-        
-        var container = document.getElementById('container_closers');
-        basic_lines (container, "data/json/its-milestone0.json", "closers", 1, "closers");
-       
-        var container = document.getElementById('container_changes');
-        basic_lines (container, "data/json/its-milestone0.json", "changed", 1, "changed");
-        
-        var container = document.getElementById('container_changers');
-        basic_lines (container, "data/json/its-milestone0.json", "changers", 1, "changers");
+        basic_lines ('container_open_bugs', "data/json/its-milestone0.json", "open", 1, "open");        
+        basic_lines ('container_openers', "data/json/its-milestone0.json", "openers", 1, "openers");        
+        basic_lines ('container_close_bugs', "data/json/its-milestone0.json", "closed", 1, "closed");        
+        basic_lines ('container_closers', "data/json/its-milestone0.json", "closers", 1, "closers");       
+        basic_lines ('container_changes', "data/json/its-milestone0.json", "changed", 1, "changed");        
+        basic_lines ('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
 
     </script>
 </body></html>
