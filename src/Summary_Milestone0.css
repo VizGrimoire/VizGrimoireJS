@@ -1,27 +1,27 @@
 .envision-component {
-    width: 440px;
+    width: 310px;
 }
 
 .milestone0-summary-open .envision-component,
 .milestone0-summary-close .envision-component,
 .milestone0-summary-commits .envision-component
 {
-  height : 100px;
+  height : 65px;
 }
 
 .milestone0-summary-closers .envision-component,
 .milestone0-summary-authors .envision-component
 {
-  height : 50px;
+  height : 20px;
 }
 
 
 .milestone0-summary-connection .envision-component {
-  height: 20px;
+  height: 10px;
 }
 .milestone0-summary-summary .envision-component {
   cursor: all-scroll;
-  height : 70px;
+  height : 35px;
   margin-top: -2px;
 }
 
