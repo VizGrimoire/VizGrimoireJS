@@ -14,13 +14,33 @@ function displayM0EvoSummary (id, commits, issues, markers) {
 		         V = envision,
 		         firstMonth = history.id[0],
 		         options, vis,
-
                  commits = [history.id,history.commits],
                  authors = [history.id,history.authors],
-                 open = [history1.id,history1.open],
-                 close = [history1.id,history1.closed],
-                 closers = [history1.id,history1.closers],
 		         dates = history.date;
+		         
+		         var open_fill = [];
+		         var close_fill = [];
+		         var closers_fill = [];		         
+		         
+		         for(var i=0;i<history.id.length;i++) {
+		        	 pos = history1.id.indexOf(history.id[i]);
+		        	 if (pos != -1) {
+		        		 open_fill[i] = history1.open[pos];
+		        		 close_fill[i] = history1.closed[pos];
+		        		 closers_fill[i] = history1.closers[pos];
+		        	 }
+		        	 else {
+		        		 open_fill[i] = null;
+		        		 close_fill[i] = null;
+		        		 closers_fill[i] = null;
+		        	 }
+		         }
+		         var 
+                 	open = [history.id,open_fill],
+                 	close = [history.id,close_fill],
+                 	closers = [history.id,closers_fill];
+
+
 		 
 		         options = {
 		             container : container,
@@ -42,11 +62,16 @@ function displayM0EvoSummary (id, commits, issues, markers) {
 		                 value;
 		                 
 		                 value =  dates[index] + ": ";
-		                 value += commits[1][index] + " commits|";
-		                 value += authors[1][index] + " authors|";
-		                 value += open[1][index] + " open|";
-		                 value += close[1][index] + " close|";
-		                 value += closers[1][index] + " closers";		                 
+		                 if (commits[1][index] != null)
+		                	 value += commits[1][index] + " commits|";
+		                 if (authors[1][index]!= null)
+		                	 value += authors[1][index] + " authors|";
+		                 if (open[1][index]!= null)
+		                 	value += open[1][index] + " open|";
+		                 if (close[1][index]!= null)
+		                 	value += close[1][index] + " close|";
+		                 if (closers[1][index]!= null)
+		                 	value += closers[1][index] + " closers";		                 
 		                 return value;
 		             },
 		             xTickFormatter : function (index) {

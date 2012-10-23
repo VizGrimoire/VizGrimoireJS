@@ -65,12 +65,12 @@
 }
 
 /* Mouse Tracker */
-.milestone0-summary-open .flotr-mouse-value {
+.milestone0-summary-commits .flotr-mouse-value {
     font-size: 12px;
 }
 
 .milestone0-summary-close .flotr-mouse-value,
-.milestone0-summary-commits .flotr-mouse-value,
+.milestone0-summary-open .flotr-mouse-value,
 .milestone0-summary-closers .flotr-mouse-value,
 .milestone0-summary-authors .flotr-mouse-value
 {

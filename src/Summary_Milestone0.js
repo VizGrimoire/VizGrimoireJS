@@ -133,13 +133,6 @@ function getDefaults (markers, dates) {
           /* color: '#ffa500',
           fillColor: '#ffa500' */
         },               
-        'markers': {
-            show: true,
-            position: 'ct',
-            labelFormatter: function (o) {
-                return getDefaultsMarkers (o, markers, dates);
-            }
-          },
           mouse : {
               track: true,
               trackY: false,
@@ -293,7 +286,7 @@ function Summary_Milestone0 (options) {
   defaults.closers.data = [{label:"closers", data:data.closers}];
   defaults.summary.data = [{label:"open", data:data.summary}];
   
-  defaults.open.config.mouse.trackFormatter = options.trackFormatter;
+  defaults.commits.config.mouse.trackFormatter = options.trackFormatter;
   
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
