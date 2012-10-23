@@ -3,7 +3,76 @@
  * 
  */
 
-function displayM0EvoSCM (id, commits, markers) {
+function displayM0EvoSummary (id, commits, issues, markers) {
+	 var
+	 container = document.getElementById(id);
+
+	  $.getJSON(commits, function (history) {
+	     $.getJSON(issues, function (history1) {
+		     $.getJSON(markers, function (markers) {
+		         var
+		         V = envision,
+		         firstMonth = history.id[0],
+		         options, vis,
+
+                 commits = [history.id,history.commits],
+                 authors = [history.id,history.authors],
+                 open = [history1.id,history1.open],
+                 close = [history1.id,history1.closed],
+                 closers = [history1.id,history1.closers],
+		         dates = history.date;
+		 
+		         options = {
+		             container : container,
+		             data : {
+		                 commits : commits,
+		                 authors : authors,
+		                 open : open,
+		                 close : close,
+		                 closers : closers,
+				         dates : dates,
+		                 summary : commits,
+		                 markers: markers
+		             },
+		             trackFormatter : function (o) {             
+		                 var
+		                 //   index = o.index,
+		                 data = o.series.data,
+		                 index = data[o.index][0]-firstMonth,
+		                 value;
+		                 
+		                 value =  dates[index] + ": ";
+		                 value += commits[1][index] + " commits|";
+		                 value += authors[1][index] + " authors|";
+		                 value += open[1][index] + " open|";
+		                 value += close[1][index] + " close|";
+		                 value += closers[1][index] + " closers";		                 
+		                 return value;
+		             },
+		             xTickFormatter : function (index) {
+		                 return dates[index-firstMonth];
+		             },
+		             yTickFormatter : function (n) {
+		                 return n + '';
+		             },
+		             // Initial selection
+		             selection : {
+		               data : {
+		                 x : {
+		                   min : history.id[0],
+		                   max : history.id[history.id.length - 1]
+		                 }
+		               }
+		             }
+		         };
+		         // Create the TimeSeries
+		         vis = new envision.templates.Summary_Milestone0(options);
+		    });
+		 });
+	  });
+}
+
+function displayM0EvoSCM (id, commits, issues, markers) {
 
  var
  container = document.getElementById(id);

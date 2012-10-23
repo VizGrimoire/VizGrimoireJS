@@ -1,0 +1,93 @@
+.envision-component {
+    width: 440px;
+}
+
+.milestone0-summary-open .envision-component,
+.milestone0-summary-close .envision-component,
+.milestone0-summary-commits .envision-component
+{
+  height : 100px;
+}
+
+.milestone0-summary-closers .envision-component,
+.milestone0-summary-authors .envision-component
+{
+  height : 50px;
+}
+
+
+.milestone0-summary-connection .envision-component {
+  height: 20px;
+}
+.milestone0-summary-summary .envision-component {
+  cursor: all-scroll;
+  height : 70px;
+  margin-top: -2px;
+}
+
+/* Bubble Borders */
+.milestone0-summary-open,
+.milestone0-summary-close,
+.milestone0-summary-commits  {
+  border: 1px solid #FFA500;
+  background: #fff;
+}
+.milestone0-summary-open
+{
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+}
+
+/* Connection overlay */
+.milestone0-summary-connection canvas {
+  z-index: 10;
+  background: #fff;
+}
+.milestone0-summary-connection canvas object {
+  position: absolute;
+  top: 0px;
+}
+
+/* Y-Axis Labels */
+.milestone0-summary-open .flotr-grid-label {
+  margin-left: 4px;
+}
+.milestone0-summary-open .flotr-grid-label.first {
+  margin-top: -6px;
+}
+.milestone0-summary-open .flotr-grid-label.last {
+  margin-top: 6px;
+}
+
+/* X-Axis Labels */
+.milestone0-summary-summary .flotr-grid-label {
+  margin-top: 3px;
+}
+
+/* Mouse Tracker */
+.milestone0-summary-open .flotr-mouse-value {
+    font-size: 12px;
+}
+
+.milestone0-summary-close .flotr-mouse-value,
+.milestone0-summary-commits .flotr-mouse-value,
+.milestone0-summary-closers .flotr-mouse-value,
+.milestone0-summary-authors .flotr-mouse-value
+{
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .milestone0-summary-open {
+    width: 100%;
+  }  
+ 
+  .milestone0-summary-open .envision-component 
+   {
+    height: 120px;
+  }
+  .milestone0-summary-summary .envision-component,
+  .milestone0-summary-close .envision-component {
+    height: 40px;
+  }
+}
