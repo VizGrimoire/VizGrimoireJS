@@ -311,7 +311,7 @@ function SCM_Milestone1 (options) {
     .add(authors)
     .add(lines)
     .add(files)
-    .add(size)
+    //.add(size)
     .add(connection)
     .add(summary)
     .render(options.container);
@@ -323,7 +323,7 @@ function SCM_Milestone1 (options) {
     .follower(authors)
     .follower(lines)
     .follower(files)
-    .follower(size)
+    //.follower(size)
     .follower(connection)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
@@ -332,7 +332,8 @@ function SCM_Milestone1 (options) {
   hit    
     .group([commits, 
             // committers, 
-            authors, lines, files, size])
+            authors, lines, files])
+            // authors, lines, files, size])
     .add(V.actions.hit);
 
   // Optional initial selection
