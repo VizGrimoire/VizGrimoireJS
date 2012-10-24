@@ -69,7 +69,7 @@ function displayM0EvoSummary (id, commits, issues, markers) {
 		                 if (open[1][index]!= null)
 		                 	value += open[1][index] + " open|";
 		                 if (close[1][index]!= null)
-		                 	value += close[1][index] + " close|";
+		                 	value += close[1][index] + " closed|";
 		                 if (closers[1][index]!= null)
 		                 	value += closers[1][index] + " closers";		                 
 		                 return value;

@@ -115,7 +115,14 @@ function getDefaults (markers, dates) {
         yaxis : {
           autoscale : true,
           autoscaleMargin : 0.5 
-        }
+        },
+        legend : {
+            position : 'nw',
+            noColumns : 1,
+            backgroundColor : '#FFFFFF', // A light blue background color
+            backgroundOpacity: 0,
+
+        },
       },
       processData : processData
     },  
@@ -208,7 +215,14 @@ function getDefaults (markers, dates) {
           yaxis : {
             autoscale : true,
             autoscaleMargin : 0.5 
-          }
+          },
+          legend : {
+              position : 'nw',
+              noColumns : 1,
+              backgroundColor : '#FFFFFF', // A light blue background color
+              backgroundOpacity: 0,
+
+          },
         },
         processData : processData
       },
@@ -234,6 +248,14 @@ function getDefaults (markers, dates) {
           autoscale : true,
           autoscaleMargin : 0.1
         },
+        legend : {
+        	show: false,
+            position : 'nw',
+            noColumns : 1,
+            backgroundColor : '#FFFFFF', // A light blue background color
+            backgroundOpacity: 0,
+
+        },
         handles : {
           show : true
         },
@@ -243,13 +265,13 @@ function getDefaults (markers, dates) {
         grid : {
           verticalLines : false
         },
-        'markers': {
-            show: true,
-            position: 'cm',
-            labelFormatter: function (o) {
-                return getDefaultsMarkersSummary (o, markers, dates);
-            }
-          },
+//        'markers': {
+//            show: true,
+//            position: 'cm',
+//            labelFormatter: function (o) {
+//                return getDefaultsMarkersSummary (o, markers, dates);
+//            }
+//          },
       },      
     },
     connection : {
