@@ -335,7 +335,7 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
             yaxis : {
                 minorTickFreq : 5,
                 tickFormatter: function(y) {
-                     return parseInt(y/(60*24))+'d';
+                     return parseInt(y/(24))+'d';
                  }
             },
             
@@ -347,8 +347,8 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
                 track : true,
                 trackY : false,
                 trackFormatter : function(o) {
-                	var text = history.data.date[parseInt(o.x)]+": "+parseInt (o.y)+" min" ; 
-                	text += " ( "+parseInt (o.y/(60*24))+" days)" ;
+                	var text = history.data.date[parseInt(o.x)]+": "+parseInt (o.y)+" h" ; 
+                	text += " ( "+parseInt (o.y/(24))+" days)" ;
                     return text;
                 }
             }
