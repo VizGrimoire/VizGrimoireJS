@@ -315,8 +315,8 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
         var line_data = [];
         container = document.getElementById(div_id);
 
-        for ( var i = 0; i < history[column].length; i++) {
-            line_data[i] = [ i, parseInt(history[column][i]) ];
+        for ( var i = 0; i < history.data[column].length; i++) {
+            line_data[i] = [ i, parseInt(history.data[column][i]) ];
         }
 
         var graph;
@@ -326,8 +326,8 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
             xaxis : {
                 minorTickFreq : 4,
                 tickFormatter: function(x) {
-                   if (history.date) {
-                         x = history.date[parseInt(x)];
+                   if (history.data.date) {
+                         x = history.data.date[parseInt(x)];
                     }
                     return x;
                 }
@@ -347,7 +347,7 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
                 track : true,
                 trackY : false,
                 trackFormatter : function(o) {
-                	var text = history.date[parseInt(o.x)]+": "+parseInt (o.y)+" min" ; 
+                	var text = history.data.date[parseInt(o.x)]+": "+parseInt (o.y)+" min" ; 
                 	text += " ( "+parseInt (o.y/(60*24))+" days)" ;
                     return text;
                 }
