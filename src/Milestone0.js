@@ -97,7 +97,7 @@ function displayM0EvoSummary (id, commits, issues, markers) {
 	  });
 }
 
-function displayM0EvoSCM (id, commits, issues, markers) {
+function displayM0EvoSCM (id, commits, markers) {
 
  var
  container = document.getElementById(id);
