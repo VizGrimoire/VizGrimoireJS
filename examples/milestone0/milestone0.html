@@ -82,25 +82,40 @@
 
   <div id="info-column1" style="width:200px;">
     <div id="info-pill">
-      
+    	
       <h1>Reference Card</h1>
-      <p><a href="http://libreplan.git.sourceforge.net/git/gitweb.cgi?p=libreplan/libreplan;a=tree">SCM (git)</a>: <br/>
-         git://libreplan.git.sourceforge.net/</p>
-      <p>Initial date: 2009-04-23</p>
-      <p>Final date: 2012-12-31</p>
-      <p>ITS (Bugzilla): <a href="http://bugs.libreplan.org/">http://bugs.libreplan.org/</a></p>
+      <p>
+      	SCM (<span id="scm_type"></span>):
+      	<a id="scm_url" href=""><span id="scm_name"></span></a></p>         
+      <ul>
+         <li>Time period <span id="scmFirst"></span> <span id="scmLast"></span></li>
+         <li>Commits: <span id="scmCommits"></span></li>
+         <li>Committers: <span id="scmCommitters"></span></li>
+         <li>Authors: <span id="scmAuthors"></span></li>
+       </ul>
+       </p>
+       <p>
+       	ITS (<span id="its_type"></span>): 
+       	<a id="its_url" href=""><span id="its_name"></span></a></p>
+       <ul>
+       	 
+         <li>Time period: <span id="itsFirst"></span> <span id="itsLast"></span></li>
+         <li>Issues: <span id="itsTickets"></span></li>
+         <li>Openers: <span id="itsOpeners"></span></li>
+       </ul>
+       </p>
       <p><a href="data/db">MySQL database dumps</a> with the complete retrieved datasets</p>
       <p><a href="data/json">JSON files</a> serving the data shown in the plots</p>
-      <p><a href="http://blog.bitergia.com/2012/10/03/basic-analysis-of-zentyal/">Blog post with some more details</a></p> 
+      <p><a class="blog_url" href="">Blog post with some more details</a></p> 
     </div>
-             
+
     <div id="info-pill">
           <h1> General Notes</h1>
           <p> This is a simple report produced by <a href="http://bitergia.com">Bitergia</a>.</p>
           <p> The dataset presented is based on 
             the information publicly available 
-            in the development repositories of the <a href="http://www.libreplan.com/">LibrePlan
-              project</a>, and should be exact for the timespan and repositories analyzed.<p>
+            in the development repositories of the <a id="project_url" href="">
+            <span class='project_name'></span></a>, and should be exact for the timespan and repositories analyzed.<p>
     </div>
       
     <div id="info-pill">
@@ -114,7 +129,7 @@
       
     <div id="info-pill">
           <h1>More information and feedback</h1>
-          <p> There is some more information in the <a href="http://blog.bitergia.com/">blog post about this analysis</a>. <p>
+          <p> There is some more information in the <a class="blog_url" href="">blog post about this analysis</a>. <p>
       <p> Our main concern as a company is 
             to provide products and services as transparent
             as possible, generating a trustable relationship
@@ -226,8 +241,11 @@
     <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
     <script type="text/javascript">
-    
 
+        displayProjectData('data/json/project-fixed-milestone0.json');
+	    displaySCMData('data/json/scm-fixed-milestone0.json');
+        displayITSData('data/json/its-fixed-milestone0.json');
+    
         basic_lines ('container_commits', "data/json/scm-milestone0.json", "commits", 1, "commits");        
         basic_lines ('container_committers', "data/json/scm-milestone0.json", "committers", 1, "committers");        
         basic_lines ('container_files', "data/json/scm-milestone0.json", "files", 1, "files");        
