@@ -356,4 +356,22 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
     });
 };
 
+function displaySCMData (filename) {
+    $.getJSON(filename, function(data) {
+      $("#scmFirst").text(data.first_date);
+      $("#scmLast").text(data.last_date);
+      $("#scmCommits").text(data.commits);
+      $("#scmFiles").text(data.files);
+      $("#scmAuthors").text(data.authors);
+      $("#scmCommitters").text(data.committers);
+  });
+}
 
+function displayITSData (filename) {
+    $.getJSON(filename, function(data) {
+      $("#itsFirst").text(data.first_date);
+      $("#itsLast").text(data.last_date);
+      $("#itsTickets").text(data.tickets);
+      $("#itsOpeners").text(data.openers);
+  });
+}
