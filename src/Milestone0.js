@@ -356,6 +356,21 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
     });
 };
 
+function displayProjectData (filename) {
+    $.getJSON(filename, function(data) {
+      document.title = data.project_name + ' M0 Report by Bitergia'; 
+      $("#project_name").text(data.project_name);
+      $("#project_url").attr("href",data.project_url);
+      $('#scm_type').text('git');
+      $('#scm_url').attr("href",data.scm_url);
+      $('#scm_name').text(data.scm_name);
+      $('#its_type').text('bugzilla');
+      $('#its_url').attr("href",data.its_url);
+      $('#its_name').text(data.its_name);
+      $('.blog_url').attr("href",data.blog_url);
+    });
+}
+
 function displaySCMData (filename) {
     $.getJSON(filename, function(data) {
       $("#scmFirst").text(data.first_date);
@@ -364,7 +379,7 @@ function displaySCMData (filename) {
       $("#scmFiles").text(data.files);
       $("#scmAuthors").text(data.authors);
       $("#scmCommitters").text(data.committers);
-  });
+    });
 }
 
 function displayITSData (filename) {
@@ -373,5 +388,5 @@ function displayITSData (filename) {
       $("#itsLast").text(data.last_date);
       $("#itsTickets").text(data.tickets);
       $("#itsOpeners").text(data.openers);
-  });
+    });
 }
