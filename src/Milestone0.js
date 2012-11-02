@@ -359,7 +359,7 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
 function displayProjectData (filename) {
     $.getJSON(filename, function(data) {
       document.title = data.project_name + ' M0 Report by Bitergia'; 
-      $("#project_name").text(data.project_name);
+      $(".project_name").text(data.project_name);
       $("#project_url").attr("href",data.project_url);
       $('#scm_type').text('git');
       $('#scm_url').attr("href",data.scm_url);
