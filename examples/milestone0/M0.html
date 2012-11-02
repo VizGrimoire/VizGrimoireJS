@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/ITS_Milestone0.css" />
     <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/MLS_Milestone0.css" />
     <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
-    <title>LibrePlan Bitergia M0 Report</title>
+    <title>Bitergia M0 Report</title>
   </head>
   <body>
   <div id="wrapper">
@@ -20,21 +20,36 @@
      <figure class="logo"> 
         <p><a href="index.html"><img src="bitergia-logo.png" alt="Bitergia logo" id="logo" height="45" width="159" border=0 style="float: right"></a>
         </figure>
-        <h2>LibrePlan Analysis</h2>        
+        <h2><span id='project_name'></span> Analysis</h2>
     </div>
     
   <div id="info-column1" style="width:200px;">
     <div id="info-pill">
       
       <h1>Reference Card</h1>
-      <p><a href="http://libreplan.git.sourceforge.net/git/gitweb.cgi?p=libreplan/libreplan;a=tree">SCM (git)</a>: <br/>
-         git://libreplan.git.sourceforge.net/</p>
-      <p>Time period: 2009-04-23 2012-12-31</p>
-      <p>ITS (Bugzilla): <a href="http://bugs.libreplan.org/">http://bugs.libreplan.org/</a></p>
-      <p>Time period: 2009-10-04 2012-10-01</p>
+      <p>
+      	SCM (<span id="scm_type"></span>):
+      	<a id="scm_url" href=""><span id="scm_name"></span></a></p>         
+      <ul>
+         <li>Time period <span id="scmFirst"></span> <span id="scmLast"></span></li>
+         <li>Commits: <span id="scmCommits"></span></li>
+         <li>Committers: <span id="scmCommitters"></span></li>
+         <li>Authors: <span id="scmAuthors"></span></li>
+       </ul>
+       </p>
+       <p>
+       	ITS (<span id="its_type"></span>): 
+       	<a id="its_url" href=""><span id="its_name"></span></a></p>
+       <ul>
+       	 
+         <li>Time period: <span id="itsFirst"></span> <span id="itsLast"></span></li>
+         <li>Issues: <span id="itsTickets"></span></li>
+         <li>Openers: <span id="itsOpeners"></span></li>
+       </ul>
+       </p>
       <p><a href="data/db">MySQL database dumps</a> with the complete retrieved datasets</p>
       <p><a href="data/json">JSON files</a> serving the data shown in the plots</p>
-      <p><a href="http://blog.bitergia.com/2012/10/03/basic-analysis-of-zentyal/">Blog post with some more details</a></p> 
+      <p><a class="blog_url" href="">Blog post with some more details</a></p> 
     </div>
              
     <div id="info-pill">
@@ -42,7 +57,7 @@
           <p> This is a simple report produced by <a href="http://bitergia.com">Bitergia</a>.</p>
           <p> The dataset presented is based on 
             the information publicly available 
-            in the development repositories of the <a href="http://www.libreplan.com/">LibrePlan
+            in the development repositories of the <a id="project_url" href="">LibrePlan
               project</a>, and should be exact for the timespan and repositories analyzed.<p>
     </div>
       
@@ -57,7 +72,7 @@
       
     <div id="info-pill">
           <h1>More information and feedback</h1>
-          <p> There is some more information in the <a href="http://blog.bitergia.com/">blog post about this analysis</a>. <p>
+          <p> There is some more information in the <a class="blog_url" href="">blog post about this analysis</a>. <p>
       <p> Our main concern as a company is 
             to provide products and services as transparent
             as possible, generating a trustable relationship
@@ -113,6 +128,9 @@
       (function () {
         displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json');
         displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json');
+        displayProjectData('data/json/project-fixed-milestone0.json');
+	    displaySCMData('data/json/scm-fixed-milestone0.json');
+        displayITSData('data/json/its-fixed-milestone0.json');
       }) ()
     </script>
   </body>

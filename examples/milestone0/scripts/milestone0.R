@@ -16,6 +16,8 @@
 #
 # Authors :
 #	Daniel Izquierdo Cortazar <dizquierdo@bitergia.com>
+#	Jesus Gonzalez Barahona <jgb@bitergia.com>
+#	Alvaro del Castillo San Felix <acs@bitergia.com>
 
 
 #R library that contains all of the necessary queries to 
@@ -173,6 +175,21 @@ evol_repositories <- function(granularity) {
                   m.month = pm.month);")
   data_repositories <- query(q)
   return (data_repositories)
+}
+
+evol_fixed_data <- function() {
+
+	# Get some general stats from the database
+	##
+	q <- paste("SELECT count(id) as commits, 
+				count(distinct(committer_id)) as committers, 
+				count(distinct(author_id)) as authors, 
+				DATE_FORMAT (min(date), '%Y-%m-%d') as first_date, 
+				DATE_FORMAT (max(date), '%Y-%m-%d') as last_date 
+				FROM scmlog;")
+	
+	data <- query(q)
+	return (data)
 }
 
 

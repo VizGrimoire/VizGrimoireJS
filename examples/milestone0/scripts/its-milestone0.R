@@ -127,5 +127,15 @@ issues_monthly <- merge (issues_monthly, changed_monthly)
 
 createJSON (issues_monthly, "../data/json/its-milestone0.json")
 
+## Get some general stats from the database
+##
+q <- paste ("SELECT count(*) as tickets,
+			 count(distinct(submitted_by)) as openers,
+			 DATE_FORMAT (min(submitted_on), '%Y-%m-%d') as first_date,
+			 DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
+			 FROM issues")
+data <- query(q)
+createJSON (data, "../data/json/its-fixed-milestone0.json")
+
 # Disconnect from DB
 dbDisconnect(con)

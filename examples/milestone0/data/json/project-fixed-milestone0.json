@@ -1,0 +1,12 @@
+{
+"project_name" :"LibrePlan", 
+"project_url" :"http://www.libreplan.com/",
+"scm_url":"http://libreplan.git.sourceforge.net/git/gitweb.cgi?p=libreplan/libreplan;a=tree",
+"scm_name":"git://libreplan.git.sourceforge.net",
+"scm_type":"git",
+"its_url":"http://bugs.libreplan.org/",
+"its_name":"http://bugs.libreplan.org/",
+"its_type":"bugzilla",
+"blog_url":"http://blog.bitergia.com",
+"blog_url1":"http://blog.bitergia.com"
+}
