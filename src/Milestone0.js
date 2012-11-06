@@ -231,6 +231,62 @@ function displayM0EvoITS (id, issues, markers) {
     });         
 }
 
+function displayM0EvoMLS (id, messages, markers) {
+
+    var
+    container = document.getElementById(id);
+    
+    $.getJSON(messages, function (history) {
+        $.getJSON(markers, function (markers) {
+            var
+            V = envision,
+            firstMonth = history.id[0],
+            options, vis;
+    
+            options = {
+                container : container,
+                data : {
+                    summary : [history.id,history.sent], 
+                    sent : [history.id,history.sent], 
+                    senders : [history.id,history.senders],
+                    markers: markers,
+                    dates: history.date
+                },
+                trackFormatter : function (o) {     
+                    var
+                    //   index = o.index,
+                    data = o.series.data,
+                    index = data[o.index][0]-firstMonth,
+                    value;
+                    value = history.date[index] + ": ";
+                    value += "Messages sent: " + history.sent[index];
+                    value += ", senders: " + history.senders[index];
+                    return value;
+                },
+                xTickFormatter : function (index) {
+                    return history.date[index-firstMonth];
+                    // return Math.floor(index/12) + '';
+                },
+                yTickFormatter : function (n) {
+                    return parseInt(n) + '';
+                },
+                // Initial selection
+                selection : {
+                  data : {
+                    x : {
+                      min : history.id[0],
+                      max : history.id[history.id.length - 1]
+                    }
+                  }
+                }
+            };
+            // Create the TimeSeries
+            vis = new envision.templates.MLS_Milestone0(options);            
+        });
+    });         
+}
+
+
 function basic_lines(div_id, json_file, column, labels, title) {
     $.getJSON(json_file, function(history) {
         
