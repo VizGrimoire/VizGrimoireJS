@@ -220,6 +220,13 @@ function getDefaults (markers, dates) {
                 return getDefaultsMarkersSummary (o, markers, dates);
             }
           },
+          legend : {
+            position : 'nw',
+            noColumns : 1,
+            backgroundColor : '#FFFFFF', // A light blue background color
+            backgroundOpacity: 0,
+
+          }
       },      
     },
     connection : {
@@ -258,7 +265,7 @@ function SCM_Milestone0 (options) {
   defaults.committers.data = [{label:"committers",data:data.committers}];
   defaults.files.data = [{label:"files",data:data.files}];
   defaults.repositories.data = [{label:"repositories",data:data.repositories}];
-  defaults.summary.data = data.summary;
+  defaults.summary.data = [{label:"commits", data:data.summary}];
   
   defaults.commits.config.mouse.trackFormatter = options.trackFormatter;
   

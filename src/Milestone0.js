@@ -136,11 +136,11 @@ function displayM0EvoSCM (id, commits, markers) {
                  value;
                  
                  value =  dates[index] + ": ";
-                 value += commits[1][index] + " commits|";
-                 value += committers[1][index] + " committers|";
-                 value += files[1][index] + " files|";
-                 value += branches[1][index] + " branches|";
-                 value += repositories[1][index] + "repos ";
+                 value += commits[1][index] + " commits, ";
+                 value += committers[1][index] + " committers, ";
+                 value += files[1][index] + " files, ";
+                 value += branches[1][index] + " branches, ";
+                 value += repositories[1][index] + " repos";
                  
                  return value;
              },
@@ -199,12 +199,12 @@ function displayM0EvoITS (id, issues, markers) {
                     value;
                     
                     value = history.date[index] + ": ";
-                    value += "Issues closed: " + history.closed[index];
-                    value += ", opened: " + history.open[index];
-                    value += ", changed: " + history.changed[index];
-                    value += "<br>Closers: " + history.closers[index];
-                    value += ", openers: " + history.openers[index];
-                    value += ", changers: " + history.changers[index];
+                    value += history.closed[index] + " closed, ";
+                    value += history.open[index] + " opened, " ;
+                    value += history.changed[index] + " changed";
+                    value += "<br/>" + history.closers[index] + " closers, ";
+                    value += history.openers[index] + " openers, ";
+                    value += history.changers[index] + " changers";
 
                     return value;
                 },
