@@ -57,7 +57,7 @@ body {
 }
 
 
-#info-pill{
+.info-pill{
 	-moz-box-shadow: 0 0 8px hsla(0,0%,0%,.1);
 	-webkit-box-shadow: 0 0 8px hsla(0,0%,0%,.1);
 	box-shadow: 0 0 8px hsla(0,0%,0%,.1);

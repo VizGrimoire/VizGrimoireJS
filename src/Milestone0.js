@@ -414,7 +414,8 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
 
 function displayProjectData (filename) {
     $.getJSON(filename, function(data) {
-      document.title = data.project_name + ' M0 Report by Bitergia'; 
+      document.title = data.project_name + ' M0 Report by Bitergia';
+      $(".report_date").text(data.date);
       $(".project_name").text(data.project_name);
       $("#project_url").attr("href",data.project_url);
       $('#scm_type').text('git');
@@ -423,7 +424,21 @@ function displayProjectData (filename) {
       $('#its_type').text('bugzilla');
       $('#its_url').attr("href",data.its_url);
       $('#its_name').text(data.its_name);
-      $('.blog_url').attr("href",data.blog_url);
+      var str = data.blog_url;
+      if (str && str.length > 0) { 
+      	$('#blogEntry').html("<p><a href='"+str+"'>Blog post with some more details</a></p>");
+        $('.blog_url').attr("href",data.blog_url);
+      }
+      else {
+    	  $('#more_info').hide();    	  
+      }
+      str = data.producer;
+      if (str && str.length > 0) {
+			$('#producer').html(str);
+		} else {
+			$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
+		}
+
     });
 }
 
