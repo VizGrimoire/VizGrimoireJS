@@ -92,9 +92,6 @@ function getDefaults (markers, dates) {
           min : 0
         },        
         legend : {
-            position : 'nw',
-            noColumns : 1,
-            margin: 5,
             backgroundOpacity: 0,
         },
       },
@@ -126,11 +123,8 @@ function getDefaults (markers, dates) {
             min : 0
           },
           legend : {
-              position : 'nw',
-              noColumns : 1,
-              margin: 5,
               backgroundOpacity: 0,
-          }
+          },
         },
         processData : processData
       },
@@ -158,7 +152,10 @@ function getDefaults (markers, dates) {
               noTicks : 4,
               showLabels : false,
               min : 0
-            }
+            },
+            legend : {
+                backgroundOpacity: 0,
+            },
           },
           processData : processData
         },  
@@ -178,6 +175,9 @@ function getDefaults (markers, dates) {
         yaxis : {
           autoscale : true,
           autoscaleMargin : 0.5 
+        },
+        legend : {
+            backgroundOpacity: 0,
         }
       },
       processData : processData
@@ -198,6 +198,9 @@ function getDefaults (markers, dates) {
           yaxis : {
             autoscale : true,
             autoscaleMargin : 0.5 
+          },
+          legend : {
+              backgroundOpacity: 0,
           }
         },
         processData : processData
@@ -218,6 +221,9 @@ function getDefaults (markers, dates) {
             yaxis : {
               autoscale : true,
               autoscaleMargin : 0.5 
+            },
+            legend : {
+                backgroundOpacity: 0,
             }
           },
           processData : processData
@@ -243,6 +249,10 @@ function getDefaults (markers, dates) {
         yaxis : {
           autoscale : true,
           autoscaleMargin : 0.1
+        },
+        legend : {
+        	show: false,
+            backgroundOpacity: 0,
         },
         handles : {
           show : true
