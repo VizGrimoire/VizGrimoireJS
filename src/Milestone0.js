@@ -426,7 +426,7 @@ function displayProjectData (filename) {
       $('#its_name').text(data.its_name);
       var str = data.blog_url;
       if (str && str.length > 0) { 
-      	$('#blogEntry').html("<p><a href='"+str+"'>Blog post with some more details</a></p>");
+      	$('#blogEntry').html("<br><a href='"+str+"'>Blog post with some more details</a>");
         $('.blog_url').attr("href",data.blog_url);
       }
       else {
