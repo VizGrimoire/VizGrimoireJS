@@ -77,7 +77,7 @@ data_branches = evol_branches()
 data_repositories = evol_repositories()
 
 # Fixed data
-fixed_data = evol_fixed_data()
+info_data = evol_info_data()
 
 agg_data = merge(data_commits, data_committers)
 agg_data = merge(agg_data, data_files)
@@ -85,4 +85,4 @@ agg_data = merge(agg_data, data_branches)
 agg_data = merge(agg_data, data_repositories)
 
 createJSON (agg_data, "../data/json/scm-milestone0.json")
-createJSON (fixed_data, "../data/json/scm-fixed-milestone0.json")
+createJSON (info_data, "../data/json/scm-info-milestone0.json")

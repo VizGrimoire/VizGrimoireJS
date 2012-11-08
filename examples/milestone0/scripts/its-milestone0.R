@@ -135,7 +135,7 @@ q <- paste ("SELECT count(*) as tickets,
 			 DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
 			 FROM issues")
 data <- query(q)
-createJSON (data, "../data/json/its-fixed-milestone0.json")
+createJSON (data, "../data/json/its-info-milestone0.json")
 
 # Disconnect from DB
 dbDisconnect(con)

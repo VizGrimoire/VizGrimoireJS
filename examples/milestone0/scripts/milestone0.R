@@ -177,7 +177,7 @@ evol_repositories <- function(granularity) {
   return (data_repositories)
 }
 
-evol_fixed_data <- function() {
+evol_info_data <- function() {
 
 	# Get some general stats from the database
 	##
