@@ -412,34 +412,43 @@ function time_to_fix_graph(div_id, json_file, column, labels, title) {
     });
 };
 
-function displayProjectData (filename) {
-    $.getJSON(filename, function(data) {
-      document.title = data.project_name + ' M0 Report by Bitergia';
-      $(".report_date").text(data.date);
-      $(".project_name").text(data.project_name);
-      $("#project_url").attr("href",data.project_url);
-      $('#scm_type').text('git');
-      $('#scm_url').attr("href",data.scm_url);
-      $('#scm_name').text(data.scm_name);
-      $('#its_type').text('bugzilla');
-      $('#its_url').attr("href",data.its_url);
-      $('#its_name').text(data.its_name);
-      var str = data.blog_url;
-      if (str && str.length > 0) { 
-      	$('#blogEntry').html("<br><a href='"+str+"'>Blog post with some more details</a>");
-        $('.blog_url').attr("href",data.blog_url);
-      }
-      else {
-    	  $('#more_info').hide();    	  
-      }
-      str = data.producer;
-      if (str && str.length > 0) {
+function displayProjectData(filename) {
+	$.getJSON(filename, function(data) {
+		document.title = data.project_name + ' M0 Report by Bitergia';
+		$(".report_date").text(data.date);
+		$(".project_name").text(data.project_name);
+		$("#project_url").attr("href", data.project_url);
+		$('#scm_type').text('git');
+		$('#scm_url').attr("href", data.scm_url);
+		$('#scm_name').text(data.scm_name);
+		$('#its_type').text('bugzilla');
+		$('#its_url').attr("href", data.its_url);
+		$('#its_name').text(data.its_name);
+		var str = data.scm_url;
+		if (!str || str.length === 0) {
+			$('#source_info').hide();
+		}
+		var str = data.its_url;
+		if (!str || str.length === 0) {
+			$('#tickets_info').hide();
+		}		
+		var str = data.blog_url;
+		if (str && str.length > 0) {
+			$('#blogEntry').html(
+					"<br><a href='" + str
+							+ "'>Blog post with some more details</a>");
+			$('.blog_url').attr("href", data.blog_url);
+		} else {
+			$('#more_info').hide();
+		}
+		str = data.producer;
+		if (str && str.length > 0) {
 			$('#producer').html(str);
 		} else {
 			$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
 		}
 
-    });
+	});
 }
 
 function displaySCMData (filename) {
