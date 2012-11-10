@@ -37,7 +37,7 @@ body {
 	float: left;
 	width: 250px;
 	margin-bottom: 40px;
-	margin-right: 40px;
+	margin-right: 20px;
 }
 
 
@@ -45,15 +45,20 @@ body {
 	float: left;
 	width: 325px;
 	margin-bottom: 40px;
-	margin-right: 40px;
+	margin-right: 20px;
 }
-
 
 #info-column3{
 	float: left;
 	width: 325px;
 	margin-bottom: 40px;
-	
+	margin-right: 20px;
+}
+
+#info-column4{
+	float: left;
+	width: 325px;
+	margin-bottom: 40px;
 }
 
 
