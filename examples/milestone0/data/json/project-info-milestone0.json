@@ -2,12 +2,13 @@
 "date":"Oct 2012",
 "project_name" :"LibrePlan", 
 "project_url" :"http://www.libreplan.com/",
-"scm_url":"",
+"scm_url":"http://libreplan.git.sourceforge.net",
 "scm_name":"git://libreplan.git.sourceforge.net",
 "scm_type":"git",
 "its_url":"http://bugs.libreplan.org/",
 "its_name":"http://bugs.libreplan.org/",
 "its_type":"bugzilla",
+"mls_url":"",
 "producer":"",
 "blog_url":""
 }

@@ -27,7 +27,7 @@
 			<div id="info-column1" style="width:200px;">
 				<div class="info-pill">
 					<h1>Reference Card</h1>
-					<div id="source_info">
+					<div class="source_info">
 						Changes to source code (<span id="scm_type"></span>): <a id="scm_url" href=""><span id="scm_name"></span></a>
 					<ul>
 						<li>
@@ -44,7 +44,7 @@
 						</li>
 					</ul>
 					</div>
-					<div id="tickets_info">
+					<div class="tickets_info">
 						Tickets (<span id="its_type"></span>): <a id="its_url" href=""><span id="its_name"></span></a>
 					<ul>
 
@@ -59,6 +59,22 @@
 						</li>
 					</ul>
 					</div>
+					<div class="mls_info">
+						Messages (<span id="mls_type"></span>): <a id="mls_url" href=""><span id="mls_name"></span></a>
+					<ul>
+
+						<li>
+							Time period: <span id="mlsFirst"></span> <span id="mlsLast"></span>
+						</li>
+						<li>
+							Total messages: <span id="mlsMessages"></span>
+						</li>
+						<li>
+							Senders: <span id="mlsSenders"></span>
+						</li>
+					</ul>
+					</div>
+
 						<a href="data/db">MySQL database dumps</a> with the complete retrieved datasets<br>
 						<a href="data/json">JSON files</a> serving the data shown in the plots
 					<span id="blogEntry"></span>
@@ -107,7 +123,7 @@
 				</div>
 			</div>
 
-			<div id="info-column2" style="width:450px;">
+			<div class="source_info" id="info-column2" style="width:450px;">
 				<div class="info-pill">
 					<h1>Change sets (commits to source code)</h1>
 				</div>
@@ -117,7 +133,7 @@
 				</div>
 			</div>
 
-			<div id="info-column3" style="width:450px;">
+			<div class="tickets_info" id="info-column3" style="width:450px;">
 				<div class="info-pill">
 					<h1>Tickets</h1>
 				</div>
@@ -128,6 +144,19 @@
 					</div>
 				</div>
 			</div>
+			
+			<div class="mls_info" id="info-column4" style="width:450px;">
+				<div class="info-pill">
+					<h1>Messages</h1>
+				</div>
+
+				<div class="info-pill">
+					<div class="column-left">
+						<div id="mls-time"></div>
+					</div>
+				</div>
+			</div>
+
 			
 			<div id="footer">
 				<div id="about">
@@ -151,15 +180,18 @@
 		<script type="text/javascript" src="VizGrimoireJS/src/CommitsIssues.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/SCM_Milestone0.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/ITS_Milestone0.js"></script>
+		<script type="text/javascript" src="VizGrimoireJS/src/MLS_Milestone0.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
 
 		<script type="text/javascript">
 			(function() {
 				displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json');
 				displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json');
+				displayM0EvoMLS('mls-time', 'data/json/mls-milestone0.json', 'data/json/markers.json');
 				displayProjectData('data/json/project-info-milestone0.json');
 				displaySCMData('data/json/scm-info-milestone0.json');
 				displayITSData('data/json/its-info-milestone0.json');
+				displayMLSData('data/json/mls-info-milestone0.json');
 			})()
 		</script>
 	</body>

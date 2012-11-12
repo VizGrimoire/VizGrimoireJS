@@ -231,7 +231,26 @@ function displayM0EvoITS (id, issues, markers) {
     });         
 }
 
-function displayM0EvoMLS (id, messages, markers) {
+function displayM0EvoMLS (id, lists_file, markers) {
+
+    var
+    container = document.getElementById(id);
+    
+    $.getJSON(lists_file, function (history) {
+    	lists = history.mailing_list
+    	for (var i=0; i<lists.length; i++) {
+    		var l = lists[i];
+    		file_messages = "data/json/mls-";
+    		file_messages += l;
+    		file_messages += "-milestone0.json";
+    		displayM0EvoMLSList (id, file_messages, markers);
+    	}
+    		
+    });
+}
+
+
+function displayM0EvoMLSList (id, messages, markers) {
 
     var
     container = document.getElementById(id);
@@ -421,16 +440,23 @@ function displayProjectData(filename) {
 		$('#scm_type').text('git');
 		$('#scm_url').attr("href", data.scm_url);
 		$('#scm_name').text(data.scm_name);
-		$('#its_type').text('bugzilla');
+		$('#its_type').text(data.its_type);
 		$('#its_url').attr("href", data.its_url);
 		$('#its_name').text(data.its_name);
+		$('#mls_type').text(data.mls_type);
+		$('#mls_url').attr("href", data.mls_url);
+		$('#mls_name').text(data.mls_name);
 		var str = data.scm_url;
 		if (!str || str.length === 0) {
-			$('#source_info').hide();
+			$('.source_info').hide();
 		}
 		var str = data.its_url;
 		if (!str || str.length === 0) {
-			$('#tickets_info').hide();
+			$('.tickets_info').hide();
+		}
+		var str = data.mls_url;
+		if (!str || str.length === 0) {
+			$('.mls_info').hide();
 		}		
 		var str = data.blog_url;
 		if (str && str.length > 0) {
@@ -468,5 +494,14 @@ function displayITSData (filename) {
       $("#itsLast").text(data.last_date);
       $("#itsTickets").text(data.tickets);
       $("#itsOpeners").text(data.openers);
+    });
+}
+
+function displayMLSData (filename) {
+    $.getJSON(filename, function(data) {
+      $("#mlsFirst").text(data.first_date);
+      $("#mlsLast").text(data.last_date);
+      $("#mlsMessages").text(data.messages);
+      $("#mlsSenders").text(data.people);
     });
 }
