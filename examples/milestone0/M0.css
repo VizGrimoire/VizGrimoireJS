@@ -10,10 +10,13 @@ body {
     float: right;
 }
 
-.column-left {
-    width: 450px;
-    margin: 8px auto;
+.left {
     float: left;
+}
+
+.column {
+    margin-left: 8px;
+    margin-right: 8px;
 }
 
 .box {
@@ -23,4 +26,22 @@ body {
 
 .title {
     text-align: center;
+}
+
+.m0-box-div {
+	height: 130px;
+}
+
+.m0-box {
+	width:  180px;
+	height: 100px;
+	float:  right;
+	right:  10px;	
+}
+
+.mls-dyn-list {
+	float: left;
+	margin-left: 8px;
+	margin-right: 8px;
+	width: 380px;
 }
