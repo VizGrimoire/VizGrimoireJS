@@ -249,6 +249,41 @@ function displayM0EvoMLS (id, lists_file, markers) {
     });
 }
 
+function displayM0BasicMLS (id, lists_file) {
+    
+    $.getJSON(lists_file, function (history) {
+        var
+        container = document.getElementById(id);
+
+    	lists = history.mailing_list;
+    	for (var i=0; i<lists.length; i++) {
+    		var l = lists[i];
+    		file_messages = "data/json/mls-";
+    		file_messages += l;
+    		file_messages += "-milestone0.json";
+    		
+    	    // Sent div for mailing list    		    		
+    		var new_div = "<div class='info-pill m0-box-div'>";
+    		new_div += "<h1>Messages sent "+ l +"</h1>";
+    		new_div += "<div id='container_messages_"+l+"' class='m0-box'></div>";
+    		new_div += "<p>Evolution in the number of messages</p>";
+    		new_div += "</div>";    		
+    		container.innerHTML += new_div;    		    		
+    	    basic_lines ('container_messages_'+l, file_messages, "sent", 1, "sent");
+    	    
+    	    // Senders div for mailing list    		    		
+    		var new_div = "<div class='info-pill m0-box-div'>";
+    		new_div += "<h1>Senders "+ l +"</h1>";
+    		new_div += "<div id='container_senders_"+l+"' class='m0-box'></div>";
+    		new_div += "<p>Evolution in the number of senders</p>";
+    		new_div += "</div>";    		
+    		container.innerHTML += new_div;
+    		basic_lines ('container_senders_'+l, file_messages, "senders", 1, "senders");
+    		
+    	};
+    });
+}
+
 
 function displayM0EvoMLSList (id, messages, markers) {
 
@@ -370,12 +405,8 @@ function basic_lines(div_id, json_file, column, labels, title) {
                 mouse : {
                     track : true,
                     trackY : false,
-                    mouse : {
-                        track : true,
-                        trackY : false,
-                        trackFormatter : function(o) {
-                            return history.date[parseInt(o.x)]+": "+parseInt (o.y);
-                        }
+                    trackFormatter : function(o) {
+                        return history.date[parseInt(o.x)]+": "+parseInt (o.y);
                     }
                 }
             });
