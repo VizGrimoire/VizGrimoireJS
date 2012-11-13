@@ -11,6 +11,10 @@
 #      (in fact, first day after the period)
 #  - startdate: starting date of the period to analyze. Format: YYYY-MM-DD
 #
+# # Authors :
+#       Jesus Gonzalez Barahona <jgb@bitergia.com>
+#       Alvaro del Castillo San Felix <acs@bitergia.com>
+
 # Note: this script works with MailingListStats tool
 completeZeroMonthly <- function (data) {
 
@@ -132,6 +136,7 @@ analList <- function (listname) {
 	print (listname)
 	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
+    mls_monthly[is.na(mls_monthly)] <- 0
 	createJSON (mls_monthly, paste("../data/json/mls-",listname,"-milestone0.json",sep=''))
 	createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-milestone0.json",sep=''))
 	createJSON (emails_monthly, paste("../data/json/mls-",listname,"-emails-milestone0.json",sep=''))

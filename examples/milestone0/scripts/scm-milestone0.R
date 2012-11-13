@@ -16,6 +16,7 @@
 #
 # Authors :
 #       Daniel Izquierdo Cortazar <dizquierdo@bitergia.com>
+#       Alvaro del Castillo San Felix <acs@bitergia.com>
 
 
 
@@ -83,6 +84,7 @@ agg_data = merge(data_commits, data_committers, all = TRUE)
 agg_data = merge(agg_data, data_files, all = TRUE)
 agg_data = merge(agg_data, data_branches, all = TRUE)
 agg_data = merge(agg_data, data_repositories, all = TRUE)
+agg_data[is.na(agg_data)] <- 0
 
 createJSON (agg_data, "../data/json/scm-milestone0.json")
 createJSON (info_data, "../data/json/scm-info-milestone0.json")

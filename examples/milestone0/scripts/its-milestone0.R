@@ -11,6 +11,10 @@
 #      (in fact, first day after the period)
 #  - startdate: starting date of the period to analyze. Format: YYYY-MM-DD
 #
+# # Authors :
+#       Jesus Gonzalez Barahona <jgb@bitergia.com>
+#       Alvaro del Castillo San Felix <acs@bitergia.com>
+#
 # Note: this script works with bicho databases obtained from Bugzilla
 
 # Get command line args, and produce variables for the script
@@ -124,6 +128,7 @@ changed_monthly <- query(q)
 
 issues_monthly <- merge (open_monthly, closed_monthly, all = TRUE)
 issues_monthly <- merge (issues_monthly, changed_monthly, all = TRUE)
+issues_monthly[is.na(issues_monthly)] <- 0
 
 createJSON (issues_monthly, "../data/json/its-milestone0.json")
 
