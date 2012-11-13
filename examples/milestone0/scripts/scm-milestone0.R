@@ -79,10 +79,10 @@ data_repositories = evol_repositories()
 # Fixed data
 info_data = evol_info_data()
 
-agg_data = merge(data_commits, data_committers)
-agg_data = merge(agg_data, data_files)
-agg_data = merge(agg_data, data_branches)
-agg_data = merge(agg_data, data_repositories)
+agg_data = merge(data_commits, data_committers, all = TRUE)
+agg_data = merge(agg_data, data_files, all = TRUE)
+agg_data = merge(agg_data, data_branches, all = TRUE)
+agg_data = merge(agg_data, data_repositories, all = TRUE)
 
 createJSON (agg_data, "../data/json/scm-milestone0.json")
 createJSON (info_data, "../data/json/scm-info-milestone0.json")

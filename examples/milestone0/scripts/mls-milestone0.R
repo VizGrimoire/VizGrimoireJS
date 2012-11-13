@@ -131,7 +131,7 @@ analList <- function (listname) {
 	
 	print (listname)
 	
-	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly))
+	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
 	createJSON (mls_monthly, paste("../data/json/mls-",listname,"-milestone0.json",sep=''))
 	createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-milestone0.json",sep=''))
 	createJSON (emails_monthly, paste("../data/json/mls-",listname,"-emails-milestone0.json",sep=''))

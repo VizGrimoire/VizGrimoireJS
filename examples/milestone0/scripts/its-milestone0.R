@@ -122,8 +122,8 @@ q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
 changed_monthly <- query(q)
 
 
-issues_monthly <- merge (open_monthly, closed_monthly)
-issues_monthly <- merge (issues_monthly, changed_monthly)
+issues_monthly <- merge (open_monthly, closed_monthly, all = TRUE)
+issues_monthly <- merge (issues_monthly, changed_monthly, all = TRUE)
 
 createJSON (issues_monthly, "../data/json/its-milestone0.json")
 
