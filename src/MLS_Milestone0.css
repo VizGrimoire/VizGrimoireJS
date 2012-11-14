@@ -1,10 +1,5 @@
-/* Dimensions */
-/* .milestone0-open, .milestone0-issues-closed {
-  width: 600px;
-} */
-
 .envision-component {
-    width: 440px;
+    width: 325px;
 }
 
 .milestone0-mls-sent .envision-component
@@ -14,7 +9,6 @@
 .milestone0-mls-senders .envision-component
 {
   height : 50px;
-}
 }
 
 .milestone0-mls-connection .envision-component {

@@ -1,10 +1,5 @@
-/* Dimensions */
-/* .milestone0-open, .milestone0-issues-closed {
-  width: 600px;
-} */
-
 .envision-component {
-    width: 440px;
+    width: 325px;
 }
 
 .milestone0-its-open .envision-component,
@@ -18,7 +13,6 @@
 .milestone0-its-changers .envision-component
 {
   height : 50px;
-}
 }
 
 .milestone0-its-connection .envision-component {
