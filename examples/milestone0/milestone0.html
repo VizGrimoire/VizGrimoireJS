@@ -6,158 +6,74 @@
 <!--[if gt IE 9]><html lang="en"><![endif]-->
 <!--[if !IE]>-->
 <html lang="en">
-	<!--<![endif]-->
-	<head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, maximum-scale=1.0">
-		<meta name="description" content="Bitergia company website" />
-		<meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
-		<link rel="stylesheet" type="text/css" id="theme" href="M0.css" />
-		<link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
-		<title>Bitergia Company GNOME Shell Analysis</title>
-		<!--[if lte IE 8]><script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
-		<!--[if lte IE 8]><script src="scripts/css3-mediaqueries.js"></script><![endif]-->
-		<script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
-	</head>
+    <!--<![endif]-->
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+        <meta name="description" content="Bitergia company website" />
+        <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
+        <link rel="stylesheet" type="text/css" id="theme" href="M0.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
+        <title>Bitergia Company GNOME Shell Analysis</title>
+        <!--[if lte IE 8]><script src="http://ie7-js.googlecode.com/svn/version/2.1(beta4)/IE9.js"></script><![endif]-->
+        <!--[if lte IE 8]><script src="scripts/css3-mediaqueries.js"></script><![endif]-->
+        <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+    </head>
 
-	<body>
-		<div id="wrapper">
+    <body>
+        <div id="wrapper">
 
-			<div id="header"></div>
-			<script type="text/javascript">
+            <div id="header"></div>
+            <script type="text/javascript">
 				$.get("header.html", function(header) {
 					$("#header").html(header);
 				});
-			</script>
+            </script>
 
-			<div id="info-column1"></div>
-			<script type="text/javascript">
+            <div id="info-column1"></div>
+            <script type="text/javascript">
 				$.get("refcard.html", function(refcard) {
 					$("#info-column1").html(refcard);
 				});
-			</script>
+            </script>
 
-			<div class="source_info" id="info-column2">
-				<div class="info-pill">
-					<h1>SCM ANALYSIS</h1>
-				</div>
+            <div class="source_info" id="info-column2">
+                <div id="scm_flotr2" ></div>
+                <script type="text/javascript">
+					$.get("scm_flotr2.html", function(scm) {
+						$("#scm_flotr2").html(scm);
+					});
+                </script>
+            </div>
 
-				<div class="info-pill m0-box-div">
-					<h1>Commits</h1>
-					<div class ="m0-box" id="container_commits"></div>
-					<p>
-						Evolution of the number of commits (aggregating branches)
-					</p>
-				</div>
+            <div class="tickets_info" id="info-column3">
+                <div id="its_flotr2" ></div>
+                <script type="text/javascript">
+					$.get("its_flotr2.html", function(its) {
+						$("#its_flotr2").html(its);
+					});
+                </script>
+            </div>
 
-				<div class="info-pill m0-box-div">
-					<h1>Committers</h1>
-					<div id="container_committers" class="m0-box"></div>
-					<p>
-						Unique committers making changes to the source code
-					</p>
-				</div>
+            <div class="mls_info" id="info-column4">
+                <div class="info-pill">
+                    <h1>MAILING LIST ANALYSIS </h1>
+                </div>
+            </div>
 
-				<div class="info-pill m0-box-div">
-					<h1>Files</h1>
-					<div id="container_files" class="m0-box"></div>
-					<p>
-						Evolution of the number of unique files handled by the community
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Branches</h1>
-					<div id="container_branches" class="m0-box"></div>
-					<p>
-						Evolution of the number of branches
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Repositories</h1>
-					<div id="container_repositories" class="m0-box"></div>
-					<p>
-						Evolution of the number of repositories
-					</p>
-				</div>
-
-			</div>
-
-			<div class="tickets_info" id="info-column3">
-				<div class="info-pill">
-					<h1>ITS ANALYSIS </h1>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Open Bugs</h1>
-					<div id="container_open_bugs" class="m0-box"></div>
-					<p>
-						Evolution of the number of open bugs
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Openers</h1>
-					<div id="container_openers" class="m0-box"></div>
-					<p>
-						Unique people opening bug reports
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Close Bugs</h1>
-					<div id="container_close_bugs" class="m0-box"></div>
-					<p>
-						Bugs being closed
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Closers</h1>
-					<div id="container_closers" class="m0-box"></div>
-					<p>
-						People closing bug reports
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Changes</h1>
-					<div id="container_changes" class="m0-box"></div>
-					<p>
-						Evolution in the number of changes (aggregated)
-					</p>
-				</div>
-
-				<div class="info-pill m0-box-div">
-					<h1>Changers</h1>
-					<div id="container_changers" class="m0-box"></div>
-					<p>
-						Evolution in the number of unique people making changes to the reports
-					</p>
-				</div>
-
-			</div>
-
-			<div class="mls_info" id="info-column4">
-				<div class="info-pill">
-					<h1>MAILING LIST ANALYSIS </h1>
-				</div>
-			</div>
-
-			<div id="footer"></div>
-			<script type="text/javascript">
+            <div id="footer"></div>
+            <script type="text/javascript">
 				$.get("footer.html", function(footer) {
 					$("#footer").html(footer);
 				});
-			</script>
+            </script>
 
-		</div>
+        </div>
 
-		<script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
-		<script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
-		<script type="text/javascript">
+        <script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+        <script type="text/javascript">
 			displayProjectData('data/json/project-info-milestone0.json');
 			displaySCMData('data/json/scm-info-milestone0.json');
 			displayITSData('data/json/its-info-milestone0.json');
@@ -178,6 +94,6 @@
 			basic_lines('container_changes', "data/json/its-milestone0.json", "changed", 1, "changed");
 			basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
 
-		</script>
-	</body>
+        </script>
+    </body>
 </html>
