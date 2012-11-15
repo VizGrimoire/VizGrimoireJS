@@ -201,14 +201,14 @@ function MLS_Milestone0 (options) {
   // Data for plotting the graphs
   // defaults.commits.config.data = [
   defaults.sent.data = [
-      {label:"Messages", data: data.sent}, 
+      {label:"Messages " + data.list_label, data: data.sent}, 
 //      {label:"issues opened", data: data.issues_opened},
 //      {label:"issues closed", data: data.issues_closed} 
   ];
   series_number = defaults.sent.data.length;
   series_drawn = 0;
 
-  defaults.senders.data = [{label:"Senders", data:data.senders}];
+  defaults.senders.data = [{label:"Senders " + data.list_label, data:data.senders}];
   defaults.summary.data = data.summary;
 
   defaults.sent.config.mouse.trackFormatter = options.trackFormatter;
