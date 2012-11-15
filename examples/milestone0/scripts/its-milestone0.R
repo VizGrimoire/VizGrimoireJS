@@ -16,6 +16,16 @@
 #       Alvaro del Castillo San Felix <acs@bitergia.com>
 #
 # Note: this script works with bicho databases obtained from Bugzilla
+completeZeroMonthly <- function (data) {
+
+  firstmonth = as.integer(data$id[1])
+  lastmonth = as.integer(data$id[nrow(data)])
+  months = data.frame('id'=c(firstmonth:lastmonth))
+  completedata <- merge (data, months, all=TRUE)
+  completedata[is.na(completedata)] <- 0
+  return (completedata)
+}
+
 
 # Get command line args, and produce variables for the script
 args <- commandArgs(trailingOnly = TRUE)
@@ -129,6 +139,8 @@ changed_monthly <- query(q)
 issues_monthly <- merge (open_monthly, closed_monthly, all = TRUE)
 issues_monthly <- merge (issues_monthly, changed_monthly, all = TRUE)
 issues_monthly[is.na(issues_monthly)] <- 0
+
+issues_monthly <- completeZeroMonthly(issues_monthly)
 
 createJSON (issues_monthly, "../data/json/its-milestone0.json")
 

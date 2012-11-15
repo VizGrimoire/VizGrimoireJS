@@ -6,192 +6,175 @@
 function displayM0EvoSummary(id, commits, issues, markers) {
 	var container = document.getElementById(id);
 
-	$
-			.getJSON(
-					commits,
-					function(history) {
-						$
-								.getJSON(
-										issues,
-										function(history1) {
-											$
-													.getJSON(
-															markers,
-															function(markers) {
-																var V = envision, firstMonth = history.id[0], options, vis, commits = [
-																		history.id,
-																		history.commits ], authors = [
-																		history.id,
-																		history.authors ], dates = history.date;
+	$.getJSON(commits,function(history) {
+		$.getJSON(issues,function(history1) {
+			$.getJSON(markers, function(markers) {
+				var V = envision, firstMonth = history.id[0], options, vis, commits = [
+						history.id,
+						history.commits ], authors = [
+						history.id,
+						history.authors ], dates = history.date;
 
-																var open_fill = [];
-																var close_fill = [];
-																var closers_fill = [];
+				var open_fill = [];
+				var close_fill = [];
+				var closers_fill = [];
 
-																for ( var i = 0; i < history.id.length; i++) {
-																	pos = history1.id
-																			.indexOf(history.id[i]);
-																	if (pos != -1) {
-																		open_fill[i] = history1.open[pos];
-																		close_fill[i] = history1.closed[pos];
-																		closers_fill[i] = history1.closers[pos];
-																	} else {
-																		open_fill[i] = null;
-																		close_fill[i] = null;
-																		closers_fill[i] = null;
-																	}
-																}
-																var open = [
-																		history.id,
-																		open_fill ], close = [
-																		history.id,
-																		close_fill ], closers = [
-																		history.id,
-																		closers_fill ];
+				for ( var i = 0; i < history.id.length; i++) {
+					pos = history1.id
+							.indexOf(history.id[i]);
+					if (pos != -1) {
+						open_fill[i] = history1.open[pos];
+						close_fill[i] = history1.closed[pos];
+						closers_fill[i] = history1.closers[pos];
+					} else {
+						open_fill[i] = null;
+						close_fill[i] = null;
+						closers_fill[i] = null;
+					}
+				}
+				var open = [
+						history.id,
+						open_fill ], close = [
+						history.id,
+						close_fill ], closers = [
+						history.id,
+						closers_fill ];
 
-																options = {
-																	container : container,
-																	data : {
-																		commits : commits,
-																		authors : authors,
-																		open : open,
-																		close : close,
-																		closers : closers,
-																		dates : dates,
-																		summary : commits,
-																		markers : markers
-																	},
-																	trackFormatter : function(
-																			o) {
-																		var
-																		//   index = o.index,
-																		data = o.series.data, index = data[o.index][0]
-																				- firstMonth, value;
+				options = {
+					container : container,
+					data : {
+						commits : commits,
+						authors : authors,
+						open : open,
+						close : close,
+						closers : closers,
+						dates : dates,
+						summary : commits,
+						markers : markers
+					},
+					trackFormatter : function(
+							o) {
+						var
+						//   index = o.index,
+						data = o.series.data, index = data[o.index][0]
+								- firstMonth, value;
 
-																		value = dates[index]
-																				+ ": ";
-																		if (commits[1][index] != null)
-																			value += commits[1][index]
-																					+ " commits|";
-																		if (authors[1][index] != null)
-																			value += authors[1][index]
-																					+ " authors|";
-																		if (open[1][index] != null)
-																			value += open[1][index]
-																					+ " open|";
-																		if (close[1][index] != null)
-																			value += close[1][index]
-																					+ " closed|";
-																		if (closers[1][index] != null)
-																			value += closers[1][index]
-																					+ " closers";
-																		return value;
-																	},
-																	xTickFormatter : function(
-																			index) {
-																		return dates[index
-																				- firstMonth];
-																	},
-																	yTickFormatter : function(
-																			n) {
-																		return n
-																				+ '';
-																	},
-																	// Initial selection
-																	selection : {
-																		data : {
-																			x : {
-																				min : history.id[0],
-																				max : history.id[history.id.length - 1]
-																			}
-																		}
-																	}
-																};
-																// Create the TimeSeries
-																vis = new envision.templates.Summary_Milestone0(
-																		options);
-															});
-										});
-					});
+						value = dates[index]
+								+ ": ";
+						if (commits[1][index] != null)
+							value += commits[1][index]
+									+ " commits|";
+						if (authors[1][index] != null)
+							value += authors[1][index]
+									+ " authors|";
+						if (open[1][index] != null)
+							value += open[1][index]
+									+ " open|";
+						if (close[1][index] != null)
+							value += close[1][index]
+									+ " closed|";
+						if (closers[1][index] != null)
+							value += closers[1][index]
+									+ " closers";
+						return value;
+					},
+					xTickFormatter : function(index) {
+						var label = dates[index - firstMonth];
+						if (label === "0") label = "";
+						return label;
+					},
+					yTickFormatter : function(n) {
+						return n + '';
+					},
+					// Initial selection
+					selection : {
+						data : {
+							x : {
+								min : history.id[0],
+								max : history.id[history.id.length - 1]
+							}
+						}
+					}
+				};
+				// Create the TimeSeries
+				vis = new envision.templates.Summary_Milestone0(options);
+			});
+		});
+	});
 }
 
 function displayM0EvoSCM(id, commits, markers) {
 
 	var container = document.getElementById(id);
-
-	$
-			.getJSON(
-					commits,
-					function(history) {
-						$
-								.getJSON(
-										markers,
-										function(markers) {
-											var V = envision, firstMonth = history.id[0], commits = [
-													history.id, history.commits ], committers = [
-													history.id,
-													history.committers ], ratio = [
-													history.id, history.ratio ], files = [
-													history.id, history.files ], branches = [
-													history.id,
-													history.branches ], repositories = [
-													history.id,
-													history.repositories ], dates = history.date, options, vis;
-
-											options = {
-												container : container,
-												data : {
-													commits : commits,
-													committers : committers,
-													files : files,
-													branches : branches,
-													repositories : repositories,
-													summary : commits,
-													markers : markers,
-													dates : dates
-												},
-												trackFormatter : function(o) {
-													var
-													//   index = o.index,
-													data = o.series.data, index = data[o.index][0]
-															- firstMonth, value;
-
-													value = dates[index] + ": ";
-													value += commits[1][index]
-															+ " commits, ";
-													value += committers[1][index]
-															+ " committers, <br/> ";
-													value += files[1][index]
-															+ " files, ";
-													value += branches[1][index]
-															+ " branches, ";
-													value += repositories[1][index]
-															+ " repos";
-
-													return value;
-												},
-												xTickFormatter : function(index) {
-													return dates[index
-															- firstMonth];
-												},
-												yTickFormatter : function(n) {
-													return n + '';
-												},
-												// Initial selection
-												selection : {
-													data : {
-														x : {
-															min : history.id[0],
-															max : history.id[history.id.length - 1]
-														}
-													}
-												}
-											};
-											// Create the TimeSeries
-											vis = new envision.templates.SCM_Milestone0(
-													options);
-										});
-					});
+	
+	$.getJSON(commits, function(history) {
+		$.getJSON(markers, function(markers) {
+			var V = envision, firstMonth = history.id[0], commits = [
+					history.id, history.commits ], committers = [
+					history.id,
+					history.committers ], ratio = [
+					history.id, history.ratio ], files = [
+					history.id, history.files ], branches = [
+					history.id,
+					history.branches ], repositories = [
+					history.id,
+					history.repositories ], dates = history.date, options, vis;
+	
+			options = {
+				container : container,
+				data : {
+					commits : commits,
+					committers : committers,
+					files : files,
+					branches : branches,
+					repositories : repositories,
+					summary : commits,
+					markers : markers,
+					dates : dates
+				},
+				trackFormatter : function(o) {
+					var
+					//   index = o.index,
+					data = o.series.data, index = data[o.index][0]
+							- firstMonth, value;
+	
+					value = dates[index] + ": ";
+					value += commits[1][index]
+							+ " commits, ";
+					value += committers[1][index]
+							+ " committers, <br/> ";
+					value += files[1][index]
+							+ " files, ";
+					value += branches[1][index]
+							+ " branches, ";
+					value += repositories[1][index]
+							+ " repos";
+	
+					return value;
+				},
+				xTickFormatter : function(index) {
+					var label = dates[index - firstMonth];
+					if (label === "0") label = "";
+					return label;
+				},
+				yTickFormatter : function(n) {
+					return n + '';
+				},
+				// Initial selection
+				selection : {
+					data : {
+						x : {
+							min : history.id[0],
+							max : history.id[history.id.length - 1]
+						}
+					}
+				}
+			};
+			// Create the TimeSeries
+			vis = new envision.templates.SCM_Milestone0(
+					options);
+		});
+	});
 }
 
 function displayM0EvoITS(id, issues, markers) {
@@ -199,60 +182,61 @@ function displayM0EvoITS(id, issues, markers) {
 	var container = document.getElementById(id);
 
 	$.getJSON(issues, function(history) {
-		$.getJSON(markers, issues,
-				function(markers) {
-					var V = envision, firstMonth = history.id[0], options, vis;
+		$.getJSON(markers, issues, function(markers) {
+			var V = envision, firstMonth = history.id[0], options, vis;
 
-					options = {
-						container : container,
-						data : {
-							summary : [ history.id, history.open ],
-							open : [ history.id, history.open ],
-							close : [ history.id, history.closed ],
-							change : [ history.id, history.changed ],
-							openers : [ history.id, history.openers ],
-							closers : [ history.id, history.closers ],
-							changers : [ history.id, history.changers ],
-							markers : markers,
-							dates : history.date
-						},
-						trackFormatter : function(o) {
-							var
-							//   index = o.index,
-							data = o.series.data, index = data[o.index][0]
-									- firstMonth, value;
+			options = {
+				container : container,
+				data : {
+					summary : [ history.id, history.open ],
+					open : [ history.id, history.open ],
+					close : [ history.id, history.closed ],
+					change : [ history.id, history.changed ],
+					openers : [ history.id, history.openers ],
+					closers : [ history.id, history.closers ],
+					changers : [ history.id, history.changers ],
+					markers : markers,
+					dates : history.date
+				},
+				trackFormatter : function(o) {
+					var
+					//   index = o.index,
+					data = o.series.data, index = data[o.index][0]
+							- firstMonth, value;
 
-							value = history.date[index] + ": ";
-							value += history.closed[index] + " closed, ";
-							value += history.open[index] + " opened, ";
-							value += history.changed[index] + " changed";
-							value += "<br/>" + history.closers[index]
-									+ " closers, ";
-							value += history.openers[index] + " openers, ";
-							value += history.changers[index] + " changers";
+					value = history.date[index] + ": ";
+					value += history.closed[index] + " closed, ";
+					value += history.open[index] + " opened, ";
+					value += history.changed[index] + " changed";
+					value += "<br/>" + history.closers[index]
+							+ " closers, ";
+					value += history.openers[index] + " openers, ";
+					value += history.changers[index] + " changers";
 
-							return value;
-						},
-						xTickFormatter : function(index) {
-							return history.date[index - firstMonth];
-							// return Math.floor(index/12) + '';
-						},
-						yTickFormatter : function(n) {
-							return n + '';
-						},
-						// Initial selection
-						selection : {
-							data : {
-								x : {
-									min : history.id[0],
-									max : history.id[history.id.length - 1]
-								}
-							}
+					return value;
+				},
+				xTickFormatter : function(index) {
+					var label = history.date[index - firstMonth];
+					if (label === "0") label = "";
+					return label;
+					// return Math.floor(index/12) + '';
+				},
+				yTickFormatter : function(n) {
+					return n + '';
+				},
+				// Initial selection
+				selection : {
+					data : {
+						x : {
+							min : history.id[0],
+							max : history.id[history.id.length - 1]
 						}
-					};
-					// Create the TimeSeries
-					vis = new envision.templates.ITS_Milestone0(options);
-				});
+					}
+				}
+			};
+			// Create the TimeSeries
+			vis = new envision.templates.ITS_Milestone0(options);
+		});
 	});
 }
 
@@ -342,50 +326,49 @@ function displayM0EvoMLSList(id, messages, markers, list_label) {
 	var container = document.getElementById(id);
 
 	$.getJSON(messages, function(history) {
-		$.getJSON(markers,
-				function(markers) {
-					var V = envision, firstMonth = history.id[0], options, vis;
+		$.getJSON(markers, function(markers) {
+			var V = envision, firstMonth = history.id[0], options, vis;
 
-					options = {
-						container : container,
-						data : {
-							summary : [ history.id, history.sent ],
-							sent : [ history.id, history.sent ],
-							senders : [ history.id, history.senders ],
-							markers : markers,
-							list_label : list_label,
-							dates : history.date
-						},
-						trackFormatter : function(o) {
-							var
-							//   index = o.index,
-							data = o.series.data, index = data[o.index][0]
-									- firstMonth, value;
-							value = history.date[index] + ":";
-							value += history.sent[index] + " messages sent, ";
-							value += "<br/>"+ history.senders[index]+" senders";
-							return value;
-						},
-						xTickFormatter : function(index) {
-							return history.date[index - firstMonth];
-							// return Math.floor(index/12) + '';
-						},
-						yTickFormatter : function(n) {
-							return parseInt(n) + '';
-						},
-						// Initial selection
-						selection : {
-							data : {
-								x : {
-									min : history.id[0],
-									max : history.id[history.id.length - 1]
-								}
-							}
+			options = {
+				container : container,
+				data : {
+					summary : [ history.id, history.sent ],
+					sent : [ history.id, history.sent ],
+					senders : [ history.id, history.senders ],
+					markers : markers,
+					list_label : list_label,
+					dates : history.date
+				},
+				trackFormatter : function(o) {
+					var
+					//   index = o.index,
+					data = o.series.data, index = data[o.index][0]
+							- firstMonth, value;
+					value = history.date[index] + ":";
+					value += history.sent[index] + " messages sent, ";
+					value += "<br/>"+ history.senders[index]+" senders";
+					return value;
+				},
+				xTickFormatter : function(index) {
+					return history.date[index - firstMonth];
+					// return Math.floor(index/12) + '';
+				},
+				yTickFormatter : function(n) {
+					return parseInt(n) + '';
+				},
+				// Initial selection
+				selection : {
+					data : {
+						x : {
+							min : history.id[0],
+							max : history.id[history.id.length - 1]
 						}
-					};
-					// Create the TimeSeries
-					vis = new envision.templates.MLS_Milestone0(options);
-				});
+					}
+				}
+			};
+			// Create the TimeSeries
+			vis = new envision.templates.MLS_Milestone0(options);
+		});
 	});
 }
 
