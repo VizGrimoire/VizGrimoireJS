@@ -160,7 +160,7 @@ function displayM0EvoSCM(id, commits, markers) {
 													value += commits[1][index]
 															+ " commits, ";
 													value += committers[1][index]
-															+ " committers, ";
+															+ " committers, <br/> ";
 													value += files[1][index]
 															+ " files, ";
 													value += branches[1][index]
@@ -361,9 +361,9 @@ function displayM0EvoMLSList(id, messages, markers, list_label) {
 							//   index = o.index,
 							data = o.series.data, index = data[o.index][0]
 									- firstMonth, value;
-							value = history.date[index] + ": ";
-							value += "Messages sent: " + history.sent[index];
-							value += ", senders: " + history.senders[index];
+							value = history.date[index] + ":";
+							value += history.sent[index] + " messages sent, ";
+							value += "<br/>"+ history.senders[index]+" senders";
 							return value;
 						},
 						xTickFormatter : function(index) {
