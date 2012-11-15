@@ -82,13 +82,22 @@ source("swscopio.R")
 
 analList <- function (listname) {
 
+    field = "mailing_list"
+    listname_file = gsub("/","_",listname)
+
+    if(length(i <- grep("http",listname))) {
+        field = "mailing_list_url"
+        cat(listname, " is a URL\n")
+    }
+
+
 	# Messages sent	
 	q <- paste("SELECT year(first_date) * 12 + month(first_date) AS id,
 	               year(first_date) AS year,
 	               month(first_date) AS month,
 		           DATE_FORMAT (first_date, '%b %Y') as date,
 	               count(message_ID) AS sent
-	             FROM messages WHERE mailing_list='",listname,"'
+	             FROM messages WHERE ",field,"='",listname,"'
 		         GROUP BY year,month
 		         ORDER BY year,month",sep = '') 
 	
@@ -103,7 +112,7 @@ analList <- function (listname) {
 	               month(first_date) AS month,
 	               DATE_FORMAT (first_date, '%b %Y') as date,
 	               subject
-	             FROM messages  WHERE mailing_list='",listname,"'
+	             FROM messages  WHERE ",field,"='",listname,"'
 	             ORDER BY year,month", sep = '')
 	subjects_monthly <- query(q)
 	
@@ -116,7 +125,7 @@ analList <- function (listname) {
 	               count(distinct(email_address)) AS senders
 	             FROM messages
 	             JOIN messages_people on (messages_people.message_id = messages.message_ID)
-	             WHERE type_of_recipient='From' AND mailing_list='",listname,"'
+	             WHERE type_of_recipient='From' AND ",field,"='",listname,"'
 	             GROUP BY year,month
 	             ORDER BY year,month", sep = '')
 	senders_monthly <- query(q)
@@ -129,17 +138,15 @@ analList <- function (listname) {
 	               email_address
 	             FROM messages
 	             JOIN messages_people on (messages_people.message_id = messages.message_ID)
-	             WHERE type_of_recipient='From' AND mailing_list='",listname,"'
+	             WHERE type_of_recipient='From' AND ",field,"='",listname,"'
 	             ORDER BY year,month", sep = '')
 	emails_monthly <- query(q)
 	
-	print (listname)
-	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
     mls_monthly[is.na(mls_monthly)] <- 0
-	createJSON (mls_monthly, paste("../data/json/mls-",listname,"-milestone0.json",sep=''))
-	createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-milestone0.json",sep=''))
-	createJSON (emails_monthly, paste("../data/json/mls-",listname,"-emails-milestone0.json",sep=''))
+	createJSON (mls_monthly, paste("../data/json/mls-",listname_file,"-milestone0.json",sep=''))
+	# createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-milestone0.json",sep=''))
+	createJSON (emails_monthly, paste("../data/json/mls-",listname_file,"-emails-milestone0.json",sep=''))
 
     ## Get some general stats from the database
     ##
@@ -149,16 +156,28 @@ analList <- function (listname) {
              COUNT(DISTINCT(email_address)) as people
              FROM messages 
 	         JOIN messages_people on (messages_people.message_id = messages.message_ID)
-             WHERE mailing_list='",listname,"'",sep='')
+             WHERE ",field,"='",listname,"'",sep='')
     data <- query(q)
-    createJSON (data, paste("../data/json/mls-",listname,"-info-milestone0.json",sep=''))
+    createJSON (data, paste("../data/json/mls-",listname_file,"-info-milestone0.json",sep=''))
 }
 
 
 # Mailing lists
 q <- paste ("select distinct(mailing_list) from messages")
 mailing_lists <- query(q)
-createJSON (mailing_lists, "../data/json/mls-lists-milestone0.json")
+
+if (is.na(mailing_lists$mailing_list)) {
+    print ("URL Mailing List")
+    q <- paste ("select distinct(mailing_list_url) from messages")
+    mailing_lists <- query(q)
+    mailing_lists_files <- query(q) 
+    mailing_lists_files$mailing_list = gsub("/","_",mailing_lists$mailing_list)
+    # print (mailing_lists)
+    createJSON (mailing_lists_files, "../data/json/mls-lists-milestone0.json")
+} else {
+    print (mailing_lists)
+    createJSON (mailing_lists, "../data/json/mls-lists-milestone0.json")
+}
 
 # Aggregated data
 q <- paste ("SELECT count(*) as messages,

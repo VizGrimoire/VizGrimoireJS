@@ -238,6 +238,13 @@ function displayM0EvoMLS (id, lists_file, markers) {
     
     $.getJSON(lists_file, function (history) {
     	lists = history.mailing_list
+        if(typeof lists === 'string') {
+    		file_messages = "data/json/mls-";
+    		file_messages += lists;
+    		file_messages += "-milestone0.json";
+    		displayM0EvoMLSList (id, file_messages, markers);
+            return;
+        }
     	for (var i=0; i<lists.length; i++) {
     		var l = lists[i];
     		file_messages = "data/json/mls-";
@@ -249,39 +256,51 @@ function displayM0EvoMLS (id, lists_file, markers) {
     });
 }
 
-function displayM0BasicMLS (id, lists_file) {
+function displayM0BasicMLS (div_id, lists_file) {
     
     $.getJSON(lists_file, function (history) {
-        var
-        container = document.getElementById(id);
-
     	lists = history.mailing_list;
+        if(typeof lists === 'string') {
+    		file_messages = "data/json/mls-";
+    		file_messages += lists;
+    		file_messages += "-milestone0.json";
+            displayM0BasicMLSList (div_id, lists, file_messages);
+            return;
+        }
+
     	for (var i=0; i<lists.length; i++) {
     		var l = lists[i];
     		file_messages = "data/json/mls-";
     		file_messages += l;
     		file_messages += "-milestone0.json";
-    		
-    	    // Sent div for mailing list    		    		
-    		var new_div = "<div class='info-pill m0-box-div'>";
-    		new_div += "<h1>Messages sent "+ l +"</h1>";
-    		new_div += "<div id='container_messages_"+l+"' class='m0-box'></div>";
-    		new_div += "<p>Evolution in the number of messages</p>";
-    		new_div += "</div>";    		
-    		container.innerHTML += new_div;    		    		
-    	    basic_lines ('container_messages_'+l, file_messages, "sent", 1, "sent");
-    	    
-    	    // Senders div for mailing list    		    		
-    		var new_div = "<div class='info-pill m0-box-div'>";
-    		new_div += "<h1>Senders "+ l +"</h1>";
-    		new_div += "<div id='container_senders_"+l+"' class='m0-box'></div>";
-    		new_div += "<p>Evolution in the number of senders</p>";
-    		new_div += "</div>";    		
-    		container.innerHTML += new_div;
-    		basic_lines ('container_senders_'+l, file_messages, "senders", 1, "senders");
-    		
+            displayM0BasicMLSList (div_id, list, file_messages);
     	};
     });
+}
+
+function displayM0BasicMLSList (div_id, l, file_messages) {
+    var
+    container = document.getElementById(div_id);
+    		
+    // Sent div for mailing list    		    		
+	var new_div = "<div class='info-pill m0-box-div'>";
+	// new_div += "<h1>Messages sent "+ l +"</h1>";
+	new_div += "<h1>Messages sent</h1>";
+	new_div += "<div id='container_messages_"+l+"' class='m0-box'></div>";
+	new_div += "<p>Evolution in the number of messages</p>";
+	new_div += "</div>";    		
+	container.innerHTML += new_div;    		    		
+    basic_lines ('container_messages_'+l, file_messages, "sent", 1, "sent");
+    
+    // Senders div for mailing list    		    		
+	var new_div = "<div class='info-pill m0-box-div'>";
+	// new_div += "<h1>Senders "+ l +"</h1>";
+	new_div += "<h1>Senders</h1>";
+	new_div += "<div id='container_senders_"+l+"' class='m0-box'></div>";
+	new_div += "<p>Evolution in the number of senders</p>";
+	new_div += "</div>";    		
+	container.innerHTML += new_div;
+	basic_lines ('container_senders_'+l, file_messages, "senders", 1, "senders");    		
 }
 
 
