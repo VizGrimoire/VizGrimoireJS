@@ -334,31 +334,40 @@ function ITS_Milestone0 (options) {
   summary = new V.Component(defaults.summary);  
 
   // Render visualization
+  var viz_m0_names = ["open", "close", "change", "openers", "closers", "changers"];
+  var viz_m0_values = [];
+  
+  for (var i = 0; i< viz_m0_names.length; i++) {
+	  if ($.inArray(viz_m0_names[i],data.envision_its_hide)===-1) {
+		  viz_m0_values.push(eval(viz_m0_names[i]));
+	  }
+  }
+  
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  vis.add(eval(viz_m0_values[i]));
+  }
+  
   vis
-    .add(open)
-    .add(close)
-    .add(change)
-    .add(openers)
-    .add(closers)
-    .add(changers)
     .add(connection)
     .add(summary)
     .render(options.container);
 
   // Define the selection zooming interaction
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  selection.follower(eval(viz_m0_values[i]));
+  }
   selection
-    .follower(open)
-    .follower(close)
-    .follower(change)
-    .follower(openers)
-    .follower(closers)
-    .follower(changers)
+  	.follower(connection)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
+  var hit_group = [];
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  hit_group.push(eval(viz_m0_values[i]));
+  }
   hit    
-    .group([open, close, change, openers, closers, changers])    
+    .group(hit_group)    
     .add(V.actions.hit);
 
   // Optional initial selection

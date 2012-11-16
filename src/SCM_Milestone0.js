@@ -299,7 +299,7 @@ function SCM_Milestone0 (options) {
   var viz_m0_values = [];
   
   for (var i = 0; i< viz_m0_names.length; i++) {
-	  if ($.inArray(viz_m0_names[i],data.envision_scm_hide)) {
+	  if ($.inArray(viz_m0_names[i],data.envision_scm_hide)===-1) {
 		  viz_m0_values.push(eval(viz_m0_names[i]));
 	  }
   }
