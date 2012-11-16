@@ -549,6 +549,24 @@ function displayProjectData(filename) {
 	});
 }
 
+function displayM0BasicVizConfig(viz_cfg_file) {
+	$.getJSON(viz_cfg_file, function(data) {
+		var data1;
+		
+		for ( var i = 0; i < data.scm_hide.length; i++) {
+			$("#flotr2_"+ data.scm_hide[i]).hide();
+		}
+		for ( var i = 0; i < data.its_hide.length; i++) {
+			$("#flotr2_"+ data.its_hide[i]).hide(); 
+		}
+		for ( var i = 0; i < data.scm_hide.length; i++) {
+			var div_id = "flort2_" + data.mls_hide[i];
+			$("#" + div_id).hide();
+		}
+	});
+}
+
+
 function displaySCMData(filename) {
 	$.getJSON(filename, function(data) {
 		$("#scmFirst").text(data.first_date);

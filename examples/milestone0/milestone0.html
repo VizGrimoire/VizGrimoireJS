@@ -80,7 +80,7 @@
 			displayMLSData('data/json/mls-info-milestone0.json');
 
 			displayM0BasicMLS('info-column4', 'data/json/mls-lists-milestone0.json');
-
+			
 			basic_lines('container_commits', "data/json/scm-milestone0.json", "commits", 1, "commits");
 			basic_lines('container_committers', "data/json/scm-milestone0.json", "committers", 1, "committers");
 			basic_lines('container_files', "data/json/scm-milestone0.json", "files", 1, "files");
@@ -93,6 +93,8 @@
 			basic_lines('container_closers', "data/json/its-milestone0.json", "closers", 1, "closers");
 			basic_lines('container_changes', "data/json/its-milestone0.json", "changed", 1, "changed");
 			basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
+			
+            displayM0BasicVizConfig('data/json/envision_cfg.json');
 
         </script>
     </body>
