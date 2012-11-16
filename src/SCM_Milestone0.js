@@ -292,33 +292,43 @@ function SCM_Milestone0 (options) {
   repositories = new V.Component(defaults.repositories);
   
   connection = new V.Component(defaults.connection);  
-  summary = new V.Component(defaults.summary);  
-
+  summary = new V.Component(defaults.summary);
+   
   // Render visualization
+  var viz_m0_names = ["commits", "committers", "branches", "files", "repositories"];
+  var viz_m0_values = [];
+  
+  for (var i = 0; i< viz_m0_names.length; i++) {
+	  if ($.inArray(viz_m0_names[i],data.envision_scm_hide)) {
+		  viz_m0_values.push(eval(viz_m0_names[i]));
+	  }
+  }
+  
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  vis.add(eval(viz_m0_values[i]));
+  }  
   vis
-    .add(commits)
-    .add(committers)
-    .add(branches)
-    .add(files)
-    .add(repositories)
     .add(connection)
     .add(summary)
     .render(options.container);
 
   // Define the selection zooming interaction
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  selection.follower(eval(viz_m0_values[i]));
+  }
+  
   selection
-    .follower(commits)
-    .follower(committers)
-    .follower(branches)
-    .follower(files)
-    .follower(repositories)
     .follower(connection)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
+  var hit_group = [];
+  for (var i = 0; i< viz_m0_values.length; i++) {
+	  hit_group.push(eval(viz_m0_values[i]));
+  }
   hit    
-    .group([commits, committers, branches, files, repositories])
+    .group(hit_group)
     .add(V.actions.hit);
 
   // Optional initial selection

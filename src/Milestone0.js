@@ -103,77 +103,76 @@ function displayM0EvoSummary(id, commits, issues, markers) {
 	});
 }
 
-function displayM0EvoSCM(id, commits, markers) {
+function displayM0EvoSCM(id, commits, markers, envision_cfg_file) {
 
 	var container = document.getElementById(id);
 	
-	$.getJSON(commits, function(history) {
-		$.getJSON(markers, function(markers) {
-			var V = envision, firstMonth = history.id[0], commits = [
-					history.id, history.commits ], committers = [
-					history.id,
-					history.committers ], ratio = [
-					history.id, history.ratio ], files = [
-					history.id, history.files ], branches = [
-					history.id,
-					history.branches ], repositories = [
-					history.id,
-					history.repositories ], dates = history.date, options, vis;
-	
-			options = {
-				container : container,
+	$.when($.getJSON(commits),$.getJSON(markers),$.getJSON(envision_cfg_file))
+	.done (function(res1, res2, res3) {			
+		var history = res1[0], markers = res2[0], envision_cfg = res3[0];
+
+		var V = envision, firstMonth = history.id[0], 
+		commits = [history.id, history.commits ], 
+		committers = [history.id, history.committers ], 
+		ratio = [history.id, history.ratio ], 
+		files = [history.id, history.files ], 
+		branches = [history.id, history.branches ], 
+		repositories = [history.id, history.repositories ], 
+		dates = history.date, options, vis;
+
+		options = {
+			container : container,
+			data : {
+				commits : commits,
+				committers : committers,
+				files : files,
+				branches : branches,
+				repositories : repositories,
+				summary : commits,
+				markers : markers,
+				dates : dates,
+				envision_scm_hide: envision_cfg.scm_hide
+			},
+			trackFormatter : function(o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+
+				value = dates[index] + ": ";
+				value += commits[1][index]
+						+ " commits, ";
+				value += committers[1][index]
+						+ " committers, <br/> ";
+				value += files[1][index]
+						+ " files, ";
+				value += branches[1][index]
+						+ " branches, ";
+				value += repositories[1][index]
+						+ " repos";
+
+				return value;
+			},
+			xTickFormatter : function(index) {
+				var label = dates[index - firstMonth];
+				if (label === "0") label = "";
+				return label;
+			},
+			yTickFormatter : function(n) {
+				return n + '';
+			},
+			// Initial selection
+			selection : {
 				data : {
-					commits : commits,
-					committers : committers,
-					files : files,
-					branches : branches,
-					repositories : repositories,
-					summary : commits,
-					markers : markers,
-					dates : dates
-				},
-				trackFormatter : function(o) {
-					var
-					//   index = o.index,
-					data = o.series.data, index = data[o.index][0]
-							- firstMonth, value;
-	
-					value = dates[index] + ": ";
-					value += commits[1][index]
-							+ " commits, ";
-					value += committers[1][index]
-							+ " committers, <br/> ";
-					value += files[1][index]
-							+ " files, ";
-					value += branches[1][index]
-							+ " branches, ";
-					value += repositories[1][index]
-							+ " repos";
-	
-					return value;
-				},
-				xTickFormatter : function(index) {
-					var label = dates[index - firstMonth];
-					if (label === "0") label = "";
-					return label;
-				},
-				yTickFormatter : function(n) {
-					return n + '';
-				},
-				// Initial selection
-				selection : {
-					data : {
-						x : {
-							min : history.id[0],
-							max : history.id[history.id.length - 1]
-						}
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
 					}
 				}
-			};
-			// Create the TimeSeries
-			vis = new envision.templates.SCM_Milestone0(
-					options);
-		});
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.SCM_Milestone0(options);
 	});
 }
 
