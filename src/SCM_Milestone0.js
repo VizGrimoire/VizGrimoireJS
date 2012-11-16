@@ -305,7 +305,7 @@ function SCM_Milestone0 (options) {
   }
   
   for (var i = 0; i< viz_m0_values.length; i++) {
-	  vis.add(eval(viz_m0_values[i]));
+	  vis.add(viz_m0_values[i]);
   }  
   vis
     .add(connection)
@@ -314,7 +314,7 @@ function SCM_Milestone0 (options) {
 
   // Define the selection zooming interaction
   for (var i = 0; i< viz_m0_values.length; i++) {
-	  selection.follower(eval(viz_m0_values[i]));
+	  selection.follower(viz_m0_values[i]);
   }
   
   selection
@@ -325,7 +325,7 @@ function SCM_Milestone0 (options) {
   // Define the mouseover hit interaction
   var hit_group = [];
   for (var i = 0; i< viz_m0_values.length; i++) {
-	  hit_group.push(eval(viz_m0_values[i]));
+	  hit_group.push(viz_m0_values[i]);
   }
   hit    
     .group(hit_group)
