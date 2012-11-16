@@ -1,5 +1,5 @@
 {
 "scm_hide":["branches", "files", "repositories"],
 "its_hide":["open", "change", "openers", "changers"],
-"mls_hide":[]
+"mls_hide":["sent"]
 }

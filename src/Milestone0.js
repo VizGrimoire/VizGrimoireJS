@@ -282,7 +282,7 @@ function displayM0BasicMLSList(div_id, l, file_messages) {
 	var container = document.getElementById(div_id);
 
 	// Sent div for mailing list    		    		
-	var new_div = "<div class='info-pill m0-box-div'>";
+	var new_div = "<div class='info-pill m0-box-div flotr2-sent'>";
 	new_div += "<h1>Messages sent " + displayMLSListName(l) + "</h1>";
 	new_div += "<div id='container_messages_" + l + "' class='m0-box'></div>";
 	new_div += "<p>Evolution in the number of messages</p>";
@@ -291,9 +291,9 @@ function displayM0BasicMLSList(div_id, l, file_messages) {
 	basic_lines('container_messages_' + l, file_messages, "sent", 1, "sent");
 
 	// Senders div for mailing list    		    		
-	var new_div = "<div class='info-pill m0-box-div'>";
+	var new_div = "<div class='info-pill m0-box-div flotr2-senders'>";
 	new_div += "<h1>Senders " + displayMLSListName(l) + "</h1>";
-	new_div += "<div id='container_senders_" + l + "' class='m0-box'></div>";
+	new_div += "<div id='container_senders_" + l + "' class='m0-box flotr2-senders'></div>";
 	new_div += "<p>Evolution in the number of senders</p>";
 	new_div += "</div>";
 	container.innerHTML += new_div;
@@ -560,8 +560,7 @@ function displayM0BasicVizConfig(viz_cfg_file) {
 			$("#flotr2_"+ data.its_hide[i]).hide(); 
 		}
 		for ( var i = 0; i < data.scm_hide.length; i++) {
-			var div_id = "flort2_" + data.mls_hide[i];
-			$("#" + div_id).hide();
+			$(".info-pill.m0-box-div.flotr2-"+ data.mls_hide[i]).hide();
 		}
 	});
 }
