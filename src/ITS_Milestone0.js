@@ -288,7 +288,7 @@ function ITS_Milestone0 (options) {
         name : 'milestone0-its',
         }),
     selection = new V.Interaction(),
-    hit = new V.Interaction(),
+    hit = new V.Interaction(), connection,
     open, close, change, openers, closers, changers, markers;
 
   if (options.defaults) {
