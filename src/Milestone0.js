@@ -241,11 +241,17 @@ function displayM0EvoITS(id, issues, markers, envision_cfg_file) {
 }
 
 // http:__lists.webkit.org_pipermail_squirrelfish-dev_
+// <allura-dev.incubator.apache.org>
 function displayMLSListName(listinfo) {
 	var list_name_tokens = listinfo.split("_");
-	var list_name = list_name_tokens[list_name_tokens.length - 1];
-	if (list_name === "")
-		list_name = list_name_tokens[list_name_tokens.length - 2];
+	if (list_name_tokens.length > 1) {
+		var list_name = list_name_tokens[list_name_tokens.length - 1];
+		if (list_name === "")
+			list_name = list_name_tokens[list_name_tokens.length - 2];
+	} else {
+		list_name = listinfo.replace("<","");
+		list_name = list_name.replace(">","");
+	}
 	return list_name;
 }
 
