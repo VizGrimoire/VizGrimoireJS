@@ -295,8 +295,8 @@ function displayM0BasicMLSList(div_id, l, file_messages) {
 			"senders");
 }
 
-function displayM0EvoMLS(id, lists_file, markers) {
-
+function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
+	
 	var container = document.getElementById(id);
 
 	$.getJSON(lists_file, function(history) {
@@ -306,7 +306,7 @@ function displayM0EvoMLS(id, lists_file, markers) {
 			file_messages += lists;
 			file_messages += "-milestone0.json";
 			displayM0EvoMLSList(id, file_messages, markers,
-					displayMLSListName(lists));
+					displayMLSListName(lists), envision_cfg_file);
 			return;
 		}
 		for ( var i = 0; i < lists.length; i++) {
@@ -315,60 +315,63 @@ function displayM0EvoMLS(id, lists_file, markers) {
 			file_messages += l;
 			file_messages += "-milestone0.json";
 			displayM0EvoMLSList(id, file_messages, markers,
-					displayMLSListName(l));
+					displayMLSListName(l), envision_cfg_file);
 		}
 
 	});
 }
 
-function displayM0EvoMLSList(id, messages, markers, list_label) {
+function displayM0EvoMLSList(id, messages, markers, list_label, envision_cfg_file) {
 
 	var container = document.getElementById(id);
 
-	$.getJSON(messages, function(history) {
-		$.getJSON(markers, function(markers) {
-			var V = envision, firstMonth = history.id[0], options, vis;
+	
+	$.when($.getJSON(messages),$.getJSON(markers),$.getJSON(envision_cfg_file))
+	.done (function(res1, res2, res3) {			
+		var history = res1[0], markers = res2[0], envision_cfg = res3[0];
 
-			options = {
-				container : container,
+		var V = envision, firstMonth = history.id[0], options, vis;
+
+		options = {
+			container : container,
+			data : {
+				summary : [ history.id, history.sent ],
+				sent : [ history.id, history.sent ],
+				senders : [ history.id, history.senders ],
+				markers : markers,
+				list_label : list_label,
+				dates : history.date,
+				envision_mls_hide: envision_cfg.mls_hide
+			},
+			trackFormatter : function(o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+				value = history.date[index] + ":";
+				value += history.sent[index] + " messages sent, ";
+				value += "<br/>"+ history.senders[index]+" senders";
+				return value;
+			},
+			xTickFormatter : function(index) {
+				return history.date[index - firstMonth];
+				// return Math.floor(index/12) + '';
+			},
+			yTickFormatter : function(n) {
+				return parseInt(n) + '';
+			},
+			// Initial selection
+			selection : {
 				data : {
-					summary : [ history.id, history.sent ],
-					sent : [ history.id, history.sent ],
-					senders : [ history.id, history.senders ],
-					markers : markers,
-					list_label : list_label,
-					dates : history.date
-				},
-				trackFormatter : function(o) {
-					var
-					//   index = o.index,
-					data = o.series.data, index = data[o.index][0]
-							- firstMonth, value;
-					value = history.date[index] + ":";
-					value += history.sent[index] + " messages sent, ";
-					value += "<br/>"+ history.senders[index]+" senders";
-					return value;
-				},
-				xTickFormatter : function(index) {
-					return history.date[index - firstMonth];
-					// return Math.floor(index/12) + '';
-				},
-				yTickFormatter : function(n) {
-					return parseInt(n) + '';
-				},
-				// Initial selection
-				selection : {
-					data : {
-						x : {
-							min : history.id[0],
-							max : history.id[history.id.length - 1]
-						}
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
 					}
 				}
-			};
-			// Create the TimeSeries
-			vis = new envision.templates.MLS_Milestone0(options);
-		});
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.MLS_Milestone0(options);
 	});
 }
 
