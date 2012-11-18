@@ -47,7 +47,6 @@
                             <div class="left" id="scm-time"></div>
                         </div>
                     </div>
-
                     <div class="left column">
                         <div id="scm_flotr2" ></div>
                         <script type="text/javascript">
@@ -57,6 +56,8 @@
                         </script>
                     </div>
                 </div>
+
+                <div style="clear:both"></div>
 
                 <!-- TICKETS -->
                 <div class="tickets_info">
@@ -80,8 +81,10 @@
                     </div>
                 </div>
 
+                <div style="clear:both"></div>
+
                 <!-- MESSAGES -->
-                <div class="mls_info">
+                <div class="mls_info left">
                     <div class="left" id="envision-mls">
                         <div class="info-pill">
                             <h1>Messages</h1>
@@ -124,9 +127,9 @@
 
         <script type="text/javascript">
 			(function() {
-				displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json');
-				displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json');
-				displayM0EvoMLS('mls-time', 'data/json/mls-lists-milestone0.json', 'data/json/markers.json');
+                 displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
+                displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
+                displayM0EvoMLS('mls-time', 'data/json/mls-lists-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
 				displayProjectData('data/json/project-info-milestone0.json');
 				displaySCMData('data/json/scm-info-milestone0.json');
 				displayITSData('data/json/its-info-milestone0.json');
@@ -147,6 +150,7 @@
 				basic_lines('container_changes', "data/json/its-milestone0.json", "changed", 1, "changed");
 				basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
 
+	            displayM0BasicVizConfig('data/json/viz_cfg.json');
 			})()
         </script>
     </body>

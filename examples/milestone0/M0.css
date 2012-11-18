@@ -36,7 +36,8 @@ body {
 	width:  180px;
 	height: 100px;
 	float:  right;
-	right:  10px;	
+	margin-right: 5px;
+	margin-left: 5px;	
 }
 
 .mls-dyn-list {
