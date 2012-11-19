@@ -255,11 +255,14 @@ function displayMLSListName(listinfo) {
 	return list_name;
 }
 
-function displayM0BasicMLS(div_id, lists_file) {
+function displayM0BasicMLS(div_id, lists_file, envision_cfg_file) {
+	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
+	.done (function(res1, res2) {				
+		lists = res1[0].mailing_list;
+		lists_hide = res2[0].mls_hide_lists;
 
-	$.getJSON(lists_file, function(history) {
-		lists = history.mailing_list;
 		if (typeof lists === 'string') {
+			if ($.inArray(lists,lists_hide)>-1) return;
 			file_messages = "data/json/mls-";
 			file_messages += lists;
 			file_messages += "-milestone0.json";
@@ -269,6 +272,7 @@ function displayM0BasicMLS(div_id, lists_file) {
 
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
+			if ($.inArray(l,lists_hide)>-1) continue;
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
@@ -305,18 +309,26 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 	
 	var container = document.getElementById(id);
 
-	$.getJSON(lists_file, function(history) {
-		lists = history.mailing_list
+	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
+	.done (function(res1, res2) {				
+		lists = res1[0].mailing_list;
+		lists_hide = res2[0].mls_hide_lists;
 		if (typeof lists === 'string') {
 			file_messages = "data/json/mls-";
 			file_messages += lists;
 			file_messages += "-milestone0.json";
+			
+			if ($.inArray(lists,lists_hide)>-1) return;
+			
 			displayM0EvoMLSList(id, file_messages, markers,
 					displayMLSListName(lists), envision_cfg_file);
 			return;
 		}
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
+			
+			if ($.inArray(l,lists_hide)>-1) continue;
+			
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
@@ -330,7 +342,6 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 function displayM0EvoMLSList(id, messages, markers, list_label, envision_cfg_file) {
 
 	var container = document.getElementById(id);
-
 	
 	$.when($.getJSON(messages),$.getJSON(markers),$.getJSON(envision_cfg_file))
 	.done (function(res1, res2, res3) {			
@@ -551,8 +562,6 @@ function displayProjectData(filename) {
 
 function displayM0BasicVizConfig(viz_cfg_file) {
 	$.getJSON(viz_cfg_file, function(data) {
-		var data1;
-		
 		for ( var i = 0; i < data.scm_hide.length; i++) {
 			$("#flotr2_"+ data.scm_hide[i]).hide();
 		}

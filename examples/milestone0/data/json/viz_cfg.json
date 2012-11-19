@@ -1,5 +1,10 @@
 {
 "scm_hide":["branches", "files", "repositories"],
 "its_hide":["open", "change", "openers", "changers"],
-"mls_hide":["sent"]
+"mls_hide":["sent"],
+"mls_hide_lists":[
+"http:__lists.wikimedia.org_pipermail_analytics",
+"*http:__lists.wikimedia.org_pipermail_design",
+"http:__lists.wikimedia.org_pipermail_maps-l"
+]
 }
