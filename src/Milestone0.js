@@ -341,7 +341,7 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 
 // history values should be always arrays
 function filterHistory(history) {
-	if (typeof(history.id != "array")) {
+	if (typeof(history.id) === "number") {
 		for (key in history) {
 			history[key] = [history[key]];
 		}
