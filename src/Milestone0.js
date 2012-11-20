@@ -339,13 +339,25 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 	});
 }
 
+// history values should be always arrays
+function filterHistory(history) {
+	if (typeof(history.id != "array")) {
+		for (key in history) {
+			history[key] = [history[key]];
+		}
+	}
+	return history;	
+}
+
 function displayM0EvoMLSList(id, messages, markers, list_label, envision_cfg_file) {
 
 	var container = document.getElementById(id);
 	
 	$.when($.getJSON(messages),$.getJSON(markers),$.getJSON(envision_cfg_file))
 	.done (function(res1, res2, res3) {			
-		var history = res1[0], markers = res2[0], envision_cfg = res3[0];
+		var history = filterHistory(res1[0]), 
+			markers = res2[0], envision_cfg = res3[0];
+		
 
 		var V = envision, firstMonth = history.id[0], options, vis;
 
