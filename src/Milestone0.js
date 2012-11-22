@@ -300,7 +300,23 @@ function displayM0BasicMLSList(div_id, l, file_messages) {
 			"senders");
 }
 
-function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {	
+function displayM0EvoMLSCleanPrefs() {
+	if (localStorage) {
+        if (localStorage.length && localStorage.getItem('mls_lists')) {
+        	localStorage.removeItem('mls_lists');
+        }
+	}
+}
+
+function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
+	
+	if (localStorage) {
+        if (localStorage.length && localStorage.getItem('mls_lists')) {
+        	lists = JSON.parse(localStorage.getItem('mls_lists'));
+    		return displayM0EvoMLSLists(id, lists, markers, envision_cfg_file);
+        } 
+	}
+	
 	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
 	.done (function(res1, res2) {				
 		lists = res1[0].mailing_list;
@@ -308,18 +324,14 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 		if (typeof lists === 'string') {
 			lists = [lists];
 		}
-		for ( var i = 0; i < lists.length; i++) {
-			var l = lists[i];
-			
-			if ($.inArray(l,lists_hide)>-1) continue;
-			
-			file_messages = "data/json/mls-";
-			file_messages += l;
-			file_messages += "-milestone0.json";
-			displayM0EvoMLSList(id, file_messages, markers,
-					displayMLSListName(l), envision_cfg_file);
+		
+		var filtered_lists = [];
+		for (var i = 0; i < lists.length; i++) {			
+			if ($.inArray(lists[i],lists_hide)==-1) 
+				filtered_lists.push(lists[i]); 
 		}
-
+		
+		displayM0EvoMLSLists(id, filtered_lists, markers, envision_cfg_file);
 	});
 }
 
@@ -332,7 +344,6 @@ function displayM0EvoMLSUserAll(id, markers, envision_cfg_file, all) {
     displayM0EvoMLSUser(id, markers, envision_cfg_file);
 }
 
-
 function displayM0EvoMLSUser(id, markers, envision_cfg_file) {
 	
 	$("#"+id).empty();
@@ -342,23 +353,27 @@ function displayM0EvoMLSUser(id, markers, envision_cfg_file) {
     for ( var i = 0; i < form.elements.length; i++) {
         if (form.elements[i].checked) lists.push(form.elements[i].value);
     }
-	
-	for ( var i = 0; i < lists.length; i++) {
-		var l = lists[i];
-		
-		file_messages = "data/json/mls-";
-		file_messages += l;
-		file_messages += "-milestone0.json";
-		displayM0EvoMLSList(id, file_messages, markers,
-				displayMLSListName(l), envision_cfg_file);
+
+	if (localStorage) {
+		localStorage.setItem('mls_lists', JSON.stringify(lists));
 	}
+	
+	displayM0EvoMLSLists(id, lists, markers, envision_cfg_file);    	
 }
 
 
 function displayMLSSelector(div_id_sel, div_id_mls, lists_file, markers, envision_cfg_file) {
 	$.when($.getJSON(lists_file))
 	.done (function(res1) {				
-		lists = res1.mailing_list;
+		var lists = res1.mailing_list;
+		var user_lists = [];
+				
+		if (localStorage) {
+	        if (localStorage.length && localStorage.getItem('mls_lists')) {
+	        	user_lists = JSON.parse(localStorage.getItem('mls_lists'));
+	        } 
+		}
+
 
 		var html = "Mailing list selector:";
 		html += "<form id='form_mls_selector'>";
@@ -372,7 +387,9 @@ function displayMLSSelector(div_id_sel, div_id_mls, lists_file, markers, envisio
 			html += '<input type=checkbox name="check_list" value="'+l+'" ';
 			html += 'onClick="displayM0EvoMLSUser(\''+div_id_mls+'\',\'';
 			html += markers+'\',\''+envision_cfg_file+'\')" ';
-			html += 'id="'+l+'_check"><br>';
+			html += 'id="'+l+'_check" ';
+			if ($.inArray(l, user_lists)>-1) html += 'checked ';
+			html += '><br>';
 		}
 		html += '<input type=button value="All" ';
 		html += 'onClick="displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
@@ -380,10 +397,13 @@ function displayMLSSelector(div_id_sel, div_id_mls, lists_file, markers, envisio
 		html += '<input type=button value="None" ';
 		html += 'onClick="displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
 		html += markers+'\',\''+envision_cfg_file+'\','+false+')">';
+		html += '<input type=button value="Clean prefs" ';
+		html += 'onClick="displayM0EvoMLSCleanPrefs()">';
 		html += "</form>";
 		$("#"+div_id_sel).html(html);
 	});
 }
+
 
 // history values should be always arrays
 function filterHistory(history) {
@@ -393,6 +413,18 @@ function filterHistory(history) {
 		}
 	}
 	return history;	
+}
+
+function displayM0EvoMLSLists(id, lists, markers, envision_cfg_file) {
+	for ( var i = 0; i < lists.length; i++) {
+		var l = lists[i];
+		
+		file_messages = "data/json/mls-";
+		file_messages += l;
+		file_messages += "-milestone0.json";
+		displayM0EvoMLSList(id, file_messages, markers,
+				displayMLSListName(l), envision_cfg_file);
+	}
 }
 
 function displayM0EvoMLSList(id, messages, markers, list_label, envision_cfg_file) {
