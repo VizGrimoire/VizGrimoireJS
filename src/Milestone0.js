@@ -331,6 +331,11 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 				filtered_lists.push(lists[i]); 
 		}
 		
+		if (localStorage) {
+	        if (!localStorage.getItem('mls_lists')) {
+	    		localStorage.setItem('mls_lists', JSON.stringify(filtered_lists));
+	        } 
+		}		
 		displayM0EvoMLSLists(id, filtered_lists, markers, envision_cfg_file);
 	});
 }
