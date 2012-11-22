@@ -262,12 +262,7 @@ function displayM0BasicMLS(div_id, lists_file, envision_cfg_file) {
 		lists_hide = res2[0].mls_hide_lists;
 
 		if (typeof lists === 'string') {
-			if ($.inArray(lists,lists_hide)>-1) return;
-			file_messages = "data/json/mls-";
-			file_messages += lists;
-			file_messages += "-milestone0.json";
-			displayM0BasicMLSList(div_id, lists, file_messages);
-			return;
+			lists = [lists];
 		}
 
 		for ( var i = 0; i < lists.length; i++) {
@@ -305,24 +300,13 @@ function displayM0BasicMLSList(div_id, l, file_messages) {
 			"senders");
 }
 
-function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
-	
-	var container = document.getElementById(id);
-
+function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {	
 	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
 	.done (function(res1, res2) {				
 		lists = res1[0].mailing_list;
-		lists_hide = res2[0].mls_hide_lists;
+		lists_hide = res2[0].mls_hide_lists;		
 		if (typeof lists === 'string') {
-			file_messages = "data/json/mls-";
-			file_messages += lists;
-			file_messages += "-milestone0.json";
-			
-			if ($.inArray(lists,lists_hide)>-1) return;
-			
-			displayM0EvoMLSList(id, file_messages, markers,
-					displayMLSListName(lists), envision_cfg_file);
-			return;
+			lists = [lists];
 		}
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
@@ -336,6 +320,68 @@ function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 					displayMLSListName(l), envision_cfg_file);
 		}
 
+	});
+}
+
+function displayM0EvoMLSUserAll(id, markers, envision_cfg_file, all) {
+    var form = document.getElementById('form_mls_selector');
+    for ( var i = 0; i < form.elements.length; i++) {
+    	if (form.elements[i].type =="checkbox")
+    		form.elements[i].checked = all;
+    }
+    displayM0EvoMLSUser(id, markers, envision_cfg_file);
+}
+
+
+function displayM0EvoMLSUser(id, markers, envision_cfg_file) {
+	
+	$("#"+id).empty();
+	
+    var form = document.getElementById('form_mls_selector');
+    var lists = [];
+    for ( var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].checked) lists.push(form.elements[i].value);
+    }
+	
+	for ( var i = 0; i < lists.length; i++) {
+		var l = lists[i];
+		
+		file_messages = "data/json/mls-";
+		file_messages += l;
+		file_messages += "-milestone0.json";
+		displayM0EvoMLSList(id, file_messages, markers,
+				displayMLSListName(l), envision_cfg_file);
+	}
+}
+
+
+function displayMLSSelector(div_id_sel, div_id_mls, lists_file, markers, envision_cfg_file) {
+	$.when($.getJSON(lists_file))
+	.done (function(res1) {				
+		lists = res1.mailing_list;
+
+		var html = "Mailing list selector:";
+		html += "<form id='form_mls_selector'>";
+		
+		if (typeof lists === 'string') {
+			lists = [lists];
+		}
+		for ( var i = 0; i < lists.length; i++) {
+			var l = lists[i];
+			html += displayMLSListName(l);
+			html += '<input type=checkbox name="check_list" value="'+l+'" ';
+			html += 'onClick="displayM0EvoMLSUser(\''+div_id_mls+'\',\'';
+			html += markers+'\',\''+envision_cfg_file+'\')" ';
+			html += 'id="'+l+'_check"><br>';
+		}
+		html += '<input type=button value="All" ';
+		html += 'onClick="displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
+		html += markers+'\',\''+envision_cfg_file+'\','+true+')">';
+		html += '<input type=button value="None" ';
+		html += 'onClick="displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
+		html += markers+'\',\''+envision_cfg_file+'\','+false+')">';
+		html += "</form>";
+		$("#"+div_id_sel).html(html);
 	});
 }
 
