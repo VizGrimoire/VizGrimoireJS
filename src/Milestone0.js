@@ -7,6 +7,8 @@ var M0 = {};
 (function () {
 	
 	// M0 public API
+	M0.data_load = data_load;
+	M0.data_ready = data_ready;
 	M0.displayM0EvoSummary = displayM0EvoSummary;
 	M0.displayM0EvoSCM = displayM0EvoSCM;
 	M0.displayM0EvoITS = displayM0EvoITS;
@@ -23,7 +25,6 @@ var M0 = {};
 	M0.displayM0EvoMLSList = displayM0EvoMLSList;
 	M0.basic_lines = basic_lines;
 	M0.time_to_fix_graph = time_to_fix_graph;
-	M0.setProjectData = setProjectData;
 	M0.displayProjectData = displayProjectData;
 	M0.displayM0BasicVizConfig = displayM0BasicVizConfig;
 	M0.displaySCMData = displaySCMData;
@@ -31,7 +32,23 @@ var M0 = {};
 	M0.displayMLSData = displayMLSData;
 	
 	// Shared config
-	var project_data = {}, markers = {}, config = {};
+	var project_data = {}, markers = {}, config = {}, data_callbacks = [];
+
+	function data_ready(callback) {
+		data_callbacks.push(callback);
+	}
+
+	function data_load(project_file, config_file, markers_file) {
+		$.when($.getJSON(project_file), $.getJSON(config_file), $.getJSON(markers_file))
+		.done (function(res1, res2, res3) {
+			project_data = res1[0];
+			config = res2[0];
+			markers = res3[0];
+			for (var i=0; i<data_callbacks.length; i++) {
+				data_callbacks[i]();
+			}
+		});
+	}
 		
 	function displayM0EvoSummary(id, commits, issues, markers) {
 		var container = document.getElementById(id);
@@ -646,13 +663,7 @@ var M0 = {};
 			});
 		});
 	};
-	
-	function setProjectData(filename) {
-		$.getJSON(filename, function(data) {
-			project_data = data;
-		});		
-	}
-	
+
 	function displayProjectData(filename) {
 		$.getJSON(filename, function(data) {
 			document.title = data.project_name + ' M0 Report by Bitergia';
