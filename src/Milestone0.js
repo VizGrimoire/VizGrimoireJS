@@ -23,12 +23,16 @@ var M0 = {};
 	M0.displayM0EvoMLSList = displayM0EvoMLSList;
 	M0.basic_lines = basic_lines;
 	M0.time_to_fix_graph = time_to_fix_graph;
+	M0.setProjectData = setProjectData;
 	M0.displayProjectData = displayProjectData;
 	M0.displayM0BasicVizConfig = displayM0BasicVizConfig;
 	M0.displaySCMData = displaySCMData;
 	M0.displayITSData = displayITSData;
 	M0.displayMLSData = displayMLSData;
 	
+	// Shared config
+	var project_data = {}, markers = {}, config = {};
+		
 	function displayM0EvoSummary(id, commits, issues, markers) {
 		var container = document.getElementById(id);
 	
@@ -326,10 +330,18 @@ var M0 = {};
 				"senders");
 	}
 	
+	function getReportId() {
+		return project_data.date + "_" + project_data.project_name;
+	}
+	
+	function getMLSId() {
+		return getReportId()+"_mls_lists";
+	}
+		
 	function displayM0EvoMLSCleanPrefs() {
 		if (localStorage) {
-	        if (localStorage.length && localStorage.getItem('mls_lists')) {
-	        	localStorage.removeItem('mls_lists');
+	        if (localStorage.length && localStorage.getItem(getMLSId())) {
+	        	localStorage.removeItem(getMLSId());
 	        }
 		}
 	}
@@ -337,8 +349,8 @@ var M0 = {};
 	function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 		
 		if (localStorage) {
-	        if (localStorage.length && localStorage.getItem('mls_lists')) {
-	        	lists = JSON.parse(localStorage.getItem('mls_lists'));
+	        if (localStorage.length && localStorage.getItem(getMLSId())) {
+	        	lists = JSON.parse(localStorage.getItem(getMLSId()));
 	    		return displayM0EvoMLSLists(id, lists, markers, envision_cfg_file);
 	        } 
 		}
@@ -358,8 +370,8 @@ var M0 = {};
 			}
 			
 			if (localStorage) {
-		        if (!localStorage.getItem('mls_lists')) {
-		    		localStorage.setItem('mls_lists', JSON.stringify(filtered_lists));
+		        if (!localStorage.getItem(getMLSId())) {
+		    		localStorage.setItem(getMLSId(), JSON.stringify(filtered_lists));
 		        } 
 			}		
 			displayM0EvoMLSLists(id, filtered_lists, markers, envision_cfg_file);
@@ -386,7 +398,7 @@ var M0 = {};
 	    }
 	
 		if (localStorage) {
-			localStorage.setItem('mls_lists', JSON.stringify(lists));
+			localStorage.setItem(getMLSId(), JSON.stringify(lists));
 		}
 		
 		displayM0EvoMLSLists(id, lists, markers, envision_cfg_file);    	
@@ -400,8 +412,8 @@ var M0 = {};
 			var user_lists = [];
 					
 			if (localStorage) {
-		        if (localStorage.length && localStorage.getItem('mls_lists')) {
-		        	user_lists = JSON.parse(localStorage.getItem('mls_lists'));
+		        if (localStorage.length && localStorage.getItem(getMLSId())) {
+		        	user_lists = JSON.parse(localStorage.getItem(getMLSId()));
 		        } 
 			}
 	
@@ -634,6 +646,12 @@ var M0 = {};
 			});
 		});
 	};
+	
+	function setProjectData(filename) {
+		$.getJSON(filename, function(data) {
+			project_data = data;
+		});		
+	}
 	
 	function displayProjectData(filename) {
 		$.getJSON(filename, function(data) {
