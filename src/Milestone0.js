@@ -14,9 +14,10 @@ var M0 = {};
 	M0.displayEvoMLS = displayEvoMLS;
 	M0.displayEvoMLSUserAll = displayEvoMLSUserAll;
 	M0.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
+	M0.displayEvoSummary = displayEvoSummary;
 	
 	// M0 old public API
-	M0.displayM0EvoSummary = displayM0EvoSummary;
+	// M0.displayM0EvoSummary = displayM0EvoSummary;
 	M0.displayM0EvoSCM = displayM0EvoSCM;
 	M0.displayM0EvoITS = displayM0EvoITS;
 	M0.displayMLSListName = displayMLSListName;
@@ -27,7 +28,6 @@ var M0 = {};
 	M0.displayM0EvoMLSUserAll = displayM0EvoMLSUserAll;
 	M0.displayM0EvoMLSUser = displayM0EvoMLSUser;
 	M0.displayMLSSelector = displayMLSSelector;
-	M0.filterHistory = filterHistory;
 	M0.displayM0EvoMLSLists = displayM0EvoMLSLists;
 	M0.displayM0EvoMLSList = displayM0EvoMLSList;
 	M0.basic_lines = basic_lines;
@@ -56,107 +56,109 @@ var M0 = {};
 			}
 		});
 	}
-		
-	function displayM0EvoSummary(id, commits, issues, markers) {
+	
+	function envisionEvoSummary (id, history, history1, markers) {
 		var container = document.getElementById(id);
+		
+		var V = envision, firstMonth = history.id[0], options, vis, commits = [
+					history.id,
+					history.commits ], authors = [
+					history.id,
+					history.authors ], dates = history.date;
 	
-		$.getJSON(commits,function(history) {
-			$.getJSON(issues,function(history1) {
-				$.getJSON(markers, function(markers) {
-					var V = envision, firstMonth = history.id[0], options, vis, commits = [
-							history.id,
-							history.commits ], authors = [
-							history.id,
-							history.authors ], dates = history.date;
-	
-					var open_fill = [];
-					var close_fill = [];
-					var closers_fill = [];
-	
-					for ( var i = 0; i < history.id.length; i++) {
-						pos = history1.id
-								.indexOf(history.id[i]);
-						if (pos != -1) {
-							open_fill[i] = history1.open[pos];
-							close_fill[i] = history1.closed[pos];
-							closers_fill[i] = history1.closers[pos];
-						} else {
-							open_fill[i] = null;
-							close_fill[i] = null;
-							closers_fill[i] = null;
-						}
+		var open_fill = [];
+		var close_fill = [];
+		var closers_fill = [];
+
+		for ( var i = 0; i < history.id.length; i++) {
+			pos = history1.id
+					.indexOf(history.id[i]);
+			if (pos != -1) {
+				open_fill[i] = history1.open[pos];
+				close_fill[i] = history1.closed[pos];
+				closers_fill[i] = history1.closers[pos];
+			} else {
+				open_fill[i] = null;
+				close_fill[i] = null;
+				closers_fill[i] = null;
+			}
+		}
+		var open = [
+				history.id,
+				open_fill ], close = [
+				history.id,
+				close_fill ], closers = [
+				history.id,
+				closers_fill ];
+
+		options = {
+			container : container,
+			data : {
+				commits : commits,
+				authors : authors,
+				open : open,
+				close : close,
+				closers : closers,
+				dates : dates,
+				summary : commits,
+				markers : markers
+			},
+			trackFormatter : function(
+					o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+
+				value = dates[index]
+						+ ": ";
+				if (commits[1][index] != null)
+					value += commits[1][index]
+							+ " commits|";
+				if (authors[1][index] != null)
+					value += authors[1][index]
+							+ " authors|";
+				if (open[1][index] != null)
+					value += open[1][index]
+							+ " open|";
+				if (close[1][index] != null)
+					value += close[1][index]
+							+ " closed|";
+				if (closers[1][index] != null)
+					value += closers[1][index]
+							+ " closers";
+				return value;
+			},
+			xTickFormatter : function(index) {
+				var label = dates[index - firstMonth];
+				if (label === "0") label = "";
+				return label;
+			},
+			yTickFormatter : function(n) {
+				return n + '';
+			},
+			// Initial selection
+			selection : {
+				data : {
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
 					}
-					var open = [
-							history.id,
-							open_fill ], close = [
-							history.id,
-							close_fill ], closers = [
-							history.id,
-							closers_fill ];
+				}
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.Summary_Milestone0(options);
+	}
 	
-					options = {
-						container : container,
-						data : {
-							commits : commits,
-							authors : authors,
-							open : open,
-							close : close,
-							closers : closers,
-							dates : dates,
-							summary : commits,
-							markers : markers
-						},
-						trackFormatter : function(
-								o) {
-							var
-							//   index = o.index,
-							data = o.series.data, index = data[o.index][0]
-									- firstMonth, value;
-	
-							value = dates[index]
-									+ ": ";
-							if (commits[1][index] != null)
-								value += commits[1][index]
-										+ " commits|";
-							if (authors[1][index] != null)
-								value += authors[1][index]
-										+ " authors|";
-							if (open[1][index] != null)
-								value += open[1][index]
-										+ " open|";
-							if (close[1][index] != null)
-								value += close[1][index]
-										+ " closed|";
-							if (closers[1][index] != null)
-								value += closers[1][index]
-										+ " closers";
-							return value;
-						},
-						xTickFormatter : function(index) {
-							var label = dates[index - firstMonth];
-							if (label === "0") label = "";
-							return label;
-						},
-						yTickFormatter : function(n) {
-							return n + '';
-						},
-						// Initial selection
-						selection : {
-							data : {
-								x : {
-									min : history.id[0],
-									max : history.id[history.id.length - 1]
-								}
-							}
-						}
-					};
-					// Create the TimeSeries
-					vis = new envision.templates.Summary_Milestone0(options);
-				});
-			});
+	function displayEvoSummary(id, commits, issues) {	
+		$.when($.getJSON(commits), $.getJSON(issues))
+		.done (function(res1, res2) {			
+			var history = res1[0], history1 = res2[0];
+			envisionEvoSummary (id, history, history1, markers);
 		});
 	}
-		
+
 	function envisionEvoSCM(id, history, markers, envision_cfg) {		 
 		var V = envision, firstMonth = history.id[0], 
 		commits = [history.id, history.commits ], 
@@ -759,50 +761,48 @@ var M0 = {};
 		});
 	};
 
-	function displayProjectData(filename) {
-		$.getJSON(filename, function(data) {
-			document.title = data.project_name + ' M0 Report by Bitergia';
-			$(".report_date").text(data.date);
-			$(".project_name").text(data.project_name);
-			$("#project_url").attr("href", data.project_url);
-			$('#scm_type').text('git');
-			$('#scm_url').attr("href", data.scm_url);
-			$('#scm_name').text(data.scm_name);
-			$('#its_type').text(data.its_type);
-			$('#its_url').attr("href", data.its_url);
-			$('#its_name').text(data.its_name);
-			$('#mls_type').text(data.mls_type);
-			$('#mls_url').attr("href", data.mls_url);
-			$('#mls_name').text(data.mls_name);
-			var str = data.scm_url;
-			if (!str || str.length === 0) {
-				$('.source_info').hide();
-			}
-			var str = data.its_url;
-			if (!str || str.length === 0) {
-				$('.tickets_info').hide();
-			}
-			var str = data.mls_url;
-			if (!str || str.length === 0) {
-				$('.mls_info').hide();
-			}
-			var str = data.blog_url;
-			if (str && str.length > 0) {
-				$('#blogEntry').html(
-						"<br><a href='" + str
-								+ "'>Blog post with some more details</a>");
-				$('.blog_url').attr("href", data.blog_url);
-			} else {
-				$('#more_info').hide();
-			}
-			str = data.producer;
-			if (str && str.length > 0) {
-				$('#producer').html(str);
-			} else {
-				$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
-			}
-	
-		});
+	function displayProjectData() {
+		data = project_data;
+		document.title = data.project_name + ' M0 Report by Bitergia';
+		$(".report_date").text(data.date);
+		$(".project_name").text(data.project_name);
+		$("#project_url").attr("href", data.project_url);
+		$('#scm_type').text('git');
+		$('#scm_url').attr("href", data.scm_url);
+		$('#scm_name').text(data.scm_name);
+		$('#its_type').text(data.its_type);
+		$('#its_url').attr("href", data.its_url);
+		$('#its_name').text(data.its_name);
+		$('#mls_type').text(data.mls_type);
+		$('#mls_url').attr("href", data.mls_url);
+		$('#mls_name').text(data.mls_name);
+		var str = data.scm_url;
+		if (!str || str.length === 0) {
+			$('.source_info').hide();
+		}
+		var str = data.its_url;
+		if (!str || str.length === 0) {
+			$('.tickets_info').hide();
+		}
+		var str = data.mls_url;
+		if (!str || str.length === 0) {
+			$('.mls_info').hide();
+		}
+		var str = data.blog_url;
+		if (str && str.length > 0) {
+			$('#blogEntry').html(
+					"<br><a href='" + str
+							+ "'>Blog post with some more details</a>");
+			$('.blog_url').attr("href", data.blog_url);
+		} else {
+			$('#more_info').hide();
+		}
+		str = data.producer;
+		if (str && str.length > 0) {
+			$('#producer').html(str);
+		} else {
+			$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
+		}
 	}
 	
 	function displayM0BasicVizConfig(viz_cfg_file) {
