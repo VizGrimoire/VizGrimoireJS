@@ -6,16 +6,22 @@ var M0 = {};
 
 (function () {
 	
-	// M0 public API
+	// M0 new public API
 	M0.data_load = data_load;
-	M0.data_ready = data_ready;
+	M0.data_ready = data_ready;	
+	M0.displayEvoSCM = displayEvoSCM;
+	M0.displayEvoITS = displayEvoITS;
+	M0.displayEvoMLS = displayEvoMLS;
+	M0.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
+	
+	// M0 old public API
 	M0.displayM0EvoSummary = displayM0EvoSummary;
 	M0.displayM0EvoSCM = displayM0EvoSCM;
 	M0.displayM0EvoITS = displayM0EvoITS;
 	M0.displayMLSListName = displayMLSListName;
 	M0.displayM0BasicMLS = displayM0BasicMLS;
 	M0.displayM0BasicMLSList = displayM0BasicMLSList;
-	M0.displayM0EvoMLSCleanPrefs = displayM0EvoMLSCleanPrefs;
+	M0.displayM0EvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
 	M0.displayM0EvoMLS = displayM0EvoMLS;
 	M0.displayM0EvoMLSUserAll = displayM0EvoMLSUserAll;
 	M0.displayM0EvoMLSUser = displayM0EvoMLSUser;
@@ -149,141 +155,158 @@ var M0 = {};
 			});
 		});
 	}
-	
-	function displayM0EvoSCM(id, commits, markers, envision_cfg_file) {
-	
-		var container = document.getElementById(id);
 		
-		$.when($.getJSON(commits),$.getJSON(markers),$.getJSON(envision_cfg_file))
-		.done (function(res1, res2, res3) {			
-			var history = res1[0], markers = res2[0], envision_cfg = res3[0];
-	
-			var V = envision, firstMonth = history.id[0], 
-			commits = [history.id, history.commits ], 
-			committers = [history.id, history.committers ], 
-			ratio = [history.id, history.ratio ], 
-			files = [history.id, history.files ], 
-			branches = [history.id, history.branches ], 
-			repositories = [history.id, history.repositories ], 
-			dates = history.date, options, vis;
-	
-			options = {
-				container : container,
+	function envisionEvoSCM(id, history, markers, envision_cfg) {		 
+		var V = envision, firstMonth = history.id[0], 
+		commits = [history.id, history.commits ], 
+		committers = [history.id, history.committers ], 
+		ratio = [history.id, history.ratio ], 
+		files = [history.id, history.files ], 
+		branches = [history.id, history.branches ], 
+		repositories = [history.id, history.repositories ], 
+		dates = history.date, 
+		container = document.getElementById(id),
+		options, vis;
+
+		options = {
+			container : container,
+			data : {
+				commits : commits,
+				committers : committers,
+				files : files,
+				branches : branches,
+				repositories : repositories,
+				summary : commits,
+				markers : markers,
+				dates : dates,
+				envision_scm_hide: envision_cfg.scm_hide
+			},
+			trackFormatter : function(o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+
+				value = dates[index] + ": ";
+				value += commits[1][index]
+						+ " commits, ";
+				value += committers[1][index]
+						+ " committers, <br/> ";
+				value += files[1][index]
+						+ " files, ";
+				value += branches[1][index]
+						+ " branches, ";
+				value += repositories[1][index]
+						+ " repos";
+
+				return value;
+			},
+			xTickFormatter : function(index) {
+				var label = dates[index - firstMonth];
+				if (label === "0") label = "";
+				return label;
+			},
+			yTickFormatter : function(n) {
+				return n + '';
+			},
+			// Initial selection
+			selection : {
 				data : {
-					commits : commits,
-					committers : committers,
-					files : files,
-					branches : branches,
-					repositories : repositories,
-					summary : commits,
-					markers : markers,
-					dates : dates,
-					envision_scm_hide: envision_cfg.scm_hide
-				},
-				trackFormatter : function(o) {
-					var
-					//   index = o.index,
-					data = o.series.data, index = data[o.index][0]
-							- firstMonth, value;
-	
-					value = dates[index] + ": ";
-					value += commits[1][index]
-							+ " commits, ";
-					value += committers[1][index]
-							+ " committers, <br/> ";
-					value += files[1][index]
-							+ " files, ";
-					value += branches[1][index]
-							+ " branches, ";
-					value += repositories[1][index]
-							+ " repos";
-	
-					return value;
-				},
-				xTickFormatter : function(index) {
-					var label = dates[index - firstMonth];
-					if (label === "0") label = "";
-					return label;
-				},
-				yTickFormatter : function(n) {
-					return n + '';
-				},
-				// Initial selection
-				selection : {
-					data : {
-						x : {
-							min : history.id[0],
-							max : history.id[history.id.length - 1]
-						}
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
 					}
 				}
-			};
-			// Create the TimeSeries
-			vis = new envision.templates.SCM_Milestone0(options);
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.SCM_Milestone0(options);		
+	}
+
+	function displayEvoSCM(id, scm_file) {
+		$.getJSON(scm_file, function(history) {
+			envisionEvoSCM(id, history, markers, config);
+		});
+	}
+
+	
+	function displayM0EvoSCM(id, commits, markers, envision_cfg_file) {	
+		$.when($.getJSON(commits),$.getJSON(markers),$.getJSON(envision_cfg_file))
+		.done (function(res1, res2, res3) {			
+			var history = res1[0], markers = res2[0], envision_cfg = res3[0];			
+			envisionEvoSCM(id, history, markers, envision_cfg);
+		});
+	}
+
+	function envisionEvoITS(id, history, markers, envision_cfg) {
+		var V = envision, firstMonth = history.id[0], options, vis;
+		var container = document.getElementById(id);
+		
+		options = {
+			container : container,
+			data : {
+				summary : [ history.id, history.open ],
+				open : [ history.id, history.open ],
+				close : [ history.id, history.closed ],
+				change : [ history.id, history.changed ],
+				openers : [ history.id, history.openers ],
+				closers : [ history.id, history.closers ],
+				changers : [ history.id, history.changers ],
+				markers : markers,
+				dates : history.date,
+				envision_its_hide: envision_cfg.its_hide
+			},
+			trackFormatter : function(o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+
+				value = history.date[index] + ": ";
+				value += history.closed[index] + " closed, ";
+				value += history.open[index] + " opened, ";
+				value += history.changed[index] + " changed";
+				value += "<br/>" + history.closers[index]
+						+ " closers, ";
+				value += history.openers[index] + " openers, ";
+				value += history.changers[index] + " changers";
+
+				return value;
+			},
+			xTickFormatter : function(index) {
+				var label = history.date[index - firstMonth];
+				if (label === "0") label = "";
+				return label;
+				// return Math.floor(index/12) + '';
+			},
+			yTickFormatter : function(n) {
+				return n + '';
+			},
+			// Initial selection
+			selection : {
+				data : {
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
+					}
+				}
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.ITS_Milestone0(options);	
+	}
+	
+	function displayEvoITS(id, its_file) {
+		$.getJSON(its_file, function(history) {
+			envisionEvoITS(id, history, markers, config);
 		});
 	}
 	
-	function displayM0EvoITS(id, issues, markers, envision_cfg_file) {
-	
-		var container = document.getElementById(id);
-		
+	function displayM0EvoITS(id, issues, markers, envision_cfg_file) {		
 		$.when($.getJSON(issues),$.getJSON(markers),$.getJSON(envision_cfg_file))
 		.done (function(res1, res2, res3) {			
-			var history = res1[0], markers = res2[0], envision_cfg = res3[0];
-			var V = envision, firstMonth = history.id[0], options, vis;
-	
-			options = {
-				container : container,
-				data : {
-					summary : [ history.id, history.open ],
-					open : [ history.id, history.open ],
-					close : [ history.id, history.closed ],
-					change : [ history.id, history.changed ],
-					openers : [ history.id, history.openers ],
-					closers : [ history.id, history.closers ],
-					changers : [ history.id, history.changers ],
-					markers : markers,
-					dates : history.date,
-					envision_its_hide: envision_cfg.its_hide
-				},
-				trackFormatter : function(o) {
-					var
-					//   index = o.index,
-					data = o.series.data, index = data[o.index][0]
-							- firstMonth, value;
-	
-					value = history.date[index] + ": ";
-					value += history.closed[index] + " closed, ";
-					value += history.open[index] + " opened, ";
-					value += history.changed[index] + " changed";
-					value += "<br/>" + history.closers[index]
-							+ " closers, ";
-					value += history.openers[index] + " openers, ";
-					value += history.changers[index] + " changers";
-	
-					return value;
-				},
-				xTickFormatter : function(index) {
-					var label = history.date[index - firstMonth];
-					if (label === "0") label = "";
-					return label;
-					// return Math.floor(index/12) + '';
-				},
-				yTickFormatter : function(n) {
-					return n + '';
-				},
-				// Initial selection
-				selection : {
-					data : {
-						x : {
-							min : history.id[0],
-							max : history.id[history.id.length - 1]
-						}
-					}
-				}
-			};
-			// Create the TimeSeries
-			vis = new envision.templates.ITS_Milestone0(options);
+			var history = res1[0], markers = res2[0], envision_cfg = res3[0];			
+			envisionEvoITS(id, history, markers, envision_cfg);			
 		});
 	}
 	
@@ -355,7 +378,7 @@ var M0 = {};
 		return getReportId()+"_mls_lists";
 	}
 		
-	function displayM0EvoMLSCleanPrefs() {
+	function displayEvoMLSCleanPrefs() {
 		if (localStorage) {
 	        if (localStorage.length && localStorage.getItem(getMLSId())) {
 	        	localStorage.removeItem(getMLSId());
@@ -363,6 +386,36 @@ var M0 = {};
 		}
 	}
 	
+	function displayEvoMLS(id, lists_file) {		
+		if (localStorage) {
+	        if (localStorage.length && localStorage.getItem(getMLSId())) {
+	        	lists = JSON.parse(localStorage.getItem(getMLSId()));
+	    		return displayEvoMLSLists(id, lists);
+	        } 
+		}
+		
+		$.getJSON(lists_file, function(history) {				
+			lists = history.mailing_list;
+			lists_hide = config.mls_hide_lists;		
+			if (typeof lists === 'string') {
+				lists = [lists];
+			}
+			
+			var filtered_lists = [];
+			for (var i = 0; i < lists.length; i++) {			
+				if ($.inArray(lists[i],lists_hide)==-1) 
+					filtered_lists.push(lists[i]); 
+			}
+			
+			if (localStorage) {
+		        if (!localStorage.getItem(getMLSId())) {
+		    		localStorage.setItem(getMLSId(), JSON.stringify(filtered_lists));
+		        } 
+			}		
+			displayEvoMLSLists(id, filtered_lists);
+		});
+	}
+		
 	function displayM0EvoMLS(id, lists_file, markers, envision_cfg_file) {
 		
 		if (localStorage) {
@@ -402,6 +455,32 @@ var M0 = {};
 	    		form.elements[i].checked = all;
 	    }
 	    displayM0EvoMLSUser(id, markers, envision_cfg_file);
+	}
+	
+	function displayEvoMLSUserAll(id, all) {
+	    var form = document.getElementById('form_mls_selector');
+	    for ( var i = 0; i < form.elements.length; i++) {
+	    	if (form.elements[i].type =="checkbox")
+	    		form.elements[i].checked = all;
+	    }
+	    displayEvoMLSUser(id);
+	}
+	
+	function displayEvoMLSUser(id) {
+		
+		$("#"+id).empty();
+		
+	    var form = document.getElementById('form_mls_selector');
+	    var lists = [];
+	    for ( var i = 0; i < form.elements.length; i++) {
+	        if (form.elements[i].checked) lists.push(form.elements[i].value);
+	    }
+	
+		if (localStorage) {
+			localStorage.setItem(getMLSId(), JSON.stringify(lists));
+		}
+		
+		displayEvoMLSLists(id, lists);    	
 	}
 	
 	function displayM0EvoMLSUser(id, markers, envision_cfg_file) {
@@ -458,7 +537,7 @@ var M0 = {};
 			html += 'onClick="M0.displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
 			html += markers+'\',\''+envision_cfg_file+'\','+false+')">';
 			html += '<input type=button value="Clean prefs" ';
-			html += 'onClick="M0.displayM0EvoMLSCleanPrefs()">';
+			html += 'onClick="M0.displayEvoMLSCleanPrefs()">';
 			html += "</form>";
 			$("#"+div_id_sel).html(html);
 		});
@@ -474,6 +553,17 @@ var M0 = {};
 		}
 		return history;	
 	}
+
+	function displayEvoMLSLists(id, lists) {
+		for ( var i = 0; i < lists.length; i++) {
+			var l = lists[i];
+			
+			file_messages = "data/json/mls-";
+			file_messages += l;
+			file_messages += "-milestone0.json";
+			displayEvoMLSList(displayMLSListName(l), id, file_messages);
+		}
+	}
 	
 	function displayM0EvoMLSLists(id, lists, markers, envision_cfg_file) {
 		for ( var i = 0; i < lists.length; i++) {
@@ -482,63 +572,70 @@ var M0 = {};
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
-			displayM0EvoMLSList(id, file_messages, markers,
-					displayMLSListName(l), envision_cfg_file);
+			displayM0EvoMLSList(displayMLSListName(l), id, file_messages, 
+					markers, envision_cfg_file);
 		}
 	}
-	
-	function displayM0EvoMLSList(id, messages, markers, list_label, envision_cfg_file) {
-	
+
+		
+	function envisionEvoMLS(list_label, id, history, markers, envision_cfg) {
+		var V = envision, firstMonth = history.id[0], options, vis;
 		var container = document.getElementById(id);
 		
-		$.when($.getJSON(messages),$.getJSON(markers),$.getJSON(envision_cfg_file))
-		.done (function(res1, res2, res3) {			
-			var history = filterHistory(res1[0]), 
-				markers = res2[0], envision_cfg = res3[0];
-			
-	
-			var V = envision, firstMonth = history.id[0], options, vis;
-	
-			options = {
-				container : container,
+		options = {
+			container : container,
+			data : {
+				summary : [ history.id, history.sent ],
+				sent : [ history.id, history.sent ],
+				senders : [ history.id, history.senders ],
+				markers : markers,
+				list_label : list_label,
+				dates : history.date,
+				envision_mls_hide: envision_cfg.mls_hide
+			},
+			trackFormatter : function(o) {
+				var
+				//   index = o.index,
+				data = o.series.data, index = data[o.index][0]
+						- firstMonth, value;
+				value = history.date[index] + ":";
+				value += history.sent[index] + " messages sent, ";
+				value += "<br/>"+ history.senders[index]+" senders";
+				return value;
+			},
+			xTickFormatter : function(index) {
+				return history.date[index - firstMonth];
+				// return Math.floor(index/12) + '';
+			},
+			yTickFormatter : function(n) {
+				return parseInt(n) + '';
+			},
+			// Initial selection
+			selection : {
 				data : {
-					summary : [ history.id, history.sent ],
-					sent : [ history.id, history.sent ],
-					senders : [ history.id, history.senders ],
-					markers : markers,
-					list_label : list_label,
-					dates : history.date,
-					envision_mls_hide: envision_cfg.mls_hide
-				},
-				trackFormatter : function(o) {
-					var
-					//   index = o.index,
-					data = o.series.data, index = data[o.index][0]
-							- firstMonth, value;
-					value = history.date[index] + ":";
-					value += history.sent[index] + " messages sent, ";
-					value += "<br/>"+ history.senders[index]+" senders";
-					return value;
-				},
-				xTickFormatter : function(index) {
-					return history.date[index - firstMonth];
-					// return Math.floor(index/12) + '';
-				},
-				yTickFormatter : function(n) {
-					return parseInt(n) + '';
-				},
-				// Initial selection
-				selection : {
-					data : {
-						x : {
-							min : history.id[0],
-							max : history.id[history.id.length - 1]
-						}
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
 					}
 				}
-			};
-			// Create the TimeSeries
-			vis = new envision.templates.MLS_Milestone0(options);
+			}
+		};
+		// Create the TimeSeries
+		vis = new envision.templates.MLS_Milestone0(options);		
+	}
+
+	function displayEvoMLSList(list_label, id, mls_file) {
+		$.getJSON(mls_file, function(history) {
+			envisionEvoMLS(list_label, id, history, markers, config);
+		});
+	}
+	
+	function displayM0EvoMLSList(list_label, id, messages, markers,  envision_cfg_file) {		
+		$.when($.getJSON(messages),$.getJSON(markers),$.getJSON(envision_cfg_file))
+		.done (function(res1, res2, res3) {
+			var history = filterHistory(res1[0]), 
+			markers = res2[0], envision_cfg = res3[0];
+			envisionEvoMLS(list_label, id, history, markers, envision_cfg);
 		});
 	}
 	
