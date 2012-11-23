@@ -12,6 +12,7 @@ var M0 = {};
 	M0.displayEvoSCM = displayEvoSCM;
 	M0.displayEvoITS = displayEvoITS;
 	M0.displayEvoMLS = displayEvoMLS;
+	M0.displayEvoMLSUserAll = displayEvoMLSUserAll;
 	M0.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
 	
 	// M0 old public API
@@ -501,7 +502,7 @@ var M0 = {};
 	}
 	
 	
-	function displayMLSSelector(div_id_sel, div_id_mls, lists_file, markers, envision_cfg_file) {
+	function displayMLSSelector(div_id_sel, div_id_mls, lists_file) {
 		$.when($.getJSON(lists_file))
 		.done (function(res1) {				
 			var lists = res1.mailing_list;
@@ -524,18 +525,15 @@ var M0 = {};
 				var l = lists[i];
 				html += displayMLSListName(l);
 				html += '<input type=checkbox name="check_list" value="'+l+'" ';
-				html += 'onClick="M0.displayM0EvoMLSUser(\''+div_id_mls+'\',\'';
-				html += markers+'\',\''+envision_cfg_file+'\')" ';
+				html += 'onClick="M0.displayEvoMLSUser(\''+div_id_mls+'\')"';
 				html += 'id="'+l+'_check" ';
 				if ($.inArray(l, user_lists)>-1) html += 'checked ';
 				html += '><br>';
 			}
 			html += '<input type=button value="All" ';
-			html += 'onClick="M0.displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
-			html += markers+'\',\''+envision_cfg_file+'\','+true+')">';
+			html += 'onClick="M0.displayEvoMLSUserAll(\''+div_id_mls+'\','+true+')">';
 			html += '<input type=button value="None" ';
-			html += 'onClick="M0.displayM0EvoMLSUserAll(\''+div_id_mls+'\',\'';
-			html += markers+'\',\''+envision_cfg_file+'\','+false+')">';
+			html += 'onClick="M0.displayEvoMLSUserAll(\''+div_id_mls+'\','+false+')">';
 			html += '<input type=button value="Clean prefs" ';
 			html += 'onClick="M0.displayEvoMLSCleanPrefs()">';
 			html += "</form>";
