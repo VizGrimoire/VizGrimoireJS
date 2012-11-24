@@ -4,6 +4,17 @@
 
 var M0 = {};
 
+var SCM = {
+		displayEvo: function displayEvoSCM(id, scm_file) {
+			$.getJSON(scm_file, function(history) {
+				M0.envisionEvoSCM(id, history);
+			});
+		}		
+};
+
+var ITS = {};
+var MLS = {};
+
 (function () {
 	
 	// M0 new public API
@@ -15,7 +26,11 @@ var M0 = {};
 	M0.displayEvoMLSUserAll = displayEvoMLSUserAll;
 	M0.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
 	M0.displayEvoSummary = displayEvoSummary;
+	M0.envisionEvoSCM = envisionEvoSCM; 
 	
+	// First step breaking the API in modules
+	// SCM.displayEvo = displayEvoSCM;
+		
 	// M0 old public API
 	// M0.displayM0EvoSummary = displayM0EvoSummary;
 	M0.displayM0EvoSCM = displayM0EvoSCM;
@@ -159,7 +174,8 @@ var M0 = {};
 		});
 	}
 
-	function envisionEvoSCM(id, history, markers, envision_cfg) {		 
+	// function envisionEvoSCM(id, history, markers, envision_cfg) {
+	function envisionEvoSCM(id, history) {
 		var V = envision, firstMonth = history.id[0], 
 		commits = [history.id, history.commits ], 
 		committers = [history.id, history.committers ], 
@@ -182,7 +198,7 @@ var M0 = {};
 				summary : commits,
 				markers : markers,
 				dates : dates,
-				envision_scm_hide: envision_cfg.scm_hide
+				envision_scm_hide: config.scm_hide
 			},
 			trackFormatter : function(o) {
 				var
@@ -228,7 +244,8 @@ var M0 = {};
 
 	function displayEvoSCM(id, scm_file) {
 		$.getJSON(scm_file, function(history) {
-			envisionEvoSCM(id, history, markers, config);
+			// envisionEvoSCM(id, history, markers, config);
+			envisionEvoSCM(id, history);
 		});
 	}
 
@@ -237,7 +254,8 @@ var M0 = {};
 		$.when($.getJSON(commits),$.getJSON(markers),$.getJSON(envision_cfg_file))
 		.done (function(res1, res2, res3) {			
 			var history = res1[0], markers = res2[0], envision_cfg = res3[0];			
-			envisionEvoSCM(id, history, markers, envision_cfg);
+			// envisionEvoSCM(id, history, markers, envision_cfg);
+			envisionEvoSCM(id, history);
 		});
 	}
 
