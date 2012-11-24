@@ -5,11 +5,11 @@
 var M0 = {};
 
 var SCM = {
-		displayEvo: function displayEvoSCM(id, scm_file) {
-			$.getJSON(scm_file, function(history) {
-				M0.envisionEvoSCM(id, history);
-			});
-		}		
+	displayEvo: function (id, scm_file) {
+		$.getJSON(scm_file, function(history) {
+			M0.envisionEvoSCM(id, history);
+		});
+	}
 };
 
 var ITS = {};
