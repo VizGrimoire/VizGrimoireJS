@@ -130,27 +130,20 @@
 
         <script type="text/javascript">
 			M0.data_ready(function() {
-                SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
-                SCM.displayBasic('mls', 'data/json/scm-milestone0.json', M0.getConfig());
 				SCM.displayData('data/json/scm-info-milestone0.json');
+                SCM.displayBasic('data/json/scm-milestone0.json');
+                SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
+
 				
-				
-                ITS.displayEvo('its-time', 'data/json/its-milestone0.json', M0.getMarkers(), M0.getConfig());
                 ITS.displayData('data/json/its-info-milestone0.json');
-                
-                MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig());
+                ITS.displayBasic('data/json/its-milestone0.json');
+                ITS.displayEvo('its-time', 'data/json/its-milestone0.json', M0.getMarkers(), M0.getConfig());
+
                 MLS.displayData('data/json/mls-info-milestone0.json');
                 MLS.displayBasic('mls', 'data/json/mls-lists-milestone0.json','data/json/viz_cfg.json');
-				
+                MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig());
+                
                 M0.displayProjectData('data/json/project-info-milestone0.json');
-				
-				M0.basic_lines('container_open_bugs', "data/json/its-milestone0.json", "open", 1, "open");
-				M0.basic_lines('container_openers', "data/json/its-milestone0.json", "openers", 1, "openers");
-				M0.basic_lines('container_close_bugs', "data/json/its-milestone0.json", "closed", 1, "closed");
-				M0.basic_lines('container_closers', "data/json/its-milestone0.json", "closers", 1, "closers");
-				M0.basic_lines('container_changes', "data/json/its-milestone0.json", "changed", 1, "changed");
-				M0.basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
-
 	            M0.displayM0BasicVizConfig('data/json/viz_cfg.json');
 			});
 	   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
