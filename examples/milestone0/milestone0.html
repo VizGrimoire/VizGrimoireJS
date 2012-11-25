@@ -74,6 +74,8 @@
         <script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
         <script type="text/javascript">
+
+		M0.data_ready(function() {
 			M0.displayProjectData('data/json/project-info-milestone0.json');
 			M0.displaySCMData('data/json/scm-info-milestone0.json');
 			M0.displayITSData('data/json/its-info-milestone0.json');
@@ -95,6 +97,9 @@
 			M0.basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
 			
             M0.displayM0BasicVizConfig('data/json/viz_cfg.json');
+		});
+            
+   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
 
         </script>
     </body>

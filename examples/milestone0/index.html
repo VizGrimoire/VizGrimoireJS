@@ -126,8 +126,8 @@
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
 
         <script type="text/javascript">
-			(function() {
-                 M0.displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
+			M0.data_ready(function() {
+                M0.displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
                 M0.displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
                 M0.displayM0EvoMLS('mls-time', 'data/json/mls-lists-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
 				M0.displayProjectData('data/json/project-info-milestone0.json');
@@ -151,7 +151,8 @@
 				M0.basic_lines('container_changers', "data/json/its-milestone0.json", "changers", 1, "changers");
 
 	            M0.displayM0BasicVizConfig('data/json/viz_cfg.json');
-			})()
+			});
+	   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
     </body>
 </html>
