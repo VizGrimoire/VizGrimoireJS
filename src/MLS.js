@@ -7,7 +7,7 @@ var MLS = {};
 (function() {
 	
 MLS.displayEvo = displayEvo;
-MLS.displayBasicMLS = displayBasicMLS; 
+MLS.displayBasic = displayBasic; 
 MLS.displayListSelector = displayListSelector;
 MLS.displayEvoMLSUser = displayEvoMLSUser;
 MLS.displayEvoMLSUserAll = displayEvoMLSUserAll;
@@ -29,7 +29,7 @@ function displayMLSListName(listinfo) {
 	return list_name;
 }
 
-function displayBasicMLS(div_id, lists_file, envision_cfg_file) {
+function displayBasic(div_id, lists_file, envision_cfg_file) {
 	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
 	.done (function(res1, res2) {				
 		lists = res1[0].mailing_list;
@@ -45,13 +45,13 @@ function displayBasicMLS(div_id, lists_file, envision_cfg_file) {
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
-			displayBasicMLSList(div_id, l, file_messages);
+			displayBasicList(div_id, l, file_messages);
 		}
 		;
 	});
 }
 
-function displayBasicMLSList(div_id, l, file_messages) {
+function displayBasicList(div_id, l, file_messages) {
 	var container = document.getElementById(div_id);
 
 	// Sent div for mailing list    		    		
@@ -61,7 +61,7 @@ function displayBasicMLSList(div_id, l, file_messages) {
 	new_div += "<p>Evolution in the number of messages</p>";
 	new_div += "</div>";
 	container.innerHTML += new_div;
-	basic_lines('container_messages_' + l, file_messages, "sent", 1, "sent");
+	M0.basic_lines('container_messages_' + l, file_messages, "sent", 1, "sent");
 
 	// Senders div for mailing list    		    		
 	var new_div = "<div class='info-pill m0-box-div flotr2-senders'>";
@@ -70,7 +70,7 @@ function displayBasicMLSList(div_id, l, file_messages) {
 	new_div += "<p>Evolution in the number of senders</p>";
 	new_div += "</div>";
 	container.innerHTML += new_div;
-	basic_lines('container_senders_' + l, file_messages, "senders", 1,
+	M0.basic_lines('container_senders_' + l, file_messages, "senders", 1,
 			"senders");
 }
 
