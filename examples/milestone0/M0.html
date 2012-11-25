@@ -82,6 +82,9 @@
 		<script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/swscopio.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+		<script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+		<script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+		<script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>		
 		<script type="text/javascript" src="VizGrimoireJS/src/CommitsIssues.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/SCM_Milestone0.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/ITS_Milestone0.js"></script>
@@ -90,13 +93,14 @@
 
 		<script type="text/javascript">
 			M0.data_ready(function() {
-				M0.displayM0EvoSCM('scm-time', 'data/json/scm-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
-				M0.displayM0EvoITS('its-time', 'data/json/its-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
-				M0.displayM0EvoMLS('mls-time', 'data/json/mls-lists-milestone0.json', 'data/json/markers.json', 'data/json/viz_cfg.json');
+				SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
+				ITS.displayEvo('its-time', 'data/json/its-milestone0.json', M0.getMarkers(), M0.getConfig());
+				MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig());
+				MLS.displayListSelector('mls-selector', 'mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig());
 				M0.displayProjectData('data/json/project-info-milestone0.json');
-				M0.displaySCMData('data/json/scm-info-milestone0.json');
-				M0.displayITSData('data/json/its-info-milestone0.json');
-				M0.displayMLSData('data/json/mls-info-milestone0.json');
+				SCM.displayData('data/json/scm-info-milestone0.json');
+				ITS.displayData('data/json/its-info-milestone0.json');
+				MLS.displayData('data/json/mls-info-milestone0.json');
 			});
 			M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
 		</script>

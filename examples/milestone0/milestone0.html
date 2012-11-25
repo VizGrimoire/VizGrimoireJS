@@ -73,15 +73,19 @@
 
         <script type="text/javascript" src="VizGrimoireJS/src/flotr2.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
+        
         <script type="text/javascript">
 
 		M0.data_ready(function() {
 			M0.displayProjectData('data/json/project-info-milestone0.json');
-			M0.displaySCMData('data/json/scm-info-milestone0.json');
-			M0.displayITSData('data/json/its-info-milestone0.json');
-			M0.displayMLSData('data/json/mls-info-milestone0.json');
+			SCM.displayData('data/json/scm-info-milestone0.json');
+			ITS.displayData('data/json/its-info-milestone0.json');
+			MLS.displayData('data/json/mls-info-milestone0.json');
 
-			M0.displayM0BasicMLS('info-column4', 'data/json/mls-lists-milestone0.json', 'data/json/viz_cfg.json');
+			MLS.displayBasic('info-column4', 'data/json/mls-lists-milestone0.json','data/json/viz_cfg.json');
 			
 			M0.basic_lines('container_commits', "data/json/scm-milestone0.json", "commits", 1, "commits");
 			M0.basic_lines('container_committers', "data/json/scm-milestone0.json", "committers", 1, "committers");
