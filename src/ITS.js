@@ -5,10 +5,11 @@
 var ITS = {};
 
 (function() {
-	
-ITS.displayEvo = displayEvo;
+
+ITS.displayBasic = displayBasic;
 ITS.displayData = displayData;
-	
+ITS.displayEvo = displayEvo;
+
 function displayEvo (id, its_file, markers, config) {
 	$.getJSON(its_file, function(history) {
 		envisionEvo(id, history, markers, config);
@@ -22,6 +23,21 @@ function displayData(filename) {
 		$("#itsTickets").text(data.tickets);
 		$("#itsOpeners").text(data.openers);
 	});
+}
+
+function displayBasic(its_file) {
+	$.getJSON(its_file, function(history) {
+		basicEvo(history);
+	});
+}
+
+function basicEvo (history) {
+	M0.displayBasicLines('container_open_bugs', history, "open", 1, "open");
+	M0.displayBasicLines('container_openers', history, "openers", 1, "openers");
+	M0.displayBasicLines('container_close_bugs', history, "closed", 1, "closed");
+	M0.displayBasicLines('container_closers', history, "closers", 1, "closers");
+	M0.displayBasicLines('container_changes', history, "changed", 1, "changed");
+	M0.displayBasicLines('container_changers', history, "changers", 1, "changers");
 }
 
 function envisionEvo(id, history, markers, envision_cfg) {

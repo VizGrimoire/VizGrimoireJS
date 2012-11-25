@@ -5,9 +5,10 @@
 var SCM = {};
 
 (function() {
-	
-SCM.displayEvo = displayEvo;
+
+SCM.displayBasic = displayBasic;
 SCM.displayData = displayData;
+SCM.displayEvo = displayEvo;
 
 function displayData(filename) {
 	$.getJSON(filename, function(data) {
@@ -18,6 +19,20 @@ function displayData(filename) {
 		$("#scmAuthors").text(data.authors);
 		$("#scmCommitters").text(data.committers);
 	});
+}
+
+function displayBasic(scm_file) {
+	$.getJSON(scm_file, function(history) {
+		basicEvo(history);
+	});
+}
+
+function basicEvo (history) {
+	M0.displayBasicLines('container_commits', history, "commits", true, "commits");
+	M0.displayBasicLines('container_committers', history, "committers", true, "committers");
+	M0.displayBasicLines('container_files', history, "files", true, "files");
+	M0.displayBasicLines('container_branches', history, "branches", true, "branches");
+	M0.displayBasicLines('container_repositories', history, "repositories", true, "repositories");	
 }
 	
 function displayEvo (id, scm_file, markers, config) {

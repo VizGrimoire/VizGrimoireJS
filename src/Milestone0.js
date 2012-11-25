@@ -16,6 +16,7 @@ var M0 = {};
 		
 	// M0 old public API
 	M0.basic_lines = basic_lines;
+	M0.displayBasicLines = displayBasicLines;
 	M0.time_to_fix_graph = time_to_fix_graph;
 	M0.displayProjectData = displayProjectData;
 	M0.displayM0BasicVizConfig = displayM0BasicVizConfig;
@@ -155,77 +156,60 @@ var M0 = {};
 	
 	function basic_lines(div_id, json_file, column, labels, title) {
 		$.getJSON(json_file, function(history) {
-	
-			var line_data = [];
-			container = document.getElementById(div_id);
-	
-			for ( var i = 0; i < history[column].length; i++) {
-				line_data[i] = [ i, parseInt(history[column][i]) ];
-			}
-	
-			var graph;
-	
-			// Draw Graph
-			if (labels) {
-				graph = Flotr.draw(container, [ line_data ], {
-					title : title,
-					xaxis : {
-						minorTickFreq : 4,
-						tickFormatter : function(x) {
-							if (history.date) {
-								x = history.date[parseInt(x)];
-							}
-							return x;
-						}
-					},
-					yaxis : {
-						minorTickFreq : 1000,
-						tickFormatter : function(y) {
-							return parseInt(y) + "";
-						}
-					},
-	
-					grid : {
-						show : false,
-					// minorVerticalLines: true
-					},
-					mouse : {
-						track : true,
-						trackY : false,
-						trackFormatter : function(o) {
-							return history.date[parseInt(o.x)] + ": "
-									+ parseInt(o.y);
-						}
-					}
-				});
-			} else {
-				graph = Flotr.draw(container, [ line_data ], {
-					xaxis : {
-						//minorTickFreq: 4,
-						showLabels : false,
-					},
-					yaxis : {
-						showLabels : false,
-						tickFormatter : function(y) {
-							return parseInt(y) + "";
-						}
-					},
-					grid : {
-						show : false,
-					// minorVerticalLines: true
-					},
-					mouse : {
-						track : true,
-						trackY : false,
-						trackFormatter : function(o) {
-							return history.date[parseInt(o.x)] + ": "
-									+ parseInt(o.y);
-						}
-					}
-				});
-	
-			}
+			displayBasicLines (div_id, history, column, labels, title);
 		});
+	}
+	
+			
+	function displayBasicLines (div_id, history, column, labels, title) {
+		var line_data = [];
+		container = document.getElementById(div_id);
+		
+		// if ($('#'+div_id).is (':visible')) return;
+
+		for ( var i = 0; i < history[column].length; i++) {
+			line_data[i] = [ i, parseInt(history[column][i]) ];
+		}
+		
+		var config = {
+				title : title,
+				xaxis : {
+					minorTickFreq : 4,
+					tickFormatter : function(x) {
+						if (history.date) {
+							x = history.date[parseInt(x)];
+						}
+						return x;
+					}
+				},
+				yaxis : {
+					minorTickFreq : 1000,
+					tickFormatter : function(y) {
+						return parseInt(y) + "";
+					}
+				},
+
+				grid : {
+					show : false,
+				// minorVerticalLines: true
+				},
+				mouse : {
+					track : true,
+					trackY : false,
+					trackFormatter : function(o) {
+						return history.date[parseInt(o.x)] + ": "
+								+ parseInt(o.y);
+					}
+				}
+		};
+
+		if (labels) {
+			graph = Flotr.draw(container, [ line_data ], config);
+		} else {
+			config.xaxis.showLabels = false;
+			config.yaxis.showLabels = false;
+			graph = Flotr.draw(container, [ line_data ], config);
+		}
 	};
 	
 	function time_to_fix_graph(div_id, json_file, column, labels, title) {
