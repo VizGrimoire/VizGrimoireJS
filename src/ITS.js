@@ -7,8 +7,42 @@ var ITS = {};
 (function() {
 
 ITS.displayBasic = displayBasic;
+ITS.displayBasicHTML = displayBasicHTML;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
+
+basic_metrics = {
+		'open': {
+			'divid':'open_bugs', 
+			'column':"open",
+			'name':"open",
+			'desc':"Evolution of the number of open bugs"},
+		'openers': {
+			'divid':'openers_bugs', 
+			'column':"openers",
+			'name':"openers",
+			'desc':"People opening bug reports"},
+		'closed': {
+			'divid':'closed_bugs', 
+			'column':"closed",
+			'name':"closed",
+			'desc':"Bugs being closed"},
+		'closers': {
+			'divid':'closers_bugs', 
+			'column':"closers",
+			'name':"closers",
+			'desc':"People closing bug reports"},
+		'changed': {
+			'divid':'changed_bugs', 
+			'column':"changed",
+			'name':"changed",
+			'desc':"Bugs being changed (aggregated)"},
+		'changers': {
+			'divid':'changers_bugs', 
+			'column':"changers",
+			'name':"changers",
+			'desc':"People changing bug reports"}		
+};
 
 function displayEvo (id, its_file, markers, config) {
 	$.getJSON(its_file, function(history) {
@@ -25,6 +59,25 @@ function displayData(filename) {
 	});
 }
 
+// Create HTML code to show the metrics
+function displayBasicHTML(its_file, div_target) {
+	$.getJSON(its_file, function(history) {
+		for (var id in basic_metrics) {
+			var metric = basic_metrics[id];
+			var new_div = '<div class="info-pill">';
+			new_div += '<h1>Tickets analysis</h1></div>';
+			new_div += '<div id="flotr2_open" class="info-pill m0-box-div">';
+			new_div += '<h1>'+metric.name+'</h1>';
+			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
+			new_div += '<p>'+metric.desc+'</p>';
+			new_div += '</div>' ;
+			$("#"+div_target).append(new_div);
+			M0.displayBasicLines(metric.divid, history, 
+					metric.column, 1, metric.name);
+		}
+	});
+}
+
 function displayBasic(its_file) {
 	$.getJSON(its_file, function(history) {
 		basicEvo(history);
@@ -32,12 +85,12 @@ function displayBasic(its_file) {
 }
 
 function basicEvo (history) {
-	M0.displayBasicLines('container_open_bugs', history, "open", 1, "open");
-	M0.displayBasicLines('container_openers', history, "openers", 1, "openers");
-	M0.displayBasicLines('container_close_bugs', history, "closed", 1, "closed");
-	M0.displayBasicLines('container_closers', history, "closers", 1, "closers");
-	M0.displayBasicLines('container_changes', history, "changed", 1, "changed");
-	M0.displayBasicLines('container_changers', history, "changers", 1, "changers");
+	for (var id in basic_metrics) {
+		var metric = basic_metrics[id];
+		if ($('#'+metric.divid).length)
+			M0.displayBasicLines(metric.divid, history, 
+					metric.column, 1, metric.name);
+	}
 }
 
 function envisionEvo(id, history, markers, envision_cfg) {
