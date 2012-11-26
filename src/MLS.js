@@ -14,6 +14,19 @@ MLS.displayEvoMLSUserAll = displayEvoMLSUserAll;
 MLS.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
 MLS.displayData = displayData;
 
+var basic_metrics = {
+		'sent': {
+			'divid':"sent_mls", 
+			'column':"sent",
+			'name':"Sent",
+			'desc':"Evolution in the number of messages"},
+		'senders': {
+			'divid':"senders_mls", 
+			'column':"senders",
+			'name':"Senders",
+			'desc':"Evolution in the number of senders"},
+};
+
 // http:__lists.webkit.org_pipermail_squirrelfish-dev_
 // <allura-dev.incubator.apache.org>
 function displayMLSListName(listinfo) {
@@ -29,15 +42,12 @@ function displayMLSListName(listinfo) {
 	return list_name;
 }
 
-function displayBasic(div_id, lists_file, envision_cfg_file) {
-	$.when($.getJSON(lists_file), $.getJSON(envision_cfg_file))
-	.done (function(res1, res2) {				
-		lists = res1[0].mailing_list;
-		lists_hide = res2[0].mls_hide_lists;
+function displayBasic(div_id, lists_file) {
+	$.getJSON(lists_file, function(lists) {				
+		lists_hide = M0.getConfig().mls_hide_lists;
+		lists = lists.mailing_list;
 
-		if (typeof lists === 'string') {
-			lists = [lists];
-		}
+		if (typeof lists === 'string') lists = [lists];
 
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
@@ -47,31 +57,23 @@ function displayBasic(div_id, lists_file, envision_cfg_file) {
 			file_messages += "-milestone0.json";
 			displayBasicList(div_id, l, file_messages);
 		}
-		;
 	});
 }
 
-function displayBasicList(div_id, l, file_messages) {
-	var container = document.getElementById(div_id);
+//TODO: similar to displayBasicHTML in ITS and SCM. Join.
+function displayBasicList(div_id, l, mls_file) { 
+	for (var id in basic_metrics) {
+		var metric = basic_metrics[id];
+		if ($.inArray(metric.column,M0.getConfig().mls_hide)>-1) continue;
+		var new_div = "<div class='info-pill m0-box-div flotr2-"+metric.column+"'>";
+		new_div += "<h1>" + metric.name + " " + displayMLSListName(l) + "</h1>";
+		new_div += "<div id='"+metric.divid+"_" + l + "' class='m0-box flotr2-"+metric.column+"'></div>";
+		new_div += "<p>"+metric.desc+"</p>";
+		new_div += "</div>";
+		$("#"+div_id).append(new_div);
+		M0.basic_lines(metric.divid+'_' + l, mls_file, metric.column , true, metric.name);	
+	}
 
-	// Sent div for mailing list    		    		
-	var new_div = "<div class='info-pill m0-box-div flotr2-sent'>";
-	new_div += "<h1>Messages sent " + displayMLSListName(l) + "</h1>";
-	new_div += "<div id='container_messages_" + l + "' class='m0-box'></div>";
-	new_div += "<p>Evolution in the number of messages</p>";
-	new_div += "</div>";
-	container.innerHTML += new_div;
-	M0.basic_lines('container_messages_' + l, file_messages, "sent", 1, "sent");
-
-	// Senders div for mailing list    		    		
-	var new_div = "<div class='info-pill m0-box-div flotr2-senders'>";
-	new_div += "<h1>Senders " + displayMLSListName(l) + "</h1>";
-	new_div += "<div id='container_senders_" + l + "' class='m0-box flotr2-senders'></div>";
-	new_div += "<p>Evolution in the number of senders</p>";
-	new_div += "</div>";
-	container.innerHTML += new_div;
-	M0.basic_lines('container_senders_' + l, file_messages, "senders", 1,
-			"senders");
 }
 
 function getReportId() {

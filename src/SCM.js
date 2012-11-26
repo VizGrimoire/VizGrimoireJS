@@ -59,6 +59,7 @@ function displayBasicHTML(its_file, div_target) {
 		$("#"+div_target).append(new_div);
 		for (var id in basic_metrics) {
 			var metric = basic_metrics[id];
+			if ($.inArray(metric.column,M0.getConfig().scm_hide)>-1) continue;
 			new_div = '<div id="flotr2_open" class="info-pill m0-box-div">';
 			new_div += '<h1>'+metric.name+'</h1>';
 			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
@@ -80,6 +81,7 @@ function displayBasic(scm_file) {
 function basicEvo (history) {
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
+		if ($.inArray(metric.column,M0.getConfig().scm_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
 			M0.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);

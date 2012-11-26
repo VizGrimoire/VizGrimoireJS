@@ -19,7 +19,6 @@ var M0 = {};
 	M0.displayBasicLines = displayBasicLines;
 	M0.time_to_fix_graph = time_to_fix_graph;
 	M0.displayProjectData = displayProjectData;
-	M0.displayM0BasicVizConfig = displayM0BasicVizConfig;
 	
 	// Shared config
 	var project_data = {}, markers = {}, config = {}, data_callbacks = [];
@@ -301,19 +300,5 @@ var M0 = {};
 		} else {
 			$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
 		}
-	}
-	
-	function displayM0BasicVizConfig(viz_cfg_file) {
-		$.getJSON(viz_cfg_file, function(data) {
-			for ( var i = 0; i < data.scm_hide.length; i++) {
-				$("#flotr2_"+ data.scm_hide[i]).hide();
-			}
-			for ( var i = 0; i < data.its_hide.length; i++) {
-				$("#flotr2_"+ data.its_hide[i]).hide(); 
-			}
-			for ( var i = 0; i < data.scm_hide.length; i++) {
-				$(".info-pill.m0-box-div.flotr2-"+ data.mls_hide[i]).hide();
-			}
-		});
-	}
+	} 
 })();
