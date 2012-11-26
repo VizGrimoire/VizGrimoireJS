@@ -16,32 +16,32 @@ basic_metrics = {
 			'divid':'open_bugs', 
 			'column':"open",
 			'name':"open",
-			'desc':"Evolution of the number of open bugs"},
+			'desc':"Evolution of the number of open tickets"},
 		'openers': {
 			'divid':'openers_bugs', 
 			'column':"openers",
 			'name':"openers",
-			'desc':"People opening bug reports"},
+			'desc':"People opening ticket reports"},
 		'closed': {
 			'divid':'closed_bugs', 
 			'column':"closed",
 			'name':"closed",
-			'desc':"Bugs being closed"},
+			'desc':"Tickets being closed"},
 		'closers': {
 			'divid':'closers_bugs', 
 			'column':"closers",
 			'name':"closers",
-			'desc':"People closing bug reports"},
+			'desc':"People closing ticket reports"},
 		'changed': {
 			'divid':'changed_bugs', 
 			'column':"changed",
 			'name':"changed",
-			'desc':"Bugs being changed (aggregated)"},
+			'desc':"Tickets being changed (aggregated)"},
 		'changers': {
 			'divid':'changers_bugs', 
 			'column':"changers",
 			'name':"changers",
-			'desc':"People changing bug reports"}		
+			'desc':"People changing ticket reports"}		
 };
 
 function displayEvo (id, its_file, markers, config) {
@@ -62,11 +62,12 @@ function displayData(filename) {
 // Create HTML code to show the metrics
 function displayBasicHTML(its_file, div_target) {
 	$.getJSON(its_file, function(history) {
+		var new_div = '<div class="info-pill">';
+		new_div += '<h1>Tickets analysis</h1></div>';
+		$("#"+div_target).append(new_div);
 		for (var id in basic_metrics) {
 			var metric = basic_metrics[id];
-			var new_div = '<div class="info-pill">';
-			new_div += '<h1>Tickets analysis</h1></div>';
-			new_div += '<div id="flotr2_open" class="info-pill m0-box-div">';
+			new_div = '<div id="flotr2_open" class="info-pill m0-box-div">';
 			new_div += '<h1>'+metric.name+'</h1>';
 			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
 			new_div += '<p>'+metric.desc+'</p>';
