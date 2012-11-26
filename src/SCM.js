@@ -7,8 +7,37 @@ var SCM = {};
 (function() {
 
 SCM.displayBasic = displayBasic;
+SCM.displayBasicHTML = displayBasicHTML;
 SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
+
+var basic_metrics = {
+	'commits': {
+		'divid':"commits_scm", 
+		'column':"commits",
+		'name':"Commits",
+		'desc':"Evolution of the number of commits (aggregating branches)"},
+	'committers': {
+		'divid':"committers_scm", 
+		'column':"committers",
+		'name':"Committers",
+		'desc':"Unique committers making changes to the source code"},			
+	'branches': {
+		'divid':"branches_scm", 
+		'column':"branches",
+		'name':"Branches",
+		'desc':"Evolution of the number of branches"},			
+	'files': {
+		'divid':"files_scm", 
+		'column':"files",
+		'name':"Files",
+		'desc':"Evolution of the number of unique files handled by the community"},
+	'repositories': {
+		'divid':"repositories_scm", 
+		'column':"repositories",
+		'name':"Repositories",
+		'desc':"Evolution of the number of repositories"}			
+};
 
 function displayData(filename) {
 	$.getJSON(filename, function(data) {
@@ -21,6 +50,27 @@ function displayData(filename) {
 	});
 }
 
+//Create HTML code to show the metrics
+// TODO: Identical to ITS. Share!
+function displayBasicHTML(its_file, div_target) {
+	$.getJSON(its_file, function(history) {
+		var new_div = '<div class="info-pill">';
+		new_div += '<h1>Change sets (commits to source code)</h1></div>';
+		$("#"+div_target).append(new_div);
+		for (var id in basic_metrics) {
+			var metric = basic_metrics[id];
+			new_div = '<div id="flotr2_open" class="info-pill m0-box-div">';
+			new_div += '<h1>'+metric.name+'</h1>';
+			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
+			new_div += '<p>'+metric.desc+'</p>';
+			new_div += '</div>' ;
+			$("#"+div_target).append(new_div);
+			M0.displayBasicLines(metric.divid, history, 
+					metric.column, true, metric.name);
+		}
+	});
+}
+
 function displayBasic(scm_file) {
 	$.getJSON(scm_file, function(history) {
 		basicEvo(history);
@@ -28,11 +78,12 @@ function displayBasic(scm_file) {
 }
 
 function basicEvo (history) {
-	M0.displayBasicLines('container_commits', history, "commits", true, "commits");
-	M0.displayBasicLines('container_committers', history, "committers", true, "committers");
-	M0.displayBasicLines('container_files', history, "files", true, "files");
-	M0.displayBasicLines('container_branches', history, "branches", true, "branches");
-	M0.displayBasicLines('container_repositories', history, "repositories", true, "repositories");	
+	for (var id in basic_metrics) {
+		var metric = basic_metrics[id];
+		if ($('#'+metric.divid).length)
+			M0.displayBasicLines(metric.divid, history, 
+					metric.column, true, metric.name);
+	}
 }
 	
 function displayEvo (id, scm_file, markers, config) {

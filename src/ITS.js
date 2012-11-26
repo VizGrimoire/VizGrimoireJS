@@ -11,34 +11,34 @@ ITS.displayBasicHTML = displayBasicHTML;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 
-basic_metrics = {
+var basic_metrics = {
 		'open': {
-			'divid':'open_bugs', 
+			'divid':'open_its', 
 			'column':"open",
 			'name':"open",
 			'desc':"Evolution of the number of open tickets"},
 		'openers': {
-			'divid':'openers_bugs', 
+			'divid':'openers_its', 
 			'column':"openers",
 			'name':"openers",
 			'desc':"People opening ticket reports"},
 		'closed': {
-			'divid':'closed_bugs', 
+			'divid':'closed_its', 
 			'column':"closed",
 			'name':"closed",
 			'desc':"Tickets being closed"},
 		'closers': {
-			'divid':'closers_bugs', 
+			'divid':'closers_its', 
 			'column':"closers",
 			'name':"closers",
 			'desc':"People closing ticket reports"},
 		'changed': {
-			'divid':'changed_bugs', 
+			'divid':'changed_its', 
 			'column':"changed",
 			'name':"changed",
 			'desc':"Tickets being changed (aggregated)"},
 		'changers': {
-			'divid':'changers_bugs', 
+			'divid':'changers_its', 
 			'column':"changers",
 			'name':"changers",
 			'desc':"People changing ticket reports"}		
@@ -90,7 +90,7 @@ function basicEvo (history) {
 		var metric = basic_metrics[id];
 		if ($('#'+metric.divid).length)
 			M0.displayBasicLines(metric.divid, history, 
-					metric.column, 1, metric.name);
+					metric.column, true, metric.name);
 	}
 }
 

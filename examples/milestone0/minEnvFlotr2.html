@@ -13,7 +13,7 @@
 		<link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
 		<link rel="stylesheet" type="text/css" href="custom.css" />
 		<script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
-		<title>Bitergia M0 Report: Min sample with Envision and Flotr2 Graphs</title>
+		<title>Bitergia M0 Report</title>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -28,6 +28,10 @@
             <div class="tickets_info" id="info-column3">
                 <div id="its_flotr2" ></div>
             </div>
+            <div class="scm_info" id="info-column4">
+                <div id="scm_flotr2" ></div>
+            </div>
+            
 		</div>
 		<!-- wrapper -->
 
@@ -48,7 +52,8 @@
 
 		<script type="text/javascript">
 			M0.data_ready(function() {
-				SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());				
+				SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
+				SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2');
 				ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2');
 			});
 			M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
