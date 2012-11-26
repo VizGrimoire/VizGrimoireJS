@@ -40,20 +40,10 @@
 
             <div class="source_info" id="info-column2">
                 <div id="scm_flotr2" ></div>
-                <script type="text/javascript">
-					$.get("scm_flotr2.html", function(scm) {
-						$("#scm_flotr2").html(scm);
-					});
-                </script>
             </div>
 
             <div class="tickets_info" id="info-column3">
                 <div id="its_flotr2" ></div>
-                <script type="text/javascript">
-					$.get("its_flotr2.html", function(its) {
-						$("#its_flotr2").html(its);
-					});
-                </script>
             </div>
 
             <div class="mls_info" id="info-column4">
@@ -82,16 +72,15 @@
 		M0.data_ready(function() {
 
 			SCM.displayData('data/json/scm-info-milestone0.json');			
-			SCM.displayBasic('data/json/scm-milestone0.json');
+			SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2');
 
 			ITS.displayData('data/json/its-info-milestone0.json');
-			ITS.displayBasic('data/json/its-milestone0.json');
+			ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2');
 
 			MLS.displayData('data/json/mls-info-milestone0.json');
 			MLS.displayBasic('info-column4', 'data/json/mls-lists-milestone0.json','data/json/viz_cfg.json');
 
 			M0.displayProjectData('data/json/project-info-milestone0.json');			
-            M0.displayM0BasicVizConfig('data/json/viz_cfg.json');
 		});
             
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');

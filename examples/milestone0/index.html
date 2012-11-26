@@ -49,11 +49,6 @@
                     </div>
                     <div class="left column">
                         <div id="scm_flotr2" ></div>
-                        <script type="text/javascript">
-							$.get("scm_flotr2.html", function(scm) {
-								$("#scm_flotr2").html(scm);
-							});
-                        </script>
                     </div>
                 </div>
 
@@ -73,11 +68,6 @@
 
                     <div class="left column">
                         <div id="its_flotr2" ></div>
-                        <script type="text/javascript">
-							$.get("its_flotr2.html", function(its) {
-								$("#its_flotr2").html(its);
-							});
-                        </script>
                     </div>
                 </div>
 
@@ -131,11 +121,11 @@
         <script type="text/javascript">
 			M0.data_ready(function() {
 				SCM.displayData('data/json/scm-info-milestone0.json');
-                SCM.displayBasic('data/json/scm-milestone0.json');
+                SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2');
                 SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
 				
                 ITS.displayData('data/json/its-info-milestone0.json');
-                ITS.displayBasic('data/json/its-milestone0.json');
+                ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2');
                 ITS.displayEvo('its-time', 'data/json/its-milestone0.json', M0.getMarkers(), M0.getConfig());
 
                 MLS.displayData('data/json/mls-info-milestone0.json');
@@ -143,7 +133,6 @@
                 MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig());
                 
                 M0.displayProjectData('data/json/project-info-milestone0.json');
-	            M0.displayM0BasicVizConfig('data/json/viz_cfg.json');
 			});
 	   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
