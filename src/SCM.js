@@ -10,6 +10,8 @@ SCM.displayBasic = displayBasic;
 SCM.displayBasicHTML = displayBasicHTML;
 SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
+SCM.displayTop = displayTop;
+
 
 var basic_metrics = {
 	'commits': {
@@ -68,6 +70,30 @@ function displayBasicHTML(its_file, div_target) {
 			$("#"+div_target).append(new_div);
 			M0.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
+		}
+	});
+}
+
+function displayTopMetric(div_id, metric_id, history) {	
+	new_div = "<table>";
+	new_div += "<tr><th>Developer</th><th>"+metric_id+"</th></tr>";
+	for (var i=0; i<history[metric_id].length; i++) {
+		var metric_value = history[metric_id][i];
+		var developer = "";
+		new_div += "<tr><td>"+developer+"</td><td>"+metric_value+"</td></tr>";
+	}
+	new_div += "</table>";
+	$("#"+div_id).append(new_div);
+}
+
+function displayTop(div, top_file) {
+	$.getJSON(top_file, function(history) {
+		for (var id in basic_metrics) {
+			var metric = basic_metrics[id];
+			if (history[metric.column]) {
+				displayTopMetric(div, metric.column, history);
+				break;
+			} 
 		}
 	});
 }
