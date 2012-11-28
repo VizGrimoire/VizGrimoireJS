@@ -52,67 +52,13 @@ function displayData(filename) {
 	});
 }
 
-//Create HTML code to show the metrics
-// TODO: Identical to ITS. Share!
-function displayBasicHTML(its_file, div_target) {
-	$.getJSON(its_file, function(history) {
-		var new_div = '<div class="info-pill">';
-		new_div += '<h1>Change sets (commits to source code)</h1></div>';
-		$("#"+div_target).append(new_div);
-		for (var id in basic_metrics) {
-			var metric = basic_metrics[id];
-			if ($.inArray(metric.column,M0.getConfig().scm_hide)>-1) continue;
-			new_div = '<div id="flotr2_open" class="info-pill m0-box-div">';
-			new_div += '<h1>'+metric.name+'</h1>';
-			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
-			new_div += '<p>'+metric.desc+'</p>';
-			new_div += '</div>' ;
-			$("#"+div_target).append(new_div);
-			M0.displayBasicLines(metric.divid, history, 
-					metric.column, true, metric.name);
-		}
-	});
+// Create HTML code to show the metrics
+function displayBasicHTML(scm_file, div_target) {
+	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', basic_metrics, 'scm_hide');
 }
 
-function findMetricDoer(history, metric) {
-	for (var field in history) {
-		if (field != metric) return field;
-	}
-}
-
-function displayTopMetric(div_id, metric_id, metric_period, history) {
-	var doer = findMetricDoer(history, metric_id);
-	new_div = "<div class='info-pill'><h1>Top " + metric_id + " " + metric_period + " </h1>";
-	new_div += "<table><tbody>";
-	new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
-	for (var i=0; i<history[metric_id].length; i++) {
-		var metric_value = history[metric_id][i];
-		var doer_value = history[doer][i];
-		new_div += "<tr><td>"+doer_value+"</td><td>"+metric_value+"</td></tr>";
-	}
-	new_div += "</tbody></table></div>";
-	var div = $("#"+div_id);
-	div.append(new_div);
-}
-
-// Each metric can have several top: metric.period
-// For example: "commits.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
 function displayTop(div, top_file) {
-	$.getJSON(top_file, function(history) {
-		for (key in history) {
-			// ex: commits.all
-			var data = key.split(".");
-			var top_metric = data[0];
-			var top_period = data[1]; 
-			for (var id in basic_metrics) {
-				var metric = basic_metrics[id];
-					if (metric.column == top_metric) {
-						displayTopMetric(div, top_metric, top_period, history[key]);
-					break;
-				} 
-			}
-		}
-	});
+	Metric.displayTop(div, top_file, basic_metrics);
 }
 
 function displayBasic(scm_file) {

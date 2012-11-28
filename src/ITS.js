@@ -61,23 +61,11 @@ function displayData(filename) {
 
 // Create HTML code to show the metrics
 function displayBasicHTML(its_file, div_target) {
-	$.getJSON(its_file, function(history) {
-		var new_div = '<div class="info-pill">';
-		new_div += '<h1>Tickets</h1></div>';
-		$("#"+div_target).append(new_div);
-		for (var id in basic_metrics) {
-			var metric = basic_metrics[id];
-			if ($.inArray(metric.column,M0.getConfig().its_hide)>-1) continue;
-			new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
-			new_div += '<h1>'+metric.name+'</h1>';
-			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
-			new_div += '<p>'+metric.desc+'</p>';
-			new_div += '</div>' ;
-			$("#"+div_target).append(new_div);
-			M0.displayBasicLines(metric.divid, history, 
-					metric.column, 1, metric.name);
-		}
-	});
+	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide');
+}
+
+function displayTop(div, top_file) {
+	Metric.displayTop(div, top_file, basic_metrics);
 }
 
 function displayBasic(its_file) {
