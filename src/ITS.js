@@ -12,16 +12,16 @@ ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 
 var basic_metrics = {
-		'open': {
+		'opened': {
 			'divid':'open_its', 
-			'column':"open",
-			'name':"open",
-			'desc':"Evolution of the number of open tickets"},
+			'column':"opened",
+			'name':"opened",
+			'desc':"Number of opened tickets"},
 		'openers': {
 			'divid':'openers_its', 
 			'column':"openers",
 			'name':"openers",
-			'desc':"People opening ticket reports"},
+			'desc':"Unique people opening tickets"},
 		'closed': {
 			'divid':'closed_its', 
 			'column':"closed",
@@ -31,17 +31,17 @@ var basic_metrics = {
 			'divid':'closers_its', 
 			'column':"closers",
 			'name':"closers",
-			'desc':"People closing ticket reports"},
+			'desc':"People closing tickets"},
 		'changed': {
 			'divid':'changed_its', 
 			'column':"changed",
 			'name':"changed",
-			'desc':"Tickets being changed (aggregated)"},
+			'desc':"Number of changes to tickets (aggregated)"},
 		'changers': {
 			'divid':'changers_its', 
 			'column':"changers",
 			'name':"changers",
-			'desc':"People changing ticket reports"}		
+			'desc':"Unique people changing the state of tickets"}		
 };
 
 function displayEvo (id, its_file, markers, config) {
@@ -63,12 +63,12 @@ function displayData(filename) {
 function displayBasicHTML(its_file, div_target) {
 	$.getJSON(its_file, function(history) {
 		var new_div = '<div class="info-pill">';
-		new_div += '<h1>Tickets analysis</h1></div>';
+		new_div += '<h1>Tickets</h1></div>';
 		$("#"+div_target).append(new_div);
 		for (var id in basic_metrics) {
 			var metric = basic_metrics[id];
 			if ($.inArray(metric.column,M0.getConfig().its_hide)>-1) continue;
-			new_div = '<div id="flotr2_open" class="info-pill m0-box-div">';
+			new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
 			new_div += '<h1>'+metric.name+'</h1>';
 			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
 			new_div += '<p>'+metric.desc+'</p>';
@@ -103,10 +103,10 @@ function envisionEvo(id, history, markers, envision_cfg) {
 	options = {
 		container : container,
 		data : {
-			summary : [ history.id, history.open ],
-			open : [ history.id, history.open ],
-			close : [ history.id, history.closed ],
-			change : [ history.id, history.changed ],
+			summary : [ history.id, history.opened ],
+			opened : [ history.id, history.opened ],
+			closed : [ history.id, history.closed ],
+			changed : [ history.id, history.changed ],
 			openers : [ history.id, history.openers ],
 			closers : [ history.id, history.closers ],
 			changers : [ history.id, history.changers ],
@@ -122,7 +122,7 @@ function envisionEvo(id, history, markers, envision_cfg) {
 
 			value = history.date[index] + ": ";
 			value += history.closed[index] + " closed, ";
-			value += history.open[index] + " opened, ";
+			value += history.opened[index] + " opened, ";
 			value += history.changed[index] + " changed";
 			value += "<br/>" + history.closers[index]
 					+ " closers, ";

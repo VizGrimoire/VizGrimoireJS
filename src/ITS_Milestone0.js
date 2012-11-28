@@ -53,9 +53,8 @@ function getDefaultsMarkers (option, markers, dates) {
 
 function getDefaults (markers, dates) {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
-  return {
-      
-    open : {
+  return {      
+    opened : {
       name : 'milestone0-its-open',
       config : {
         //colors: ['#00A8F0', '#C0D800', '#CB4B4B', '#4DA74D', '#9440ED'],
@@ -97,7 +96,7 @@ function getDefaults (markers, dates) {
       },
       processData : processData
     },
-    close : {
+    closed : {
         name : 'milestone0-its-close',
         config : {
             colors: defaults_colors,
@@ -128,7 +127,7 @@ function getDefaults (markers, dates) {
         },
         processData : processData
       },
-      change : {
+      changed : {
           name : 'milestone0-its-change',
           config : {
             colors: defaults_colors,
@@ -289,7 +288,7 @@ function ITS_Milestone0 (options) {
         }),
     selection = new V.Interaction(),
     hit = new V.Interaction(), connection,
-    open, close, change, openers, closers, changers, markers;
+    opened, closed, changed, openers, closers, changers, markers;
 
   if (options.defaults) {
     defaults = Flotr.merge(options.defaults, defaults);
@@ -297,34 +296,34 @@ function ITS_Milestone0 (options) {
 
   // Data for plotting the graphs
   // defaults.commits.config.data = [
-  defaults.open.data = [
-      {label:"opened", data: data.open}, 
+  defaults.opened.data = [
+      {label:"opened", data: data.opened}, 
 //      {label:"issues opened", data: data.issues_opened},
 //      {label:"issues closed", data: data.issues_closed} 
   ];
-  series_number = defaults.open.data.length;
+  series_number = defaults.opened.data.length;
   series_drawn = 0;
 
-  defaults.change.data = [{label:"changed", data:data.change}];
-  defaults.close.data = [{label:"closed", data:data.close}];
+  defaults.changed.data = [{label:"changed", data:data.changed}];
+  defaults.closed.data = [{label:"closed", data:data.closed}];
 
   defaults.openers.data = [{label:"openers", data:data.openers}];
   defaults.closers.data = [{label:"closers", data:data.closers}];
   defaults.changers.data = [{label:"changers", data:data.changers}];
-  defaults.summary.data = [{label:"open", data:data.summary}];
+  defaults.summary.data = [{label:"opened", data:data.summary}];
   
-  defaults.open.config.mouse.trackFormatter = options.trackFormatter;
+  defaults.opened.config.mouse.trackFormatter = options.trackFormatter;
   
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
-  defaults.open.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
+  defaults.opened.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
     return '$' + n;
   };
 
-  open = new V.Component(defaults.open);
-  close = new V.Component(defaults.close);
-  change = new V.Component(defaults.change);
+  opened = new V.Component(defaults.opened);
+  closed = new V.Component(defaults.closed);
+  changed = new V.Component(defaults.changed);
   openers = new V.Component(defaults.openers);
   closers = new V.Component(defaults.closers);
   changers = new V.Component(defaults.changers);
@@ -334,7 +333,7 @@ function ITS_Milestone0 (options) {
   summary = new V.Component(defaults.summary);  
 
   // Render visualization
-  var viz_m0_names = ["open", "close", "change", "openers", "closers", "changers"];
+  var viz_m0_names = ["opened", "openers", "closed", "closers", "changed", "changers"];
   var viz_m0_values = [];
   
   for (var i = 0; i< viz_m0_names.length; i++) {
@@ -379,9 +378,9 @@ function ITS_Milestone0 (options) {
   this.vis = vis;
   this.selection = selection;
   this.hit = hit;
-  this.open = open;
-  this.close = close;
-  this.change = change; 
+  this.opened = opened;
+  this.closed = closed;
+  this.changed = changed; 
   this.openers = openers;
   this.closers = closers;
   this.changers = changers;
