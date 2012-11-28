@@ -83,16 +83,27 @@ function displayBasicUser(div_id) {
 	}
 }
 
+// TODO: use cache data to avoid always reading lists info
 function displayBasic(div_id, lists_file) {
 	$.getJSON(lists_file, function(lists) {				
 		lists_hide = M0.getConfig().mls_hide_lists;
 		lists = lists.mailing_list;
+		var user_pref = false;
 
 		if (typeof lists === 'string') lists = [lists];
+		
+		if (localStorage) {
+	        if (localStorage.length && localStorage.getItem(getMLSId())) {
+	        	lists = JSON.parse(localStorage.getItem(getMLSId()));
+	        	user_pref = true;
+	        } 
+		}
+
 
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
-			if ($.inArray(l,lists_hide)>-1) continue;
+			if (!user_pref)
+				if ($.inArray(l,lists_hide)>-1) continue;
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
