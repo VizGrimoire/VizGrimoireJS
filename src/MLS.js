@@ -220,7 +220,6 @@ function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic, lists
 		}
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
-			html += displayMLSListName(l);
 			html += '<input type=checkbox name="check_list" value="'+l+'" ';
 			html += 'onClick="';
 			if (div_id_evo)
@@ -230,7 +229,9 @@ function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic, lists
 			html += '" ';
 			html += 'id="'+l+'_check" ';
 			if ($.inArray(l, user_lists)>-1) html += 'checked ';
-			html += '><br>';
+			html += '>';
+			html += displayMLSListName(l);
+			html += '<br>';
 		}
 		html += '<input type=button value="All" ';
 		html += 'onClick="';
