@@ -82,14 +82,15 @@ function findMetricDoer(history, metric) {
 
 function displayTopMetric(div_id, metric_id, history) {
 	var doer = findMetricDoer(history, metric_id);
-	new_div = "<div class='info-pill'><table>";
-	new_div += "<tr><th>Developer</th><th>"+metric_id+"</th></tr>";
+	new_div = "<div class='info-pill'><h1>Top " + metric_id + "</h1>";
+	new_div += "<table><tbody>";
+	new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
 	for (var i=0; i<history[metric_id].length; i++) {
 		var metric_value = history[metric_id][i];
 		var doer_value = history[doer][i];
 		new_div += "<tr><td>"+doer_value+"</td><td>"+metric_value+"</td></tr>";
 	}
-	new_div += "</table></div>";
+	new_div += "</tbody></table></div>";
 	var div = $("#"+div_id);
 	div.append(new_div);
 }
