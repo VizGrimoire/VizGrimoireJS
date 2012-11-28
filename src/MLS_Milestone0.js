@@ -201,7 +201,7 @@ function MLS_Milestone0 (options) {
   // Data for plotting the graphs
   // defaults.commits.config.data = [
   defaults.sent.data = [
-      {label:"Messages " + data.list_label, data: data.sent}, 
+      {label:"Sent " + data.list_label, data: data.sent}, 
 //      {label:"issues opened", data: data.issues_opened},
 //      {label:"issues closed", data: data.issues_closed} 
   ];

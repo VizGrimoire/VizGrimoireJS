@@ -23,12 +23,12 @@ var basic_metrics = {
 			'divid':"sent_mls", 
 			'column':"sent",
 			'name':"Sent",
-			'desc':"Evolution in the number of messages"},
+			'desc':"Number of messages"},
 		'senders': {
 			'divid':"senders_mls", 
 			'column':"senders",
 			'name':"Senders",
-			'desc':"Evolution in the number of senders"},
+			'desc':"Number of unique message senders"},
 };
 
 // http:__lists.webkit.org_pipermail_squirrelfish-dev_
