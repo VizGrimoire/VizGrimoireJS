@@ -74,16 +74,24 @@ function displayBasicHTML(its_file, div_target) {
 	});
 }
 
-function displayTopMetric(div_id, metric_id, history) {	
-	new_div = "<table>";
+function findMetricDoer(history, metric) {
+	for (var field in history) {
+		if (field != metric) return field;
+	}
+}
+
+function displayTopMetric(div_id, metric_id, history) {
+	var doer = findMetricDoer(history, metric_id);
+	new_div = "<div class='info-pill'><table>";
 	new_div += "<tr><th>Developer</th><th>"+metric_id+"</th></tr>";
 	for (var i=0; i<history[metric_id].length; i++) {
 		var metric_value = history[metric_id][i];
-		var developer = "";
-		new_div += "<tr><td>"+developer+"</td><td>"+metric_value+"</td></tr>";
+		var doer_value = history[doer][i];
+		new_div += "<tr><td>"+doer_value+"</td><td>"+metric_value+"</td></tr>";
 	}
-	new_div += "</table>";
-	$("#"+div_id).append(new_div);
+	new_div += "</table></div>";
+	var div = $("#"+div_id);
+	div.append(new_div);
 }
 
 function displayTop(div, top_file) {
