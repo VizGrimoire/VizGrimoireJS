@@ -12,12 +12,13 @@
 }
 
 .milestone0-mls-connection .envision-component {
-  height: 20px;
+  height: 10px;
 }
 .milestone0-mls-summary .envision-component {
   cursor: all-scroll;
-  height : 70px;
+  height : 30px;
   margin-top: -2px;
+  margin-bottom: 20px;
 }
 
 /* Bubble Borders */
