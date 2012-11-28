@@ -8,10 +8,14 @@ var MLS = {};
 	
 MLS.displayEvo = displayEvo;
 MLS.displayBasic = displayBasic; 
-MLS.displayListSelector = displayListSelector;
-MLS.displayEvoMLSUser = displayEvoMLSUser;
-MLS.displayEvoMLSUserAll = displayEvoMLSUserAll;
-MLS.displayEvoMLSCleanPrefs = displayEvoMLSCleanPrefs;
+MLS.displayBasicListSelector = displayBasicListSelector;
+MLS.displayEvoListSelector = displayEvoListSelector;
+MLS.displayEvoBasicListSelector = displayEvoBasicListSelector;
+MLS.displayBasicUser = displayBasicUser;
+MLS.displayEvoUser = displayEvoUser;
+MLS.displayEvoUserAll = displayEvoUserAll;
+MLS.displayBasicUserAll = displayBasicUserAll;
+MLS.displayEvoDefault = displayEvoDefault;
 MLS.displayData = displayData;
 
 var basic_metrics = {
@@ -42,6 +46,43 @@ function displayMLSListName(listinfo) {
 	return list_name;
 }
 
+function getUserLists() {
+    var form = document.getElementById('form_mls_selector');
+    var lists = [];
+    for ( var i = 0; i < form.elements.length; i++) {
+        if (form.elements[i].checked) lists.push(form.elements[i].value);
+    }
+
+	if (localStorage) {
+		localStorage.setItem(getMLSId(), JSON.stringify(lists));
+	}
+	return lists;
+}
+
+function displayBasicUserAll(id, all) {
+    var form = document.getElementById('form_mls_selector');
+    for ( var i = 0; i < form.elements.length; i++) {
+    	if (form.elements[i].type =="checkbox")
+    		form.elements[i].checked = all;
+    }
+    displayBasicUser(id);
+}
+
+function displayBasicUser(div_id) {
+	
+	$("#"+div_id).empty();
+	
+	lists = getUserLists();
+	
+	for ( var i = 0; i < lists.length; i++) {
+		var l = lists[i];
+		file_messages = "data/json/mls-";
+		file_messages += l;
+		file_messages += "-milestone0.json";
+		displayBasicList(div_id, l, file_messages);
+	}
+}
+
 function displayBasic(div_id, lists_file) {
 	$.getJSON(lists_file, function(lists) {				
 		lists_hide = M0.getConfig().mls_hide_lists;
@@ -60,7 +101,8 @@ function displayBasic(div_id, lists_file) {
 	});
 }
 
-//TODO: similar to displayBasicHTML in ITS and SCM. Join.
+// TODO: similar to displayBasicHTML in ITS and SCM. Join.
+// TODO: use cache to store mls_file and check it! 
 function displayBasicList(div_id, l, mls_file) { 
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
@@ -85,14 +127,6 @@ function getMLSId() {
 	return getReportId()+"_mls_lists";
 }
 	
-function displayEvoMLSCleanPrefs() {
-	if (localStorage) {
-        if (localStorage.length && localStorage.getItem(getMLSId())) {
-        	localStorage.removeItem(getMLSId());
-        }
-	}
-}
-
 function displayData(filename) {
 	$.getJSON(filename, function(data) {
 		$("#mlsFirst").text(data.first_date);
@@ -102,16 +136,17 @@ function displayData(filename) {
 	});
 }
 
-function displayEvo(id, lists_file, markers, config) {		
+function displayEvo(id, lists_file) {		
 	if (localStorage) {
         if (localStorage.length && localStorage.getItem(getMLSId())) {
         	lists = JSON.parse(localStorage.getItem(getMLSId()));
-    		return displayEvoMLSLists(id, lists, markers, config);
+    		return displayEvoLists(id, lists);
         } 
 	}
 	
 	$.getJSON(lists_file, function(history) {				
 		lists = history.mailing_list;
+		var config = M0.getConfig();
 		lists_hide = config.mls_hide_lists;		
 		if (typeof lists === 'string') {
 			lists = [lists];
@@ -128,39 +163,44 @@ function displayEvo(id, lists_file, markers, config) {
 	    		localStorage.setItem(getMLSId(), JSON.stringify(filtered_lists));
 	        } 
 		}		
-		displayEvoMLSLists(id, filtered_lists, markers, config);
+		displayEvoLists(id, filtered_lists);
 	});
 }
-	
-function displayEvoMLSUserAll(id, all) {
+
+function displayEvoDefault() {
+	if (localStorage) {
+        if (localStorage.length && localStorage.getItem(getMLSId())) {
+        	localStorage.removeItem(getMLSId());
+        }
+	}
+	// TODO: don't reload full page but just update mailing lists showing
+	window.location.reload(false); 
+}
+
+function displayEvoUserAll(id, all) {
     var form = document.getElementById('form_mls_selector');
     for ( var i = 0; i < form.elements.length; i++) {
     	if (form.elements[i].type =="checkbox")
     		form.elements[i].checked = all;
     }
-    var markers = M0.getMarkers();
-	var envision_cfg_file = M0.getConfig();	
-    displayEvoMLSUser(id, markers, envision_cfg_file);
+    displayEvoUser(id);
 }
 
-function displayEvoMLSUser(id, markers, envision_cfg_file) {
-	
-	$("#"+id).empty();
-	
-    var form = document.getElementById('form_mls_selector');
-    var lists = [];
-    for ( var i = 0; i < form.elements.length; i++) {
-        if (form.elements[i].checked) lists.push(form.elements[i].value);
-    }
-
-	if (localStorage) {
-		localStorage.setItem(getMLSId(), JSON.stringify(lists));
-	}
-	
-	displayEvoMLSLists(id, lists, markers, envision_cfg_file);    	
+function displayEvoUser(id) {	
+	$("#"+id).empty();	
+    var lists = getUserLists();	
+	displayEvoLists(id, lists);    	
 }
 
-function displayListSelector(div_id_sel, div_id_mls, lists_file, markers, config) {
+function displayEvoListSelector(div_id_sel, div_id_mls, lists_file) {
+	displayEvoBasicListSelector(div_id_sel, div_id_mls, null, lists_file);
+}
+
+function displayBasicListSelector(div_id_sel, div_id_mls, lists_file) {
+	displayEvoBasicListSelector(div_id_sel, null, div_id_mls, lists_file);
+}
+
+function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic, lists_file) {
 	$.when($.getJSON(lists_file))
 	.done (function(res1) {				
 		var lists = res1.mailing_list;
@@ -182,19 +222,32 @@ function displayListSelector(div_id_sel, div_id_mls, lists_file, markers, config
 			var l = lists[i];
 			html += displayMLSListName(l);
 			html += '<input type=checkbox name="check_list" value="'+l+'" ';
-			html += 'onClick="MLS.displayEvoMLSUser(\''+div_id_mls+'\')"';
+			html += 'onClick="';
+			if (div_id_evo)
+				html += 'MLS.displayEvoUser(\''+div_id_evo+'\');';
+			if (div_id_basic)
+				html += 'MLS.displayBasicUser(\''+div_id_basic+'\')";';
+			html += '" ';
 			html += 'id="'+l+'_check" ';
 			if ($.inArray(l, user_lists)>-1) html += 'checked ';
 			html += '><br>';
 		}
 		html += '<input type=button value="All" ';
-		html += 'onClick="MLS.displayEvoMLSUserAll(\''+div_id_mls+'\',';
-		html += true +')">';
+		html += 'onClick="';
+		if (div_id_evo)
+			html += 'MLS.displayEvoUserAll(\''+div_id_evo+'\',true);';
+		if (div_id_basic)
+			html += 'MLS.displayBasicUserAll(\''+div_id_basic+'\',true);';
+		html += '">';
 		html += '<input type=button value="None" ';
-		html += 'onClick="MLS.displayEvoMLSUserAll(\''+div_id_mls+'\',';
-		html += false +')">';
-		html += '<input type=button value="Clean prefs" ';
-		html += 'onClick="MLS.displayEvoMLSCleanPrefs()">';
+		html += 'onClick="';
+		if (div_id_evo)
+			html += 'MLS.displayEvoUserAll(\''+div_id_evo+'\',false);';
+		if (div_id_basic)
+			html += 'MLS.displayBasicUserAll(\''+div_id_basic+'\',false);';		
+		html += '">';
+		html += '<input type=button value="Default" ';
+		html += 'onClick="MLS.displayEvoDefault()">';
 		html += "</form>";
 		$("#"+div_id_sel).html(html);
 	});
@@ -211,28 +264,30 @@ function filterHistory(history) {
 	return history;	
 }
 
-function displayEvoMLSLists(id, lists, markers, envision_cfg_file) {
+function displayEvoLists(id, lists) {
 	for ( var i = 0; i < lists.length; i++) {
 		var l = lists[i];
 		
 		file_messages = "data/json/mls-";
 		file_messages += l;
 		file_messages += "-milestone0.json";
-		displayEvoMLSList(displayMLSListName(l), id, file_messages, 
-				markers, envision_cfg_file);
+		displayEvoList(displayMLSListName(l), id, file_messages); 
 	}
 }
 
-function displayEvoMLSList(list_label, id, mls_file, markers, config) {
+function displayEvoList(list_label, id, mls_file) {
 	$.getJSON(mls_file, function(history) {
-		envisionEvo(list_label, id, history, markers, config);
+		envisionEvo(list_label, id, history);
 	});
 }
 
-function envisionEvo(list_label, id, history, markers, envision_cfg) {
+function envisionEvo(list_label, id, history) {
 	var V = envision, firstMonth = history.id[0], options, vis;
 	var container = document.getElementById(id);
 	
+	var markers = M0.getMarkers();
+	var envision_cfg = M0.getConfig();
+			
 	options = {
 		container : container,
 		data : {
