@@ -11,6 +11,7 @@ ITS.displayBasicHTML = displayBasicHTML;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 ITS.displayTop = displayTop;
+ITS.displayTimeToFix = displayTimeToFix;
 
 var basic_metrics = {
 		'opened': {
@@ -142,4 +143,55 @@ function envisionEvo(id, history, markers, envision_cfg) {
 	// Create the TimeSeries
 	vis = new envision.templates.ITS_Milestone0(options);	
 }
+
+function displayTimeToFix (div_id, json_file, column, labels, title) {
+	$.getJSON(json_file, function(history) {
+		var line_data = [];
+		container = document.getElementById(div_id);
+
+		for ( var i = 0; i < history.data[column].length; i++) {
+			line_data[i] = [ i, parseInt(history.data[column][i]) ];
+		}
+
+		var graph;
+
+		graph = Flotr.draw(container, [ line_data ], {
+			title : title,
+			xaxis : {
+				minorTickFreq : 4,
+				tickFormatter : function(x) {
+					if (history.data.date) {
+						x = history.data.date[parseInt(x)];
+					}
+					return x;
+				}
+			},
+			yaxis : {
+				minorTickFreq : 5,
+				tickFormatter : function(y) {
+					return parseInt(y / (24)) + 'd';
+				}
+			},
+
+			grid : {
+				show : false,
+			// minorVerticalLines: true
+			},
+			mouse : {
+				track : true,
+				trackY : false,
+				trackFormatter : function(o) {
+					var text = history.data.date[parseInt(o.x)] + ": "
+							+ parseInt(o.y) + " h";
+					text += " ( " + parseInt(o.y / (24)) + " days)";
+					return text;
+				}
+			}
+		});
+	});
+};
+
+
+
+
 })();

@@ -12,13 +12,14 @@ var M0 = {};
 	M0.displayEvoSummary = displayEvoSummary;
 	M0.getMarkers = getMarkers;
 	M0.getConfig = getConfig;
-	M0.getProjectData = getProjectData; 
+	M0.getProjectData = getProjectData;
+	M0.displayProjectData = displayProjectData;
+	M0.displayBasicLines = displayBasicLines;
 		
 	// M0 old public API
 	M0.basic_lines = basic_lines;
-	M0.displayBasicLines = displayBasicLines;
-	M0.time_to_fix_graph = time_to_fix_graph;
-	M0.displayProjectData = displayProjectData;
+
+
 	
 	// Shared config
 	var project_data = {}, markers = {}, config = {}, data_callbacks = [];
@@ -211,53 +212,6 @@ var M0 = {};
 		}
 	};
 	
-	function time_to_fix_graph(div_id, json_file, column, labels, title) {
-		$.getJSON(json_file, function(history) {
-			var line_data = [];
-			container = document.getElementById(div_id);
-	
-			for ( var i = 0; i < history.data[column].length; i++) {
-				line_data[i] = [ i, parseInt(history.data[column][i]) ];
-			}
-	
-			var graph;
-	
-			graph = Flotr.draw(container, [ line_data ], {
-				title : title,
-				xaxis : {
-					minorTickFreq : 4,
-					tickFormatter : function(x) {
-						if (history.data.date) {
-							x = history.data.date[parseInt(x)];
-						}
-						return x;
-					}
-				},
-				yaxis : {
-					minorTickFreq : 5,
-					tickFormatter : function(y) {
-						return parseInt(y / (24)) + 'd';
-					}
-				},
-	
-				grid : {
-					show : false,
-				// minorVerticalLines: true
-				},
-				mouse : {
-					track : true,
-					trackY : false,
-					trackFormatter : function(o) {
-						var text = history.data.date[parseInt(o.x)] + ": "
-								+ parseInt(o.y) + " h";
-						text += " ( " + parseInt(o.y / (24)) + " days)";
-						return text;
-					}
-				}
-			});
-		});
-	};
-
 	function displayProjectData() {
 		data = project_data;
 		document.title = data.project_name + ' M0 Report by Bitergia';
