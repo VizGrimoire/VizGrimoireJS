@@ -15,6 +15,14 @@ function findMetricDoer(history, metric) {
 	}
 }
 
+function hideEmail(email) {
+	var clean = email;
+	if (email.indexOf("@")>-1) {
+		clean = email.split('@')[0];
+	}
+	return clean;		
+}
+
 function displayTopMetric(div_id, metric_id, metric_period, history) {
 	var doer = findMetricDoer(history, metric_id);
 	new_div = "<div class='info-pill'><h1>Top " + metric_id + " " + metric_period + " </h1>";
@@ -23,7 +31,7 @@ function displayTopMetric(div_id, metric_id, metric_period, history) {
 	for (var i=0; i<history[metric_id].length; i++) {
 		var metric_value = history[metric_id][i];
 		var doer_value = history[doer][i];
-		new_div += "<tr><td>"+doer_value+"</td><td>"+metric_value+"</td></tr>";
+		new_div += "<tr><td>"+hideEmail(doer_value)+"</td><td>"+metric_value+"</td></tr>";
 	}
 	new_div += "</tbody></table></div>";
 	var div = $("#"+div_id);

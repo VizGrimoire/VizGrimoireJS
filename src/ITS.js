@@ -10,6 +10,7 @@ ITS.displayBasic = displayBasic;
 ITS.displayBasicHTML = displayBasicHTML;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
+ITS.displayTop = displayTop;
 
 var basic_metrics = {
 		'opened': {
