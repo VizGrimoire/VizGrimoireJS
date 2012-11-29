@@ -52,35 +52,58 @@ var M0 = {};
 		});
 	}
 	
-	function envisionEvoSummary (id, history, history1, markers) {
+	// TODO: SCM is supposed to be the most time spread. 
+	// TODO: Create a fillHistory method.
+	function envisionEvoSummary (id, history, history1, history2) {
 		var container = document.getElementById(id);
 		
-		var V = envision, firstMonth = history.id[0], options, vis, commits = [
-					history.id,
-					history.commits ], authors = [
-					history.id,
-					history.authors ], dates = history.date;
+		markers = getMarkers();
+		
+		var V = envision,  options, vis, 
+			firstMonth = history.id[0],
+			commits = [history.id, history.commits], 
+			authors = [history.id, history.authors], 
+			dates = history.date;
 	
 		var opened_fill = [];
 		var closed_fill = [];
 		var closers_fill = [];
+		var sent_fill = [];
+		var senders_fill = [];
 
+		// Fill issues
 		for ( var i = 0; i < history.id.length; i++) {
-			pos = history1.id
-					.indexOf(history.id[i]);
+			pos = history1.id.indexOf(history.id[i]);
 			if (pos != -1) {
 				opened_fill[i] = history1.opened[pos];
 				closed_fill[i] = history1.closed[pos];
 				closers_fill[i] = history1.closers[pos];
+
 			} else {
 				opened_fill[i] = null;
 				closed_fill[i] = null;
 				closers_fill[i] = null;
 			}
 		}
+		// Fill messages
+		for ( var i = 0; i < history.id.length; i++) {
+			pos = history2.id.indexOf(history.id[i]);
+			if (pos != -1) {
+				sent_fill[i] = history2.sent[pos];
+				senders_fill[i] = history2.senders[pos];
+
+			} else {
+				sent_fill[i] = null;
+				senders_fill[i] = null;
+
+			}
+		}
+		
 		var opened = [history.id, opened_fill ], 
 		    closed = [history.id, closed_fill ], 
-		    closers = [history.id, closers_fill ];
+		    closers = [history.id, closers_fill ],
+		    sent = [history.id, sent_fill ],
+		    senders = [history.id, senders_fill ]	;
 
 		options = {
 			container : container,
@@ -90,6 +113,8 @@ var M0 = {};
 				opened : opened,
 				closed : closed,
 				closers : closers,
+				sent: sent,
+				senders: senders,
 				dates : dates,
 				summary : commits,
 				markers : markers
@@ -117,7 +142,13 @@ var M0 = {};
 							+ " closed,";
 				if (closers[1][index] != null)
 					value += closers[1][index]
-							+ " closers";
+							+ " closers, <br>";
+				if (sent[1][index] != null)
+					value += sent[1][index]
+							+ " sent,";
+				if (senders[1][index] != null)
+					value += senders[1][index]
+							+ " senders";				
 				return value;
 			},
 			xTickFormatter : function(index) {
@@ -142,11 +173,10 @@ var M0 = {};
 		vis = new envision.templates.Summary_Milestone0(options);
 	}
 	
-	function displayEvoSummary(id, commits, issues) {	
-		$.when($.getJSON(commits), $.getJSON(issues))
-		.done (function(res1, res2) {			
-			var history = res1[0], history1 = res2[0];
-			envisionEvoSummary (id, history, history1, markers);
+	function displayEvoSummary(id, commits, issues, messages) {	
+		$.when($.getJSON(commits), $.getJSON(issues), $.getJSON(messages))
+		.done (function(res1, res2, res3) {			
+			envisionEvoSummary (id, res1[0], res2[0], res3[0]);
 		});
 	}
 	
