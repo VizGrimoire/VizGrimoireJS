@@ -7,7 +7,9 @@ var MLS = {};
 (function() {
 	
 MLS.displayEvo = displayEvo;
-MLS.displayBasic = displayBasic; 
+MLS.displayEvoAggregated = displayEvoAggregated;
+MLS.displayBasic = displayBasic;
+MLS.displayBasicMetric = displayBasicMetric; 
 MLS.displayBasicListSelector = displayBasicListSelector;
 MLS.displayEvoListSelector = displayEvoListSelector;
 MLS.displayEvoBasicListSelector = displayEvoBasicListSelector;
@@ -17,15 +19,16 @@ MLS.displayEvoUserAll = displayEvoUserAll;
 MLS.displayBasicUserAll = displayBasicUserAll;
 MLS.displayEvoDefault = displayEvoDefault;
 MLS.displayData = displayData;
+MLS.displayTop = displayTop;
 
 var basic_metrics = {
 		'sent': {
-			'divid':"sent_mls", 
+			'divid':"mls_sent", 
 			'column':"sent",
 			'name':"Sent",
 			'desc':"Number of messages"},
 		'senders': {
-			'divid':"senders_mls", 
+			'divid':"mls_senders", 
 			'column':"senders",
 			'name':"Senders",
 			'desc':"Number of unique message senders"},
@@ -57,6 +60,11 @@ function getUserLists() {
 		localStorage.setItem(getMLSId(), JSON.stringify(lists));
 	}
 	return lists;
+}
+
+function displayTop(div, top_file, all) {
+	if (all == undefined) all=true;
+	Metric.displayTop(div, top_file, basic_metrics, all);
 }
 
 function displayBasicUserAll(id, all) {
@@ -129,6 +137,11 @@ function displayBasicList(div_id, l, mls_file) {
 
 }
 
+function displayBasicMetric(metric_id, mls_file, div_target, show_desc) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, show_desc);
+}
+
+
 function getReportId() {
 	var project_data = M0.getProjectData();
 	return project_data.date + "_" + project_data.project_name;
@@ -145,6 +158,12 @@ function displayData(filename) {
 		$("#mlsMessages").text(data.messages);
 		$("#mlsSenders").text(data.people);
 	});
+}
+
+function displayEvoAggregated(id, mls_file) {
+	$.getJSON(mls_file, function(history) {
+		envisionEvo("Aggregated", id, history);		
+	});	
 }
 
 function displayEvo(id, lists_file) {		
