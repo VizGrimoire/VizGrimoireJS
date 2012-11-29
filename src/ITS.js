@@ -66,8 +66,9 @@ function displayBasicHTML(its_file, div_target) {
 	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide');
 }
 
-function displayTop(div, top_file) {
-	Metric.displayTop(div, top_file, basic_metrics);
+function displayTop(div, top_file, all) {
+	if (all == undefined) all=true;
+	Metric.displayTop(div, top_file, basic_metrics, all);
 }
 
 function displayBasic(its_file) {

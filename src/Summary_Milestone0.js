@@ -127,7 +127,7 @@ function getDefaults (markers, dates) {
       processData : processData
     },  
 	// ITS
-    open : {
+    opened : {
       name : 'milestone0-summary-open',
       config : {
         //colors: ['#00A8F0', '#C0D800', '#CB4B4B', '#4DA74D', '#9440ED'],
@@ -165,7 +165,7 @@ function getDefaults (markers, dates) {
       },
       processData : processData
     },
-    close : {
+    closed : {
         name : 'milestone0-summary-close',
         config : {
             colors: defaults_colors,
@@ -291,7 +291,7 @@ function Summary_Milestone0 (options) {
         }),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
-    commits, authors, open, close, closers, markers;
+    commits, authors, opened, closed, closers, markers;
 
   if (options.defaults) {
     defaults = Flotr.merge(options.defaults, defaults);
@@ -300,27 +300,27 @@ function Summary_Milestone0 (options) {
   defaults.commits.data = [{label:"commits", data: data.commits}];
   defaults.authors.data = [{label:"authors",data:data.authors}];
   
-  defaults.open.data = [{label:"open", data: data.open}];
-  series_number = defaults.open.data.length;
+  defaults.opened.data = [{label:"opened", data: data.opened}];
+  series_number = defaults.opened.data.length;
   series_drawn = 0;
 
-  defaults.close.data = [{label:"closed", data:data.close}];
+  defaults.closed.data = [{label:"closed", data:data.closed}];
   defaults.closers.data = [{label:"closers", data:data.closers}];
-  defaults.summary.data = [{label:"open", data:data.summary}];
+  defaults.summary.data = [{label:"opened", data:data.summary}];
   
   defaults.commits.config.mouse.trackFormatter = options.trackFormatter;
   
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
-  defaults.open.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
+  defaults.opened.config.yaxis.tickFormatter = options.yTickFormatter || function (n) {
     return '$' + n;
   };
 
   commits = new V.Component(defaults.commits);
   authors = new V.Component(defaults.authors);
-  open = new V.Component(defaults.open);
-  close = new V.Component(defaults.close);
+  opened = new V.Component(defaults.opened);
+  closed = new V.Component(defaults.closed);
   closers = new V.Component(defaults.closers);
   
   connection = new V.Component(defaults.connection);  
@@ -330,8 +330,8 @@ function Summary_Milestone0 (options) {
   vis
     .add(commits)
     .add(authors)
-    .add(open)
-    .add(close)
+    .add(opened)
+    .add(closed)
     .add(closers)
     .add(connection)
     .add(summary)
@@ -341,15 +341,15 @@ function Summary_Milestone0 (options) {
   selection
     .follower(commits)
     .follower(authors)
-    .follower(open)
-    .follower(close)
+    .follower(opened)
+    .follower(closed)
     .follower(closers)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
   hit    
-    .group([commits, authors, open, close, closers])    
+    .group([commits, authors, opened, closed, closers])    
     .add(V.actions.hit);
 
   // Optional initial selection
@@ -361,8 +361,8 @@ function Summary_Milestone0 (options) {
   this.vis = vis;
   this.selection = selection;
   this.hit = hit;
-  this.open = open;
-  this.close = close;
+  this.opened = opened;
+  this.closed = closed;
   this.commits = commits; 
   this.authors = authors;
   this.closers = closers;

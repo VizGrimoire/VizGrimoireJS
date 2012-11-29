@@ -40,7 +40,8 @@ function displayTopMetric(div_id, metric_id, metric_period, history) {
 
 // Each metric can have several top: metric.period
 // For example: "commits.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
-function displayTop(div, top_file, basic_metrics) {
+function displayTop(div, top_file, basic_metrics, all) {
+	if (all == undefined) all = true; 
 	$.getJSON(top_file, function(history) {
 		for (key in history) {
 			// ex: commits.all
@@ -51,6 +52,7 @@ function displayTop(div, top_file, basic_metrics) {
 				var metric = basic_metrics[id];
 					if (metric.column == top_metric) {
 						displayTopMetric(div, top_metric, top_period, history[key]);
+						if (!all) return;
 					break;
 				} 
 			}

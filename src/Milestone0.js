@@ -61,38 +61,34 @@ var M0 = {};
 					history.id,
 					history.authors ], dates = history.date;
 	
-		var open_fill = [];
-		var close_fill = [];
+		var opened_fill = [];
+		var closed_fill = [];
 		var closers_fill = [];
 
 		for ( var i = 0; i < history.id.length; i++) {
 			pos = history1.id
 					.indexOf(history.id[i]);
 			if (pos != -1) {
-				open_fill[i] = history1.open[pos];
-				close_fill[i] = history1.closed[pos];
+				opened_fill[i] = history1.opened[pos];
+				closed_fill[i] = history1.closed[pos];
 				closers_fill[i] = history1.closers[pos];
 			} else {
-				open_fill[i] = null;
-				close_fill[i] = null;
+				opened_fill[i] = null;
+				closed_fill[i] = null;
 				closers_fill[i] = null;
 			}
 		}
-		var open = [
-				history.id,
-				open_fill ], close = [
-				history.id,
-				close_fill ], closers = [
-				history.id,
-				closers_fill ];
+		var opened = [history.id, opened_fill ], 
+		    closed = [history.id, closed_fill ], 
+		    closers = [history.id, closers_fill ];
 
 		options = {
 			container : container,
 			data : {
 				commits : commits,
 				authors : authors,
-				open : open,
-				close : close,
+				opened : opened,
+				closed : closed,
 				closers : closers,
 				dates : dates,
 				summary : commits,
@@ -109,16 +105,16 @@ var M0 = {};
 						+ ": ";
 				if (commits[1][index] != null)
 					value += commits[1][index]
-							+ " commits|";
+							+ " commits,";
 				if (authors[1][index] != null)
 					value += authors[1][index]
-							+ " authors|";
-				if (open[1][index] != null)
-					value += open[1][index]
-							+ " open|";
-				if (close[1][index] != null)
-					value += close[1][index]
-							+ " closed|";
+							+ " authors,<br>";
+				if (opened[1][index] != null)
+					value += opened[1][index]
+							+ " open,";
+				if (closed[1][index] != null)
+					value += closed[1][index]
+							+ " closed,";
 				if (closers[1][index] != null)
 					value += closers[1][index]
 							+ " closers";
