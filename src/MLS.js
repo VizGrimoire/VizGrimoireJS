@@ -9,7 +9,8 @@ var MLS = {};
 MLS.displayEvo = displayEvo;
 MLS.displayEvoAggregated = displayEvoAggregated;
 MLS.displayBasic = displayBasic;
-MLS.displayBasicMetric = displayBasicMetric; 
+MLS.displayBasicMetric = displayBasicMetric;
+MLS.displayBasicMetricHTML = displayBasicMetricHTML;
 MLS.displayBasicListSelector = displayBasicListSelector;
 MLS.displayEvoListSelector = displayEvoListSelector;
 MLS.displayEvoBasicListSelector = displayEvoBasicListSelector;
@@ -164,6 +165,10 @@ function displayEvoAggregated(id, mls_file) {
 	$.getJSON(mls_file, function(history) {
 		envisionEvo("Aggregated", id, history);		
 	});	
+}
+
+function displayBasicMetricHTML(metric_id, metric_file, div_target, show_desc) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], metric_file, div_target, show_desc);
 }
 
 function displayEvo(id, lists_file) {		
