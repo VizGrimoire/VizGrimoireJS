@@ -8,6 +8,7 @@ var ITS = {};
 
 ITS.displayBasic = displayBasic;
 ITS.displayBasicHTML = displayBasicHTML;
+ITS.displayBasicMetricHTML = displayBasicMetricHTML;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 ITS.displayTop = displayTop;
@@ -64,6 +65,10 @@ function displayData(filename) {
 // Create HTML code to show the metrics
 function displayBasicHTML(its_file, div_target) {
 	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide');
+}
+
+function displayBasicMetricHTML(metric_id, scm_file, div_target, show_desc) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, show_desc);
 }
 
 function displayTop(div, top_file, all) {

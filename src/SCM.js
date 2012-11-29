@@ -8,6 +8,7 @@ var SCM = {};
 
 SCM.displayBasic = displayBasic;
 SCM.displayBasicHTML = displayBasicHTML;
+SCM.displayBasicMetricHTML = displayBasicMetricHTML;
 SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
 SCM.displayTop = displayTop;
@@ -23,7 +24,12 @@ var basic_metrics = {
 		'divid':"committers_scm", 
 		'column':"committers",
 		'name':"Committers",
-		'desc':"Unique committers making changes to the source code"},			
+		'desc':"Unique committers making changes to the source code"},
+	'authors': {
+			'divid':"authors_scm", 
+			'column':"authors",
+			'name':"Authors",
+			'desc':"Unique authors making changes to the source code"},
 	'branches': {
 		'divid':"branches_scm", 
 		'column':"branches",
@@ -55,6 +61,10 @@ function displayData(filename) {
 // Create HTML code to show the metrics
 function displayBasicHTML(scm_file, div_target) {
 	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', basic_metrics, 'scm_hide');
+}
+
+function displayBasicMetricHTML(metric_id, scm_file, div_target, show_desc) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, show_desc);
 }
 
 function displayTop(div, top_file, all) {
