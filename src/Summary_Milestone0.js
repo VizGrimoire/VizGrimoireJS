@@ -54,7 +54,78 @@ function getDefaultsMarkers (option, markers, dates) {
 function getDefaults (markers, dates) {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
   return {
-	// SCM
+	// MLS
+   sent : {
+		  name : 'milestone0-summary-sent',
+	      config : {
+	        colors: defaults_colors,
+	        'lite-lines' : {          
+	          lineWidth : 1,
+	          show : true,
+	          fill : true,
+	          fillOpacity : 0.5,
+	          /* color: '#ffa500',
+	          fillColor: '#ffa500' */
+	        },               
+	        'markers': {
+	            show: true,
+	            position: 'ct',
+	            labelFormatter: function (o) {
+	                return getDefaultsMarkers (o, markers, dates);
+	            }
+	          },
+	        mouse : {
+	          track: true,
+	          trackY: false,
+	          trackDecimals: 4,
+	          position: 'ne'
+	        },
+	        yaxis : {
+	          show: true,
+	          autoscale : true,
+	          autoscaleMargin : 0.05,
+	          noTicks : 3,
+	          showLabels : true,
+	          min : 0
+	        },
+	        legend : {
+	            position : 'nw',
+	            noColumns : 1,
+	            backgroundColor : '#FFFFFF', // A light blue background color
+	            backgroundOpacity: 0,
+
+	        },
+	      },
+	      processData : processData
+	    },
+	    senders : {
+	        name : 'milestone0-summary-senders',
+	        config : {
+	          colors: defaults_colors,
+	          whiskers : {
+	            show : true,
+	            lineWidth : 2
+	          },
+	          mouse: {
+	            track: true,
+	            trackY: false,
+	            trackAll: true
+	          },
+	          yaxis : {
+	            autoscale : true,
+	            autoscaleMargin : 0.5 
+	          },
+	          legend : {
+	              position : 'nw',
+	              noColumns : 1,
+	              backgroundColor : '#FFFFFF', // A light blue background color
+	              backgroundOpacity: 0,
+
+	          },
+	        },
+	        processData : processData
+	    },
+   //SCM
    commits : {
 	  name : 'milestone0-summary-commits',
       config : {
@@ -225,54 +296,54 @@ function getDefaults (markers, dates) {
           },
         },
         processData : processData
-      },
-      summary : {
-      name : 'milestone0-summary-summary',
-      config : {
-        colors: defaults_colors,
-        'lite-lines' : {
-          show : true,
-          lineWidth : 1,
-          fill : true,
-          fillOpacity : 0.2,
-          fillBorder : true,
-        },
-        xTickFormatter: function(o) {
-            return "X";
-        },
-        xaxis : {
-          noTicks: 10,
-          showLabels : true,
-        },
-        yaxis : {
-          autoscale : true,
-          autoscaleMargin : 0.1
-        },
-        legend : {
-        	show: false,
-            position : 'nw',
-            noColumns : 1,
-            backgroundColor : '#FFFFFF', // A light blue background color
-            backgroundOpacity: 0,
-
-        },
-        handles : {
-          show : true
-        },
-        selection : {
-          mode : 'x'
-        },
-        grid : {
-          verticalLines : false
-        },
-//        'markers': {
-//            show: true,
-//            position: 'cm',
-//            labelFormatter: function (o) {
-//                return getDefaultsMarkersSummary (o, markers, dates);
-//            }
-//          },
-      },      
+    },    
+	  summary : {
+	  name : 'milestone0-summary-summary',
+	  config : {
+	    colors: defaults_colors,
+	    'lite-lines' : {
+	      show : true,
+	      lineWidth : 1,
+	      fill : true,
+	      fillOpacity : 0.2,
+	      fillBorder : true,
+	    },
+	    xTickFormatter: function(o) {
+	        return "X";
+	    },
+	    xaxis : {
+	      noTicks: 10,
+	      showLabels : true,
+	    },
+	    yaxis : {
+	      autoscale : true,
+	      autoscaleMargin : 0.1
+	    },
+	    legend : {
+	    	show: false,
+	        position : 'nw',
+	        noColumns : 1,
+	        backgroundColor : '#FFFFFF', // A light blue background color
+	        backgroundOpacity: 0,
+	
+	    },
+	    handles : {
+	      show : true
+	    },
+	    selection : {
+	      mode : 'x'
+	    },
+	    grid : {
+	      verticalLines : false
+	    },
+	//        'markers': {
+	//            show: true,
+	//            position: 'cm',
+	//            labelFormatter: function (o) {
+	//                return getDefaultsMarkersSummary (o, markers, dates);
+	//            }
+	//          },
+	  },      
     },
     connection : {
       name : 'milestone0-summary-connection',
@@ -291,13 +362,16 @@ function Summary_Milestone0 (options) {
         }),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
-    commits, authors, opened, closed, closers, markers;
+    commits, authors, opened, closed, closers, sent, senders;
 
   if (options.defaults) {
     defaults = Flotr.merge(options.defaults, defaults);
   }
 
   defaults.commits.data = [{label:"commits", data: data.commits}];
+  
+  defaults.sent.data = [{label:"sent", data: data.sent}];
+  
   defaults.authors.data = [{label:"authors",data:data.authors}];
   
   defaults.opened.data = [{label:"opened", data: data.opened}];
@@ -307,6 +381,9 @@ function Summary_Milestone0 (options) {
   defaults.closed.data = [{label:"closed", data:data.closed}];
   defaults.closers.data = [{label:"closers", data:data.closers}];
   defaults.summary.data = [{label:"opened", data:data.summary}];
+
+  defaults.sent.data = [{label:"sent", data: data.sent}];
+  defaults.senders.data = [{label:"senders",data:data.senders}];
   
   defaults.commits.config.mouse.trackFormatter = options.trackFormatter;
   
@@ -317,11 +394,13 @@ function Summary_Milestone0 (options) {
     return '$' + n;
   };
 
-  commits = new V.Component(defaults.commits);
+  commits = new V.Component(defaults.commits);   
   authors = new V.Component(defaults.authors);
   opened = new V.Component(defaults.opened);
   closed = new V.Component(defaults.closed);
   closers = new V.Component(defaults.closers);
+  sent = new V.Component(defaults.sent);
+  senders = new V.Component(defaults.senders);
   
   connection = new V.Component(defaults.connection);  
   summary = new V.Component(defaults.summary);  
@@ -333,6 +412,8 @@ function Summary_Milestone0 (options) {
     .add(opened)
     .add(closed)
     .add(closers)
+    .add(sent)
+    .add(senders)
     .add(connection)
     .add(summary)
     .render(options.container);
@@ -344,12 +425,14 @@ function Summary_Milestone0 (options) {
     .follower(opened)
     .follower(closed)
     .follower(closers)
+    .follower(sent)
+    .follower(senders)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
   // Define the mouseover hit interaction
   hit    
-    .group([commits, authors, opened, closed, closers])    
+    .group([commits, authors, opened, closed, closers, sent, senders])    
     .add(V.actions.hit);
 
   // Optional initial selection
@@ -366,6 +449,8 @@ function Summary_Milestone0 (options) {
   this.commits = commits; 
   this.authors = authors;
   this.closers = closers;
+  this.sent = sent;
+  this.senders = senders;  
   this.summary = summary;
 }
 
