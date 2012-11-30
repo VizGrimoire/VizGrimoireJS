@@ -28,7 +28,8 @@ function displayTopMetric(div_id, metric_id, metric_period, history) {
 	var doer = findMetricDoer(history, metric_id);
 	new_div = "<div class='info-pill'><h1>Top " + metric_id + " " + metric_period + " </h1>";
 	new_div += "<table><tbody>";
-	new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
+	// new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
+	new_div += "<tr><th></th><th>"+metric_id+"</th></tr>";
 	for (var i=0; i<history[metric_id].length; i++) {
 		var metric_value = history[metric_id][i];
 		var doer_value = history[doer][i];
