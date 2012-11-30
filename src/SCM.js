@@ -59,8 +59,9 @@ function displayData(filename) {
 }
 
 // Create HTML code to show the metrics
-function displayBasicHTML(scm_file, div_target) {
-	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', basic_metrics, 'scm_hide');
+function displayBasicHTML(scm_file, div_target, config) {
+	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', 
+			basic_metrics, 'scm_hide', config);
 }
 
 function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {

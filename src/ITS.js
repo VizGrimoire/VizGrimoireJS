@@ -63,8 +63,8 @@ function displayData(filename) {
 }
 
 // Create HTML code to show the metrics
-function displayBasicHTML(its_file, div_target) {
-	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide');
+function displayBasicHTML(its_file, div_target, config) {
+	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide', config);
 }
 
 function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {

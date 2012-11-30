@@ -9,6 +9,7 @@ var Metric = {};
 Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
+Metric.checkBasicConfig = checkBasicConfig;
 
 function findMetricDoer(history, metric) {
 	for (var field in history) {
@@ -62,31 +63,40 @@ function displayTop(div, top_file, basic_metrics, all) {
 	});
 }
 
-function displayBasicHTML(data_file, div_target, title, basic_metrics, hide) {
+function checkBasicConfig(config) {
+	if (config == undefined) config = {};
+	if (config.show_desc == undefined) config.show_desc = true;
+	if (config.show_title == undefined) config.show_title = true;
+	if (config.show_labels == undefined) config.show_labels = true;	
+	return config;
+}
+
+function displayBasicHTML(data_file, div_target, title, basic_metrics, hide, config) {
+	config = checkBasicConfig(config);	
 	$.getJSON(data_file, function(history) {
 		var new_div = '<div class="info-pill">';
 		new_div += '<h1>'+title+'</h1></div>';
 		$("#"+div_target).append(new_div);
 		for (var id in basic_metrics) {
 			var metric = basic_metrics[id];
+			var title_metric = metric.name;
+			if (!config.show_title) title_metric='';
 			if ($.inArray(metric.column,M0.getConfig()[hide])>-1) continue;
 			new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
 			new_div += '<h1>'+metric.name+'</h1>';
 			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
-			new_div += '<p>'+metric.desc+'</p>';
+			if (config.show_desc==true)
+				new_div += '<p>'+metric.desc+'</p>';
 			new_div += '</div>' ;
 			$("#"+div_target).append(new_div);
 			M0.displayBasicLines(metric.divid, history, 
-					metric.column, 1, metric.name);
+					metric.column, config.show_labels, title_metric);
 		}
 	});
 }
 
 function displayBasicMetricHTML(metric, data_file, div_target, config) {
-	if (config == undefined) config = {};
-	if (config.show_desc == undefined) config.show_desc = true;
-	if (config.show_title == undefined) config.show_title = true;
-	if (config.show_labels == undefined) config.show_labels = true;
+	config = checkBasicConfig(config);	
 	var title = metric.name;
 	if (!config.show_title) title='';
 	$.getJSON(data_file, function(history) { 

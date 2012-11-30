@@ -93,7 +93,7 @@ function displayBasicUser(div_id) {
 }
 
 // TODO: use cache data to avoid always reading lists info
-function displayBasic(div_id, lists_file) {
+function displayBasic(div_id, lists_file, config_metric) {
 	$.getJSON(lists_file, function(lists) {				
 		lists_hide = M0.getConfig().mls_hide_lists;
 		lists = lists.mailing_list;
@@ -116,24 +116,30 @@ function displayBasic(div_id, lists_file) {
 			file_messages = "data/json/mls-";
 			file_messages += l;
 			file_messages += "-milestone0.json";
-			displayBasicList(div_id, l, file_messages);
+			displayBasicList(div_id, l, file_messages, config_metric);
 		}
 	});
 }
 
+
+
 // TODO: similar to displayBasicHTML in ITS and SCM. Join.
 // TODO: use cache to store mls_file and check it! 
-function displayBasicList(div_id, l, mls_file) { 
+function displayBasicList(div_id, l, mls_file, config_metric) {
+	var config = Metric.checkBasicConfig(config_metric);
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
+		var title = '';
+		if (config.show_title) title = metric.name;
 		if ($.inArray(metric.column,M0.getConfig().mls_hide)>-1) continue;
 		var new_div = "<div class='info-pill m0-box-div flotr2-"+metric.column+"'>";
 		new_div += "<h1>" + metric.name + " " + displayMLSListName(l) + "</h1>";
 		new_div += "<div id='"+metric.divid+"_" + l + "' class='m0-box flotr2-"+metric.column+"'></div>";
-		new_div += "<p>"+metric.desc+"</p>";
+		if (config.show_desc)
+			new_div += "<p>"+metric.desc+"</p>";
 		new_div += "</div>";
 		$("#"+div_id).append(new_div);
-		M0.basic_lines(metric.divid+'_' + l, mls_file, metric.column , true, metric.name);	
+		M0.basic_lines(metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
 	}
 
 }
@@ -141,7 +147,6 @@ function displayBasicList(div_id, l, mls_file) {
 function displayBasicMetric(metric_id, mls_file, div_target, config) {
 	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, config);
 }
-
 
 function getReportId() {
 	var project_data = M0.getProjectData();
