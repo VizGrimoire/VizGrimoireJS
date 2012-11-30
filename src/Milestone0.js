@@ -229,13 +229,11 @@ var M0 = {};
 				}
 		};
 
-		if (labels) {
-			graph = Flotr.draw(container, [ line_data ], config);
-		} else {
+		if (!labels || labels==0) {
 			config.xaxis.showLabels = false;
 			config.yaxis.showLabels = false;
-			graph = Flotr.draw(container, [ line_data ], config);
 		}
+		graph = Flotr.draw(container, [ line_data ], config);
 	};
 	
 	function displayProjectData() {

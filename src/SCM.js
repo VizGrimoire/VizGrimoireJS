@@ -63,8 +63,8 @@ function displayBasicHTML(scm_file, div_target) {
 	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', basic_metrics, 'scm_hide');
 }
 
-function displayBasicMetricHTML(metric_id, scm_file, div_target, show_desc) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, show_desc);
+function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, config);
 }
 
 function displayTop(div, top_file, all) {

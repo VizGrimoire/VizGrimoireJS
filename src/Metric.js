@@ -82,19 +82,24 @@ function displayBasicHTML(data_file, div_target, title, basic_metrics, hide) {
 	});
 }
 
-function displayBasicMetricHTML(metric, data_file, div_target, show_desc) {
-	if (show_desc == undefined) show_desc = true;
-	$.getJSON(data_file, function(history) {
+function displayBasicMetricHTML(metric, data_file, div_target, config) {
+	if (config == undefined) config = {};
+	if (config.show_desc == undefined) config.show_desc = true;
+	if (config.show_title == undefined) config.show_title = true;
+	if (config.show_labels == undefined) config.show_labels = true;
+	var title = metric.name;
+	if (!config.show_title) title='';
+	$.getJSON(data_file, function(history) { 
 		var new_div = '<div class="info-pill">';
 		$("#"+div_target).append(new_div);
 		new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
 		new_div += '<h1>'+metric.name+'</h1>';
 		new_div += '<div style="height:100px" id="'+metric.divid+'"></div>' ;
-		if (show_desc==true)
+		if (config.show_desc==true)
 			new_div += '<p>'+metric.desc+'</p>';
 		new_div += '</div>' ;
 		$("#"+div_target).append(new_div);
-		M0.displayBasicLines(metric.divid, history, metric.column, 1, metric.name);
+		M0.displayBasicLines(metric.divid, history, metric.column, config.show_labels, title);
 	});
 }
 

@@ -18,32 +18,32 @@ var basic_metrics = {
 		'opened': {
 			'divid':'open_its', 
 			'column':"opened",
-			'name':"opened",
+			'name':"Opened",
 			'desc':"Number of opened tickets"},
 		'openers': {
 			'divid':'openers_its', 
 			'column':"openers",
-			'name':"openers",
+			'name':"Openers",
 			'desc':"Unique people opening tickets"},
 		'closed': {
 			'divid':'closed_its', 
 			'column':"closed",
-			'name':"closed",
+			'name':"Closed",
 			'desc':"Tickets being closed"},
 		'closers': {
 			'divid':'closers_its', 
 			'column':"closers",
-			'name':"closers",
+			'name':"Closers",
 			'desc':"People closing tickets"},
 		'changed': {
 			'divid':'changed_its', 
 			'column':"changed",
-			'name':"changed",
+			'name':"Changed",
 			'desc':"Number of changes to tickets (aggregated)"},
 		'changers': {
 			'divid':'changers_its', 
 			'column':"changers",
-			'name':"changers",
+			'name':"Changers",
 			'desc':"Unique people changing the state of tickets"}		
 };
 
@@ -67,8 +67,8 @@ function displayBasicHTML(its_file, div_target) {
 	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide');
 }
 
-function displayBasicMetricHTML(metric_id, scm_file, div_target, show_desc) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, show_desc);
+function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, config);
 }
 
 function displayTop(div, top_file, all) {

@@ -138,8 +138,8 @@ function displayBasicList(div_id, l, mls_file) {
 
 }
 
-function displayBasicMetric(metric_id, mls_file, div_target, show_desc) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, show_desc);
+function displayBasicMetric(metric_id, mls_file, div_target, config) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, config);
 }
 
 
