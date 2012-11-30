@@ -127,13 +127,13 @@ var M0 = {};
 						- firstMonth, value;
 
 				value = dates[index]
-						+ ": ";
+						+ ":<br> ";
 				if (commits[1][index] != null)
 					value += commits[1][index]
 							+ " commits, ";
 				if (authors[1][index] != null)
 					value += authors[1][index]
-							+ " authors, <br>";
+							+ " authors (changes) <br>";
 				if (opened[1][index] != null)
 					value += opened[1][index]
 							+ " open, ";
@@ -142,13 +142,13 @@ var M0 = {};
 							+ " closed, ";
 				if (closers[1][index] != null)
 					value += closers[1][index]
-							+ " closers, <br>";
+							+ " closers (tickets)<br>";
 				if (sent[1][index] != null)
 					value += sent[1][index]
 							+ " sent, ";
 				if (senders[1][index] != null)
 					value += senders[1][index]
-							+ " senders";				
+							+ " senders (messages)";				
 				return value;
 			},
 			xTickFormatter : function(index) {
