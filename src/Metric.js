@@ -25,9 +25,11 @@ function hideEmail(email) {
 	return clean;		
 }
 
-function displayTopMetric(div_id, metric_id, metric_period, history) {
-	var doer = findMetricDoer(history, metric_id);
-	new_div = "<div class='info-pill'><h1>Top " + metric_id + " " + metric_period + " </h1>";
+function displayTopMetric(div_id, metric, metric_period, history) {
+	var top_metric_id = metric.column;
+	var metric_id = metric.action;
+	var doer = findMetricDoer(history, metric_id); 
+	new_div = "<div class='info-pill'><h1>Top " + top_metric_id + " " + metric_period + " </h1>";
 	new_div += "<table><tbody>";
 	// new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
 	new_div += "<tr><th></th><th>"+metric_id+"</th></tr>";
@@ -42,7 +44,7 @@ function displayTopMetric(div_id, metric_id, metric_period, history) {
 }
 
 // Each metric can have several top: metric.period
-// For example: "commits.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
+// For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
 function displayTop(div, top_file, basic_metrics, all) {
 	if (all == undefined) all = true; 
 	$.getJSON(top_file, function(history) {
@@ -54,7 +56,7 @@ function displayTop(div, top_file, basic_metrics, all) {
 			for (var id in basic_metrics) {
 				var metric = basic_metrics[id];
 					if (metric.column == top_metric) {
-						displayTopMetric(div, top_metric, top_period, history[key]);
+						displayTopMetric(div, metric, top_period, history[key]);
 						if (!all) return;
 					break;
 				} 

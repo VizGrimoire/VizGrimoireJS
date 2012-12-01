@@ -21,15 +21,17 @@ var basic_metrics = {
 		'name':"Commits",
 		'desc':"Evolution of the number of commits (aggregating branches)"},
 	'committers': {
-		'divid':"committers_scm", 
+		'divid':"committers_scm",
 		'column':"committers",
 		'name':"Committers",
-		'desc':"Unique committers making changes to the source code"},
+		'desc':"Unique committers making changes to the source code",
+		'action': "commits"},
 	'authors': {
-			'divid':"authors_scm", 
-			'column':"authors",
-			'name':"Authors",
-			'desc':"Unique authors making changes to the source code"},
+		'divid':"authors_scm", 
+		'column':"authors",
+		'name':"Authors",
+		'desc':"Unique authors making changes to the source code",
+		'action':"commits"},
 	'branches': {
 		'divid':"branches_scm", 
 		'column':"branches",

@@ -24,7 +24,8 @@ var basic_metrics = {
 			'divid':'openers_its', 
 			'column':"openers",
 			'name':"Openers",
-			'desc':"Unique identifiers opening tickets"},
+			'desc':"Unique identifiers opening tickets",
+			'action':"opened"},
 		'closed': {
 			'divid':'closed_its', 
 			'column':"closed",
@@ -34,7 +35,8 @@ var basic_metrics = {
 			'divid':'closers_its', 
 			'column':"closers",
 			'name':"Closers",
-			'desc':"Number of identifiers closing tickets"},
+			'desc':"Number of identifiers closing tickets",
+			'action':"closed"},
 		'changed': {
 			'divid':'changed_its', 
 			'column':"changed",
@@ -44,7 +46,8 @@ var basic_metrics = {
 			'divid':'changers_its', 
 			'column':"changers",
 			'name':"Changers",
-			'desc':"Number of identifiers changing the state of tickets"}		
+			'desc':"Number of identifiers changing the state of tickets",
+			'action':"changed"}		
 };
 
 function displayEvo (id, its_file, markers, config) {

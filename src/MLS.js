@@ -32,7 +32,8 @@ var basic_metrics = {
 			'divid':"mls_senders", 
 			'column':"senders",
 			'name':"Senders",
-			'desc':"Number of unique message senders"},
+			'desc':"Number of unique message senders",
+			'action':"sent"},
 };
 
 // http:__lists.webkit.org_pipermail_squirrelfish-dev_
