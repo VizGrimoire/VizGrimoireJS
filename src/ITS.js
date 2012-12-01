@@ -24,7 +24,7 @@ var basic_metrics = {
 			'divid':'openers_its', 
 			'column':"openers",
 			'name':"Openers",
-			'desc':"Unique identifiers opening tickets",
+			'desc':"Unique identities opening tickets",
 			'action':"opened"},
 		'closed': {
 			'divid':'closed_its', 
@@ -35,7 +35,7 @@ var basic_metrics = {
 			'divid':'closers_its', 
 			'column':"closers",
 			'name':"Closers",
-			'desc':"Number of identifiers closing tickets",
+			'desc':"Number of identities closing tickets",
 			'action':"closed"},
 		'changed': {
 			'divid':'changed_its', 
@@ -46,7 +46,7 @@ var basic_metrics = {
 			'divid':'changers_its', 
 			'column':"changers",
 			'name':"Changers",
-			'desc':"Number of identifiers changing the state of tickets",
+			'desc':"Number of identities changing the state of tickets",
 			'action':"changed"}		
 };
 
