@@ -19,7 +19,8 @@ var basic_metrics = {
 		'divid':"commits_scm", 
 		'column':"commits",
 		'name':"Commits",
-		'desc':"Evolution of the number of commits (aggregating branches)"},
+		'desc':"Evolution of the number of commits (aggregating branches)",
+		'envision': {y_labels: true, markers:true}},
 	'committers': {
 		'divid':"committers_scm",
 		'column':"committers",
@@ -32,7 +33,8 @@ var basic_metrics = {
 		'column':"authors",
 		'name':"Authors",
 		'desc':"Unique authors making changes to the source code",
-		'action':"commits"},
+		'action':"commits",
+		'envision': {gtype : 'whiskers'}},
 	'branches': {
 		'divid':"branches_scm", 
 		'column':"branches",
@@ -47,7 +49,8 @@ var basic_metrics = {
 		'divid':"repositories_scm", 
 		'column':"repositories",
 		'name':"Repositories",
-		'desc':"Evolution of the number of repositories"}			
+		'desc':"Evolution of the number of repositories",
+		'envision': {gtype : 'whiskers'}}			
 };
 
 function displayData(filename) {

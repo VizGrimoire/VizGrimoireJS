@@ -5,8 +5,8 @@ var
 
 
 // Only markers for the first series
-var series_drawn;
-var series_number;
+var series_drawn = 0;
+var series_number = 0;
 
 
 // Custom data processor
@@ -75,28 +75,20 @@ function getDefaultsGraph (name, gconfig) {
 	    },
 	    processData : processData
 	};
-	if (gconfig.gtype==="whiskers") {
-		graph.config['whiskers'] = {
-		    show : true,
-		    lineWidth : 2
-		};
-	} 
-	else {
+	
+	if (gconfig.gtype==="whiskers")
+		graph.config['whiskers'] = {show : true, lineWidth : 2}; 
+	else 
 		graph.config['lite-lines'] = {          
 	        lineWidth : 1,
 	        show : true,
 	        fill : true,
 	        fillOpacity : 0.5,
 	      };		
-	}
 	
-	if (gconfig.y_labels) {
-		graph.config.yaxis = {			
-			showLabels : true
-		};
-	}
-	if (gconfig.markers) {
+	if (gconfig.y_labels) graph.config.yaxis = {showLabels : true};
 	
+	if (gconfig.markers)
 		graph.config.markers = {
 	        show: true,
 	        position: 'ct',
@@ -104,7 +96,6 @@ function getDefaultsGraph (name, gconfig) {
 	            return getDefaultsMarkers (o, markers, dates);
 	        }
 		};
-	}
 	
 	return graph;
 }
@@ -122,35 +113,23 @@ function getDefaults () {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
 	var default_config = {
 		colors: defaults_colors, 
-		y_labels : true,
+		y_labels : false,
 		g_type : '',
-		markers : true
+		markers : false
 	};
 	
 	var viz = {};
 	var metrics = SCM.getMetrics();
   
     for (metric in metrics) {
-    	if (metrics[metric]['envision']) config = mergeConfig(default_config, metrics[metric]['envision']);
-    	else config = default_config;
+    	config = default_config;
+    	if (metrics[metric]['envision']) config = mergeConfig(default_config, metrics[metric]['envision']); 
 		if ($.inArray(metric, data.envision_scm_hide)===-1) {
 			viz[metric] = getDefaultsGraph('milestone0-scm-'+metric, config);
 		}
     }
-	
-    /* var graph_defaults = {
-	    commits : getDefaultsGraph('milestone0-scm-commits', config),
-    };
-    config.markers = false;
-    config.y_labels = false;
-    graph_defaults.files = getDefaultsGraph('milestone0-scm-files', config);
-    graph_defaults.branches = getDefaultsGraph('milestone0-scm-branches', config);
-
-    config.gtype = 'whiskers';
-    graph_defaults.committers = getDefaultsGraph('milestone0-scm-committers', config);
-    graph_defaults.authors = getDefaultsGraph('milestone0-scm-authors', config);
-    graph_defaults.repositories = getDefaultsGraph('milestone0-scm-repositories', config);*/
-
+    
+    config = default_config;
     viz.summary = getDefaultsGraph('milestone0-scm-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
     viz.summary.config.handles = {show:true};
@@ -173,27 +152,21 @@ function SCM_Milestone0 (options) {
     defaults = getDefaults(),
     vis = new V.Visualization({name : 'milestone0-scm'}),
     selection = new V.Interaction(),
-    hit = new V.Interaction(),
-    commits, committers, connection, summary, 
-    files, branches, repositories, markers ;
+    hit = new V.Interaction();
+	var metrics = SCM.getMetrics();
 
-  // Data for plotting the graphs
-  defaults.branches.data = [{label:"branches",data:data.branches}];
-  defaults.commits.data = [
-      {label:"commits", data: data.commits}, 
-//      {label:"issues opened", data: data.issues_opened},
-//      {label:"issues closed", data: data.issues_closed} 
-  ];
-  series_number = defaults.commits.data.length;
-  series_drawn = 0;
-  defaults.committers.data = [{label:"committers",data:data.committers}];
-  defaults.authors.data = [{label:"authors",data:data.authors}];
-  defaults.files.data = [{label:"files",data:data.files}];
-  defaults.repositories.data = [{label:"repositories",data:data.repositories}];
+  for (metric in metrics) {
+	if ($.inArray(metric, data.envision_scm_hide)===-1) {
+		defaults[metric].data = [{label:metric,data:data[metric]}];
+	}
+  }
+  
   defaults.summary.data = [{label:"commits", data:data.summary}];
   
-  defaults.commits.config.mouse.trackFormatter = options.trackFormatter;
+  series_number = defaults.commits.data.length;
   
+  // SHOW BUBBLES
+  defaults.commits.config.mouse.trackFormatter = options.trackFormatter;  
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
   }
@@ -201,68 +174,47 @@ function SCM_Milestone0 (options) {
     return '$' + n;
   };
 
-  branches = new V.Component(defaults.branches);
-  commits = new V.Component(defaults.commits);
-  committers = new V.Component(defaults.committers);
-  authors = new V.Component(defaults.authors);
-  files = new V.Component(defaults.files);
-  repositories = new V.Component(defaults.repositories);
-  
+  // ENVISION COMPONENTS
+  var components = {};
+  for (metric in metrics) {
+	if ($.inArray(metric, data.envision_scm_hide)===-1) {
+		components[metric] = new V.Component(defaults[metric]);
+	}
+  }
   connection = new V.Component(defaults.connection);  
   summary = new V.Component(defaults.summary);
    
-  // Render visualization
-  var metrics = SCM.getMetrics();
-  var viz_m0_values = [];
-  
-  for (metric in metrics) {
-	  if ($.inArray(metric,data.envision_scm_hide)===-1) {
-		  viz_m0_values.push(eval(metric));
-	  }
-  }
-  
-  for (var i = 0; i< viz_m0_values.length; i++) {
-	  vis.add(viz_m0_values[i]);
+  // VISUALIZATION
+  for (component in components) {
+	  vis.add(components[component]);
   }  
   vis
     .add(connection)
     .add(summary)
     .render(options.container);
 
-  // Define the selection zooming interaction
-  for (var i = 0; i< viz_m0_values.length; i++) {
-	  selection.follower(viz_m0_values[i]);
-  }
-  
+  // ZOOMING
+  for (component in components) {
+	  selection.follower(components[component]);
+  }  
   selection
     .follower(connection)
     .leader(summary)
     .add(V.actions.selection, options.selectionCallback ? { callback : options.selectionCallback } : null);
 
-  // Define the mouseover hit interaction
+  // HIT
   var hit_group = [];
-  for (var i = 0; i< viz_m0_values.length; i++) {
-	  hit_group.push(viz_m0_values[i]);
-  }
+  for (component in components) {
+	  hit_group.push(components[component]);
+  }  
   hit    
     .group(hit_group)
     .add(V.actions.hit);
 
-  // Optional initial selection
+  // INITIAL SELECTION
   if (options.selection) {
     summary.trigger('select', options.selection);
   }
-
-  // Members
-  /* this.vis = vis;
-  this.selection = selection;
-  this.hit = hit;
-  this.commits = commits;
-  this.committers = committers;
-  this.branches = branches;
-  this.files = files;
-  this.repositories = repositories;
-  this.summary = summary; */
 }
 
 V.templates.SCM_Milestone0 = SCM_Milestone0;
