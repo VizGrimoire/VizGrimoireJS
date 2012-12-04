@@ -114,6 +114,8 @@ function envisionEvo (id, history, markers, config) {
 	container = document.getElementById(id),
 	options, vis;
 
+	var main_metric = "commits";		
+
 	options = {
 		container : container,
 		data : {
@@ -123,7 +125,7 @@ function envisionEvo (id, history, markers, config) {
 			files : files,
 			branches : branches,
 			repositories : repositories,
-			summary : commits,
+			summary : [history.id, history[main_metric]],
 			markers : markers,
 			dates : dates,
 			envision_scm_hide: config.scm_hide,

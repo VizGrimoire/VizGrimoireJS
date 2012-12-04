@@ -332,18 +332,21 @@ function envisionEvo(list_label, id, history) {
 	
 	var markers = M0.getMarkers();
 	var envision_cfg = M0.getConfig();
+	
+	var main_metric = "sent";
+
 			
 	options = {
 		container : container,
 		data : {
-			summary : [ history.id, history.sent ],
+			summary : [ history.id, history[main_metric]],
 			sent : [ history.id, history.sent ],
 			senders : [ history.id, history.senders ],
 			markers : markers,
 			list_label : displayMLSListName(list_label),
 			dates : history.date,
 			envision_mls_hide: envision_cfg.mls_hide,
-			main_metric: "sent"
+			main_metric: main_metric
 		},
 		trackFormatter : function(o) {
 			var
