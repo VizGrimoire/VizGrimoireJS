@@ -2,9 +2,9 @@
     width: 325px;
 }
 
-.milestone0-its-open .envision-component,
-.milestone0-its-close .envision-component,
-.milestone0-its-change .envision-component
+.milestone0-its-opened .envision-component,
+.milestone0-its-closed .envision-component,
+.milestone0-its-changed .envision-component
 {
   height : 100px;
 }
@@ -25,13 +25,13 @@
 }
 
 /* Bubble Borders */
-.milestone0-its-open,
-.milestone0-its-close,
-.milestone0-its-change  {
+.milestone0-its-opened,
+.milestone0-its-closed,
+.milestone0-its-changed  {
   border: 1px solid #FFA500;
   background: #fff;
 }
-.milestone0-its-open
+.milestone0-its-opened
 {
   border-top-right-radius: 5px;
   border-top-left-radius: 5px;
@@ -48,13 +48,13 @@
 }
 
 /* Y-Axis Labels */
-.milestone0-its-open .flotr-grid-label {
+.milestone0-its-opened .flotr-grid-label {
   margin-left: 4px;
 }
-.milestone0-its-open .flotr-grid-label.first {
+.milestone0-its-opened .flotr-grid-label.first {
   margin-top: -6px;
 }
-.milestone0-its-open .flotr-grid-label.last {
+.milestone0-its-opened .flotr-grid-label.last {
   margin-top: 6px;
 }
 
@@ -64,30 +64,31 @@
 }
 
 /* Mouse Tracker */
-.milestone0-its-open .flotr-mouse-value {
+.milestone0-its-opened .flotr-mouse-value {
     font-size: 12px;
 }
 
-.milestone0-its-close .flotr-mouse-value,
-.milestone0-its-change .flotr-mouse-value,
+.milestone0-its-closed .flotr-mouse-value,
+.milestone0-its-changed .flotr-mouse-value,
 .milestone0-its-openers .flotr-mouse-value,
 .milestone0-its-closers .flotr-mouse-value,
-.milestone0-its-changers .flotr-mouse-value
+.milestone0-its-changers .flotr-mouse-value,
+.milestone0-its-summary .flotr-mouse-value
 {
   display: none;
 }
 
 @media screen and (max-width: 600px) {
-  .milestone0-its-open {
+  .milestone0-its-opened {
     width: 100%;
   }  
  
-  .milestone0-its-open .envision-component 
+  .milestone0-its-opened .envision-component 
    {
     height: 120px;
   }
   .milestone0-its-summary .envision-component,
-  .milestone0-its-close .envision-component {
+  .milestone0-its-closed .envision-component {
     height: 40px;
   }
 }

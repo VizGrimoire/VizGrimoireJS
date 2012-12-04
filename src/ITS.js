@@ -13,19 +13,22 @@ ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 ITS.displayTop = displayTop;
 ITS.displayTimeToFix = displayTimeToFix;
+ITS.getMetrics = function() {return basic_metrics;};
 
-var basic_metrics = {
+var basic_metrics = {		
 		'opened': {
 			'divid':'open_its', 
 			'column':"opened",
 			'name':"Opened",
-			'desc':"Number of opened tickets"},
+			'desc':"Number of opened tickets",
+			'envision': {y_labels: true, show_markers:true}},
 		'openers': {
 			'divid':'openers_its', 
 			'column':"openers",
 			'name':"Openers",
 			'desc':"Unique identities opening tickets",
-			'action':"opened"},
+			'action':"opened",
+			'envision': {gtype : 'whiskers'}},
 		'closed': {
 			'divid':'closed_its', 
 			'column':"closed",
@@ -36,7 +39,8 @@ var basic_metrics = {
 			'column':"closers",
 			'name':"Closers",
 			'desc':"Number of identities closing tickets",
-			'action':"closed"},
+			'action':"closed",
+			'envision': {gtype : 'whiskers'}},
 		'changed': {
 			'divid':'changed_its', 
 			'column':"changed",
@@ -47,7 +51,8 @@ var basic_metrics = {
 			'column':"changers",
 			'name':"Changers",
 			'desc':"Number of identities changing the state of tickets",
-			'action':"changed"}		
+			'action':"changed",
+			'envision': {gtype : 'whiskers'}},
 };
 
 function displayEvo (id, its_file, markers, config) {
@@ -98,11 +103,12 @@ function basicEvo (history) {
 function envisionEvo(id, history, markers, envision_cfg) {
 	var V = envision, firstMonth = history.id[0], options, vis;
 	var container = document.getElementById(id);
+	var main_metric = "opened";
 	
 	options = {
 		container : container,
 		data : {
-			summary : [ history.id, history.opened ],
+			summary : [ history.id, history[main_metric]],
 			opened : [ history.id, history.opened ],
 			closed : [ history.id, history.closed ],
 			changed : [ history.id, history.changed ],
@@ -111,7 +117,8 @@ function envisionEvo(id, history, markers, envision_cfg) {
 			changers : [ history.id, history.changers ],
 			markers : markers,
 			dates : history.date,
-			envision_its_hide: envision_cfg.its_hide
+			envision_its_hide: envision_cfg.its_hide,
+			main_metric : main_metric
 		},
 		trackFormatter : function(o) {
 			var
@@ -150,7 +157,7 @@ function envisionEvo(id, history, markers, envision_cfg) {
 		}
 	};
 	// Create the TimeSeries
-	vis = new envision.templates.ITS_Milestone0(options);	
+	vis = new envision.templates.Envision_Milestone0(options,'its');	
 }
 
 function displayTimeToFix (div_id, json_file, column, labels, title) {

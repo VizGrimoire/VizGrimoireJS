@@ -21,6 +21,7 @@ MLS.displayBasicUserAll = displayBasicUserAll;
 MLS.displayEvoDefault = displayEvoDefault;
 MLS.displayData = displayData;
 MLS.displayTop = displayTop;
+MLS.getMetrics = function() {return basic_metrics;};
 
 var basic_metrics = {
 		'sent': {
