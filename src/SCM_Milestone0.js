@@ -109,16 +109,36 @@ function getDefaultsGraph (name, gconfig) {
 	return graph;
 }
 
+function mergeConfig(config1, config2)
+{
+	var new_config = {};
+	for (entry in config1) new_config[entry] = config1[entry];
+	for (entry in config2) new_config[entry] = config2[entry];
+	return new_config;
+}
+
 
 function getDefaults () {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
-	var config = {
+	var default_config = {
 		colors: defaults_colors, 
 		y_labels : true,
 		g_type : '',
 		markers : true
 	};
-    var graph_defaults = {
+	
+	var viz = {};
+	var metrics = SCM.getMetrics();
+  
+    for (metric in metrics) {
+    	if (metrics[metric]['envision']) config = mergeConfig(default_config, metrics[metric]['envision']);
+    	else config = default_config;
+		if ($.inArray(metric, data.envision_scm_hide)===-1) {
+			viz[metric] = getDefaultsGraph('milestone0-scm-'+metric, config);
+		}
+    }
+	
+    /* var graph_defaults = {
 	    commits : getDefaultsGraph('milestone0-scm-commits', config),
     };
     config.markers = false;
@@ -126,22 +146,22 @@ function getDefaults () {
     graph_defaults.files = getDefaultsGraph('milestone0-scm-files', config);
     graph_defaults.branches = getDefaultsGraph('milestone0-scm-branches', config);
 
-    config.g_type = 'whiskers';
+    config.gtype = 'whiskers';
     graph_defaults.committers = getDefaultsGraph('milestone0-scm-committers', config);
     graph_defaults.authors = getDefaultsGraph('milestone0-scm-authors', config);
-    graph_defaults.repositories = getDefaultsGraph('milestone0-scm-repositories', config);
+    graph_defaults.repositories = getDefaultsGraph('milestone0-scm-repositories', config);*/
 
-    graph_defaults.summary = getDefaultsGraph('milestone0-scm-summary', config);
-    graph_defaults.summary.config.xaxis = {noTickets:10, showLabels:true};
-    graph_defaults.summary.config.handles = {show:true};
-    graph_defaults.summary.config.selection = {mode:'x'};
+    viz.summary = getDefaultsGraph('milestone0-scm-summary', config);
+    viz.summary.config.xaxis = {noTickets:10, showLabels:true};
+    viz.summary.config.handles = {show:true};
+    viz.summary.config.selection = {mode:'x'};
 
-    graph_defaults.connection = {
+    viz.connection = {
         name : 'milestone0-scm-connection',
         adapterConstructor : V.components.QuadraticDrawing
     };
     
-    return graph_defaults;  
+    return viz;  
 }
 
 function SCM_Milestone0 (options) {
@@ -193,8 +213,6 @@ function SCM_Milestone0 (options) {
    
   // Render visualization
   var metrics = SCM.getMetrics();
-  var viz_m0_names = [];
-  for (metric in metrics) viz_m0_names.push(metric);
   var viz_m0_values = [];
   
   for (metric in metrics) {

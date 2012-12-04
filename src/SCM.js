@@ -25,7 +25,8 @@ var basic_metrics = {
 		'column':"committers",
 		'name':"Committers",
 		'desc':"Unique committers making changes to the source code",
-		'action': "commits"},
+		'action': "commits",
+		'envision': {gtype : 'whiskers'}},
 	'authors': {
 		'divid':"authors_scm", 
 		'column':"authors",
