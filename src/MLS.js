@@ -48,6 +48,8 @@ function displayMLSListName(listinfo) {
 	} else {
 		list_name = listinfo.replace("<","");
 		list_name = list_name.replace(">","");
+		list_name_tokens = list_name.split(".");
+		list_name = list_name_tokens[0];
 	}
 	return list_name;
 }
@@ -338,9 +340,10 @@ function envisionEvo(list_label, id, history) {
 			sent : [ history.id, history.sent ],
 			senders : [ history.id, history.senders ],
 			markers : markers,
-			list_label : list_label,
+			list_label : displayMLSListName(list_label),
 			dates : history.date,
-			envision_mls_hide: envision_cfg.mls_hide
+			envision_mls_hide: envision_cfg.mls_hide,
+			main_metric: "sent"
 		},
 		trackFormatter : function(o) {
 			var
@@ -370,6 +373,6 @@ function envisionEvo(list_label, id, history) {
 		}
 	};
 	// Create the TimeSeries
-	vis = new envision.templates.MLS_Milestone0(options);		
+	vis = new envision.templates.Envision_Milestone0(options,'mls');		
 }
 })();

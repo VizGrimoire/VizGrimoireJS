@@ -126,7 +126,8 @@ function envisionEvo (id, history, markers, config) {
 			summary : commits,
 			markers : markers,
 			dates : dates,
-			envision_scm_hide: config.scm_hide
+			envision_scm_hide: config.scm_hide,
+			main_metric: "commits"		
 		},
 		trackFormatter : function(o) {
 			var
@@ -162,6 +163,6 @@ function envisionEvo (id, history, markers, config) {
 		}
 	};
 	// Create the TimeSeries
-	vis = new envision.templates.SCM_Milestone0(options);
+	vis = new envision.templates.Envision_Milestone0(options,'scm');
 }
 })();

@@ -4,7 +4,6 @@ var
   V = envision, global_data = {};
 
 function getDefaults (ds) {
-	ds = "its";
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
 	var default_config = {
 		colors: defaults_colors, 
@@ -51,7 +50,7 @@ function Envision_Milestone0 (options, ds) {
 	
   var
     data = options.data,
-    defaults = getDefaults(),
+    defaults = getDefaults(ds),
     vis = new V.Visualization({name : 'milestone0-'+ds}),
     selection = new V.Interaction(),
     hit = new V.Interaction();
@@ -64,6 +63,9 @@ function Envision_Milestone0 (options, ds) {
   for (metric in metrics) {
 	if ($.inArray(metric, data['envision_'+ds+'_hide'])===-1) {
 		defaults[metric].data = [{label:metric,data:data[metric]}];
+		if (ds === 'mls')
+			defaults[metric].data = 
+				[{label:metric+" "+data.list_label,data:data[metric]}];
 	}
   }
   

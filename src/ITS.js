@@ -103,7 +103,6 @@ function basicEvo (history) {
 function envisionEvo(id, history, markers, envision_cfg) {
 	var V = envision, firstMonth = history.id[0], options, vis;
 	var container = document.getElementById(id);
-	var main_metric = "opened";
 	
 	options = {
 		container : container,
@@ -118,7 +117,7 @@ function envisionEvo(id, history, markers, envision_cfg) {
 			markers : markers,
 			dates : history.date,
 			envision_its_hide: envision_cfg.its_hide,
-			main_metric : main_metric
+			main_metric : "opened"
 		},
 		trackFormatter : function(o) {
 			var
