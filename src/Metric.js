@@ -9,7 +9,17 @@ var Metric = {};
 Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
+Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Metric.checkBasicConfig = checkBasicConfig;
+Metric.mergeConfig = mergeConfig;
+
+function mergeConfig(config1, config2)
+{
+	var new_config = {};
+	for (entry in config1) new_config[entry] = config1[entry];
+	for (entry in config2) new_config[entry] = config2[entry];
+	return new_config;
+}
 
 function findMetricDoer(history, metric) {
 	for (var field in history) {
@@ -64,6 +74,60 @@ function displayTop(div, top_file, basic_metrics, all) {
 		}
 	});
 }
+
+function getDefaultsMarkers (option, markers, dates) {
+    var mark = "";
+    for (var i=0; i<markers.date.length; i++) {
+        if (markers.date[i] == dates[option.index]) {
+            mark = markers.marks[i];
+            }
+    }
+    return mark;
+} 
+
+function getEnvisionDefaultsGraph (name, gconfig) {
+	var graph = {
+	    name : name,
+	    config : {
+	      colors: gconfig.colors,
+	      mouse : {
+	        track: true,
+	        trackY: false,
+	        position: 'ne'
+	      },
+	      yaxis : {
+	    	  autoscale : true,  
+	      },
+	      legend : {
+	          backgroundColor : '#FFFFFF', // A light blue background color
+	          backgroundOpacity: 0,
+	      },
+	    }
+	};
+	
+	if (gconfig.gtype==="whiskers")
+		graph.config['whiskers'] = {show : true, lineWidth : 2}; 
+	else 
+		graph.config['lite-lines'] = {          
+	        lineWidth : 1,
+	        show : true,
+	        fill : true,
+	        fillOpacity : 0.5,
+	      };		
+	
+	if (gconfig.y_labels) graph.config.yaxis = {showLabels : true};
+	
+	if (gconfig.show_markers)
+		graph.config.markers = {
+	        show: true,
+	        position: 'ct',
+	        labelFormatter: function (o) {
+	            return getDefaultsMarkers (o, gconfig.markers, gconfig.dates);
+	        }
+		};	
+	return graph;
+}
+
 
 function checkBasicConfig(config) {
 	if (config == undefined) config = {};

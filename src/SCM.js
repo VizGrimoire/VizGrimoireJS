@@ -20,7 +20,7 @@ var basic_metrics = {
 		'column':"commits",
 		'name':"Commits",
 		'desc':"Evolution of the number of commits (aggregating branches)",
-		'envision': {y_labels: true, markers:true}},
+		'envision': {y_labels: true, show_markers:true}},
 	'committers': {
 		'divid':"committers_scm",
 		'column':"committers",

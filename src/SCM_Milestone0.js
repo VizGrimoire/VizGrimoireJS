@@ -3,119 +3,15 @@
 var
   V = envision, global_data = {};
 
-
-// Only markers for the first series
-var series_drawn = 0;
-var series_number = 0;
-
-
-// Custom data processor
-function processData (options) {
-    
-  return;
-
-  var
-    resolution = options.resolution;
-
-  options.preprocessor
-    .bound(options.min, options.max)
-    .subsampleMinMax(resolution + Math.round(resolution / 3));
-}
-
-function getDefaultsMarkersSummary (option, markers, dates) {
-    var mark = "";
-    for (var i=0; i<markers.date.length; i++) {
-        if (markers.date[i] == dates[option.index]) {
-            mark = markers.marks[i];
-        }
-    }
-    return mark;
-}
-
-// Only show markers with the first graph
-function getDefaultsMarkers (option, markers, dates) {
-    var mark = "";
-    for (var i=0; i<markers.date.length; i++) {
-        if (markers.date[i] == dates[option.index]) {
-            mark = markers.marks[i];
-            if (series_drawn != 0) mark="";
-            // Last mark?
-            if (i == markers.date.length-1) {
-                series_drawn++;
-                // Last series? Reset initial status
-                if (series_drawn == series_number) {
-                    series_drawn = 0;
-                }
-            }
-        }
-    }
-    return mark;
-}
-
-function getDefaultsGraph (name, gconfig) {
-	markers = global_data.markers;
-	dates = global_data.dates;
-		
-	var graph = {
-	    name : name,
-	    config : {
-	      colors: gconfig.colors,
-	      mouse : {
-	        track: true,
-	        trackY: false,
-	        position: 'ne'
-	      },
-	      yaxis : {
-	    	  autoscale : true,  
-	      },
-	      legend : {
-	          backgroundColor : '#FFFFFF', // A light blue background color
-	          backgroundOpacity: 0,
-	      },
-	    },
-	    processData : processData
-	};
-	
-	if (gconfig.gtype==="whiskers")
-		graph.config['whiskers'] = {show : true, lineWidth : 2}; 
-	else 
-		graph.config['lite-lines'] = {          
-	        lineWidth : 1,
-	        show : true,
-	        fill : true,
-	        fillOpacity : 0.5,
-	      };		
-	
-	if (gconfig.y_labels) graph.config.yaxis = {showLabels : true};
-	
-	if (gconfig.markers)
-		graph.config.markers = {
-	        show: true,
-	        position: 'ct',
-	        labelFormatter: function (o) {
-	            return getDefaultsMarkers (o, markers, dates);
-	        }
-		};
-	
-	return graph;
-}
-
-function mergeConfig(config1, config2)
-{
-	var new_config = {};
-	for (entry in config1) new_config[entry] = config1[entry];
-	for (entry in config2) new_config[entry] = config2[entry];
-	return new_config;
-}
-
-
 function getDefaults () {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
 	var default_config = {
 		colors: defaults_colors, 
 		y_labels : false,
 		g_type : '',
-		markers : false
+		markers : false,
+		dates: global_data.dates,
+		markers: global_data.markers	
 	};
 	
 	var viz = {};
@@ -123,14 +19,15 @@ function getDefaults () {
   
     for (metric in metrics) {
     	config = default_config;
-    	if (metrics[metric]['envision']) config = mergeConfig(default_config, metrics[metric]['envision']); 
+    	if (metrics[metric]['envision']) 
+    		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
 		if ($.inArray(metric, data.envision_scm_hide)===-1) {
-			viz[metric] = getDefaultsGraph('milestone0-scm-'+metric, config);
+			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-scm-'+metric, config);
 		}
     }
     
     config = default_config;
-    viz.summary = getDefaultsGraph('milestone0-scm-summary', config);
+    viz.summary = Metric.getEnvisionDefaultsGraph('milestone0-scm-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
     viz.summary.config.handles = {show:true};
     viz.summary.config.selection = {mode:'x'};
@@ -162,9 +59,7 @@ function SCM_Milestone0 (options) {
   }
   
   defaults.summary.data = [{label:"commits", data:data.summary}];
-  
-  series_number = defaults.commits.data.length;
-  
+    
   // SHOW BUBBLES
   defaults.commits.config.mouse.trackFormatter = options.trackFormatter;  
   if (options.xTickFormatter) {
