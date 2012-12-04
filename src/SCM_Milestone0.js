@@ -1,9 +1,10 @@
 (function () {
 
 var
-  V = envision;
+  V = envision, global_data = {};
 
-// Only markers for the first serie
+
+// Only markers for the first series
 var series_drawn;
 var series_number;
 
@@ -51,216 +52,110 @@ function getDefaultsMarkers (option, markers, dates) {
     return mark;
 }
 
-function getDefaults (markers, dates) {
+function getDefaultsGraph (name, gconfig) {
+	markers = global_data.markers;
+	dates = global_data.dates;
+		
+	var graph = {
+	    name : name,
+	    config : {
+	      colors: gconfig.colors,
+	      mouse : {
+	        track: true,
+	        trackY: false,
+	        position: 'ne'
+	      },
+	      yaxis : {
+	    	  autoscale : true,  
+	      },
+	      legend : {
+	          backgroundColor : '#FFFFFF', // A light blue background color
+	          backgroundOpacity: 0,
+	      },
+	    },
+	    processData : processData
+	};
+	if (gconfig.gtype==="whiskers") {
+		graph.config['whiskers'] = {
+		    show : true,
+		    lineWidth : 2
+		};
+	} 
+	else {
+		graph.config['lite-lines'] = {          
+	        lineWidth : 1,
+	        show : true,
+	        fill : true,
+	        fillOpacity : 0.5,
+	      };		
+	}
+	
+	if (gconfig.y_labels) {
+		graph.config.yaxis = {			
+			showLabels : true
+		};
+	}
+	if (gconfig.markers) {
+	
+		graph.config.markers = {
+	        show: true,
+	        position: 'ct',
+	        labelFormatter: function (o) {
+	            return getDefaultsMarkers (o, markers, dates);
+	        }
+		};
+	}
+	
+	return graph;
+}
+
+
+function getDefaults () {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
-  return {
-    commits : {
-      name : 'milestone0-scm-commits',
-      config : {
-        colors: defaults_colors,
-        'lite-lines' : {          
-          lineWidth : 1,
-          show : true,
-          fill : true,
-          fillOpacity : 0.5,
-          /* color: '#ffa500',
-          fillColor: '#ffa500' */
-        },               
-        'markers': {
-            show: true,
-            position: 'ct',
-            labelFormatter: function (o) {
-                return getDefaultsMarkers (o, markers, dates);
-            }
-          },
-        mouse : {
-          track: true,
-          trackY: false,
-          trackDecimals: 4,
-          position: 'ne'
-        },
-        yaxis : {
-          show: true,
-          autoscale : true,
-          autoscaleMargin : 0.05,
-          noTicks : 3,
-          showLabels : true,
-          min : 0
-        },
-        legend : {
-            backgroundColor : '#FFFFFF', // A light blue background color
-            backgroundOpacity: 0,
-        },
-      },
-      processData : processData
-    },
-    files : {
-        name : 'milestone0-scm-files',
-        config : {
-            colors: defaults_colors,
-          'lite-lines' : {
-            lineWidth : 1,
-            show : true,
-            fill : true,
-            fillOpacity : 0.2
-          },
-          mouse : {
-            track: true,
-            trackY: false,
-            trackAll: true,
-            sensibility: 1,
-            trackDecimals: 4,
-            position: 'ne'
-          },
-          yaxis : { 
-            autoscale : true,
-            autoscaleMargin : 0.05,
-          },
-          legend : {
-              backgroundColor : '#FFFFFF', // A light blue background color
-              backgroundOpacity: 0,
-          }
-        },       
-        processData : processData
-      },
-      branches : {
-          name : 'milestone0-scm-branches',
-          config : {
-            colors: defaults_colors,
-            'lite-lines' : {
-              lineWidth : 1,
-              show : true,
-              fill : true,
-              fillOpacity : 0.2,
-            },
-            mouse : {
-              track: true,
-              trackY: false,
-              trackAll: true,
-            },
-            yaxis : { 
-              autoscale : true,
-              autoscaleMargin : 0.05,
-              min : 0
-            },
-            legend : {
-                backgroundColor : '#FFFFFF', // A light blue background color
-                backgroundOpacity: 0,
-            },
-          },
-          processData : processData
-      },
-      committers : {
-        name : 'milestone0-scm-committers',
-        config : {
-            colors: defaults_colors,
-            whiskers : {
-              show : true,
-              lineWidth : 2
-        },
-        mouse: {
-          track: true,
-          trackY: false,
-          trackAll: true
-        },
-        yaxis : {
-          autoscale : true,
-          autoscaleMargin : 0.5 
-        },
-        legend : {
-            backgroundColor : '#FFFFFF', // A light blue background color
-            backgroundOpacity: 0,
-        },
-      },
-      processData : processData
-    },
-    repositories : {
-        name : 'milestone0-scm-repositories',
-        config : {
-          colors: defaults_colors,
-          whiskers : {
-            show : true,
-            lineWidth : 2
-          },
-          mouse: {
-            track: true,
-            trackY: false,
-            trackAll: true
-          },
-          yaxis : {
-            autoscale : true,
-            autoscaleMargin : 0.5 
-          },
-          legend : {
-              backgroundColor : '#FFFFFF', // A light blue background color
-              backgroundOpacity: 0,
-          },
-        },
-        processData : processData
-      },    
-    summary : {
-      name : 'milestone0-scm-summary',
-      config : {
-        colors: defaults_colors,
-        'lite-lines' : {
-          show : true,
-          lineWidth : 1,
-          fill : true,
-          fillOpacity : 0.2,
-          fillBorder : true
-        },
-        xaxis : {
-          noTicks: 10,
-          showLabels : true,
-        },
-        yaxis : {
-          autoscale : true,
-          autoscaleMargin : 0.1
-        },
-        handles : {
-          show : true
-        },
-        selection : {
-          mode : 'x'
-        },
-        grid : {
-          verticalLines : false
-        },
-        'markers': {
-            show: true,
-            position: 'cm',
-            labelFormatter: function (o) {
-                return getDefaultsMarkersSummary (o, markers, dates);
-            }
-          },
-          legend : {
-        	  show: false
-          }
-      },      
-    },
-    connection : {
-      name : 'milestone0-scm-connection',
-      adapterConstructor : V.components.QuadraticDrawing
-    }
-  };
+	var config = {
+		colors: defaults_colors, 
+		y_labels : true,
+		g_type : '',
+		markers : true
+	};
+    var graph_defaults = {
+	    commits : getDefaultsGraph('milestone0-scm-commits', config),
+    };
+    config.markers = false;
+    config.y_labels = false;
+    graph_defaults.files = getDefaultsGraph('milestone0-scm-files', config);
+    graph_defaults.branches = getDefaultsGraph('milestone0-scm-branches', config);
+
+    config.g_type = 'whiskers';
+    graph_defaults.committers = getDefaultsGraph('milestone0-scm-committers', config);
+    graph_defaults.authors = getDefaultsGraph('milestone0-scm-authors', config);
+    graph_defaults.repositories = getDefaultsGraph('milestone0-scm-repositories', config);
+
+    graph_defaults.summary = getDefaultsGraph('milestone0-scm-summary', config);
+    graph_defaults.summary.config.xaxis = {noTickets:10, showLabels:true};
+    graph_defaults.summary.config.handles = {show:true};
+    graph_defaults.summary.config.selection = {mode:'x'};
+
+    graph_defaults.connection = {
+        name : 'milestone0-scm-connection',
+        adapterConstructor : V.components.QuadraticDrawing
+    };
+    
+    return graph_defaults;  
 }
 
 function SCM_Milestone0 (options) {
-
+  
+  global_data = options.data;
+	
   var
     data = options.data,
-    defaults = getDefaults(data.markers, data.dates),
-    vis = new V.Visualization({
-        name : 'milestone0-scm',
-        }),
+    defaults = getDefaults(),
+    vis = new V.Visualization({name : 'milestone0-scm'}),
     selection = new V.Interaction(),
     hit = new V.Interaction(),
     commits, committers, connection, summary, 
     files, branches, repositories, markers ;
-
-  if (options.defaults) {
-    defaults = Flotr.merge(options.defaults, defaults);
-  }
 
   // Data for plotting the graphs
   defaults.branches.data = [{label:"branches",data:data.branches}];
@@ -272,6 +167,7 @@ function SCM_Milestone0 (options) {
   series_number = defaults.commits.data.length;
   series_drawn = 0;
   defaults.committers.data = [{label:"committers",data:data.committers}];
+  defaults.authors.data = [{label:"authors",data:data.authors}];
   defaults.files.data = [{label:"files",data:data.files}];
   defaults.repositories.data = [{label:"repositories",data:data.repositories}];
   defaults.summary.data = [{label:"commits", data:data.summary}];
@@ -288,6 +184,7 @@ function SCM_Milestone0 (options) {
   branches = new V.Component(defaults.branches);
   commits = new V.Component(defaults.commits);
   committers = new V.Component(defaults.committers);
+  authors = new V.Component(defaults.authors);
   files = new V.Component(defaults.files);
   repositories = new V.Component(defaults.repositories);
   
@@ -295,12 +192,14 @@ function SCM_Milestone0 (options) {
   summary = new V.Component(defaults.summary);
    
   // Render visualization
-  var viz_m0_names = ["commits", "committers", "branches", "files", "repositories"];
+  var metrics = SCM.getMetrics();
+  var viz_m0_names = [];
+  for (metric in metrics) viz_m0_names.push(metric);
   var viz_m0_values = [];
   
-  for (var i = 0; i< viz_m0_names.length; i++) {
-	  if ($.inArray(viz_m0_names[i],data.envision_scm_hide)===-1) {
-		  viz_m0_values.push(eval(viz_m0_names[i]));
+  for (metric in metrics) {
+	  if ($.inArray(metric,data.envision_scm_hide)===-1) {
+		  viz_m0_values.push(eval(metric));
 	  }
   }
   
@@ -337,7 +236,7 @@ function SCM_Milestone0 (options) {
   }
 
   // Members
-  this.vis = vis;
+  /* this.vis = vis;
   this.selection = selection;
   this.hit = hit;
   this.commits = commits;
@@ -345,7 +244,7 @@ function SCM_Milestone0 (options) {
   this.branches = branches;
   this.files = files;
   this.repositories = repositories;
-  this.summary = summary;
+  this.summary = summary; */
 }
 
 V.templates.SCM_Milestone0 = SCM_Milestone0;

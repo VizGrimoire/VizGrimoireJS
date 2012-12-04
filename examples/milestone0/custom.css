@@ -14,6 +14,14 @@
     /* width: 600px; */
 }
 
+#envision-scm {
+    height: 600px;
+}
+
+#scm-envision-time .envision-component {
+    width: 800px;
+} 
+
 #mls-aggregated-time {
 	width:500px;
 }

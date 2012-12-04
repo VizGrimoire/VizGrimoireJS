@@ -12,7 +12,7 @@ SCM.displayBasicMetricHTML = displayBasicMetricHTML;
 SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
 SCM.displayTop = displayTop;
-
+SCM.getMetrics = function() {return basic_metrics;};
 
 var basic_metrics = {
 	'commits': {
@@ -101,6 +101,7 @@ function envisionEvo (id, history, markers, config) {
 	var V = envision, firstMonth = history.id[0], 
 	commits = [history.id, history.commits ], 
 	committers = [history.id, history.committers ], 
+	authors = [history.id, history.authors ],
 	ratio = [history.id, history.ratio ], 
 	files = [history.id, history.files ], 
 	branches = [history.id, history.branches ], 
@@ -114,6 +115,7 @@ function envisionEvo (id, history, markers, config) {
 		data : {
 			commits : commits,
 			committers : committers,
+			authors : authors,
 			files : files,
 			branches : branches,
 			repositories : repositories,
@@ -130,6 +132,7 @@ function envisionEvo (id, history, markers, config) {
 
 			value = dates[index] + ": ";
 			value += commits[1][index] + " commits, ";
+			value += authors[1][index] + " authors, <br/> ";
 			value += committers[1][index] + " committers, <br/> ";
 			value += files[1][index]+ " files, ";
 			value += branches[1][index] + " branches, ";
