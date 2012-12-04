@@ -1,6 +1,6 @@
 #
 # Usage:
-#  R --no-restore --no-save --args dbschema user passwd [enddate [startdate] ] < its-analysis.R > script.out
+#  R --no-restore --no-save --args dbschema user passwd its [enddate [startdate] ] < its-analysis.R > script.out
 
 # Get arguments from the command line
 #
@@ -35,8 +35,15 @@ database <- args[1]
 user <- args[2]
 password <- args[3]
 
+# bugzilla, allura.
 if (length(args) > 3) {
-   enddate <- args[4]
+	its <- args[4]
+} else {
+	its <- 'bugzilla'
+}
+
+if (length(args) > 4) {
+   enddate <- args[5]
 } else {
    enddate <- "2100-01-01"
 }
@@ -45,8 +52,8 @@ endyear <- enddatesplit[[1]][1]
 endmonth <- enddatesplit[[1]][2]
 enddate <- paste (c("'", enddate, "'"), collapse='')
 
-if (length(args) > 4) {
-   startdate <- args[5]
+if (length(args) > 5) {
+   startdate <- args[6]
 } else {
    startdate <- "1900-01-01"
 }
@@ -71,6 +78,7 @@ library(RMySQL)
 #
 mychannel <- dbConnect(MySQL(), user=user, password=password, host="localhost", db=database)
 query <- function(...) dbGetQuery(mychannel, ...)
+dbGetQuery(mychannel, "SET NAMES 'utf8'")
 
 # To install RColorBrewer
 # $sudo R
@@ -80,8 +88,14 @@ library(RColorBrewer)
 
 source("swscopio.R")
 
+closed_condition <- "new_value='RESOLVED' OR new_value='CLOSED'"
+
+if (its == 'allura') closed_condition <- "new_value='CLOSED'"
+
+print (closed_condition)
+
 # Closed tickets: time ticket was open, first closed, time-to-first-close
-q <- "SELECT issue_id, issue,
+q <- paste("SELECT issue_id, issue,
         submitted_on as time_open,
         time_closed,
     time_closed_last,
@@ -92,9 +106,9 @@ q <- "SELECT issue_id, issue,
            MIN(changed_on) AS time_closed,
            MAX(changed_on) as time_closed_last
          FROM changes
-         WHERE (new_value='RESOLVED' OR new_value='CLOSED')
+         WHERE ",closed_condition,"
          GROUP BY issue_id) ch
-      WHERE issues.id = ch.issue_id"
+      WHERE issues.id = ch.issue_id")
 res_issues_closed <- query(q)
 
 
@@ -103,7 +117,7 @@ q <- paste ("SELECT year(submitted_on) * 12 + month(submitted_on) AS id,
                year(submitted_on) AS year,
                month(submitted_on) AS month,
 	       DATE_FORMAT (submitted_on, '%b %Y') as date,
-               count(submitted_by) AS open,
+               count(submitted_by) AS opened,
                count(distinct(submitted_by)) AS openers
              FROM issues
 	     GROUP BY year,month
@@ -118,7 +132,7 @@ q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
                count(issue_id) AS closed,
                count(distinct(changed_by)) AS closers
              FROM changes
-             WHERE new_value='RESOLVED' OR new_value='CLOSED' 
+             WHERE ",closed_condition," 
              GROUP BY year,month
          ORDER BY year,month")
 closed_monthly <- query(q)
@@ -153,6 +167,31 @@ q <- paste ("SELECT count(*) as tickets,
 			 FROM issues")
 data <- query(q)
 createJSON (data, "../data/json/its-info-milestone0.json")
+
+# Top
+top_closers <- function(days = 0) {
+	if (days == 0 ) {
+		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
+					FROM changes c JOIN people p ON c.changed_by = p.id 
+					WHERE ", closed_condition, " 
+					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")	
+	} else {
+		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
+					FROM changes c JOIN people p ON c.changed_by = p.id 
+					WHERE ", closed_condition, " 
+					AND c.id in (select id from changes where DATEDIFF(CURDATE(),changed_on)<",days,") 
+					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")		
+	}
+	data <- query(q)
+	return (data)	
+}
+# Top closers
+top_closers_data <- list()
+top_closers_data[['closers.']]<-top_closers()
+top_closers_data[['closers.last year']]<-top_closers(365)
+top_closers_data[['closers.last month']]<-top_closers(31)
+
+createJSON (top_closers_data, "../data/json/its-top-milestone0.json")
 
 # Disconnect from DB
 dbDisconnect(con)

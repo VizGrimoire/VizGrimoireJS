@@ -31,7 +31,7 @@ library(RMySQL)
 #
 mychannel <- dbConnect(MySQL(), user=user, password=password, host="localhost", db=database)
 query <- function(...) dbGetQuery(mychannel, ...)
-
+dbGetQuery(mychannel, "SET NAMES 'utf8'")
 
 #TODO: add support for the granularity option  (not user so far)
 
@@ -89,6 +89,33 @@ evol_committers <- function(granularity){
 
   return (data_committers)
 }
+
+evol_authors <- function(granularity){
+	# Authors evolution
+	q <- paste ("select m.id as id,
+					m.year as year,
+					m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date,
+					IFNULL(pm.authors, 0) as authors
+					from   months m
+					left join(
+					select year(s.date) as year, 
+					month(s.date) as month, 
+					count(distinct(s.author_id)) as authors
+					from   scmlog s 
+					group by year(s.date),
+					month(s.date)
+					order by year(s.date),
+					month(s.date) ) as pm
+					on (
+					m.year = pm.year and
+					m.month = pm.month);")
+	
+	data_authors <- query(q)
+	
+	return (data_authors)
+}
+
 
 
 evol_files <- function(granularity){
@@ -187,11 +214,34 @@ evol_info_data <- function() {
 				DATE_FORMAT (min(date), '%Y-%m-%d') as first_date, 
 				DATE_FORMAT (max(date), '%Y-%m-%d') as last_date 
 				FROM scmlog;")
-	
 	data <- query(q)
 	return (data)
 }
 
+top_committers <- function(days = 0) {
+	if (days == 0 ) {
+	q <- paste("SELECT count(s.id) as commits, p.email as developer
+				FROM scmlog s JOIN people p ON p.id=s.committer_id 
+				GROUP BY p.email ORDER BY commits DESC 
+				LIMIT 10;")
+	} else {
+	q <- paste("SELECT count(s.id) as commits, p.email as developer
+			   FROM scmlog s JOIN people p ON p.id=s.committer_id
+			   WHERE DATEDIFF(CURDATE(),date)<",days," 
+			   GROUP BY p.email ORDER BY commits DESC 
+			   LIMIT 10;")
+	}
+	data <- query(q)
+	return (data)	
+}
 
+top_files_modified <- function() {
+	q <- paste("select file_name, count(commit_id) as modifications 
+				from action_files a join files f on a.file_id = f.id 
+				where action_type='M' group by f.id 
+				order by modifications desc limit 10; ")	
+	data <- query(q)
+	return (data)	
+}
 
 

@@ -1,10 +1,24 @@
 {
-"scm_hide":["branches", "files", "repositories"],
-"its_hide":["open", "change", "openers", "changers"],
-"mls_hide":["sent"],
+"scm_hide":["*branches", "*files", "repositories"],
+"its_hide":["*opened", "*changed", "*openers", "*changers"],
+"mls_hide":["*senders"],
 "mls_hide_lists":[
 "http:__lists.wikimedia.org_pipermail_analytics",
-"*http:__lists.wikimedia.org_pipermail_design",
-"http:__lists.wikimedia.org_pipermail_maps-l"
+"http:__lists.wikimedia.org_pipermail_design",
+"http:__lists.wikimedia.org_pipermail_huggle",
+"http:__lists.wikimedia.org_pipermail_labs-l",
+"http:__lists.wikimedia.org_pipermail_maps-l",
+"http:__lists.wikimedia.org_pipermail_mediawiki-api",
+"http:__lists.wikimedia.org_pipermail_mediawiki-i18n",
+"*http:__lists.wikimedia.org_pipermail_mobile-l",
+"http:__lists.wikimedia.org_pipermail_offline-l",
+"http:__lists.wikimedia.org_pipermail_pywikipedia-announce",
+"http:__lists.wikimedia.org_pipermail_pywikipedia-l",
+"http:__lists.wikimedia.org_pipermail_wikibots-l",
+"http:__lists.wikimedia.org_pipermail_wikidata-l",
+"*http:__lists.wikimedia.org_pipermail_wikitech-l",
+"http:__lists.wikimedia.org_pipermail_wikitext-l",
+"*http:__lists.wikimedia.org_pipermail_wikivideo-l",
+"http:__lists.wikimedia.org_pipermail_xmldatadumps-l"
 ]
 }

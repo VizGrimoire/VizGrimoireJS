@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis, libreplan" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+        <meta name="description" content="Bitergia company website" />
+        <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/envision.min.css" />
+        <link rel="stylesheet" type="text/css" href="M0.css" />
+        <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/SCM_Milestone0.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
+        <link rel="stylesheet" type="text/css" href="custom.css" />
+        <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+        <title>Bitergia M0 Report</title>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header"></div>
+            <script type="text/javascript">
+				$.get("header.html", function(header) {
+					$("#header").html(header);
+					$("#report_page").html("->Source code activity");
+				});
+            </script>
+
+			<div id="navigation" style="float:left"></div>
+            <script type="text/javascript">
+				$.get("navigation.html", function(navigation) {
+					$("#navigation").html(navigation);
+				});
+            </script>
+					
+            <div style="float:left">
+                <!-- SOURCE CODE -->
+                <div class="source_info">
+                    <div class="left" id="envision-scm" style="height:520px">
+                        <div class="info-pill">
+                            <h1>Change sets (commits to source code)</h1>
+                        </div>
+                        <div class="info-pill">
+                            <div class="left" id="scm-time"></div>
+                        </div>
+                    </div>
+                    <div class="left column">
+                        <div id="scm_flotr2" ></div>
+                    </div>
+                </div>
+            </div>
+
+			<div style="float: left">
+				<div id="scm-top"></div>
+			</div>
+	
+			<div id="footer"></div>
+            <script type="text/javascript">
+				$.get("footer.html", function(footer) {
+					$("#footer").html(footer);
+				});
+            </script>
+
+        </div>
+        <!-- wrapper -->
+
+        <!--[if IE]>
+        <script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/swscopio.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Metric.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>                        
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM_Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/ITS_Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/MLS_Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
+
+        <script type="text/javascript">
+		M0.data_ready(function() {
+            var config_metric = {};
+            config_metric.show_title = false;
+
+			SCM.displayData('data/json/scm-info-milestone0.json');
+            SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2',config_metric);
+            SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig());
+            SCM.displayTop('scm-top','data/json/scm-top-milestone0.json');
+            
+            ITS.displayData('data/json/its-info-milestone0.json');
+            MLS.displayData('data/json/mls-info-milestone0.json');
+            
+            M0.displayProjectData('data/json/project-info-milestone0.json');
+		});
+   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
+        </script>
+    </body>
+</html>

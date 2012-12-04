@@ -68,6 +68,10 @@ data_commits = evol_commits()
 #Committers per month
 data_committers = evol_committers()
 
+# Authors per month
+data_authors = evol_authors()
+
+
 #Files per month
 data_files = evol_files()
 
@@ -80,7 +84,17 @@ data_repositories = evol_repositories()
 # Fixed data
 info_data = evol_info_data()
 
+# Top committers
+top_committers_data <- list()
+top_committers_data[['committers.']]<-top_committers()
+top_committers_data[['committers.last year']]<-top_committers(365)
+top_committers_data[['committers.last month']]<-top_committers(31)
+
+# Top files
+top_files_modified_data = top_files_modified()
+
 agg_data = merge(data_commits, data_committers, all = TRUE)
+agg_data = merge(agg_data, data_authors, all = TRUE)
 agg_data = merge(agg_data, data_files, all = TRUE)
 agg_data = merge(agg_data, data_branches, all = TRUE)
 agg_data = merge(agg_data, data_repositories, all = TRUE)
@@ -88,3 +102,4 @@ agg_data[is.na(agg_data)] <- 0
 
 createJSON (agg_data, "../data/json/scm-milestone0.json")
 createJSON (info_data, "../data/json/scm-info-milestone0.json")
+createJSON (top_committers_data, "../data/json/scm-top-milestone0.json")

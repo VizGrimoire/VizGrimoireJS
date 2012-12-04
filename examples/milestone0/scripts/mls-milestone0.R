@@ -80,6 +80,37 @@ library(RColorBrewer)
 
 source("swscopio.R")
 
+analAggregated <- function () {
+	# sent
+	q <- paste("SELECT year(first_date) * 12 + month(first_date) AS id,
+					year(first_date) AS year,
+					month(first_date) AS month,
+					DATE_FORMAT (first_date, '%b %Y') as date,
+					count(message_ID) AS sent
+					FROM messages
+					GROUP BY year,month
+					ORDER BY year,month") 
+	
+	sent_monthly <- query(q)
+	
+	# senders
+	q <- paste ("SELECT year(first_date) * 12 + month(first_date) AS id,
+					year(first_date) AS year,
+					month(first_date) AS month,
+					DATE_FORMAT (first_date, '%b %Y') as date,
+					count(distinct(email_address)) AS senders
+					FROM messages
+					JOIN messages_people on (messages_people.message_id = messages.message_ID)
+					WHERE type_of_recipient='From'
+					GROUP BY year,month
+					ORDER BY year,month")
+	senders_monthly <- query(q)
+	
+	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
+	mls_monthly[is.na(mls_monthly)] <- 0
+	createJSON (mls_monthly, paste("../data/json/mls-milestone0.json"))	
+}
+
 analList <- function (listname) {
 
     field = "mailing_list"
@@ -161,6 +192,21 @@ analList <- function (listname) {
     createJSON (data, paste("../data/json/mls-",listname_file,"-info-milestone0.json",sep=''))
 }
 
+top_senders <- function(days = 0) {
+	if (days == 0 ) {
+		q <- paste("SELECT email_address as developer, count(m.message_id) as sent 
+					FROM messages m join messages_people m_p on m_p.message_id=m.message_ID 
+					GROUP by email_address ORDER BY sent DESC LIMIT 10;")
+		
+	} else {
+		q <- paste("SELECT email_address as developer, count(m.message_id) as sent 
+						FROM messages m join messages_people m_p on m_p.message_id=m.message_ID
+ 						WHERE DATEDIFF(CURDATE(),first_date)<",days," 
+						GROUP by email_address ORDER BY sent DESC LIMIT 10;")		
+	}
+	data <- query(q)
+	return (data)	
+}
 
 # Mailing lists
 q <- paste ("select distinct(mailing_list) from messages")
@@ -192,10 +238,18 @@ agg_data = merge(num_msg,num_ppl)
 
 createJSON (agg_data, paste("../data/json/mls-info-milestone0.json",sep=''))
 
-
 for (mlist in mailing_lists$mailing_list) {
     analList(mlist)
 }
+analAggregated()
+
+# Top senders
+top_senders_data <- list()
+top_senders_data[['senders.']]<-top_senders()
+top_senders_data[['senders.last year']]<-top_senders(365)
+top_senders_data[['senders.last month']]<-top_senders(31)
+
+createJSON (top_senders_data, "../data/json/mls-top-milestone0.json")
 
 # Disconnect from DB
 dbDisconnect(con)
