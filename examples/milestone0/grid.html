@@ -33,39 +33,38 @@
             
             <div class="gridster">        	            
 			    <ul>
-			        <li data-row="1" data-col="1" data-sizex="1" data-sizey="2">
+   			        <li data-row="1" data-col="1" data-sizex="1" data-sizey="6">
+ 			        	<div id="navigation"></div>
+            			<div id="refcard"></div>
+   			        </li>
+			    
+			        <li data-row="1" data-col="2" data-sizex="1" data-sizey="2">
 			        	<div id="scm-top"></div>
 			        </li>
-			        <li data-row="1" data-col="2" data-sizex="1" data-sizey="2">
+			        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
 			        	<div id="its-top"></div>
 			        </li>
-			        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
+			        <li data-row="1" data-col="4" data-sizex="1" data-sizey="2">
 			        	<div id="mls-top"></div>
 			        </li>
-			        <!-- <li data-row="2" data-col="1" data-sizex="1" data-sizey="1"></li>
-			        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1"></li>
-			
-			        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1"></li>
-			        <li data-row="2" data-col="2" data-sizex="2" data-sizey="2"></li>
-			
-			        <li data-row="1" data-col="4" data-sizex="1" data-sizey="1"></li>
-			        <li data-row="2" data-col="4" data-sizex="2" data-sizey="1"></li>
-			        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1"></li>
-			
-			        <li data-row="1" data-col="5" data-sizex="1" data-sizey="1"></li>
-			        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1"></li>
-			
-			        <li data-row="1" data-col="6" data-sizex="1" data-sizey="1"></li>
-			        <li data-row="2" data-col="6" data-sizex="1" data-sizey="2"></li> -->
+			        <li data-row="1" data-col="5" data-sizex="1" data-sizey="2">
+      					<div id="scm-commits-flotr2"></div>
+				    	<div id="scm-authors-flotr2"></div>			        
+			        </li>
+			         <li data-row="2" data-col="3" data-sizex="3" data-sizey="4">
+			        	<div id="activity_comparison"></div>
+			        </li>			        			        
+			        <li data-row="2" data-col="5" data-sizex="1" data-sizey="2">
+      					<div id="its-closed-flotr2"></div>
+				    	<div id="its-closers-flotr2"></div>			        
+			        </li>			        
+			        <li data-row="3" data-col="5" data-sizex="1" data-sizey="2">
+     					<div id="mls-sent-flotr2"></div>
+				    	<div id="mls-senders-flotr2"></div>        					
+			        </li>       			        
 			    </ul>
 			</div>
-        		
-                        
-            <div id="info-column1"  style="width:180px">
-            	<div id="navigation"></div>
-            	<div id="refcard"></div>
-            </div>
-            
+        		                                    
             <script type="text/javascript">
 				$.get("navigation.html", function(navigation) {
 					$("#navigation").html(navigation);
@@ -76,57 +75,7 @@
 					$("#refcard").html(refcard);
 				});
             </script>
-
-			<!--  SUMMARY -->
-			<div style="float:left; margin-right:20px;">
-				<div id="info-pill">
-					<h1 style="font-weight: bold;">General activity</h1>
-				</div>
-				<div id="info-pill" style="height: 450px;">
-					<div id="activity_comparison" style="float:left"></div>
-				</div>
-				</br>
-				<p>[Use sliders to select time periods]</p>						
-			</div>
-			
-			<!--  TOPS -->
-			<div style="float:left;">
-				<div id="scm-top" style="float:left;margin-right:10px;"></div>
-				<div id="its-top" style="float:left;margin-right:10px;"></div>
-				<div id="mls-top" style="float:left;margin:0px;"></div>
-			</div>					
-
-			<!--  FLOTR2 -->
-	
-			<div style="float:left;">
-			
-				<div style="float:left;">			   
-				    <div id="scm-commits-flotr2" style="width:150px;margin-right:10px"></div>
-				    <div id="scm-authors-flotr2" style="width:150px"></div>
-			   	</div>
-	
-					
-				<div style="float:left">
-	    			<div id="its-closed-flotr2" style="width:150px;margin-right:10px"></div>
-				    <div id="its-closers-flotr2" style="width:150px"></div>
-	          		<!--<div id="info-pill">
-	        		<h1 style="font-weight:bold;">Time to close tickets</h1>
-	       			</div>
-		        	<div class="info-pill" style="width:150px;">
-	         			<div id='its-quantil099' style="height:130px;"></div>
-	         			<p>
-	         			99% of tickets open during the corresponding month were closed in less than y days
-	         			</p>
-	        		</div>-->
-				</div>
-		
-				<div style="float:left">
-					<div id="mls-sent-flotr2" style="width:150px;margin-right:10px"></div>
-				    <div id="mls-senders-flotr2" style="width:150px"></div>        					
-				</div>
-			</div>
-		
-			
+						
 			<div id="footer"></div>
 			<script type="text/javascript">
 				$.get("footer.html", function(footer) {
