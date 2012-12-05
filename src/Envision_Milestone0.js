@@ -24,7 +24,7 @@ function getDefaults (ds) {
     	config = default_config;
     	if (metrics[metric]['envision']) 
     		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
-		if ($.inArray(metric, data['envision_'+ds+'_hide'])===-1) {
+		if ($.inArray(metric, data['envision_hide'])===-1) {
 			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-'+metric, config);
 		}
     }
@@ -61,7 +61,7 @@ function Envision_Milestone0 (options, ds) {
 	if (ds === 'mls') metrics = MLS.getMetrics();
 		
   for (metric in metrics) {
-	if ($.inArray(metric, data['envision_'+ds+'_hide'])===-1) {
+	if ($.inArray(metric, data['envision_hide'])===-1) {
 		defaults[metric].data = [{label:metric,data:data[metric]}];
 		if (ds === 'mls')
 			defaults[metric].data = 
@@ -83,7 +83,7 @@ function Envision_Milestone0 (options, ds) {
   // ENVISION COMPONENTS
   var components = {};
   for (metric in metrics) {
-	if ($.inArray(metric, data['envision_'+ds+'_hide'])===-1) {
+	if ($.inArray(metric, data['envision_hide'])===-1) {
 		components[metric] = new V.Component(defaults[metric]);
 	}
   }

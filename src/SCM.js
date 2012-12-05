@@ -95,76 +95,17 @@ function basicEvo (history) {
 	}
 }
 	
-function displayEvo (id, scm_file, markers, config) {
+function displayEvo (id, scm_file) {
 	$.getJSON(scm_file, function(history) {
-		envisionEvo(id, history, markers, config);
+		envisionEvo(id, history);
 	});
 }
 
-function envisionEvo (id, history, markers, config) {
-	var V = envision, firstMonth = history.id[0], 
-	commits = [history.id, history.commits ], 
-	committers = [history.id, history.committers ], 
-	authors = [history.id, history.authors ],
-	ratio = [history.id, history.ratio ], 
-	files = [history.id, history.files ], 
-	branches = [history.id, history.branches ], 
-	repositories = [history.id, history.repositories ], 
-	dates = history.date, 
-	container = document.getElementById(id),
-	options, vis;
-
-	var main_metric = "commits";		
-
-	options = {
-		container : container,
-		data : {
-			commits : commits,
-			committers : committers,
-			authors : authors,
-			files : files,
-			branches : branches,
-			repositories : repositories,
-			summary : [history.id, history[main_metric]],
-			markers : markers,
-			dates : dates,
-			envision_scm_hide: config.scm_hide,
-			main_metric: "commits"		
-		},
-		trackFormatter : function(o) {
-			var
-			//   index = o.index,
-			data = o.series.data, index = data[o.index][0]
-					- firstMonth, value;
-
-			value = dates[index] + ": ";
-			value += commits[1][index] + " commits, ";
-			value += authors[1][index] + " authors, <br/> ";
-			value += committers[1][index] + " committers, <br/> ";
-			value += files[1][index]+ " files, ";
-			value += branches[1][index] + " branches, ";
-			value += repositories[1][index] + " repos";
-			return value;
-		},
-		xTickFormatter : function(index) {
-			var label = dates[index - firstMonth];
-			if (label === "0") label = "";
-			return label;
-		},
-		yTickFormatter : function(n) {
-			return n + '';
-		},
-		// Initial selection
-		selection : {
-			data : {
-				x : {
-					min : history.id[0],
-					max : history.id[history.id.length - 1]
-				}
-			}
-		}
-	};
-	// Create the TimeSeries
-	vis = new envision.templates.Envision_Milestone0(options,'scm');
+function envisionEvo (div_id, history) {
+	var config = M0.getConfig();
+	var main_metric = "commits";
+	var options = Metric.getEnvisionOptions(
+			div_id, history, basic_metrics, main_metric, config.scm_hide);
+	new envision.templates.Envision_Milestone0(options,'scm');
 }
 })();

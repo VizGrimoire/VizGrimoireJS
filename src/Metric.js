@@ -10,6 +10,7 @@ Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
 Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
+Metric.getEnvisionOptions = getEnvisionOptions;
 Metric.checkBasicConfig = checkBasicConfig;
 Metric.mergeConfig = mergeConfig;
 
@@ -126,6 +127,64 @@ function getEnvisionDefaultsGraph (name, gconfig) {
 	        }
 		};	
 	return graph;
+}
+
+function getEnvisionOptions (div_id, history, basic_metrics, main_metric, hide) {
+	
+	var firstMonth = history.id[0], 
+	dates = history.date, 
+	container = document.getElementById(div_id),
+	options;
+	var markers = M0.getMarkers();
+		
+	options = {
+			container : container,
+			xTickFormatter : function(index) {
+				var label = dates[index - firstMonth];
+				if (label === "0") label = "";
+				return label;
+			},
+			yTickFormatter : function(n) {
+				return n + '';
+			},
+			// Initial selection
+			selection : {
+				data : {
+					x : {
+						min : history.id[0],
+						max : history.id[history.id.length - 1]
+					}
+				}
+			}
+		};
+
+	options.data = {
+			summary : [history.id, history[main_metric]],
+			markers : markers,
+			dates : dates,
+			envision_hide: hide,
+			main_metric: main_metric		
+	};
+	
+	for (var id in basic_metrics) {
+		options.data[id] = [history.id, history[id]];
+	}
+	
+	options.trackFormatter = function(o) {
+		var data = o.series.data, index = data[o.index][0]- firstMonth, value;
+
+		value = dates[index] + ":<br>";
+		
+		var i = 0;
+		for (var id in basic_metrics) {
+			value += options.data[id][1][index] + " " + id + ", ";
+			if (++i % 3 == 0) value += "<br>";
+		}
+
+		return value;
+	};
+
+	return options;		
 }
 
 

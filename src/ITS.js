@@ -55,9 +55,9 @@ var basic_metrics = {
 			'envision': {gtype : 'whiskers'}},
 };
 
-function displayEvo (id, its_file, markers, config) {
+function displayEvo (id, its_file) {
 	$.getJSON(its_file, function(history) {
-		envisionEvo(id, history, markers, config);
+		envisionEvo(id, history);
 	});
 }
 
@@ -100,65 +100,16 @@ function basicEvo (history) {
 	}
 }
 
-function envisionEvo(id, history, markers, envision_cfg) {
-	var V = envision, firstMonth = history.id[0], options, vis;
-	var container = document.getElementById(id);
+function envisionEvo(div_id, history) {
 	var main_metric = "opened";
-	options = {
-		container : container,
-		data : {
-			summary : [ history.id, history[main_metric]],
-			opened : [ history.id, history.opened ],
-			closed : [ history.id, history.closed ],
-			changed : [ history.id, history.changed ],
-			openers : [ history.id, history.openers ],
-			closers : [ history.id, history.closers ],
-			changers : [ history.id, history.changers ],
-			markers : markers,
-			dates : history.date,
-			envision_its_hide: envision_cfg.its_hide,
-			main_metric : main_metric
-		},
-		trackFormatter : function(o) {
-			var
-			//   index = o.index,
-			data = o.series.data, index = data[o.index][0]
-					- firstMonth, value;
+	var config = M0.getConfig();
+	var options = Metric.getEnvisionOptions(
+			div_id, history, basic_metrics, main_metric, config.its_hide);
+	new envision.templates.Envision_Milestone0(options,'its');
 
-			value = history.date[index] + ": ";
-			value += history.closed[index] + " closed, ";
-			value += history.opened[index] + " opened, ";
-			value += history.changed[index] + " changed";
-			value += "<br/>" + history.closers[index]
-					+ " closers, ";
-			value += history.openers[index] + " openers, ";
-			value += history.changers[index] + " changers";
-
-			return value;
-		},
-		xTickFormatter : function(index) {
-			var label = history.date[index - firstMonth];
-			if (label === "0") label = "";
-			return label;
-			// return Math.floor(index/12) + '';
-		},
-		yTickFormatter : function(n) {
-			return n + '';
-		},
-		// Initial selection
-		selection : {
-			data : {
-				x : {
-					min : history.id[0],
-					max : history.id[history.id.length - 1]
-				}
-			}
-		}
-	};
-	// Create the TimeSeries
-	vis = new envision.templates.Envision_Milestone0(options,'its');	
 }
 
+// TODO: Clean and share this method - acs
 function displayTimeToFix (div_id, json_file, column, labels, title) {
 	$.getJSON(json_file, function(history) {
 		var line_data = [];
@@ -205,8 +156,5 @@ function displayTimeToFix (div_id, json_file, column, labels, title) {
 		});
 	});
 };
-
-
-
 
 })();

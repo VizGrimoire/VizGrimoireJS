@@ -128,8 +128,6 @@
             config_metric.show_labels = true;
 
 			SCM.displayData('data/json/scm-info-milestone0.json');
-            /* SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2');
-            SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json', M0.getMarkers(), M0.getConfig()); */
             var show_all = false;
             SCM.displayTop('scm-top','data/json/scm-top-milestone0.json',show_all);
             SCM.displayBasicMetricHTML('commits','data/json/scm-milestone0.json','scm-commits-flotr2', config_metric);
@@ -144,12 +142,7 @@
             ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
             ITS.displayBasicMetricHTML('closers','data/json/its-milestone0.json','its-closers-flotr2', config_metric);
 
-            /* ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2');
-            ITS.displayEvo('its-time', 'data/json/its-milestone0.json', M0.getMarkers(), M0.getConfig()); */
-
             MLS.displayData('data/json/mls-info-milestone0.json');
-            /* MLS.displayBasic('mls', 'data/json/mls-lists-milestone0.json','data/json/viz_cfg.json');
-            MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json', M0.getMarkers(), M0.getConfig()); */
             var show_all = false;
             MLS.displayTop('mls-top','data/json/mls-top-milestone0.json',show_all);
             var show_desc = false;

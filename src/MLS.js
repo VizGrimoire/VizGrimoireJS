@@ -326,56 +326,13 @@ function displayEvoList(list_label, id, mls_file) {
 	});
 }
 
-function envisionEvo(list_label, id, history) {
-	var V = envision, firstMonth = history.id[0], options, vis;
-	var container = document.getElementById(id);
-	
-	var markers = M0.getMarkers();
-	var envision_cfg = M0.getConfig();
-	
-	var main_metric = "sent";
+function envisionEvo (list_label, div_id, history) {
+	var config = M0.getConfig();
 
-			
-	options = {
-		container : container,
-		data : {
-			summary : [ history.id, history[main_metric]],
-			sent : [ history.id, history.sent ],
-			senders : [ history.id, history.senders ],
-			markers : markers,
-			list_label : displayMLSListName(list_label),
-			dates : history.date,
-			envision_mls_hide: envision_cfg.mls_hide,
-			main_metric: main_metric
-		},
-		trackFormatter : function(o) {
-			var
-			//   index = o.index,
-			data = o.series.data, index = data[o.index][0]
-					- firstMonth, value;
-			value = history.date[index] + ":";
-			value += history.sent[index] + " messages sent, ";
-			value += "<br/>"+ history.senders[index]+" senders";
-			return value;
-		},
-		xTickFormatter : function(index) {
-			return history.date[index - firstMonth];
-			// return Math.floor(index/12) + '';
-		},
-		yTickFormatter : function(n) {
-			return parseInt(n) + '';
-		},
-		// Initial selection
-		selection : {
-			data : {
-				x : {
-					min : history.id[0],
-					max : history.id[history.id.length - 1]
-				}
-			}
-		}
-	};
-	// Create the TimeSeries
-	vis = new envision.templates.Envision_Milestone0(options,'mls');		
+	var main_metric = "sent";
+	var options = Metric.getEnvisionOptions(
+			div_id, history, basic_metrics, main_metric, config.mls_hide);
+	options.data.list_label = displayMLSListName(list_label);
+	new envision.templates.Envision_Milestone0(options,'mls');
 }
 })();
