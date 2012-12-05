@@ -52,105 +52,45 @@ var M0 = {};
 		});
 	}
 	
-	// TODO: SCM is supposed to be the most time spread. 
-	// TODO: Create a fillHistory method.
-	function envisionEvoSummary (id, history, history1, history2) {
-		var container = document.getElementById(id);
+	function fillHistory(hist_complete, hist_partial) {
+		
+		// [ids, values]
+		var new_history = [[],[]];
+		for (var i = 0; i < hist_complete[0].length; i++) {
+			pos = hist_partial[0].indexOf(hist_complete[0][i]);
+			new_history[0][i] = hist_complete[0][i];
+			if (pos != -1) {
+				new_history[1][i] = hist_partial[1][pos];
+			} else {
+				new_history[1][i] = 0;
+			}
+		}
+		return new_history;
+	}
+	
+	function getAllMetrics() {
+		var all = $.extend(SCM.getMetrics(), ITS.getMetrics());
+		all = $.extend(all, MLS.getMetrics());
+		return all;
+	}
+	
+	function envisionEvoSummary (div_id, history, history1, history2) {
+		var container = document.getElementById(div_id);
+		 
+		var full_history = [history.id];
+		if (history1.id.length>full_history[0].length)
+			full_history = [history1.id];
+		if (history2.id.length>full_history[0].length)
+			full_history = [history2.id];
 		
 		markers = getMarkers();
 		
 		var V = envision,  options, vis, 
 			firstMonth = history.id[0],
-			commits = [history.id, history.commits], 
-			authors = [history.id, history.authors], 
 			dates = history.date;
-	
-		var opened_fill = [];
-		var closed_fill = [];
-		var closers_fill = [];
-		var sent_fill = [];
-		var senders_fill = [];
-
-		// Fill issues
-		for ( var i = 0; i < history.id.length; i++) {
-			pos = history1.id.indexOf(history.id[i]);
-			if (pos != -1) {
-				opened_fill[i] = history1.opened[pos];
-				closed_fill[i] = history1.closed[pos];
-				closers_fill[i] = history1.closers[pos];
-
-			} else {
-				opened_fill[i] = null;
-				closed_fill[i] = null;
-				closers_fill[i] = null;
-			}
-		}
-		// Fill messages
-		for ( var i = 0; i < history.id.length; i++) {
-			pos = history2.id.indexOf(history.id[i]);
-			if (pos != -1) {
-				sent_fill[i] = history2.sent[pos];
-				senders_fill[i] = history2.senders[pos];
-
-			} else {
-				sent_fill[i] = null;
-				senders_fill[i] = null;
-
-			}
-		}
 		
-		var opened = [history.id, opened_fill ], 
-		    closed = [history.id, closed_fill ], 
-		    closers = [history.id, closers_fill ],
-		    sent = [history.id, sent_fill ],
-		    senders = [history.id, senders_fill ]	;
-
 		options = {
 			container : container,
-			data : {
-				commits : commits,
-				authors : authors,
-				opened : opened,
-				closed : closed,
-				closers : closers,
-				sent: sent,
-				senders: senders,
-				dates : dates,
-				summary : commits,
-				markers : markers
-			},
-			trackFormatter : function(
-					o) {
-				var
-				//   index = o.index,
-				data = o.series.data, index = data[o.index][0]
-						- firstMonth, value;
-
-				value = dates[index]
-						+ ":<br> ";
-				if (commits[1][index] != null)
-					value += commits[1][index]
-							+ " commits, ";
-				if (authors[1][index] != null)
-					value += authors[1][index]
-							+ " authors (changes) <br>";
-				if (opened[1][index] != null)
-					value += opened[1][index]
-							+ " open, ";
-				if (closed[1][index] != null)
-					value += closed[1][index]
-							+ " closed, ";
-				if (closers[1][index] != null)
-					value += closers[1][index]
-							+ " closers (tickets)<br>";
-				if (sent[1][index] != null)
-					value += sent[1][index]
-							+ " sent, ";
-				if (senders[1][index] != null)
-					value += senders[1][index]
-							+ " senders (messages)";				
-				return value;
-			},
 			xTickFormatter : function(index) {
 				var label = dates[index - firstMonth];
 				if (label === "0") label = "";
@@ -169,6 +109,43 @@ var M0 = {};
 				}
 			}
 		};
+
+		var main_metric = "commits";
+		var hide = getConfig().scm_hide;
+		options.data = {
+				summary : [history.id, history[main_metric]],
+				markers : markers,
+				dates : dates,
+				envision_hide: hide,
+				main_metric: main_metric		
+		};
+
+		
+		var all_metrics = getAllMetrics();
+		
+		for (var id in all_metrics) {
+			if (history[id])
+				options.data[id] = fillHistory(full_history,[history.id, history[id]]);
+			else if (history1[id])
+				options.data[id] = fillHistory(full_history,[history1.id, history1[id]]);
+			else if (history2[id])
+				options.data[id] = fillHistory(full_history,[history2.id, history2[id]]);
+		}
+		
+		options.trackFormatter = function(o) {
+			var data = o.series.data, index = data[o.index][0]- firstMonth, value;
+
+			value = dates[index] + ":<br>";
+			
+			var i = 0;
+			for (var id in all_metrics) {
+				value += options.data[id][1][index] + " " + id + ", ";
+				if (++i % 3 == 0) value += "<br>";
+			}
+
+			return value;
+		};
+	
 		// Create the TimeSeries
 		vis = new envision.templates.Summary_Milestone0(options);
 	}
