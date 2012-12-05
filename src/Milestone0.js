@@ -10,6 +10,7 @@ var M0 = {};
 	M0.data_load = data_load;
 	M0.data_ready = data_ready;
 	M0.displayEvoSummary = displayEvoSummary;
+	M0.getAllMetrics = getAllMetrics;
 	M0.getMarkers = getMarkers;
 	M0.getConfig = getConfig;
 	M0.getProjectData = getProjectData;
@@ -147,7 +148,7 @@ var M0 = {};
 		};
 	
 		// Create the TimeSeries
-		vis = new envision.templates.Summary_Milestone0(options);
+		vis = new envision.templates.Envision_Milestone0(options);
 	}
 	
 	function displayEvoSummary(id, commits, issues, messages) {	

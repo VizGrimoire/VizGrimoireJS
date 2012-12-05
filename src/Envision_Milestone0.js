@@ -3,6 +3,19 @@
 var
   V = envision, global_data = {};
 
+
+function getDefaultsMetrics(ds, viz, metrics, default_config) {
+    for (metric in metrics) {
+    	config = default_config;
+    	if (metrics[metric]['envision']) 
+    		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
+		if ($.inArray(metric, data['envision_hide'])===-1) {
+			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-'+metric, config);
+		}
+    }
+
+}
+
 function getDefaults (ds) {
     var defaults_colors = ['#ffa500', '#ffff00', '#00ff00', '#4DA74D', '#9440ED'];
 	var default_config = {
@@ -16,19 +29,24 @@ function getDefaults (ds) {
 	
 	var viz = {};
 	var metrics = {};
-	if (ds === 'scm') metrics = SCM.getMetrics();
-	if (ds === 'its') metrics = ITS.getMetrics();
-	if (ds === 'mls') metrics = MLS.getMetrics();
-  
-    for (metric in metrics) {
-    	config = default_config;
-    	if (metrics[metric]['envision']) 
-    		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
-		if ($.inArray(metric, data['envision_hide'])===-1) {
-			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-'+metric, config);
-		}
-    }
-    
+	if (!ds) {
+		ds = 'scm';
+		metrics = SCM.getMetrics();
+		getDefaultsMetrics(ds, viz, metrics, default_config);
+		ds = 'its';
+		metrics = ITS.getMetrics();
+		getDefaultsMetrics(ds, viz, metrics, default_config);
+		ds = 'mls'; 
+		metrics = MLS.getMetrics();
+		getDefaultsMetrics(ds, viz, metrics, default_config);
+	}
+	else {
+		if (ds === 'scm') metrics = SCM.getMetrics();
+		if (ds === 'its') metrics = ITS.getMetrics();
+		if (ds === 'mls') metrics = MLS.getMetrics();
+		getDefaultsMetrics(ds, viz, metrics, default_config);
+	}
+      
     config = default_config;
     viz.summary = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
@@ -55,10 +73,13 @@ function Envision_Milestone0 (options, ds) {
     selection = new V.Interaction(),
     hit = new V.Interaction();
   
-	var metrics = {};
+  var metrics = {};
+  if (!ds) metrics = M0.getAllMetrics();
+  else {
 	if (ds === 'scm') metrics = SCM.getMetrics();
 	if (ds === 'its') metrics = ITS.getMetrics();
 	if (ds === 'mls') metrics = MLS.getMetrics();
+  }
 		
   for (metric in metrics) {
 	if ($.inArray(metric, data['envision_hide'])===-1) {
