@@ -3,13 +3,12 @@
 var
   V = envision, global_data = {};
 
-
 function getDefaultsMetrics(ds, viz, metrics, default_config) {
     for (metric in metrics) {
     	config = default_config;
     	if (metrics[metric]['envision']) 
     		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
-		if ($.inArray(metric, data['envision_hide'])===-1) {
+		if ($.inArray(metric, global_data['envision_hide'])===-1) {
 			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-'+metric, config);
 		}
     }

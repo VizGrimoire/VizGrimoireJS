@@ -112,7 +112,7 @@ var M0 = {};
 		};
 
 		var main_metric = "commits";
-		var hide = getConfig().scm_hide;
+		var hide = getConfig().summary_hide;
 		options.data = {
 				summary : [history.id, history[main_metric]],
 				markers : markers,
