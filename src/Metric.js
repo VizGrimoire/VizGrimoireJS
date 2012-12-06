@@ -13,6 +13,9 @@ Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Metric.getEnvisionOptions = getEnvisionOptions;
 Metric.checkBasicConfig = checkBasicConfig;
 Metric.mergeConfig = mergeConfig;
+Metric.displayGridMetric = displayGridMetric;
+Metric.displayGridMetricSelector = displayGridMetricSelector;
+Metric.displayGridMetricAll = displayGridMetricAll;
 
 function mergeConfig(config1, config2)
 {
@@ -236,6 +239,62 @@ function displayBasicMetricHTML(metric, data_file, div_target, config) {
 		$("#"+div_target).append(new_div);
 		M0.displayBasicLines(metric.divid, history, metric.column, config.show_labels, title);
 	});
+}
+
+
+function displayGridMetric(metric_id) {
+	var gridster = M0.getGridster();
+	var metric = M0.getAllMetrics()[metric_id];
+
+	if ($("#"+metric_id+"_check").is(':checked')) {
+		var size_x = 1, size_y = 1, col = 1, row = 1;
+		if ($("#"+metric.divid).length === 0)
+			gridster.add_widget( "<div id='"+metric.divid+"'></div>", size_x, size_y, col, row);
+		M0.drawMetric(metric.divid);
+	} else {
+		if ($("#"+metric.divid).length > 0)
+			gridster.remove_widget($("#"+metric.divid));
+	}
+}
+
+function displayGridMetricAll(state) {
+	var form = document.getElementById('form_metric_selector');
+    for ( var i = 0; i < form.elements.length; i++) {
+    	if (form.elements[i].type =="checkbox") {
+    		form.elements[i].checked = state;
+    		displayGridMetric(form.elements[i].value);
+    	}
+    }
+}
+
+function displayGridMetricDefault() {
+}
+
+function displayGridMetricSelector(div_id) {
+	var metrics = M0.getAllMetrics();
+	
+	var html = "Metrics Selector:";
+	html += "<form id='form_metric_selector'>";
+	
+	for (metric_id in metrics) {
+		html += '<input type=checkbox name="check_list" value="'+metric_id+'" ';
+		html += 'onClick="';
+		html += 'Metric.displayGridMetric(\''+metric_id+'\');';
+		html += '" ';
+		html += 'id="'+metric_id+'_check" ';
+		// if ($.inArray(l, user_lists)>-1) html += 'checked ';
+		html += '>';
+		html += metric_id;
+		html += '<br>';
+	}
+	html += '<input type=button value="All" ';
+	html += 'onClick="Metric.displayGridMetricAll('+true+')">';
+	html += '<input type=button value="None" ';
+	html += 'onClick="Metric.displayGridMetricAll('+false+')">';
+	//html += '<input type=button value="Default" ';
+	//html += 'onClick="Metric.displayGridMetricDefault()">';
+	html += "</form>";
+	$("#"+div_id).html(html);
 }
 
 })();

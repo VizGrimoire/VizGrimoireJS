@@ -13,17 +13,18 @@ var M0 = {};
 	M0.getAllMetrics = getAllMetrics;
 	M0.getMarkers = getMarkers;
 	M0.getConfig = getConfig;
+	M0.getGridster = getGridster;
+	M0.setGridster = setGridster;
 	M0.getProjectData = getProjectData;
 	M0.displayProjectData = displayProjectData;
 	M0.displayBasicLines = displayBasicLines;
+	M0.drawMetric = drawMetric;
 		
 	// M0 old public API
 	M0.basic_lines = basic_lines;
-
-
 	
 	// Shared config
-	var project_data = {}, markers = {}, config = {}, data_callbacks = [];
+	var project_data = {}, markers = {}, config = {}, data_callbacks = [], gridster = {};
 	
 	function getMarkers() {
 		return markers;
@@ -32,6 +33,15 @@ var M0 = {};
 	function getConfig() {
 		return config;
 	}
+	
+	function getGridster() {
+		return gridster;
+	}
+	
+	function setGridster(grid) {
+		gridster = grid;
+	}
+	
 	
 	function getProjectData() {
 		return project_data;
@@ -73,6 +83,36 @@ var M0 = {};
 		var all = $.extend(SCM.getMetrics(), ITS.getMetrics());
 		all = $.extend(all, MLS.getMetrics());
 		return all;
+	}
+	
+	function drawMetric(divid) {		
+        var config_metric = {};
+        config_metric.show_desc = false;
+        config_metric.show_title = true;
+        config_metric.show_labels = true;
+		
+		var list_metrics = SCM.getMetrics();
+		for (metric in list_metrics) {
+			if  (list_metrics[metric].divid === divid) {
+	            SCM.displayBasicMetricHTML(list_metrics[metric].column,'data/json/scm-milestone0.json',divid, config_metric);
+			}
+		}
+		
+		list_metrics = ITS.getMetrics();
+		for (metric in list_metrics) {
+			if  (list_metrics[metric].divid === divid) {
+	            ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
+
+	            ITS.displayBasicMetricHTML(metric,'data/json/its-milestone0.json',divid, config_metric);
+			}
+		}
+		
+		list_metrics = MLS.getMetrics();
+		for (metric in list_metrics) {
+			if  (list_metrics[metric].divid === divid) {
+	            MLS.displayBasicMetricHTML(metric,'data/json/mls-milestone0.json',divid, config_metric);
+			}
+		}		
 	}
 	
 	function envisionEvoSummary (div_id, history, history1, history2) {

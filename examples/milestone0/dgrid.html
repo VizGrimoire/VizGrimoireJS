@@ -10,11 +10,11 @@
         <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/envision.min.css" />
         <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/jquery.gridster.min.css" />
         <link rel="stylesheet" type="text/css" href="M0.css" />
+        <link rel="stylesheet" type="text/css" href="gridster.css" />
         <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/SCM_Milestone0.css" />
         <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/ITS_Milestone0.css" />
         <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/MLS_Milestone0.css" />
         <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
-        <link rel="stylesheet" type="text/css" href="gridster.css" />
         <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
         <title>Bitergia M0 Report</title>
         <style type="text/css">
@@ -30,52 +30,9 @@
 					$("#header").html(header);
 				});
             </script>
-            
-            <div class="gridster">        	            
-			    <ul>
-   			        <li data-row="1" data-col="1" data-sizex="1" data-sizey="6">
- 			        	<div id="navigation"></div>
-            			<div id="refcard"></div>
-   			        </li>
-			    
-			        <li data-row="1" data-col="2" data-sizex="1" data-sizey="2">
-			        	<div id="scm-top"></div>
-			        </li>
-			        <li data-row="1" data-col="3" data-sizex="1" data-sizey="2">
-			        	<div id="its-top"></div>
-			        </li>
-			        <li data-row="1" data-col="4" data-sizex="1" data-sizey="2">
-			        	<div id="mls-top"></div>
-			        </li>
-			        <li data-row="1" data-col="5" data-sizex="1" data-sizey="2">
-      					<div id="scm-commits-flotr2"></div>
-				    	<div id="scm-authors-flotr2"></div>			        
-			        </li>
-			         <li data-row="2" data-col="3" data-sizex="3" data-sizey="4">
-			        	<div id="activity_comparison"></div>
-			        </li>			        			        
-			        <li data-row="2" data-col="5" data-sizex="1" data-sizey="2">
-      					<div id="its-closed-flotr2"></div>
-				    	<div id="its-closers-flotr2"></div>			        
-			        </li>			        
-			        <li data-row="3" data-col="5" data-sizex="1" data-sizey="2">
-     					<div id="mls-sent-flotr2"></div>
-				    	<div id="mls-senders-flotr2"></div>        					
-			        </li>       			        
-			    </ul>
-			</div>
-        		                                    
-            <script type="text/javascript">
-				$.get("navigation.html", function(navigation) {
-					$("#navigation").html(navigation);
-				});
-            </script>            
-            <script type="text/javascript">
-				$.get("refcard.html", function(refcard) {
-					$("#refcard").html(refcard);
-				});
-            </script>
-						
+                        
+            <div class="gridster"></div>
+        		                                    						
 			<div id="footer"></div>
 			<script type="text/javascript">
 				$.get("footer.html", function(footer) {
@@ -104,44 +61,48 @@
 		M0.data_ready(function() {
 			
 			// gridster
-			$(".gridster ul").gridster({
+			var gridster = $(".gridster").gridster({
         		widget_margins: [10, 10],
         		widget_base_dimensions: [140, 140]
-    		});
+    		}).data('gridster');
+			
+			M0.setGridster(gridster);
+			
+			// Testing adding a new grid component
+			var size_x=1, size_y=2, col=1, row=1; 
+			gridster.add_widget( "<div id='scm-top'></div>", size_x, size_y, col, row);
+			gridster.add_widget( "<div id='its-top'></div>", size_x, size_y, ++col, row);
+			gridster.add_widget( "<div id='mls-top'></div>", size_x, size_y, ++col, row);
+			gridster.add_widget( "<div id='metric_selector'></div>", size_x, size_y+1, ++col, row);
+			/* col = 1; row=3;
+			gridster.add_widget( "<div id='scm-commits-flotr2'></div>", size_x, size_y-1, col, row);
+			gridster.add_widget( "<div id='its-closed-flotr2'></div>", size_x, size_y-1, ++col, row);
+			gridster.add_widget( "<div id='mls-sent-flotr2'></div>", size_x, size_y-1, ++col, row); */
+									
+			Metric.displayGridMetricSelector('metric_selector');
 			
             var config_metric = {};
             config_metric.show_desc = false;
             config_metric.show_title = false;
             config_metric.show_labels = true;
 
-			SCM.displayData('data/json/scm-info-milestone0.json');
             var show_all = false;
             SCM.displayTop('scm-top','data/json/scm-top-milestone0.json',show_all);
             SCM.displayBasicMetricHTML('commits','data/json/scm-milestone0.json','scm-commits-flotr2', config_metric);
-            SCM.displayBasicMetricHTML('authors','data/json/scm-milestone0.json','scm-authors-flotr2', config_metric);
+            // SCM.displayBasicMetricHTML('authors','data/json/scm-milestone0.json','scm-authors-flotr2', config_metric);
             
 			
-            ITS.displayData('data/json/its-info-milestone0.json');
-            // ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
             var show_all = false;
             ITS.displayTop('its-top','data/json/its-top-milestone0.json',show_all);
             var show_desc = false;
             ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
-            ITS.displayBasicMetricHTML('closers','data/json/its-milestone0.json','its-closers-flotr2', config_metric);
+            //ITS.displayBasicMetricHTML('closers','data/json/its-milestone0.json','its-closers-flotr2', config_metric);
 
-            MLS.displayData('data/json/mls-info-milestone0.json');
             var show_all = false;
             MLS.displayTop('mls-top','data/json/mls-top-milestone0.json',show_all);
             var show_desc = false;
             MLS.displayBasicMetricHTML('sent','data/json/mls-milestone0.json','mls-sent-flotr2', config_metric);
-            MLS.displayBasicMetricHTML('senders','data/json/mls-milestone0.json','mls-senders-flotr2', config_metric);
-            
-            // Activity Comparison
-            M0.displayEvoSummary ('activity_comparison', 'data/json/scm-milestone0.json', 
-            					 	'data/json/its-milestone0.json', 'data/json/mls-milestone0.json');
-
-            
-            M0.displayProjectData('data/json/project-info-milestone0.json');
+            //MLS.displayBasicMetricHTML('senders','data/json/mls-milestone0.json','mls-senders-flotr2', config_metric);            
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
