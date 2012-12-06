@@ -242,12 +242,18 @@ function displayBasicMetricHTML(metric, data_file, div_target, config) {
 }
 
 
-function displayGridMetric(metric_id) {
+function displayGridMetric(metric_id, config) {
 	var gridster = M0.getGridster();
 	var metric = M0.getAllMetrics()[metric_id];
-
+	var size_x = 1, size_y = 1, col = 1, row = 1;
+	
+	if (config) {
+		size_x = config.size_x, size_y = config.size_y, 
+		col = config.col, row = config.row;
+	}
+	
 	if ($("#"+metric_id+"_check").is(':checked')) {
-		var size_x = 1, size_y = 1, col = 1, row = 1;
+	
 		if ($("#"+metric.divid).length === 0)
 			gridster.add_widget( "<div id='"+metric.divid+"'></div>", size_x, size_y, col, row);
 		M0.drawMetric(metric.divid);
@@ -259,10 +265,15 @@ function displayGridMetric(metric_id) {
 
 function displayGridMetricAll(state) {
 	var form = document.getElementById('form_metric_selector');
+	var config = {
+			size_x:1, size_y:1, col: 1, row:1
+	};
     for ( var i = 0; i < form.elements.length; i++) {
     	if (form.elements[i].type =="checkbox") {
     		form.elements[i].checked = state;
-    		displayGridMetric(form.elements[i].value);
+    		if (i%3==0) {config.row++;config.col=1;}
+    		displayGridMetric(form.elements[i].value,config);
+    		config.col++;
     	}
     }
 }
