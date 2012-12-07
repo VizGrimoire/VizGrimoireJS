@@ -283,8 +283,7 @@ function displayGridMetricDefault() {
 }
 
 function displayGridMetricSelector(div_id) {
-	// var metrics = M0.getAllMetrics();
-	var metrics = MLS.getMetrics();
+	var metrics = M0.getAllMetrics();
 	
 	var html = "Metrics Selector:";
 	html += "<form id='form_metric_selector'>";
