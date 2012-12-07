@@ -254,9 +254,10 @@ function displayGridMetric(metric_id, config) {
 
 	var divid = metric.divid+"_grid";
 	if ($("#"+metric_id+"_check").is(':checked')) {
-		if ($("#"+divid).length === 0)
+		if ($("#"+divid).length === 0) {
 			gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y, col, row);
-		M0.drawMetric(metric_id, divid);
+			M0.drawMetric(metric_id, divid);
+		}
 	} else {
 		if ($("#"+divid).length > 0)
 			gridster.remove_widget($("#"+divid));
@@ -282,7 +283,8 @@ function displayGridMetricDefault() {
 }
 
 function displayGridMetricSelector(div_id) {
-	var metrics = M0.getAllMetrics();
+	// var metrics = M0.getAllMetrics();
+	var metrics = MLS.getMetrics();
 	
 	var html = "Metrics Selector:";
 	html += "<form id='form_metric_selector'>";
