@@ -58,51 +58,16 @@
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
 
         <script type="text/javascript">
-		M0.data_ready(function() {
-			
+		M0.data_ready(function() {			
 			// gridster
 			var gridster = $(".gridster").gridster({
         		widget_margins: [10, 10],
         		widget_base_dimensions: [140, 140]
     		}).data('gridster');
 			
-			M0.setGridster(gridster);
-			
-			// Testing adding a new grid component
-			var size_x=1, size_y=2, col=1, row=1; 
-			gridster.add_widget( "<div id='scm-top'></div>", size_x, size_y, col, row);
-			gridster.add_widget( "<div id='its-top'></div>", size_x, size_y, ++col, row);
-			gridster.add_widget( "<div id='mls-top'></div>", size_x, size_y, ++col, row);
-			gridster.add_widget( "<div id='metric_selector'></div>", size_x, size_y+1, ++col, row);
-			/* col = 1; row=3;
-			gridster.add_widget( "<div id='scm-commits-flotr2'></div>", size_x, size_y-1, col, row);
-			gridster.add_widget( "<div id='its-closed-flotr2'></div>", size_x, size_y-1, ++col, row);
-			gridster.add_widget( "<div id='mls-sent-flotr2'></div>", size_x, size_y-1, ++col, row); */
-									
+			M0.setGridster(gridster);		
+			gridster.add_widget( "<div id='metric_selector'></div>", 1, 3, 1, 1);									
 			Metric.displayGridMetricSelector('metric_selector');
-			
-            var config_metric = {};
-            config_metric.show_desc = false;
-            config_metric.show_title = false;
-            config_metric.show_labels = true;
-
-            var show_all = false;
-            SCM.displayTop('scm-top','data/json/scm-top-milestone0.json',show_all);
-            SCM.displayBasicMetricHTML('commits','data/json/scm-milestone0.json','scm-commits-flotr2', config_metric);
-            // SCM.displayBasicMetricHTML('authors','data/json/scm-milestone0.json','scm-authors-flotr2', config_metric);
-            
-			
-            var show_all = false;
-            ITS.displayTop('its-top','data/json/its-top-milestone0.json',show_all);
-            var show_desc = false;
-            ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
-            //ITS.displayBasicMetricHTML('closers','data/json/its-milestone0.json','its-closers-flotr2', config_metric);
-
-            var show_all = false;
-            MLS.displayTop('mls-top','data/json/mls-top-milestone0.json',show_all);
-            var show_desc = false;
-            MLS.displayBasicMetricHTML('sent','data/json/mls-milestone0.json','mls-sent-flotr2', config_metric);
-            //MLS.displayBasicMetricHTML('senders','data/json/mls-milestone0.json','mls-senders-flotr2', config_metric);            
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>

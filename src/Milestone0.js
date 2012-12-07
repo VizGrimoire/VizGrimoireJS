@@ -80,37 +80,38 @@ var M0 = {};
 	}
 	
 	function getAllMetrics() {
-		var all = $.extend(SCM.getMetrics(), ITS.getMetrics());
+		var all = $.extend({}, SCM.getMetrics(), ITS.getMetrics());
 		all = $.extend(all, MLS.getMetrics());
 		return all;
 	}
 	
-	function drawMetric(divid) {		
+	function drawMetric(metric_id, divid) {		
         var config_metric = {};
         config_metric.show_desc = false;
-        config_metric.show_title = true;
+        config_metric.show_title = false;
         config_metric.show_labels = true;
 		
 		var list_metrics = SCM.getMetrics();
 		for (metric in list_metrics) {
-			if  (list_metrics[metric].divid === divid) {
+			if  (list_metrics[metric].column === metric_id) {
 	            SCM.displayBasicMetricHTML(list_metrics[metric].column,'data/json/scm-milestone0.json',divid, config_metric);
+	            return;
 			}
 		}
 		
 		list_metrics = ITS.getMetrics();
 		for (metric in list_metrics) {
-			if  (list_metrics[metric].divid === divid) {
-	            ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
-
-	            ITS.displayBasicMetricHTML(metric,'data/json/its-milestone0.json',divid, config_metric);
+			if  (list_metrics[metric].column === metric_id) {
+	            ITS.displayBasicMetricHTML(list_metrics[metric].column,'data/json/its-milestone0.json',divid, config_metric);
+	            return;
 			}
 		}
 		
 		list_metrics = MLS.getMetrics();
 		for (metric in list_metrics) {
-			if  (list_metrics[metric].divid === divid) {
-	            MLS.displayBasicMetricHTML(metric,'data/json/mls-milestone0.json',divid, config_metric);
+			if  (list_metrics[metric].column === metric_id) {
+	            MLS.displayBasicMetricHTML(list_metrics[metric].column,'data/json/mls-milestone0.json',divid, config_metric);
+	            return;
 			}
 		}		
 	}

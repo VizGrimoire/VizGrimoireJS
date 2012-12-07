@@ -245,33 +245,33 @@ function displayBasicMetricHTML(metric, data_file, div_target, config) {
 function displayGridMetric(metric_id, config) {
 	var gridster = M0.getGridster();
 	var metric = M0.getAllMetrics()[metric_id];
-	var size_x = 1, size_y = 1, col = 1, row = 1;
+	var size_x = 1, size_y = 1, col = 2, row = 1;
 	
 	if (config) {
 		size_x = config.size_x, size_y = config.size_y, 
 		col = config.col, row = config.row;
 	}
-	
+
+	var divid = metric.divid+"_grid";
 	if ($("#"+metric_id+"_check").is(':checked')) {
-	
-		if ($("#"+metric.divid).length === 0)
-			gridster.add_widget( "<div id='"+metric.divid+"'></div>", size_x, size_y, col, row);
-		M0.drawMetric(metric.divid);
+		if ($("#"+divid).length === 0)
+			gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y, col, row);
+		M0.drawMetric(metric_id, divid);
 	} else {
-		if ($("#"+metric.divid).length > 0)
-			gridster.remove_widget($("#"+metric.divid));
+		if ($("#"+divid).length > 0)
+			gridster.remove_widget($("#"+divid));
 	}
 }
 
 function displayGridMetricAll(state) {
 	var form = document.getElementById('form_metric_selector');
 	var config = {
-			size_x:1, size_y:1, col: 1, row:1
+			size_x:1, size_y:1, col: 2, row:0
 	};
     for ( var i = 0; i < form.elements.length; i++) {
     	if (form.elements[i].type =="checkbox") {
     		form.elements[i].checked = state;
-    		if (i%3==0) {config.row++;config.col=1;}
+    		if (i%3==0) {config.row++;config.col=2;}
     		displayGridMetric(form.elements[i].value,config);
     		config.col++;
     	}
