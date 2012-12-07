@@ -256,6 +256,7 @@ function displayGridMetric(metric_id, config) {
 	if ($("#"+metric_id+"_check").is(':checked')) {
 		if ($("#"+divid).length === 0) {
 			gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y, col, row);
+			// gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y);
 			M0.drawMetric(metric_id, divid);
 		}
 	} else {
@@ -284,7 +285,7 @@ function displayGridMetricDefault() {
 
 function displayGridMetricSelector(div_id) {
 	var metrics = M0.getAllMetrics();
-	
+	// var metrics = SCM.getMetrics();
 	var html = "Metrics Selector:";
 	html += "<form id='form_metric_selector'>";
 	
