@@ -106,6 +106,6 @@ function envisionEvo (div_id, history) {
 	var main_metric = "commits";
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.scm_hide);
-	new envision.templates.Envision_Milestone0(options,'scm');
+	new envision.templates.Envision_Milestone0(options,['scm']);
 }
 })();

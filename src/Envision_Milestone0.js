@@ -9,7 +9,8 @@ function getDefaultsMetrics(ds, viz, metrics, default_config) {
     	if (metrics[metric]['envision']) 
     		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
 		if ($.inArray(metric, global_data['envision_hide'])===-1) {
-			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-'+metric, config);
+		    // TODO ds[0] hack
+			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds[0]+'-'+metric, config);
 		}
     }
 
@@ -29,35 +30,48 @@ function getDefaults (ds) {
 	var viz = {};
 	var metrics = {};
 	if (!ds) {
-		ds = 'scm';
 		metrics = SCM.getMetrics();
-		getDefaultsMetrics(ds, viz, metrics, default_config);
-		ds = 'its';
+		getDefaultsMetrics(['scm'], viz, metrics, default_config);
 		metrics = ITS.getMetrics();
-		getDefaultsMetrics(ds, viz, metrics, default_config);
-		ds = 'mls'; 
+		getDefaultsMetrics(['its'], viz, metrics, default_config); 
 		metrics = MLS.getMetrics();
-		getDefaultsMetrics(ds, viz, metrics, default_config);
+		getDefaultsMetrics(['mls'], viz, metrics, default_config);
 	}
 	else {
-		if (ds === 'scm') metrics = SCM.getMetrics();
-		if (ds === 'its') metrics = ITS.getMetrics();
-		if (ds === 'mls') metrics = MLS.getMetrics();
-		getDefaultsMetrics(ds, viz, metrics, default_config);
+		if ($.inArray('scm', ds)>-1) {
+			metrics = SCM.getMetrics();
+			getDefaultsMetrics(['scm'], viz, metrics, default_config);
+		}
+		if ($.inArray('its', ds)>-1) {
+			metrics = ITS.getMetrics();
+			getDefaultsMetrics(['its'], viz, metrics, default_config);
+		}
+		if ($.inArray('mls', ds)>-1) {
+			metrics = MLS.getMetrics();
+			getDefaultsMetrics(['mls'], viz, metrics, default_config);
+		}
 	}
       
     config = default_config;
-    viz.summary = Metric.getEnvisionDefaultsGraph('milestone0-'+ds+'-summary', config);
+    // TODO ds[0] hack
+    viz.summary = Metric.getEnvisionDefaultsGraph('milestone0-'+ds[0]+'-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
     viz.summary.config.handles = {show:true};
     viz.summary.config.selection = {mode:'x'};
     viz.summary.config.mouse = {};
 
     viz.connection = {
-        name : 'milestone0-'+ds+'-connection',
+		// TODO ds[0] hack
+        name : 'milestone0-'+ds[0]+'-connection',
         adapterConstructor : V.components.QuadraticDrawing
     };    
     return viz;  
+}
+
+function getMetricDS(metric_id) {
+	if (SCM.getMetrics()[metric_id]) {return "scm";}
+	if (ITS.getMetrics()[metric_id]) {return "its";}
+	if (MLS.getMetrics()[metric_id]) {return "mls";}	
 }
 
 function Envision_Milestone0 (options, ds) {
@@ -68,22 +82,22 @@ function Envision_Milestone0 (options, ds) {
   var
     data = options.data,
     defaults = getDefaults(ds),
-    vis = new V.Visualization({name : 'milestone0-'+ds}),
+    vis = new V.Visualization({name : 'milestone0-'+ds.join(",")}),
     selection = new V.Interaction(),
     hit = new V.Interaction();
   
   var metrics = {};
   if (!ds) metrics = M0.getAllMetrics();
   else {
-	if (ds === 'scm') metrics = SCM.getMetrics();
-	if (ds === 'its') metrics = ITS.getMetrics();
-	if (ds === 'mls') metrics = MLS.getMetrics();
+	if ($.inArray('scm', ds)>-1) metrics = $.extend(metrics,SCM.getMetrics());
+	if ($.inArray('its', ds)>-1) metrics = $.extend(metrics,ITS.getMetrics());
+	if ($.inArray('mls', ds)>-1) metrics = $.extend(metrics,MLS.getMetrics());
   }
 		
   for (metric in metrics) {
 	if ($.inArray(metric, data['envision_hide'])===-1) {
 		defaults[metric].data = [{label:metric,data:data[metric]}];
-		if (ds === 'mls')
+		if (getMetricDS(metric) === 'mls' && data.list_label) 
 			defaults[metric].data = 
 				[{label:metric+" "+data.list_label,data:data[metric]}];
 	}

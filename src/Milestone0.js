@@ -10,6 +10,7 @@ var M0 = {};
 	M0.data_load = data_load;
 	M0.data_ready = data_ready;
 	M0.displayEvoSummary = displayEvoSummary;
+	M0.displayEvoSummarySM = displayEvoSummarySM;
 	M0.getAllMetrics = getAllMetrics;
 	M0.getMarkers = getMarkers;
 	M0.getConfig = getConfig;
@@ -63,13 +64,13 @@ var M0 = {};
 		});
 	}
 	
-	function fillHistory(hist_complete, hist_partial) {
+	function fillHistory(hist_complete_id, hist_partial) {
 		
 		// [ids, values]
 		var new_history = [[],[]];
-		for (var i = 0; i < hist_complete[0].length; i++) {
-			pos = hist_partial[0].indexOf(hist_complete[0][i]);
-			new_history[0][i] = hist_complete[0][i];
+		for (var i = 0; i < hist_complete_id.length; i++) {
+			pos = hist_partial[0].indexOf(hist_complete_id[i]);
+			new_history[0][i] = hist_complete_id[i];
 			if (pos != -1) {
 				new_history[1][i] = hist_partial[1][pos];
 			} else {
@@ -116,20 +117,29 @@ var M0 = {};
 		}		
 	}
 	
-	function envisionEvoSummary (div_id, history, history1, history2) {
+	function envisionEvoSummary (div_id, scm_data, its_data, mls_data) {
 		var container = document.getElementById(div_id);
-		 
-		var full_history = [history.id];
-		if (history1.id.length>full_history[0].length)
-			full_history = [history1.id];
-		if (history2.id.length>full_history[0].length)
-			full_history = [history2.id];
+		
+		
+		var full_history_id = [], dates = [];
+		
+		if (scm_data) {
+			full_history_id = scm_data.id;
+			dates = scm_data.date;
+		} 
+		if (its_data && its_data.id.length>full_history_id.length) {			
+			full_history_id = its_data.id;
+			dates = its_data.date;
+		}
+		if (mls_data && mls_data.id.length>full_history_id.length)  {
+			full_history_id = mls_data.id;
+			dates = mls_data.date;
+		}
 		
 		markers = getMarkers();
 		
 		var V = envision,  options, vis, 
-			firstMonth = history.id[0],
-			dates = history.date;
+			firstMonth = full_history_id[0];
 		
 		options = {
 			container : container,
@@ -145,33 +155,51 @@ var M0 = {};
 			selection : {
 				data : {
 					x : {
-						min : history.id[0],
-						max : history.id[history.id.length - 1]
+						min : full_history_id[0],
+						max : full_history_id[full_history_id.length - 1]
 					}
 				}
 			}
 		};
 
-		var main_metric = "commits";
+		var main_metric = "", main_matric_data = [];
+		if (scm_data) {
+			main_metric = "commits";
+			main_matric_data = scm_data[main_metric];
+		}
+		else if (its_data) {
+			main_metric = "opened";
+			main_matric_data = its_data[main_metric];
+		}
+		else if (mls_data) {
+			main_metric = "sent";
+			main_matric_data = mls_data[main_metric];
+		} else {
+			alert('No data for Summary viz');
+		}
+			
+		
 		var hide = getConfig().summary_hide;
 		options.data = {
-				summary : [history.id, history[main_metric]],
+				summary : [full_history_id, main_matric_data],
 				markers : markers,
 				dates : dates,
 				envision_hide: hide,
 				main_metric: main_metric		
 		};
-
 		
-		var all_metrics = getAllMetrics();
-		
+		var all_metrics = {}, data_sources = [];
+		if (scm_data) {all_metrics = $.extend(all_metrics, SCM.getMetrics());data_sources.push('scm');}
+		if (its_data) {all_metrics = $.extend(all_metrics, ITS.getMetrics());data_sources.push('its');}
+		if (mls_data) {all_metrics = $.extend(all_metrics, MLS.getMetrics());data_sources.push('mls');}
+				
 		for (var id in all_metrics) {
-			if (history[id])
-				options.data[id] = fillHistory(full_history,[history.id, history[id]]);
-			else if (history1[id])
-				options.data[id] = fillHistory(full_history,[history1.id, history1[id]]);
-			else if (history2[id])
-				options.data[id] = fillHistory(full_history,[history2.id, history2[id]]);
+			if (scm_data && scm_data[id])
+				options.data[id] = fillHistory(full_history_id,[scm_data.id, scm_data[id]]);
+			else if (its_data && its_data[id])
+				options.data[id] = fillHistory(full_history_id,[its_data.id, its_data[id]]);
+			else if (mls_data && mls_data[id])
+				options.data[id] = fillHistory(full_history_id,[mls_data.id, mls_data[id]]);
 		}
 		
 		options.trackFormatter = function(o) {
@@ -189,8 +217,16 @@ var M0 = {};
 		};
 	
 		// Create the TimeSeries
-		vis = new envision.templates.Envision_Milestone0(options);
+		vis = new envision.templates.Envision_Milestone0(options, data_sources);
 	}
+
+	function displayEvoSummarySM(id, commits, messages) {	
+		$.when($.getJSON(commits), $.getJSON(messages))
+		.done (function(res1, res3) {			
+			envisionEvoSummary (id, res1[0], null, res3[0]);
+		});
+	}
+
 	
 	function displayEvoSummary(id, commits, issues, messages) {	
 		$.when($.getJSON(commits), $.getJSON(issues), $.getJSON(messages))

@@ -105,7 +105,7 @@ function envisionEvo(div_id, history) {
 	var config = M0.getConfig();
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.its_hide);
-	new envision.templates.Envision_Milestone0(options,'its');
+	new envision.templates.Envision_Milestone0(options,['its']);
 
 }
 
