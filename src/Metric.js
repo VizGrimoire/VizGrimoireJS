@@ -16,6 +16,11 @@ Metric.mergeConfig = mergeConfig;
 Metric.displayGridMetric = displayGridMetric;
 Metric.displayGridMetricSelector = displayGridMetricSelector;
 Metric.displayGridMetricAll = displayGridMetricAll;
+// Working fixing gridster issue: redmine issue 991
+Metric.gridster_debug = gridster_debug;
+
+var gridster_debug = false;
+
 
 function mergeConfig(config1, config2)
 {
@@ -246,6 +251,7 @@ function displayGridMetric(metric_id, config) {
 	var gridster = M0.getGridster();
 	var metric = M0.getAllMetrics()[metric_id];
 	var size_x = 1, size_y = 1, col = 2, row = 1;
+	var silent = true;
 	
 	if (config) {
 		size_x = config.size_x, size_y = config.size_y, 
@@ -261,7 +267,9 @@ function displayGridMetric(metric_id, config) {
 		}
 	} else {
 		if ($("#"+divid).length > 0)
-			gridster.remove_widget($("#"+divid), true);
+			if (Metric.gridster_debug) silent = false;
+			// gridster.remove_widget($("#"+divid), silent);
+			gridster.remove_widget($("#"+divid), silent);
 	}
 }
 
