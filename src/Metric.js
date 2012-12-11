@@ -266,10 +266,11 @@ function displayGridMetric(metric_id, config) {
 			M0.drawMetric(metric_id, divid);
 		}
 	} else {
-		if ($("#"+divid).length > 0)
+		if ($("#"+divid).length > 0) {
 			if (Metric.gridster_debug) silent = false;
 			// gridster.remove_widget($("#"+divid), silent);
 			gridster.remove_widget($("#"+divid), silent);
+		}
 	}
 }
 
