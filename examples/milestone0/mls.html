@@ -38,11 +38,6 @@
 					<div id ="mls-selector" style="margin-top:20px"></div>
 				</div>
 			</div>
-            <script type="text/javascript">
-				$.get("navigation.html", function(navigation) {
-					$("#navigation").html(navigation);
-				});
-            </script>
             
             <div style="float:left">
             
@@ -63,11 +58,11 @@
                         </div>
                         <div class="info-pill">
                             <div class="column-left">
-                                <div id="mls-time"></div>
+                                <div id="mls-envision"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="mls" class="mls-dyn-list">
+                    <div id="mls-flotr2" class="mls-dyn-list">
                         <div class="info-pill">
                             <h1>Mailing Lists</h1>
                         </div>
@@ -102,16 +97,17 @@
 
         <script type="text/javascript">
 		M0.data_ready(function() {
-			var config_metric = {};
+			M0.report();
+/* 			var config_metric = {};
 			config_metric.show_title = false;
             MLS.displayData('data/json/mls-info-milestone0.json');
             MLS.displayBasic('mls', 'data/json/mls-lists-milestone0.json', config_metric);
-            MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json');
+            MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json'); */
             MLS.displayEvoAggregated('mls-aggregated-time', 'data/json/mls-milestone0.json');
-			MLS.displayEvoBasicListSelector('mls-selector', 'mls-time', 'mls', 'data/json/mls-lists-milestone0.json');
+/* 			MLS.displayEvoBasicListSelector('mls-selector', 'mls-envision', 'mls-flotr2', 'data/json/mls-lists-milestone0.json');
 			var show_all = false;
             MLS.displayTop('mls-top','data/json/mls-top-milestone0.json',show_all);
-            
+ */            
             M0.displayProjectData('data/json/project-info-milestone0.json');
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');

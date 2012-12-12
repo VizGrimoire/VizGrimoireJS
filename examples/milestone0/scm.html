@@ -39,11 +39,11 @@
                             <h1>Change sets (commits to source code)</h1>
                         </div>
                         <div class="info-pill">
-                            <div class="left" id="scm-time"></div>
+                            <div class="left" id="scm-envision"></div>
                         </div>
                     </div>
                     <div class="left column">
-                        <div id="scm_flotr2" ></div>
+                        <div id="scm-flotr2" ></div>
                     </div>
                 </div>
             </div>
@@ -77,18 +77,7 @@
 
         <script type="text/javascript">
 		M0.data_ready(function() {
-            var config_metric = {};
-            config_metric.show_title = false;
-
-			SCM.displayData('data/json/scm-info-milestone0.json');
-            SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2',config_metric);
-            SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json');
-            SCM.displayTop('scm-top','data/json/scm-top-milestone0.json');
-            
-            ITS.displayData('data/json/its-info-milestone0.json');
-            MLS.displayData('data/json/mls-info-milestone0.json');
-            
-            M0.displayProjectData('data/json/project-info-milestone0.json');
+			M0.report({top_all: true});
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>

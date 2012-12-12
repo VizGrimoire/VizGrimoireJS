@@ -336,13 +336,18 @@ var M0 = {};
 		}
 	}
 		
-	function report(config_metric) {
-		if (!config_metric) {
-			config_metric = {};
-	        config_metric.show_desc = false;
-	        config_metric.show_title = false;
-	        config_metric.show_labels = true;
-	        config_metric.top_all = false;
+	function report(config) {
+		
+		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+
+		var config_metric = {};
+        config_metric.show_desc = false;
+        config_metric.show_title = false;
+        config_metric.show_labels = true;
+        config_metric.top_all = false;
+        
+		if (config) {
+			$.each(config, function(key, value) {config_metric[key] = value;});
 		}
 		
         if ($("#navigation").length > 0) {
@@ -356,7 +361,7 @@ var M0 = {};
 			$.get("refcard.html", function(refcard) {
 				$("#refcard").html(refcard);
 		        M0.displayProjectData('data/json/project-info-milestone0.json');
-		        $.each({"scm":SCM, "its":ITS, "mls":MLS}, function(ds_name, DS) {
+		        $.each(data_sources, function(ds_name, DS) {
 		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
 		        });
 			});
@@ -365,12 +370,21 @@ var M0 = {};
         var show_all = config_metric.top_all;
         
         // flotr2 and top
-        $.each({"scm":SCM, "its":ITS, "mls":MLS}, function(ds_name, DS) {
+        $.each(data_sources, function(ds_name, DS) {
 	        $.each(DS.getMetrics(), function(i, metric) {
 	        	var div_flotr2 = metric.divid+"-flotr2";
 	        	if ($("#"+div_flotr2).length > 0)
 	        		DS.displayBasicMetricHTML(i,'data/json/'+ds_name+'-milestone0.json',div_flotr2, config_metric);
-	        });        
+	        });
+	        
+	        if ($("#"+ds_name+"-flotr2").length > 0) {
+	        	if (DS === MLS) {
+	                DS.displayBasic(ds_name+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
+	        	} else {
+	        		DS.displayBasicHTML('data/json/'+ds_name+'-milestone0.json',ds_name+'-flotr2',config_metric);
+	        	}
+	        }
+
 	        if ($("#"+ds_name+"-top").length > 0)
 	        	DS.displayTop(ds_name+'-top','data/json/'+ds_name+'-top-milestone0.json',show_all);
         });
@@ -379,5 +393,23 @@ var M0 = {};
         if ($("#all-envision").length > 0)        	
         	M0.displayEvoSummary ('all-envision', 'data/json/scm-milestone0.json', 
 				 	'data/json/its-milestone0.json', 'data/json/mls-milestone0.json');
+        $.each(data_sources, function(ds_name, DS) {
+        	var div_envision = ds_name+"-envision";
+        	if ($("#"+div_envision).length > 0)
+        		DS.displayEvo(div_envision, 'data/json/'+ds_name+'-milestone0.json');
+        });
+        
+        // Selectors
+        $.each(data_sources, function(ds_name, DS) {
+        	var div_selector = ds_name+"-selector";
+        	var div_envision = ds_name+"-envision";
+        	var div_flotr2 = ds_name+"-flotr2";
+        	if ($("#"+div_selector).length > 0)
+        		// TODO: Only MLS supported 
+        		if (DS === MLS) {
+        			DS.displayEvoBasicListSelector(div_selector, div_envision, div_flotr2, 
+        					'data/json/mls-lists-milestone0.json');
+        		}
+        });        
 	}	
 })();

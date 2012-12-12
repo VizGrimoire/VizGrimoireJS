@@ -34,11 +34,6 @@
             <div style="float:left">
          	<div id="navigation"></div>
 			</div>         	
-            <script type="text/javascript">
-				$.get("navigation.html", function(navigation) {
-					$("#navigation").html(navigation);
-				});
-            </script>
             
             <div style="float:left">
 
@@ -50,12 +45,12 @@
                             <h1>Tickets</h1>
                         </div>
                         <div class="info-pill">
-                            <div class="left" id="its-time"></div>
+                            <div class="left" id="its-envision"></div>
                         </div>
                     </div>
 
                     <div class="left column">
-                        <div id="its_flotr2" style="width:300px"></div>
+                        <div id="its-flotr2" style="width:300px"></div>
                     </div>
                 </div>
 			</div>
@@ -116,20 +111,11 @@
 
         <script type="text/javascript">
 		M0.data_ready(function() {
-			var config_metric = {};
-			config_metric.show_title = false;
-            ITS.displayData('data/json/its-info-milestone0.json');
-            ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2',config_metric);
-            ITS.displayEvo('its-time', 'data/json/its-milestone0.json');
-            ITS.displayTop('its-top','data/json/its-top-milestone0.json');
-            
-            ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
-            ITS.displayTimeToFix('its-quantil095', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.95", 1, "quantil 0.95");
-            ITS.displayTimeToFix('its-quantil050', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.5", 1, "quantil 0.50");
+			M0.report({top_all: true});
+			//ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
+            //ITS.displayTimeToFix('its-quantil095', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.95", 1, "quantil 0.95");
+            //ITS.displayTimeToFix('its-quantil050', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.5", 1, "quantil 0.50");
             //ITS.displayTimeToFix('container_quantil025', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.25", 1, "quantil 0.25");
-
-
-            M0.displayProjectData('data/json/project-info-milestone0.json');
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
