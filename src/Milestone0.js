@@ -396,7 +396,10 @@ var M0 = {};
         $.each(data_sources, function(ds_name, DS) {
         	var div_envision = ds_name+"-envision";
         	if ($("#"+div_envision).length > 0)
-        		DS.displayEvo(div_envision, 'data/json/'+ds_name+'-milestone0.json');
+        		if (DS === MLS) {
+        			DS.displayEvo(div_envision, 'data/json/'+ds_name+'-lists-milestone0.json');
+        		} else 	
+        			DS.displayEvo(div_envision, 'data/json/'+ds_name+'-milestone0.json');
         });
         
         // Selectors
