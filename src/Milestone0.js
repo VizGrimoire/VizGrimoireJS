@@ -380,6 +380,9 @@ var M0 = {};
 			$.each(config, function(key, value) {config_metric[key] = value;});
 		}
 		
+        M0.displayProjectData('data/json/project-info-milestone0.json');
+
+		
         if ($("#navigation").length > 0) {
 			$.get("navigation.html", function(navigation) {
 				$("#navigation").html(navigation);
@@ -390,7 +393,6 @@ var M0 = {};
 		if ($("#refcard").length > 0) {
 			$.get("refcard.html", function(refcard) {
 				$("#refcard").html(refcard);
-		        M0.displayProjectData('data/json/project-info-milestone0.json');
 		        $.each(data_sources, function(ds_name, DS) {
 		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
 		        });
