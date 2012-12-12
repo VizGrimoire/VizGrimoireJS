@@ -16,37 +16,37 @@ SCM.getMetrics = function() {return basic_metrics;};
 
 var basic_metrics = {
 	'commits': {
-		'divid':"commits_scm", 
+		'divid':"scm-commits",
 		'column':"commits",
 		'name':"Commits",
 		'desc':"Evolution of the number of commits (aggregating branches)",
 		'envision': {y_labels: true, show_markers:true}},
 	'committers': {
-		'divid':"committers_scm",
+		'divid':"scm-committers",
 		'column':"committers",
 		'name':"Committers",
 		'desc':"Unique committers making changes to the source code",
 		'action': "commits",
 		'envision': {gtype : 'whiskers'}},
 	'authors': {
-		'divid':"authors_scm", 
+		'divid':"scm-authors", 
 		'column':"authors",
 		'name':"Authors",
 		'desc':"Unique authors making changes to the source code",
 		'action':"commits",
 		'envision': {gtype : 'whiskers'}},
 	'branches': {
-		'divid':"branches_scm", 
+		'divid':"scm-branches", 
 		'column':"branches",
 		'name':"Branches",
 		'desc':"Evolution of the number of branches"},			
 	'files': {
-		'divid':"files_scm", 
+		'divid':"scm-files", 
 		'column':"files",
 		'name':"Files",
 		'desc':"Evolution of the number of unique files handled by the community"},
 	'repositories': {
-		'divid':"repositories_scm", 
+		'divid':"scm-repositories", 
 		'column':"repositories",
 		'name':"Repositories",
 		'desc':"Evolution of the number of repositories",

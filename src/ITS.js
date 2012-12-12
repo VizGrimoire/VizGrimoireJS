@@ -17,37 +17,37 @@ ITS.getMetrics = function() {return basic_metrics;};
 
 var basic_metrics = {		
 		'opened': {
-			'divid':'open_its', 
+			'divid':'its-open', 
 			'column':"opened",
 			'name':"Opened",
 			'desc':"Number of opened tickets",
 			'envision': {y_labels: true, show_markers:true}},
 		'openers': {
-			'divid':'openers_its', 
+			'divid':'its-openers', 
 			'column':"openers",
 			'name':"Openers",
 			'desc':"Unique identities opening tickets",
 			'action':"opened",
 			'envision': {gtype : 'whiskers'}},
 		'closed': {
-			'divid':'closed_its', 
+			'divid':'its-closed', 
 			'column':"closed",
 			'name':"Closed",
 			'desc':"Number of closed tickets"},
 		'closers': {
-			'divid':'closers_its', 
+			'divid':'its-closers', 
 			'column':"closers",
 			'name':"Closers",
 			'desc':"Number of identities closing tickets",
 			'action':"closed",
 			'envision': {gtype : 'whiskers'}},
 		'changed': {
-			'divid':'changed_its', 
+			'divid':'its-changed', 
 			'column':"changed",
 			'name':"Changed",
 			'desc':"Number of changes to the state of tickets"},
 		'changers': {
-			'divid':'changers_its', 
+			'divid':'its-changers', 
 			'column':"changers",
 			'name':"Changers",
 			'desc':"Number of identities changing the state of tickets",

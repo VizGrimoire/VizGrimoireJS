@@ -25,12 +25,12 @@ MLS.getMetrics = function() {return basic_metrics;};
 
 var basic_metrics = {
 		'sent': {
-			'divid':"mls_sent", 
+			'divid':"mls-sent", 
 			'column':"sent",
 			'name':"Sent",
 			'desc':"Number of messages"},
 		'senders': {
-			'divid':"mls_senders", 
+			'divid':"mls-senders", 
 			'column':"senders",
 			'name':"Senders",
 			'desc':"Number of unique message senders",

@@ -268,7 +268,6 @@ function displayGridMetric(metric_id, config) {
 	} else {
 		if ($("#"+divid).length > 0) {
 			if (Metric.gridster_debug) silent = false;
-			// gridster.remove_widget($("#"+divid), silent);
 			gridster.remove_widget($("#"+divid), silent);
 		}
 	}

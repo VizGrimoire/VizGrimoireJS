@@ -20,6 +20,7 @@ var M0 = {};
 	M0.displayProjectData = displayProjectData;
 	M0.displayBasicLines = displayBasicLines;
 	M0.drawMetric = drawMetric;
+	M0.report = report;
 		
 	// M0 old public API
 	M0.basic_lines = basic_lines;
@@ -333,5 +334,50 @@ var M0 = {};
 		} else {
 			$('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
 		}
-	} 
+	}
+		
+	function report(config_metric) {
+		if (!config_metric) {
+			config_metric = {};
+	        config_metric.show_desc = false;
+	        config_metric.show_title = false;
+	        config_metric.show_labels = true;
+	        config_metric.top_all = false;
+		}
+		
+        if ($("#navigation").length > 0) {
+			$.get("navigation.html", function(navigation) {
+				$("#navigation").html(navigation);
+			});
+        }
+		
+        // Reference card with info from all data sources
+		if ($("#refcard").length > 0) {
+			$.get("refcard.html", function(refcard) {
+				$("#refcard").html(refcard);
+		        M0.displayProjectData('data/json/project-info-milestone0.json');
+		        $.each({"scm":SCM, "its":ITS, "mls":MLS}, function(ds_name, DS) {
+		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
+		        });
+			});
+		}
+				
+        var show_all = config_metric.top_all;
+        
+        // flotr2 and top
+        $.each({"scm":SCM, "its":ITS, "mls":MLS}, function(ds_name, DS) {
+	        $.each(DS.getMetrics(), function(i, metric) {
+	        	var div_flotr2 = metric.divid+"-flotr2";
+	        	if ($("#"+div_flotr2).length > 0)
+	        		DS.displayBasicMetricHTML(i,'data/json/'+ds_name+'-milestone0.json',div_flotr2, config_metric);
+	        });        
+	        if ($("#"+ds_name+"-top").length > 0)
+	        	DS.displayTop(ds_name+'-top','data/json/'+ds_name+'-top-milestone0.json',show_all);
+        });
+        
+        // Envision
+        if ($("#all-envision").length > 0)        	
+        	M0.displayEvoSummary ('all-envision', 'data/json/scm-milestone0.json', 
+				 	'data/json/its-milestone0.json', 'data/json/mls-milestone0.json');
+	}	
 })();

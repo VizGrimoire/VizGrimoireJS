@@ -35,24 +35,13 @@
             	<div id="refcard"></div>
             </div>
             
-            <script type="text/javascript">
-				$.get("navigation.html", function(navigation) {
-					$("#navigation").html(navigation);
-				});
-            </script>            
-            <script type="text/javascript">
-				$.get("refcard.html", function(refcard) {
-					$("#refcard").html(refcard);
-				});
-            </script>
-
 			<!--  SUMMARY -->
 			<div style="float:left; margin-right:20px;">
 				<div id="info-pill">
 					<h1 style="font-weight: bold;">General activity</h1>
 				</div>
 				<div id="info-pill" style="height: 450px;">
-					<div id="activity_comparison" style="float:left"></div>
+					<div id="all-envision" style="float:left"></div>
 				</div>
 				</br>
 				<p>[Use sliders to select time periods]</p>						
@@ -121,39 +110,7 @@
 
         <script type="text/javascript">
 		M0.data_ready(function() {
-            var config_metric = {};
-            config_metric.show_desc = false;
-            config_metric.show_title = false;
-            config_metric.show_labels = true;
-
-			SCM.displayData('data/json/scm-info-milestone0.json');
-            var show_all = false;
-            SCM.displayTop('scm-top','data/json/scm-top-milestone0.json',show_all);
-            SCM.displayBasicMetricHTML('commits','data/json/scm-milestone0.json','scm-commits-flotr2', config_metric);
-            SCM.displayBasicMetricHTML('authors','data/json/scm-milestone0.json','scm-authors-flotr2', config_metric);
-            
-			
-            ITS.displayData('data/json/its-info-milestone0.json');
-            // ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
-            var show_all = false;
-            ITS.displayTop('its-top','data/json/its-top-milestone0.json',show_all);
-            var show_desc = false;
-            ITS.displayBasicMetricHTML('closed','data/json/its-milestone0.json','its-closed-flotr2', config_metric);
-            ITS.displayBasicMetricHTML('closers','data/json/its-milestone0.json','its-closers-flotr2', config_metric);
-
-            MLS.displayData('data/json/mls-info-milestone0.json');
-            var show_all = false;
-            MLS.displayTop('mls-top','data/json/mls-top-milestone0.json',show_all);
-            var show_desc = false;
-            MLS.displayBasicMetricHTML('sent','data/json/mls-milestone0.json','mls-sent-flotr2', config_metric);
-            MLS.displayBasicMetricHTML('senders','data/json/mls-milestone0.json','mls-senders-flotr2', config_metric);
-            
-            // Activity Comparison
-            M0.displayEvoSummary ('activity_comparison', 'data/json/scm-milestone0.json', 
-            					 	'data/json/its-milestone0.json', 'data/json/mls-milestone0.json');
-
-            
-            M0.displayProjectData('data/json/project-info-milestone0.json');
+			M0.report();            
 		});
    		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
