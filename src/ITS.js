@@ -62,9 +62,7 @@ var basic_metrics = {
 };
 
 function displayEvo (id, its_file) {
-	$.getJSON(its_file, function(history) {
-		envisionEvo(id, history);
-	});
+	envisionEvo(id, ITS.getData());
 }
 
 function displayData(filename) {
@@ -91,9 +89,7 @@ function displayTop(div, top_file, all) {
 }
 
 function displayBasic(its_file) {
-	$.getJSON(its_file, function(history) {
-		basicEvo(history);
-	});
+	basicEvo(ITS.getData());
 }
 
 function basicEvo (history) {

@@ -104,7 +104,7 @@ function displayBasicUser(div_id) {
 
 // TODO: use cache data to avoid always reading lists info
 function displayBasic(div_id, lists_file, config_metric) {
-	$.getJSON(lists_file, function(lists) {				
+	$.getJSON(lists_file, function(lists) {
 		lists_hide = M0.getConfig().mls_hide_lists;
 		lists = lists.mailing_list;
 		var user_pref = false;
@@ -117,7 +117,6 @@ function displayBasic(div_id, lists_file, config_metric) {
 	        	user_pref = true;
 	        } 
 		}
-
 
 		for ( var i = 0; i < lists.length; i++) {
 			var l = lists[i];
@@ -176,10 +175,8 @@ function displayData(filename) {
 	});
 }
 
-function displayEvoAggregated(id, mls_file) {
-	$.getJSON(mls_file, function(history) {
-		envisionEvo("Aggregated", id, history);		
-	});	
+function displayEvoAggregated(id) {
+	envisionEvo("Aggregated", id, MLS.getData());			
 }
 
 function displayBasicMetricHTML(metric_id, metric_file, div_target, show_desc) {

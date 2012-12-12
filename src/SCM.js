@@ -86,9 +86,7 @@ function displayTop(div, top_file, all) {
 }
 
 function displayBasic(scm_file) {
-	$.getJSON(scm_file, function(history) {
-		basicEvo(history);
-	});
+	basicEvo(SCM.getData());
 }
 
 function basicEvo (history) {
@@ -102,9 +100,7 @@ function basicEvo (history) {
 }
 	
 function displayEvo (id, scm_file) {
-	$.getJSON(scm_file, function(history) {
-		envisionEvo(id, history);
-	});
+	envisionEvo(id, SCM.getData());
 }
 
 function envisionEvo (div_id, history) {

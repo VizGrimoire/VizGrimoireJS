@@ -426,7 +426,8 @@ var M0 = {};
         	var div_envision = ds_name+"-envision";
         	if ($("#"+div_envision).length > 0)
         		if (DS === MLS) {
-        			DS.displayEvo(div_envision, 'data/json/'+ds_name+'-lists-milestone0.json');
+        			DS.displayEvoAggregated(div_envision);
+        			DS.displayEvo(div_envision+"-lists", 'data/json/'+ds_name+'-lists-milestone0.json');
         		} else 	
         			DS.displayEvo(div_envision, 'data/json/'+ds_name+'-milestone0.json');
         });
@@ -439,6 +440,7 @@ var M0 = {};
         	if ($("#"+div_selector).length > 0)
         		// TODO: Only MLS supported 
         		if (DS === MLS) {
+        			div_envision = ds_name+"-envision-lists";
         			DS.displayEvoBasicListSelector(div_selector, div_envision, div_flotr2, 
         					'data/json/mls-lists-milestone0.json');
         		}
