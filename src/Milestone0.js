@@ -53,17 +53,52 @@ var M0 = {};
 		data_callbacks.push(callback);
 	}
 
-	function data_load(project_file, config_file, markers_file) {
+	function data_load() {
+		var project_file = "data/json/project-info-milestone0.json", 
+		config_file = "data/json/viz_cfg.json", 
+		markers_file = "data/json/markers.json";
+
 		$.when($.getJSON(project_file), $.getJSON(config_file), $.getJSON(markers_file))
 		.done (function(res1, res2, res3) {
 			project_data = res1[0];
 			config = res2[0];
 			markers = res3[0];
-			for (var i=0; i<data_callbacks.length; i++) {
-				data_callbacks[i]();
-			}
+			data_load_metrics();
+		});		
+		end_data_load();
+	}
+	
+	function data_load_metrics() {
+		// TODO: support for adding and removing data sources in M0 
+		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+		$.each(data_sources, function(ds_name, DS) {
+			$.when($.getJSON(DS.getDataFile()))
+			.done (function(history) {
+				DS.setData(history);
+				end_data_load();
+			})
+			.fail(function() {
+				DS.setData([]);
+				end_data_load();
+			});
+			
 		});
 	}
+	
+	function end_data_load() {
+		var all = true;
+		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+		$.each(data_sources, function(ds_name, DS) {
+			var test = DS;
+			if (DS.getData() === null) all = false;
+		});
+		if (!all) return;
+		// If all data sources are loaded invoke ready callback 
+		for (var i=0; i<data_callbacks.length; i++) {
+			data_callbacks[i]();
+		}
+	}
+	
 	
 	function fillHistory(hist_complete_id, hist_partial) {
 		
@@ -119,10 +154,12 @@ var M0 = {};
 	}
 	
 	function envisionEvoSummary (div_id, scm_data, its_data, mls_data) {
-		var container = document.getElementById(div_id);
-		
-		
+		var container = document.getElementById(div_id);		
 		var full_history_id = [], dates = [];
+		
+		if (scm_data.length === 0) scm_data = null;
+		if (its_data.length === 0) its_data = null;
+		if (mls_data.length === 0) mls_data = null;
 		
 		if (scm_data) {
 			full_history_id = scm_data.id;
@@ -222,18 +259,11 @@ var M0 = {};
 	}
 
 	function displayEvoSummarySM(id, commits, messages) {	
-		$.when($.getJSON(commits), $.getJSON(messages))
-		.done (function(res1, res3) {			
-			envisionEvoSummary (id, res1[0], null, res3[0]);
-		});
+			envisionEvoSummary (id, SCM.getData(), null, MLS.getData());
 	}
-
 	
-	function displayEvoSummary(id, commits, issues, messages) {	
-		$.when($.getJSON(commits), $.getJSON(issues), $.getJSON(messages))
-		.done (function(res1, res2, res3) {			
-			envisionEvoSummary (id, res1[0], res2[0], res3[0]);
-		});
+	function displayEvoSummary(id) {
+			envisionEvoSummary (id, SCM.getData(), ITS.getData(), MLS.getData());
 	}
 	
 	function basic_lines(div_id, json_file, column, labels, title) {
@@ -336,10 +366,10 @@ var M0 = {};
 		}
 	}
 		
-	function report(config) {
-		
+	function report(config) {		
+		// TODO: support for adding and removing data sources in M0 
 		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
-
+		
 		var config_metric = {};
         config_metric.show_desc = false;
         config_metric.show_title = false;
@@ -391,8 +421,7 @@ var M0 = {};
         
         // Envision
         if ($("#all-envision").length > 0)        	
-        	M0.displayEvoSummary ('all-envision', 'data/json/scm-milestone0.json', 
-				 	'data/json/its-milestone0.json', 'data/json/mls-milestone0.json');
+        	M0.displayEvoSummary ('all-envision');
         $.each(data_sources, function(ds_name, DS) {
         	var div_envision = ds_name+"-envision";
         	if ($("#"+div_envision).length > 0)

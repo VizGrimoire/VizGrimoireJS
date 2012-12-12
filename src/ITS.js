@@ -14,6 +14,12 @@ ITS.displayEvo = displayEvo;
 ITS.displayTop = displayTop;
 ITS.displayTimeToFix = displayTimeToFix;
 ITS.getMetrics = function() {return basic_metrics;};
+ITS.getDataFile = function() {return data_file;};
+ITS.setData = function(load_data) {data = load_data;};
+ITS.getData = function() {return data;};
+
+var data_file = 'data/json/its-milestone0.json';
+var data = null;
 
 var basic_metrics = {		
 		'opened': {

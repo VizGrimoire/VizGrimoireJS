@@ -22,6 +22,12 @@ MLS.displayEvoDefault = displayEvoDefault;
 MLS.displayData = displayData;
 MLS.displayTop = displayTop;
 MLS.getMetrics = function() {return basic_metrics;};
+MLS.getDataFile = function() {return data_file;};
+MLS.setData = function(load_data) {data = load_data;};
+MLS.getData = function() {return data;};
+
+var data_file = 'data/json/mls-milestone0.json';
+var data = null;
 
 var basic_metrics = {
 		'sent': {

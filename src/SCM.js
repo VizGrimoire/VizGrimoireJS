@@ -13,6 +13,12 @@ SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
 SCM.displayTop = displayTop;
 SCM.getMetrics = function() {return basic_metrics;};
+SCM.getDataFile = function() {return data_file;};
+SCM.setData = function(load_data) {data = load_data;};
+SCM.getData = function() {return data;};
+
+var data_file = 'data/json/scm-milestone0.json';
+var data = null;
 
 var basic_metrics = {
 	'commits': {
