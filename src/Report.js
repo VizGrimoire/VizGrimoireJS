@@ -395,6 +395,8 @@ var Report = {};
 				// This fills refcard
 		        Report.displayProjectData('data/json/project-info-milestone0.json');
 			});
+		} else {
+	        Report.displayProjectData('data/json/project-info-milestone0.json');
 		}
 		
         var show_all = config_metric.top_all;
