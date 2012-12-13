@@ -3,15 +3,6 @@
 var
   V = envision, global_data = {};
 
-// TODO: maybe it is better just to not use this function
-if (!Object.keys) Object.keys = function(o){
-   if (o !== Object(o))
-      throw new TypeError('Object.keys called on non-object');
-   var ret=[], p;
-   for(p in o) if(Object.prototype.hasOwnProperty.call(o,p)) ret.push(p);
-   return ret;
-};
-
 function getDefaultsMetrics(ds, viz, metrics, default_config) {
     for (metric in metrics) {
     	config = default_config;
@@ -88,8 +79,9 @@ function Envision_Report (options, data_sources) {
   var main_metric = options.data.main_metric;
   global_data = options.data;
   
-  var ds = Object.keys(data_sources);
-	
+  var ds = []; 
+  for (key in data_sources) ds.push(key);
+  
   var
     data = options.data,
     defaults = getDefaults(ds),
