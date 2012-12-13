@@ -95,16 +95,16 @@ function displayBasic(its_file) {
 function basicEvo (history) {
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
-		if ($.inArray(metric.column,M0.getConfig().its_hide)>-1) continue;
+		if ($.inArray(metric.column,Report.getConfig().its_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			M0.displayBasicLines(metric.divid, history, 
+			Report.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }
 
 function envisionEvo(div_id, history) {
 	var main_metric = "opened";
-	var config = M0.getConfig();
+	var config = Report.getConfig();
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.its_hide);
 	new envision.templates.Envision_Milestone0(options,['its']);

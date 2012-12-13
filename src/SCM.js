@@ -92,9 +92,9 @@ function displayBasic(scm_file) {
 function basicEvo (history) {
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
-		if ($.inArray(metric.column,M0.getConfig().scm_hide)>-1) continue;
+		if ($.inArray(metric.column,Report.getConfig().scm_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			M0.displayBasicLines(metric.divid, history, 
+			Report.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }
@@ -104,7 +104,7 @@ function displayEvo (id, scm_file) {
 }
 
 function envisionEvo (div_id, history) {
-	var config = M0.getConfig();
+	var config = Report.getConfig();
 	var main_metric = "commits";
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.scm_hide);

@@ -87,19 +87,18 @@
 		<script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
 		<![endif]-->
 		<script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
-		<script type="text/javascript" src="VizGrimoireJS/src/swscopio.js"></script>
-		<script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+		<script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/Metric.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
-		<script type="text/javascript" src="VizGrimoireJS/src/Envision_Milestone0.js"></script>		
+		<script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>		
 		<script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
 
 		<script type="text/javascript">
 
 				
-				M0.data_ready(function() {
+				Report.data_ready(function() {
 					SCM.displayData('data/json/scm-info-milestone0.json');
 					SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json');
 					
@@ -109,9 +108,9 @@
 					MLS.displayData('data/json/mls-info-milestone0.json');
 					MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json');
 					
-					M0.displayProjectData('data/json/project-info-milestone0.json');
+					Report.displayProjectData('data/json/project-info-milestone0.json');
 				});
-				M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
+				Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
 		</script>
 	</body>
 </html>

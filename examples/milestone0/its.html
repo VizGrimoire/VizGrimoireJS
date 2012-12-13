@@ -100,24 +100,23 @@
         <script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
         <![endif]-->
         <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/swscopio.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Milestone0.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Metric.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Milestone0.js"></script>             
+        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>             
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
 
         <script type="text/javascript">
-		M0.data_ready(function() {
-			M0.report({top_all: true});
+		Report.data_ready(function() {
+			Report.report({top_all: true});
 			//ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
             //ITS.displayTimeToFix('its-quantil095', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.95", 1, "quantil 0.95");
             //ITS.displayTimeToFix('its-quantil050', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.5", 1, "quantil 0.50");
             //ITS.displayTimeToFix('container_quantil025', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.25", 1, "quantil 0.25");
 		});
-   		M0.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
+   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
     </body>
 </html>

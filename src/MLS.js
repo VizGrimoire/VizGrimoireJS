@@ -105,7 +105,7 @@ function displayBasicUser(div_id) {
 // TODO: use cache data to avoid always reading lists info
 function displayBasic(div_id, lists_file, config_metric) {
 	$.getJSON(lists_file, function(lists) {
-		lists_hide = M0.getConfig().mls_hide_lists;
+		lists_hide = Report.getConfig().mls_hide_lists;
 		lists = lists.mailing_list;
 		var user_pref = false;
 
@@ -140,7 +140,7 @@ function displayBasicList(div_id, l, mls_file, config_metric) {
 		var metric = basic_metrics[id];
 		var title = '';
 		if (config.show_title) title = metric.name;
-		if ($.inArray(metric.column,M0.getConfig().mls_hide)>-1) continue;
+		if ($.inArray(metric.column,Report.getConfig().mls_hide)>-1) continue;
 		var new_div = "<div class='info-pill m0-box-div flotr2-"+metric.column+"'>";
 		new_div += "<h1>" + metric.name + " " + displayMLSListName(l) + "</h1>";
 		new_div += "<div id='"+metric.divid+"_" + l + "' class='m0-box flotr2-"+metric.column+"'></div>";
@@ -148,7 +148,7 @@ function displayBasicList(div_id, l, mls_file, config_metric) {
 			new_div += "<p>"+metric.desc+"</p>";
 		new_div += "</div>";
 		$("#"+div_id).append(new_div);
-		M0.basic_lines(metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
+		Report.basic_lines(metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
 	}
 
 }
@@ -158,7 +158,7 @@ function displayBasicMetric(metric_id, mls_file, div_target, config) {
 }
 
 function getReportId() {
-	var project_data = M0.getProjectData();
+	var project_data = Report.getProjectData();
 	return project_data.date + "_" + project_data.project_name;
 }
 
@@ -193,7 +193,7 @@ function displayEvo(id, lists_file) {
 	
 	$.getJSON(lists_file, function(history) {				
 		lists = history.mailing_list;
-		var config = M0.getConfig();
+		var config = Report.getConfig();
 		lists_hide = config.mls_hide_lists;		
 		if (typeof lists === 'string') {
 			lists = [lists];
@@ -330,7 +330,7 @@ function displayEvoList(list_label, id, mls_file) {
 }
 
 function envisionEvo (list_label, div_id, history) {
-	var config = M0.getConfig();
+	var config = Report.getConfig();
 
 	var main_metric = "sent";
 	var options = Metric.getEnvisionOptions(

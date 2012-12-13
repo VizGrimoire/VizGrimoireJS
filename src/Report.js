@@ -1,29 +1,29 @@
 /* 
- * Milestone0.js: Library for visualizing Bitergia Milestone 0 Report
+ * Report.js: Library for visualizing Bitergia Reports
  */
 
-var M0 = {};
+var Report = {};
 
 (function () {
 	
-	// M0 new public API
-	M0.data_load = data_load;
-	M0.data_ready = data_ready;
-	M0.displayEvoSummary = displayEvoSummary;
-	M0.displayEvoSummarySM = displayEvoSummarySM;
-	M0.getAllMetrics = getAllMetrics;
-	M0.getMarkers = getMarkers;
-	M0.getConfig = getConfig;
-	M0.getGridster = getGridster;
-	M0.setGridster = setGridster;
-	M0.getProjectData = getProjectData;
-	M0.displayProjectData = displayProjectData;
-	M0.displayBasicLines = displayBasicLines;
-	M0.drawMetric = drawMetric;
-	M0.report = report;
+	// Public API
+	Report.data_load = data_load;
+	Report.data_ready = data_ready;
+	Report.displayEvoSummary = displayEvoSummary;
+	Report.displayEvoSummarySM = displayEvoSummarySM;
+	Report.getAllMetrics = getAllMetrics;
+	Report.getMarkers = getMarkers;
+	Report.getConfig = getConfig;
+	Report.getGridster = getGridster;
+	Report.setGridster = setGridster;
+	Report.getProjectData = getProjectData;
+	Report.displayProjectData = displayProjectData;
+	Report.displayBasicLines = displayBasicLines;
+	Report.drawMetric = drawMetric;
+	Report.report = report;
 		
-	// M0 old public API
-	M0.basic_lines = basic_lines;
+	// Old public API
+	Report.basic_lines = basic_lines;
 	
 	// Shared config
 	var project_data = {}, markers = {}, config = {}, data_callbacks = [], gridster = {};
@@ -69,7 +69,7 @@ var M0 = {};
 	}
 	
 	function data_load_metrics() {
-		// TODO: support for adding and removing data sources in M0 
+		// TODO: support for adding and removing data sources in Report 
 		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
 		$.each(data_sources, function(ds_name, DS) {
 			$.when($.getJSON(DS.getDataFile()))
@@ -323,7 +323,7 @@ var M0 = {};
 	
 	function displayProjectData() {
 		data = project_data;
-		document.title = data.project_name + ' M0 Report by Bitergia';
+		document.title = data.project_name + ' Report by Bitergia';
 		$(".report_date").text(data.date);
 		$(".project_name").text(data.project_name);
 		$("#project_url").attr("href", data.project_url);
@@ -366,7 +366,7 @@ var M0 = {};
 	}
 		
 	function report(config) {		
-		// TODO: support for adding and removing data sources in M0 
+		// TODO: support for adding and removing data sources in Report 
 		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
 		
 		var config_metric = {};
@@ -393,7 +393,7 @@ var M0 = {};
 		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
 		        });
 				// This fills refcard
-		        M0.displayProjectData('data/json/project-info-milestone0.json');
+		        Report.displayProjectData('data/json/project-info-milestone0.json');
 			});
 		}
 		
@@ -421,7 +421,7 @@ var M0 = {};
         
         // Envision
         if ($("#all-envision").length > 0)        	
-        	M0.displayEvoSummary ('all-envision');
+        	Report.displayEvoSummary ('all-envision');
         $.each(data_sources, function(ds_name, DS) {
         	var div_envision = ds_name+"-envision";
         	if ($("#"+div_envision).length > 0)

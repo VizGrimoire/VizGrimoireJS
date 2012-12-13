@@ -87,7 +87,7 @@ function Envision_Milestone0 (options, ds) {
     hit = new V.Interaction();
   
   var metrics = {};
-  if (!ds) metrics = M0.getAllMetrics();
+  if (!ds) metrics = Replace.getAllMetrics();
   else {
 	if ($.inArray('scm', ds)>-1) metrics = $.extend(metrics,SCM.getMetrics());
 	if ($.inArray('its', ds)>-1) metrics = $.extend(metrics,ITS.getMetrics());

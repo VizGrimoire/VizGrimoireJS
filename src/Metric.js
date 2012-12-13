@@ -143,7 +143,7 @@ function getEnvisionOptions (div_id, history, basic_metrics, main_metric, hide) 
 	dates = history.date, 
 	container = document.getElementById(div_id),
 	options;
-	var markers = M0.getMarkers();
+	var markers = Report.getMarkers();
 		
 	options = {
 			container : container,
@@ -214,7 +214,7 @@ function displayBasicHTML(data_file, div_target, title, basic_metrics, hide, con
 			var metric = basic_metrics[id];
 			var title_metric = metric.name;
 			if (!config.show_title) title_metric='';
-			if ($.inArray(metric.column,M0.getConfig()[hide])>-1) continue;
+			if ($.inArray(metric.column,Report.getConfig()[hide])>-1) continue;
 			new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
 			new_div += '<h1>'+metric.name+'</h1>';
 			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
@@ -222,7 +222,7 @@ function displayBasicHTML(data_file, div_target, title, basic_metrics, hide, con
 				new_div += '<p>'+metric.desc+'</p>';
 			new_div += '</div>' ;
 			$("#"+div_target).append(new_div);
-			M0.displayBasicLines(metric.divid, history, 
+			Report.displayBasicLines(metric.divid, history, 
 					metric.column, config.show_labels, title_metric);
 		}
 	});
@@ -242,14 +242,14 @@ function displayBasicMetricHTML(metric, data_file, div_target, config) {
 			new_div += '<p>'+metric.desc+'</p>';
 		new_div += '</div>' ;
 		$("#"+div_target).append(new_div);
-		M0.displayBasicLines(metric.divid, history, metric.column, config.show_labels, title);
+		Report.displayBasicLines(metric.divid, history, metric.column, config.show_labels, title);
 	});
 }
 
 
 function displayGridMetric(metric_id, config) {
-	var gridster = M0.getGridster();
-	var metric = M0.getAllMetrics()[metric_id];
+	var gridster = Report.getGridster();
+	var metric = Report.getAllMetrics()[metric_id];
 	var size_x = 1, size_y = 1, col = 2, row = 1;
 	var silent = true;
 	
@@ -263,7 +263,7 @@ function displayGridMetric(metric_id, config) {
 		if ($("#"+divid).length === 0) {
 			gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y, col, row);
 			// gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y);
-			M0.drawMetric(metric_id, divid);
+			Report.drawMetric(metric_id, divid);
 		}
 	} else {
 		if ($("#"+divid).length > 0) {
@@ -293,7 +293,7 @@ function displayGridMetricDefault() {
 }
 
 function displayGridMetricSelector(div_id) {
-	var metrics = M0.getAllMetrics();
+	var metrics = Report.getAllMetrics();
 	// var metrics = MLS.getMetrics();
 	var html = "Metrics Selector:";
 	html += "<form id='form_metric_selector'>";
