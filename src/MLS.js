@@ -4,6 +4,8 @@
 
 var MLS = {};
 
+Report.registerDataSource("mls", MLS);
+
 (function() {
 	
 MLS.displayEvo = displayEvo;
@@ -336,6 +338,6 @@ function envisionEvo (list_label, div_id, history) {
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.mls_hide);
 	options.data.list_label = displayMLSListName(list_label);
-	new envision.templates.Envision_Milestone0(options,['mls']);
+	new envision.templates.Envision_Report(options,{'mls':MLS});
 }
 })();

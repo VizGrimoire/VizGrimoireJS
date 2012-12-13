@@ -74,10 +74,12 @@ function getMetricDS(metric_id) {
 	if (MLS.getMetrics()[metric_id]) {return "mls";}	
 }
 
-function Envision_Milestone0 (options, ds) {
+function Envision_Report (options, data_sources) {
 	
   var main_metric = options.data.main_metric;
   global_data = options.data;
+  
+  var ds = Object.keys(data_sources);
 	
   var
     data = options.data,
@@ -157,6 +159,6 @@ function Envision_Milestone0 (options, ds) {
   }
 }
 
-V.templates.Envision_Milestone0 = Envision_Milestone0;
+V.templates.Envision_Report = Envision_Report;
 
 })();

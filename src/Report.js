@@ -21,12 +21,15 @@ var Report = {};
 	Report.displayBasicLines = displayBasicLines;
 	Report.drawMetric = drawMetric;
 	Report.report = report;
+	Report.getDataSources = function () {return data_sources;};
+	Report.registerDataSource = function (name, backend) {data_sources[name] = backend;};
 		
 	// Old public API
 	Report.basic_lines = basic_lines;
 	
 	// Shared config
-	var project_data = {}, markers = {}, config = {}, data_callbacks = [], gridster = {};
+	var project_data = {}, markers = {}, config = {}, 
+	data_callbacks = [], gridster = {}, data_sources = {};
 	
 	function getMarkers() {
 		return markers;
@@ -70,7 +73,7 @@ var Report = {};
 	
 	function data_load_metrics() {
 		// TODO: support for adding and removing data sources in Report 
-		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+		var data_sources = Report.getDataSources();
 		$.each(data_sources, function(ds_name, DS) {
 			$.when($.getJSON(DS.getDataFile()))
 			.done (function(history) {
@@ -87,7 +90,7 @@ var Report = {};
 	
 	function end_data_load() {
 		var all = true;
-		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+		var data_sources = Report.getDataSources();
 		$.each(data_sources, function(ds_name, DS) {
 			if (DS.getData() === null) all = false;
 		});
@@ -225,10 +228,10 @@ var Report = {};
 				main_metric: main_metric		
 		};
 		
-		var all_metrics = {}, data_sources = [];
-		if (scm_data) {all_metrics = $.extend(all_metrics, SCM.getMetrics());data_sources.push('scm');}
-		if (its_data) {all_metrics = $.extend(all_metrics, ITS.getMetrics());data_sources.push('its');}
-		if (mls_data) {all_metrics = $.extend(all_metrics, MLS.getMetrics());data_sources.push('mls');}
+		var all_metrics = {};
+		if (scm_data) {all_metrics = $.extend(all_metrics, SCM.getMetrics());}
+		if (its_data) {all_metrics = $.extend(all_metrics, ITS.getMetrics());}
+		if (mls_data) {all_metrics = $.extend(all_metrics, MLS.getMetrics());}
 				
 		for (var id in all_metrics) {
 			if (scm_data && scm_data[id])
@@ -254,7 +257,7 @@ var Report = {};
 		};
 	
 		// Create the TimeSeries
-		vis = new envision.templates.Envision_Milestone0(options, data_sources);
+		vis = new envision.templates.Envision_Report(options, Report.getDataSources());
 	}
 
 	function displayEvoSummarySM(id, commits, messages) {	
@@ -367,7 +370,7 @@ var Report = {};
 		
 	function report(config) {		
 		// TODO: support for adding and removing data sources in Report 
-		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
+		var data_sources = Report.getDataSources();
 		
 		var config_metric = {};
         config_metric.show_desc = false;

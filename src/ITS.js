@@ -4,6 +4,8 @@
 
 var ITS = {};
 
+Report.registerDataSource("its", ITS);
+
 (function() {
 
 ITS.displayBasic = displayBasic;
@@ -107,7 +109,7 @@ function envisionEvo(div_id, history) {
 	var config = Report.getConfig();
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.its_hide);
-	new envision.templates.Envision_Milestone0(options,['its']);
+	new envision.templates.Envision_Report(options,{'its':ITS});
 
 }
 
