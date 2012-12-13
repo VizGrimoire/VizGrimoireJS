@@ -89,7 +89,6 @@ var M0 = {};
 		var all = true;
 		var data_sources = {"scm":SCM, "its":ITS, "mls":MLS};
 		$.each(data_sources, function(ds_name, DS) {
-			var test = DS;
 			if (DS.getData() === null) all = false;
 		});
 		if (!all) return;
@@ -379,10 +378,7 @@ var M0 = {};
 		if (config) {
 			$.each(config, function(key, value) {config_metric[key] = value;});
 		}
-		
-        M0.displayProjectData('data/json/project-info-milestone0.json');
-
-		
+				
         if ($("#navigation").length > 0) {
 			$.get("navigation.html", function(navigation) {
 				$("#navigation").html(navigation);
@@ -396,9 +392,11 @@ var M0 = {};
 		        $.each(data_sources, function(ds_name, DS) {
 		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
 		        });
+				// This fills refcard
+		        M0.displayProjectData('data/json/project-info-milestone0.json');
 			});
 		}
-				
+		
         var show_all = config_metric.top_all;
         
         // flotr2 and top
