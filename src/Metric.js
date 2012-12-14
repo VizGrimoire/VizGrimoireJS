@@ -116,23 +116,36 @@ function displayBasicChart(divid, labels, data, graph) {
 	graph = Flotr.draw(container, chart_data, config); 
 }
 
-function displayBubbles(divid, data, dates) {
+function getFormatterBubble (metric1, metric2, data, dates) {
+	return function(o) {
+		var value = dates[o.index]+": "; 
+		value += data[o.index][1] + " " + metric1 + ","; 
+		value += data[o.index][2] + " " + metric2 + ",";
+		return value;
+	};	
+}
+
+function displayBubbles(divid, data, dates, ds) {
 	var container = document.getElementById(divid);
 	var config = {
-		    bubbles : { show : true, baseRadius : 5 },
-		    mouse: {
-	    		track:true,
-		    	trackFormatter : function(o) {
-		    		var value = dates[o.index]+": "; 
-		    		value += data[o.index][1] + " commits,"; 
-		    		value += data[o.index][2] + " committers";
-					return value;
-		    	}
-		    },
-		    xaxis : { tickFormatter : function(o) {var x; 
-		    return dates[parseInt(o)-data[0][0]];}},
-
+	    bubbles : { show : true, baseRadius : 5 },
+	    mouse: {
+    		track:true,
+	    },
+	    xaxis : { tickFormatter : function(o) {
+	    	return dates[parseInt(o)-data[0][0]];}},
 	};
+	if (ds === "scm") {
+		config.mouse.trackFormatter =  
+			getFormatterBubble ("commits", "committers", data, dates);
+	} else if (ds === "its") {
+		config.mouse.trackFormatter =  
+			getFormatterBubble ("opened", "openers", data, dates);
+		$.extend(config.bubbles, {baseRadius: 2}); 
+	} else if (ds === "mls") {
+		config.mouse.trackFormatter =  
+			getFormatterBubble ("sent", "senders", data, dates);
+	}
 	Flotr.draw(container, [data], config);
 }
 

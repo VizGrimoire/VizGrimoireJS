@@ -11,6 +11,7 @@ Report.registerDataSource("its", ITS);
 ITS.displayBasic = displayBasic;
 ITS.displayBasicHTML = displayBasicHTML;
 ITS.displayBasicMetricHTML = displayBasicMetricHTML;
+ITS.displayBubbles = displayBubbles;
 ITS.displayData = displayData;
 ITS.displayEvo = displayEvo;
 ITS.displayTop = displayTop;
@@ -92,6 +93,17 @@ function displayTop(div, top_file, all, graph) {
 
 function displayBasic(its_file) {
 	basicEvo(ITS.getData());
+}
+
+function displayBubbles(divid) {
+	var bdata = [], bdata1 = [];
+	var data = ITS.getData();
+	
+	for (var i=0; i<data.id.length;i++) {
+		bdata.push([data.id[i], data.opened[i], data.openers[i]]);
+		bdata1.push([data.id[i], data.closed[i], data.closers[i]]);
+	}	
+	Metric.displayBubbles(divid, bdata, data.date, "its");
 }
 
 function basicEvo (history) {

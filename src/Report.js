@@ -423,7 +423,6 @@ var Report = {};
 	        if ($("#"+ds_name+"-top").length > 0)
 	        	DS.displayTop(ds_name+'-top','data/json/'+ds_name+'-top-milestone0.json',show_all);
 	        	$.each(['pie','bars'], function (index, chart) {
-		        	var test;
 		        	if ($("#"+ds_name+"-top-"+chart).length > 0)
 		        		DS.displayTop(ds_name+'-top-'+ chart 
 		        				,'data/json/'+ds_name+'-top-milestone0.json',show_all,chart);
@@ -447,7 +446,7 @@ var Report = {};
         $.each(data_sources, function(ds_name, DS) {
         	var div_time = ds_name+"-time-bubbles";
         	if ($("#"+div_time).length > 0)
-        		DS.displayBubble(div_time);
+        		DS.displayBubbles(div_time);
         });
 
         

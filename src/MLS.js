@@ -14,6 +14,7 @@ MLS.displayBasic = displayBasic;
 MLS.displayBasicMetric = displayBasicMetric;
 MLS.displayBasicMetricHTML = displayBasicMetricHTML;
 MLS.displayBasicListSelector = displayBasicListSelector;
+MLS.displayBubbles = displayBubbles;
 MLS.displayEvoListSelector = displayEvoListSelector;
 MLS.displayEvoBasicListSelector = displayEvoBasicListSelector;
 MLS.displayBasicUser = displayBasicUser;
@@ -157,6 +158,17 @@ function displayBasicList(div_id, l, mls_file, config_metric) {
 
 function displayBasicMetric(metric_id, mls_file, div_target, config) {
 	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, config);
+}
+
+function displayBubbles(divid) {
+	var bdata = [];
+	var data = MLS.getData();
+	
+	for (var i=0; i<data.id.length;i++) {
+		bdata.push([data.id[i], data.sent[i], data.senders[i]]);
+	}
+	
+	Metric.displayBubbles(divid, bdata, data.date, "mls");
 }
 
 function getReportId() {
