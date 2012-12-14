@@ -104,49 +104,16 @@ function displayBasicChart(divid, labels, data, graph) {
 		}
 	};
 	
-	if (graph === "bars") config.bars = {show : true};
+	if (graph === "bars") {
+		config.bars = {show : true};
+		config.grid.horizontalLines = true;
+		config.yaxis = { showLabels : true};
+	}
 	if (graph === "pie") config.pie = {show : true};
 	
 	graph = Flotr.draw(container, chart_data, config); 
 }
 
-
-
-function displayPieChart(divid, labels, data) {
-
-	var container = document.getElementById(divid);
-	// var container_legend = document.getElementById(divid+"-legend");
-	var pie_data = [];
-
-	for (var i=0; i<labels.length;i++) {
-		pie_data.push({data: [[i,data[i]]], label:hideEmail(labels[i])});
-	}
-				
-	var pie_config = {
-	    grid : {
-		      verticalLines : false,
-		      horizontalLines : false,
-		      outlineWidth: 0,  
-		    },
-	    xaxis : { showLabels : false },
-	    yaxis : { showLabels : false },
-		pie : {show : true, startAngle: Math.PI/2},
-		mouse : {
-			track : true,			
-			trackFormatter : function(o) {
-				return hideEmail(labels[parseInt(o.x)]) + ": "
-				+ data[parseInt(o.x)];}
-		},
-		legend : {
-			show: false,
-			position : 'se',
-			backgroundColor : '#D2E8FF',
-			// container: container_legend
-		}
-	};
-	
-	graph = Flotr.draw(container, pie_data, pie_config); 
-}
 
 // Each metric can have several top: metric.period
 // For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
