@@ -10,7 +10,6 @@ var Report = {};
 	Report.data_load = data_load;
 	Report.data_ready = data_ready;
 	Report.displayEvoSummary = displayEvoSummary;
-	Report.displayEvoSummarySM = displayEvoSummarySM;
 	Report.getAllMetrics = getAllMetrics;
 	Report.getMarkers = getMarkers;
 	Report.getConfig = getConfig;
@@ -19,6 +18,7 @@ var Report = {};
 	Report.getProjectData = getProjectData;
 	Report.displayProjectData = displayProjectData;
 	Report.displayBasicLines = displayBasicLines;
+	Report.displayRadar = displayRadar;
 	Report.drawMetric = drawMetric;
 	Report.report = report;
 	Report.getDataSources = function () {return data_sources;};
@@ -84,7 +84,15 @@ var Report = {};
 				DS.setData([]);
 				end_data_load();
 			});
-			
+			$.when($.getJSON(DS.getGlobalDataFile()))
+			.done (function(history) {
+				DS.setGlobalData(history);
+				end_data_load();
+			})
+			.fail(function() {
+				DS.setGlobalData([]);
+				end_data_load();
+			});			
 		});
 	}
 	
@@ -92,7 +100,8 @@ var Report = {};
 		var all = true;
 		var data_sources = Report.getDataSources();
 		$.each(data_sources, function(index, DS) {
-			if (DS.getData() === null) all = false;
+			if (DS.getData() === null) {all = false;return;}
+			if (DS.getGlobalData() === null) {all = false;return;}
 		});
 		if (!all) return;
 		// If all data sources are loaded invoke ready callback 
@@ -259,13 +268,44 @@ var Report = {};
 		// Create the TimeSeries
 		vis = new envision.templates.Envision_Report(options, Report.getDataSources());
 	}
-
-	function displayEvoSummarySM(id, commits, messages) {	
-			envisionEvoSummary (id, SCM.getData(), null, MLS.getData());
-	}
 	
 	function displayEvoSummary(id) {
 			envisionEvoSummary (id, SCM.getData(), ITS.getData(), MLS.getData());
+	}
+	
+	function displayRadar(div_id) {		
+		var container = document.getElementById(div_id);
+		var scm_data = SCM.getGlobalData();
+		var data = [];
+//		data.push([0,parseInt(scm_data.commits)]);
+//		data.push([1,parseInt(scm_data.committers)]);
+//		data.push([2,parseInt(scm_data.files)]);
+		
+		data.push([0,8]);
+		data.push([1,3]);
+		data.push([2,5]);
+		data.push([3,7]);
+
+		var
+	    s1 = { label : project_data.project_name, data : data },	   
+	    graph, ticks;
+
+	  // Radar Labels
+	  ticks = [
+	    [0, "Commits"],
+		[1, "Opened"],
+		[2, "Closed"],
+	    [2, "Sent"]
+	  ];
+	    
+	  // Draw the graph.
+	  graph = Flotr.draw(container, [ s1], {
+	    radar : { show : true}, 
+	    grid  : { circular : true, minorHorizontalLines : true}, 
+	    yaxis : { min : 0, max : 10, minorTickFreq : 1}, 
+	    xaxis : { ticks : ticks}
+	  });
+		
 	}
 	
 	function basic_lines(div_id, json_file, column, labels, title) {
@@ -393,7 +433,7 @@ var Report = {};
 			$.get("refcard.html", function(refcard) {
 				$("#refcard").html(refcard);
 		        $.each(data_sources, function(i, DS) {
-		        	DS.displayData('data/json/'+DS.getName()+'-info-milestone0.json');
+		        	DS.displayData();
 		        });
 				// This fills refcard
 		        Report.displayProjectData('data/json/project-info-milestone0.json');
@@ -448,6 +488,14 @@ var Report = {};
         	if ($("#"+div_time).length > 0)
         		DS.displayBubbles(div_time);
         });
+        
+        // Rada summaries
+        if ($("#radar-activity").length > 0) {
+        	Report.displayRadar ('radar-activity');
+        }
+        
+        if ($("#radar-people").length > 0) {
+        }
 
         
         // Selectors

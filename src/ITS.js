@@ -18,11 +18,16 @@ ITS.getMetrics = function() {return basic_metrics;};
 ITS.getDataFile = function() {return data_file;};
 ITS.setData = function(load_data) {data = load_data;};
 ITS.getData = function() {return data;};
+ITS.getGlobalDataFile = function() {return global_data_file;};
+ITS.setGlobalData = function(data) {global_data = data;};
+ITS.getGlobalData = function() {return global_data;};
 ITS.getName = function() {return name;};
 
 var name = "its";
 var data_file = 'data/json/its-milestone0.json';
 var data = null;
+var global_data_file = 'data/json/its-info-milestone0.json';
+var global_data = null;
 
 var basic_metrics = {		
 		'opened': {
@@ -68,13 +73,11 @@ function displayEvo (id, its_file) {
 	envisionEvo(id, ITS.getData());
 }
 
-function displayData(filename) {
-	$.getJSON(filename, function(data) {
-		$("#itsFirst").text(data.first_date);
-		$("#itsLast").text(data.last_date);
-		$("#itsTickets").text(data.tickets);
-		$("#itsOpeners").text(data.openers);
-	});
+function displayData() {
+	$("#itsFirst").text(global_data.first_date);
+	$("#itsLast").text(global_data.last_date);
+	$("#itsTickets").text(global_data.tickets);
+	$("#itsOpeners").text(global_data.openers);
 }
 
 // Create HTML code to show the metrics

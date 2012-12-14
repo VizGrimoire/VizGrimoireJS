@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis, libreplan" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+        <meta name="description" content="Bitergia company website" />
+        <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/envision.min.css" />
+        <link rel="stylesheet" type="text/css" href="M0.css" />
+        <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/SCM_Milestone0.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/bitergia2.css" />
+        <link rel="stylesheet" type="text/css" href="custom.css" />
+        <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+        <title>Bitergia Report: Radar</title>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header"></div>
+            <script type="text/javascript">
+				$.get("header.html", function(header) {
+					$("#header").html(header);
+					$("#report_page").html("->Top activity");
+				});
+            </script>
+
+			<div id="navigation" style="float:left"></div>
+					 
+			<div style="float: left">
+				<div id="radar-activity" class='radar'></div>
+			</div>
+	
+			<div style="float: left">
+				<div id="radar-people" class='radar'></div>
+			</div>
+	
+			<div id="footer"></div>
+            <script type="text/javascript">
+				$.get("footer.html", function(footer) {
+					$("#footer").html(footer);
+				});
+            </script>
+
+        </div>
+        <!-- wrapper -->
+
+        <!--[if IE]>
+        <script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="VizGrimoireJS/src/flotr2.min.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Metric.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>             
+        <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
+
+        <script type="text/javascript">
+		Report.data_ready(function() {
+			Report.report({top_all: true});
+		});
+   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
+        </script>
+    </body>
+</html>

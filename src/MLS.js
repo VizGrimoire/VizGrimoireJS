@@ -26,11 +26,16 @@ MLS.getMetrics = function() {return basic_metrics;};
 MLS.getDataFile = function() {return data_file;};
 MLS.setData = function(load_data) {data = load_data;};
 MLS.getData = function() {return data;};
+MLS.getGlobalDataFile = function() {return global_data_file;};
+MLS.setGlobalData = function(data) {global_data = data;};
+MLS.getGlobalData = function() {return global_data;};
 MLS.getName = function() {return name;};
 
 var name = "mls";
 var data_file = 'data/json/mls-milestone0.json';
 var data = null;
+var global_data_file = 'data/json/mls-info-milestone0.json';
+var global_data = null;
 
 var basic_metrics = {
 		'sent': {
@@ -173,13 +178,11 @@ function getMLSId() {
 	return getReportId()+"_mls_lists";
 }
 	
-function displayData(filename) {
-	$.getJSON(filename, function(data) {
-		$("#mlsFirst").text(data.first_date);
-		$("#mlsLast").text(data.last_date);
-		$("#mlsMessages").text(data.messages);
-		$("#mlsSenders").text(data.people);
-	});
+function displayData() {
+	$("#mlsFirst").text(global_data.first_date);
+	$("#mlsLast").text(global_data.last_date);
+	$("#mlsMessages").text(global_data.messages);
+	$("#mlsSenders").text(global_data.people);
 }
 
 function displayEvoAggregated(id) {

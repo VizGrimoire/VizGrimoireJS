@@ -17,11 +17,16 @@ SCM.getMetrics = function() {return basic_metrics;};
 SCM.getDataFile = function() {return data_file;};
 SCM.setData = function(load_data) {data = load_data;};
 SCM.getData = function() {return data;};
+SCM.getGlobalDataFile = function() {return global_data_file;};
+SCM.getGlobalData = function() {return global_data;};
+SCM.setGlobalData = function(data) {global_data = data;};
 SCM.getName = function() {return name;};
 
 var name = "scm";
 var data_file = 'data/json/scm-milestone0.json';
+var global_data_file = 'data/json/scm-info-milestone0.json';
 var data = null;
+var global_data = null;
 
 var basic_metrics = {
 	'commits': {
@@ -62,15 +67,12 @@ var basic_metrics = {
 		'envision': {gtype : 'whiskers'}}			
 };
 
-function displayData(filename) {
-	$.getJSON(filename, function(data) {
-		$("#scmFirst").text(data.first_date);
-		$("#scmLast").text(data.last_date);
-		$("#scmCommits").text(data.commits);
-		$("#scmFiles").text(data.files);
-		$("#scmAuthors").text(data.authors);
-		$("#scmCommitters").text(data.committers);
-	});
+function displayData() {
+	$("#scmFirst").text(global_data.first_date);
+	$("#scmLast").text(global_data.last_date);
+	$("#scmCommits").text(global_data.commits);
+	$("#scmAuthors").text(global_data.authors);
+	$("#scmCommitters").text(global_data.committers);
 }
 
 // Create HTML code to show the metrics
