@@ -85,9 +85,9 @@ function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
 	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, config);
 }
 
-function displayTop(div, top_file, all, pie) {
+function displayTop(div, top_file, all, graph) {
 	if (all == undefined) all=true;
-	Metric.displayTop(div, top_file, basic_metrics, all, pie);
+	Metric.displayTop(div, top_file, basic_metrics, all, graph);
 }
 
 function displayBasic(its_file) {

@@ -44,17 +44,17 @@ function hideEmail(email) {
 	return clean;		
 }
 
-function displayTopMetric(div_id, metric, metric_period, history, show_pie) {
+function displayTopMetric(div_id, metric, metric_period, history, graph) {
 	var top_metric_id = metric.column;
 	var metric_id = metric.action;
 	var doer = findMetricDoer(history, metric_id);
-	var div_pie = '';
+	var div_graph = '';
 	var new_div = '';	
 	new_div += "<div class='info-pill'>";
 	new_div += "<h1>Top " + top_metric_id + " " + metric_period + " </h1>";
-	if (show_pie) {
-		div_pie = "top-pie-"+metric_id+"-"+metric_period;
-		new_div += "<div id='"+div_pie+"' class='pie' style='float:right'></div>";		
+	if (graph) {
+		div_graph = "top-"+graph+"-"+metric_id+"-"+metric_period;
+		new_div += "<div id='"+div_graph+"' class='graph' style='float:right'></div>";		
 	}
 	new_div += "<table><tbody>";
 	// new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
@@ -69,8 +69,48 @@ function displayTopMetric(div_id, metric, metric_period, history, show_pie) {
 	
 	var div = $("#"+div_id);
 	div.append(new_div);
-	if (show_pie) displayPieChart(div_pie, history[doer], history[metric_id]);
+	if (graph) displayBasicChart(div_graph, history[doer], history[metric_id], graph);
 }
+
+function displayBasicChart(divid, labels, data, graph) {
+
+	var container = document.getElementById(divid);
+	// var container_legend = document.getElementById(divid+"-legend");
+	var chart_data = [];
+
+	for (var i=0; i<labels.length;i++) {
+		chart_data.push({data: [[i,data[i]]], label:hideEmail(labels[i])});
+	}
+				
+	var config = {
+	    grid : {
+		      verticalLines : false,
+		      horizontalLines : false,
+		      outlineWidth: 0,  
+		    },
+	    xaxis : { showLabels : false },
+	    yaxis : { showLabels : false },
+		mouse : {
+			track : true,			
+			trackFormatter : function(o) {
+				return hideEmail(labels[parseInt(o.x)]) + ": "
+				+ data[parseInt(o.x)];}
+		},
+		legend : {
+			show: false,
+			position : 'se',
+			backgroundColor : '#D2E8FF',
+			// container: container_legend
+		}
+	};
+	
+	if (graph === "bars") config.bars = {show : true};
+	if (graph === "pie") config.pie = {show : true};
+	
+	graph = Flotr.draw(container, chart_data, config); 
+}
+
+
 
 function displayPieChart(divid, labels, data) {
 
@@ -110,7 +150,7 @@ function displayPieChart(divid, labels, data) {
 
 // Each metric can have several top: metric.period
 // For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
-function displayTop(div, top_file, basic_metrics, all, pie) {
+function displayTop(div, top_file, basic_metrics, all, graph) {
 	if (all == undefined) all = true;
 	$.getJSON(top_file, function(history) {
 		for (key in history) {
@@ -121,7 +161,7 @@ function displayTop(div, top_file, basic_metrics, all, pie) {
 			for (var id in basic_metrics) {
 				var metric = basic_metrics[id];
 					if (metric.column == top_metric) {
-						displayTopMetric(div, metric, top_period, history[key], pie);
+						displayTopMetric(div, metric, top_period, history[key], graph);
 						if (!all) return;
 					break;
 				} 
