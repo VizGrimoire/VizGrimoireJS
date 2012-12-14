@@ -42,3 +42,11 @@
   margin-bottom: 84px;
 }
 
+.flotr-grid-label {
+    font-size: 0.6em
+}
+
+.pie {
+	height:200px;
+	width:200px;
+}

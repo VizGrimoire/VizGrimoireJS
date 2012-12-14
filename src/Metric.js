@@ -44,11 +44,18 @@ function hideEmail(email) {
 	return clean;		
 }
 
-function displayTopMetric(div_id, metric, metric_period, history) {
+function displayTopMetric(div_id, metric, metric_period, history, show_pie) {
 	var top_metric_id = metric.column;
 	var metric_id = metric.action;
-	var doer = findMetricDoer(history, metric_id); 
-	new_div = "<div class='info-pill'><h1>Top " + top_metric_id + " " + metric_period + " </h1>";
+	var doer = findMetricDoer(history, metric_id);
+	var div_pie = '';
+	var new_div = '';	
+	new_div += "<div class='info-pill'>";
+	new_div += "<h1>Top " + top_metric_id + " " + metric_period + " </h1>";
+	if (show_pie) {
+		div_pie = "top-pie-"+metric_id+"-"+metric_period;
+		new_div += "<div id='"+div_pie+"' class='pie' style='float:right'></div>";		
+	}
 	new_div += "<table><tbody>";
 	// new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
 	new_div += "<tr><th></th><th>"+metric_id+"</th></tr>";
@@ -57,15 +64,54 @@ function displayTopMetric(div_id, metric, metric_period, history) {
 		var doer_value = history[doer][i];
 		new_div += "<tr><td>"+hideEmail(doer_value)+"</td><td>"+metric_value+"</td></tr>";
 	}
-	new_div += "</tbody></table></div>";
+	new_div += "</tbody></table>";
+	new_div += "</div>";
+	
 	var div = $("#"+div_id);
 	div.append(new_div);
+	if (show_pie) displayPieChart(div_pie, history[doer], history[metric_id]);
+}
+
+function displayPieChart(divid, labels, data) {
+
+	var container = document.getElementById(divid);
+	// var container_legend = document.getElementById(divid+"-legend");
+	var pie_data = [];
+
+	for (var i=0; i<labels.length;i++) {
+		pie_data.push({data: [[i,data[i]]], label:hideEmail(labels[i])});
+	}
+				
+	var pie_config = {
+	    grid : {
+		      verticalLines : false,
+		      horizontalLines : false,
+		      outlineWidth: 0,  
+		    },
+	    xaxis : { showLabels : false },
+	    yaxis : { showLabels : false },
+		pie : {show : true, startAngle: Math.PI/2},
+		mouse : {
+			track : true,			
+			trackFormatter : function(o) {
+				return hideEmail(labels[parseInt(o.x)]) + ": "
+				+ data[parseInt(o.x)];}
+		},
+		legend : {
+			show: false,
+			position : 'se',
+			backgroundColor : '#D2E8FF',
+			// container: container_legend
+		}
+	};
+	
+	graph = Flotr.draw(container, pie_data, pie_config); 
 }
 
 // Each metric can have several top: metric.period
 // For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}
-function displayTop(div, top_file, basic_metrics, all) {
-	if (all == undefined) all = true; 
+function displayTop(div, top_file, basic_metrics, all, pie) {
+	if (all == undefined) all = true;
 	$.getJSON(top_file, function(history) {
 		for (key in history) {
 			// ex: commits.all
@@ -75,7 +121,7 @@ function displayTop(div, top_file, basic_metrics, all) {
 			for (var id in basic_metrics) {
 				var metric = basic_metrics[id];
 					if (metric.column == top_metric) {
-						displayTopMetric(div, metric, top_period, history[key]);
+						displayTopMetric(div, metric, top_period, history[key], pie);
 						if (!all) return;
 					break;
 				} 

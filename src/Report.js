@@ -422,6 +422,8 @@ var Report = {};
 
 	        if ($("#"+ds_name+"-top").length > 0)
 	        	DS.displayTop(ds_name+'-top','data/json/'+ds_name+'-top-milestone0.json',show_all);
+	        if ($("#"+ds_name+"-top-pie").length > 0)
+	        	DS.displayTop(ds_name+'-top-pie','data/json/'+ds_name+'-top-milestone0.json',show_all,true);
         });
         
         // Envision
