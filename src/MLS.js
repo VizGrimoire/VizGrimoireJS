@@ -4,8 +4,6 @@
 
 var MLS = {};
 
-Report.registerDataSource("mls", MLS);
-
 (function() {
 	
 MLS.displayEvo = displayEvo;
@@ -28,7 +26,9 @@ MLS.getMetrics = function() {return basic_metrics;};
 MLS.getDataFile = function() {return data_file;};
 MLS.setData = function(load_data) {data = load_data;};
 MLS.getData = function() {return data;};
+MLS.getName = function() {return name;};
 
+var name = "mls";
 var data_file = 'data/json/mls-milestone0.json';
 var data = null;
 
@@ -161,14 +161,7 @@ function displayBasicMetric(metric_id, mls_file, div_target, config) {
 }
 
 function displayBubbles(divid) {
-	var bdata = [];
-	var data = MLS.getData();
-	
-	for (var i=0; i<data.id.length;i++) {
-		bdata.push([data.id[i], data.sent[i], data.senders[i]]);
-	}
-	
-	Metric.displayBubbles(divid, bdata, data.date, "mls");
+	Metric.displayBubbles(divid, "sent", "senders");
 }
 
 function getReportId() {
@@ -350,6 +343,8 @@ function envisionEvo (list_label, div_id, history) {
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.mls_hide);
 	options.data.list_label = displayMLSListName(list_label);
-	new envision.templates.Envision_Report(options,{'mls':MLS});
+	new envision.templates.Envision_Report(options,[MLS]);
 }
 })();
+
+Report.registerDataSource(MLS);

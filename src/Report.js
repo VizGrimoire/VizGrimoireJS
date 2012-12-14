@@ -22,14 +22,14 @@ var Report = {};
 	Report.drawMetric = drawMetric;
 	Report.report = report;
 	Report.getDataSources = function () {return data_sources;};
-	Report.registerDataSource = function (name, backend) {data_sources[name] = backend;};
+	Report.registerDataSource = function (backend) {data_sources.push(backend);};
 		
 	// Old public API
 	Report.basic_lines = basic_lines;
 	
 	// Shared config
 	var project_data = {}, markers = {}, config = {}, 
-	data_callbacks = [], gridster = {}, data_sources = {};
+	data_callbacks = [], gridster = {}, data_sources = [];
 	
 	function getMarkers() {
 		return markers;
@@ -74,7 +74,7 @@ var Report = {};
 	function data_load_metrics() {
 		// TODO: support for adding and removing data sources in Report 
 		var data_sources = Report.getDataSources();
-		$.each(data_sources, function(ds_name, DS) {
+		$.each(data_sources, function(i, DS) {
 			$.when($.getJSON(DS.getDataFile()))
 			.done (function(history) {
 				DS.setData(history);
@@ -91,7 +91,7 @@ var Report = {};
 	function end_data_load() {
 		var all = true;
 		var data_sources = Report.getDataSources();
-		$.each(data_sources, function(ds_name, DS) {
+		$.each(data_sources, function(index, DS) {
 			if (DS.getData() === null) all = false;
 		});
 		if (!all) return;
@@ -392,8 +392,8 @@ var Report = {};
 		if ($("#refcard").length > 0) {
 			$.get("refcard.html", function(refcard) {
 				$("#refcard").html(refcard);
-		        $.each(data_sources, function(ds_name, DS) {
-		        	DS.displayData('data/json/'+ds_name+'-info-milestone0.json');
+		        $.each(data_sources, function(i, DS) {
+		        	DS.displayData('data/json/'+DS.getName()+'-info-milestone0.json');
 		        });
 				// This fills refcard
 		        Report.displayProjectData('data/json/project-info-milestone0.json');
@@ -405,60 +405,60 @@ var Report = {};
         var show_all = config_metric.top_all;
         
         // flotr2 and top
-        $.each(data_sources, function(ds_name, DS) {
+        $.each(data_sources, function(index, DS) {
 	        $.each(DS.getMetrics(), function(i, metric) {
 	        	var div_flotr2 = metric.divid+"-flotr2";
 	        	if ($("#"+div_flotr2).length > 0)
-	        		DS.displayBasicMetricHTML(i,'data/json/'+ds_name+'-milestone0.json',div_flotr2, config_metric);
+	        		DS.displayBasicMetricHTML(i,'data/json/'+DS.getName()+'-milestone0.json',div_flotr2, config_metric);
 	        });
 	        
-	        if ($("#"+ds_name+"-flotr2").length > 0) {
+	        if ($("#"+DS.getName()+"-flotr2").length > 0) {
 	        	if (DS === MLS) {
-	                DS.displayBasic(ds_name+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
+	                DS.displayBasic(DS.getName()+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
 	        	} else {
-	        		DS.displayBasicHTML('data/json/'+ds_name+'-milestone0.json',ds_name+'-flotr2',config_metric);
+	        		DS.displayBasicHTML('data/json/'+DS.getName()+'-milestone0.json',DS.getName()+'-flotr2',config_metric);
 	        	}
 	        }
 
-	        if ($("#"+ds_name+"-top").length > 0)
-	        	DS.displayTop(ds_name+'-top','data/json/'+ds_name+'-top-milestone0.json',show_all);
+	        if ($("#"+DS.getName()+"-top").length > 0)
+	        	DS.displayTop(DS.getName()+'-top','data/json/'+DS.getName()+'-top-milestone0.json',show_all);
 	        	$.each(['pie','bars'], function (index, chart) {
-		        	if ($("#"+ds_name+"-top-"+chart).length > 0)
-		        		DS.displayTop(ds_name+'-top-'+ chart 
-		        				,'data/json/'+ds_name+'-top-milestone0.json',show_all,chart);
+		        	if ($("#"+DS.getName()+"-top-"+chart).length > 0)
+		        		DS.displayTop(DS.getName()+'-top-'+ chart 
+		        				,'data/json/'+DS.getName()+'-top-milestone0.json',show_all,chart);
 	        	});
         });
         
         // Envision
         if ($("#all-envision").length > 0)        	
         	Report.displayEvoSummary ('all-envision');
-        $.each(data_sources, function(ds_name, DS) {
-        	var div_envision = ds_name+"-envision";
+        $.each(data_sources, function(index, DS) {
+        	var div_envision = DS.getName()+"-envision";
         	if ($("#"+div_envision).length > 0)
         		if (DS === MLS) {
         			DS.displayEvoAggregated(div_envision);
-        			DS.displayEvo(div_envision+"-lists", 'data/json/'+ds_name+'-lists-milestone0.json');
+        			DS.displayEvo(div_envision+"-lists", 'data/json/'+DS.getName()+'-lists-milestone0.json');
         		} else 	
-        			DS.displayEvo(div_envision, 'data/json/'+ds_name+'-milestone0.json');
+        			DS.displayEvo(div_envision, 'data/json/'+DS.getName()+'-milestone0.json');
         });
         
         // Time evolution without Envision
-        $.each(data_sources, function(ds_name, DS) {
-        	var div_time = ds_name+"-time-bubbles";
+        $.each(data_sources, function(index, DS) {
+        	var div_time = DS.getName()+"-time-bubbles";
         	if ($("#"+div_time).length > 0)
         		DS.displayBubbles(div_time);
         });
 
         
         // Selectors
-        $.each(data_sources, function(ds_name, DS) {
-        	var div_selector = ds_name+"-selector";
-        	var div_envision = ds_name+"-envision";
-        	var div_flotr2 = ds_name+"-flotr2";
+        $.each(data_sources, function(index, DS) {
+        	var div_selector = DS.getName()+"-selector";
+        	var div_envision = DS.getName()+"-envision";
+        	var div_flotr2 = DS.getName()+"-flotr2";
         	if ($("#"+div_selector).length > 0)
         		// TODO: Only MLS supported 
         		if (DS === MLS) {
-        			div_envision = ds_name+"-envision-lists";
+        			div_envision = DS.getName()+"-envision-lists";
         			DS.displayEvoBasicListSelector(div_selector, div_envision, div_flotr2, 
         					'data/json/mls-lists-milestone0.json');
         		}

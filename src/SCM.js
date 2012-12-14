@@ -4,8 +4,6 @@
 
 var SCM = {};
 
-Report.registerDataSource("scm", SCM);
-
 (function() {
 
 SCM.displayBasic = displayBasic;
@@ -19,7 +17,9 @@ SCM.getMetrics = function() {return basic_metrics;};
 SCM.getDataFile = function() {return data_file;};
 SCM.setData = function(load_data) {data = load_data;};
 SCM.getData = function() {return data;};
+SCM.getName = function() {return name;};
 
+var name = "scm";
 var data_file = 'data/json/scm-milestone0.json';
 var data = null;
 
@@ -89,13 +89,7 @@ function displayTop(div, top_file, all, graph) {
 }
 
 function displayBubbles(divid) {
-	var bdata = [];
-	var data = SCM.getData();
-	
-	for (var i=0; i<data.id.length;i++) {
-		bdata.push([data.id[i], data.commits[i], data.committers[i]]);
-	}	
-	Metric.displayBubbles(divid, bdata, data.date, "scm");
+	Metric.displayBubbles(divid, "commits", "committers");
 }
 
 function displayBasic(scm_file) {
@@ -121,6 +115,8 @@ function envisionEvo (div_id, history) {
 	var main_metric = "commits";
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.scm_hide);
-	new envision.templates.Envision_Report(options, {'scm':SCM});
+	new envision.templates.Envision_Report(options, [SCM]);
 }
 })();
+
+Report.registerDataSource(SCM);

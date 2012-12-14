@@ -116,39 +116,56 @@ function displayBasicChart(divid, labels, data, graph) {
 	graph = Flotr.draw(container, chart_data, config); 
 }
 
-function getFormatterBubble (metric1, metric2, data, dates) {
-	return function(o) {
-		var value = dates[o.index]+": "; 
-		value += data[o.index][1] + " " + metric1 + ","; 
-		value += data[o.index][2] + " " + metric2 + ",";
-		return value;
-	};	
+function getDSMetric(metric_id) {
+	var ds = null;
+	$.each(Report.getDataSources(), function(index, DS) {
+        $.each(DS.getMetrics(), function(i, metric) {
+        	if (i === metric_id) ds = DS;
+        });
+	});
+	return ds;
 }
 
-function displayBubbles(divid, data, dates, ds) {
+// The two metrics should be from the same data source
+function displayBubbles(divid, metric1, metric2) {
+
 	var container = document.getElementById(divid);
-	var config = {
-	    bubbles : { show : true, baseRadius : 5 },
-	    mouse: {
-    		track:true,
-	    },
-	    xaxis : { tickFormatter : function(o) {
-	    	return dates[parseInt(o)-data[0][0]];}},
-	};
-	if (ds === "scm") {
-		config.mouse.trackFormatter =  
-			getFormatterBubble ("commits", "committers", data, dates);
-	} else if (ds === "its") {
-		config.mouse.trackFormatter =  
-			getFormatterBubble ("opened", "openers", data, dates);
-		$.extend(config.bubbles, {baseRadius: 2}); 
-	} else if (ds === "mls") {
-		config.mouse.trackFormatter =  
-			getFormatterBubble ("sent", "senders", data, dates);
+	
+	var DS = getDSMetric(metric1);
+	var DS1 = getDSMetric(metric2);
+	
+	var bdata = [];
+	
+	if (DS != DS1) {
+		alert("Metrics for bubbles have different data sources");
+		return;
 	}
-	Flotr.draw(container, [data], config);
-}
+	
+	var data = DS.getData();
+	
+	for (var i=0; i<data.id.length;i++) {
+		bdata.push([data.id[i], data[metric1][i], data[metric2][i]]);
+	}
+	
+	var config = {
+		    bubbles : { show : true, baseRadius : 5 },
+		    mouse: {
+	    		track:true,
+	    		trackFormatter: function(o) {
+	    			var value = data.date[o.index]+": "; 
+	    			value += data[metric1][o.index] + " " + metric1 + ","; 
+	    			value += data[metric2][o.index] + " " + metric2 + ",";
+	    			return value;
+	    		} 
+		    },
+		    xaxis : { tickFormatter : function(o) {
+		    	return data.date[parseInt(o)-data.id[0]];}},
+	};
+		
+	if (DS.getName() === "its") $.extend(config.bubbles, {baseRadius: 2});
 
+	Flotr.draw(container, [bdata], config);
+}
 
 // Each metric can have several top: metric.period
 // For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}

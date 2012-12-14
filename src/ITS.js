@@ -4,8 +4,6 @@
 
 var ITS = {};
 
-Report.registerDataSource("its", ITS);
-
 (function() {
 
 ITS.displayBasic = displayBasic;
@@ -20,7 +18,9 @@ ITS.getMetrics = function() {return basic_metrics;};
 ITS.getDataFile = function() {return data_file;};
 ITS.setData = function(load_data) {data = load_data;};
 ITS.getData = function() {return data;};
+ITS.getName = function() {return name;};
 
+var name = "its";
 var data_file = 'data/json/its-milestone0.json';
 var data = null;
 
@@ -96,14 +96,7 @@ function displayBasic(its_file) {
 }
 
 function displayBubbles(divid) {
-	var bdata = [], bdata1 = [];
-	var data = ITS.getData();
-	
-	for (var i=0; i<data.id.length;i++) {
-		bdata.push([data.id[i], data.opened[i], data.openers[i]]);
-		bdata1.push([data.id[i], data.closed[i], data.closers[i]]);
-	}	
-	Metric.displayBubbles(divid, bdata, data.date, "its");
+	Metric.displayBubbles(divid, "opened", "openers");
 }
 
 function basicEvo (history) {
@@ -121,7 +114,7 @@ function envisionEvo(div_id, history) {
 	var config = Report.getConfig();
 	var options = Metric.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.its_hide);
-	new envision.templates.Envision_Report(options,{'its':ITS});
+	new envision.templates.Envision_Report(options,[ITS]);
 
 }
 
@@ -174,3 +167,5 @@ function displayTimeToFix (div_id, json_file, column, labels, title) {
 };
 
 })();
+
+Report.registerDataSource(ITS);

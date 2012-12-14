@@ -80,7 +80,8 @@ function Envision_Report (options, data_sources) {
   global_data = options.data;
   
   var ds = []; 
-  for (key in data_sources) ds.push(key);
+  for (var i=0; i<data_sources.length; i++) 
+	  ds.push(data_sources[i].getName());
   
   var
     data = options.data,
@@ -92,9 +93,10 @@ function Envision_Report (options, data_sources) {
   var metrics = {};
   if (!ds) metrics = Replace.getAllMetrics();
   else {
-	if ($.inArray('scm', ds)>-1) metrics = $.extend(metrics,SCM.getMetrics());
-	if ($.inArray('its', ds)>-1) metrics = $.extend(metrics,ITS.getMetrics());
-	if ($.inArray('mls', ds)>-1) metrics = $.extend(metrics,MLS.getMetrics());
+	// TODO: iterate here over all DS
+	if ($.inArray(SCM.getName(), ds)>-1) metrics = $.extend(metrics,SCM.getMetrics());
+	if ($.inArray(ITS.getName(), ds)>-1) metrics = $.extend(metrics,ITS.getMetrics());
+	if ($.inArray(MLS.getName(), ds)>-1) metrics = $.extend(metrics,MLS.getMetrics());
   }
 		
   for (metric in metrics) {
@@ -108,7 +110,7 @@ function Envision_Report (options, data_sources) {
   
   defaults.summary.data = data.summary;
     
-  // SHOW BUBBLES
+  // SHOW LEGEND
   defaults[main_metric].config.mouse.trackFormatter = options.trackFormatter;  
   if (options.xTickFormatter) {
     defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
