@@ -11,6 +11,8 @@ Report.registerDataSource("scm", SCM);
 SCM.displayBasic = displayBasic;
 SCM.displayBasicHTML = displayBasicHTML;
 SCM.displayBasicMetricHTML = displayBasicMetricHTML;
+SCM.displayBubble = displayBubble;
+
 SCM.displayData = displayData;
 SCM.displayEvo = displayEvo;
 SCM.displayTop = displayTop;
@@ -85,6 +87,16 @@ function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
 function displayTop(div, top_file, all, graph) {
 	if (all == undefined) all=true;
 	Metric.displayTop(div, top_file, basic_metrics, all, graph);
+}
+
+function displayBubble(divid) {
+	var bdata = [];
+	var data = SCM.getData();
+	
+	for (var i=0; i<data.id.length;i++) {
+		bdata.push([data.id[i], data.commits[i], data.committers[i]]);
+	}	
+	Metric.displayBubbles(divid, bdata);
 }
 
 function displayBasic(scm_file) {

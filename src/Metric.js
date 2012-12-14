@@ -9,6 +9,7 @@ var Metric = {};
 Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
+Metric.displayBubbles = displayBubbles;
 Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Metric.getEnvisionOptions = getEnvisionOptions;
 Metric.checkBasicConfig = checkBasicConfig;
@@ -72,6 +73,7 @@ function displayTopMetric(div_id, metric, metric_period, history, graph) {
 	if (graph) displayBasicChart(div_graph, history[doer], history[metric_id], graph);
 }
 
+// TODO: Move basic lines here also
 function displayBasicChart(divid, labels, data, graph) {
 
 	var container = document.getElementById(divid);
@@ -112,6 +114,15 @@ function displayBasicChart(divid, labels, data, graph) {
 	if (graph === "pie") config.pie = {show : true};
 	
 	graph = Flotr.draw(container, chart_data, config); 
+}
+
+function displayBubbles(divid, data) {	
+	var container = document.getElementById(divid);
+	var config = {
+		    bubbles : { show : true, baseRadius : 5 },
+		    mouse: {track:true}
+		    };
+	Flotr.draw(container, [data], config);
 }
 
 
