@@ -116,12 +116,23 @@ function displayBasicChart(divid, labels, data, graph) {
 	graph = Flotr.draw(container, chart_data, config); 
 }
 
-function displayBubbles(divid, data) {	
+function displayBubbles(divid, data, dates) {
 	var container = document.getElementById(divid);
 	var config = {
 		    bubbles : { show : true, baseRadius : 5 },
-		    mouse: {track:true}
-		    };
+		    mouse: {
+	    		track:true,
+		    	trackFormatter : function(o) {
+		    		var value = dates[o.index]+": "; 
+		    		value += data[o.index][1] + " commits,"; 
+		    		value += data[o.index][2] + " committers";
+					return value;
+		    	}
+		    },
+		    xaxis : { tickFormatter : function(o) {var x; 
+		    return dates[parseInt(o)-data[0][0]];}},
+
+	};
 	Flotr.draw(container, [data], config);
 }
 

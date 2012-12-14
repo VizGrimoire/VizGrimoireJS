@@ -96,7 +96,7 @@ function displayBubble(divid) {
 	for (var i=0; i<data.id.length;i++) {
 		bdata.push([data.id[i], data.commits[i], data.committers[i]]);
 	}	
-	Metric.displayBubbles(divid, bdata);
+	Metric.displayBubbles(divid, bdata, data.date);
 }
 
 function displayBasic(scm_file) {
