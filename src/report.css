@@ -1,5 +1,48 @@
 /* Bitergia CSS based originally in Stunning CSS3 */
 
+/*
+ * FROM M0.css
+ */ 
+.m0-box-div {
+    height: 130px;
+}
+
+.m0-box {
+    width:  180px;
+    height: 100px;
+    float:  right;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+.mls-dyn-list {
+    float: left;
+    margin-left: 8px;
+    margin-right: 8px;
+    width: 380px;
+}
+
+.column-right {
+    width: 450px;
+    margin: 8px auto;
+    float: right;
+}
+
+.left {
+    float: left;
+}
+
+.column {
+    margin-left: 8px;
+    margin-right: 8px;
+}
+
+
+/*
+ * END FROM M0.css
+ */
+
+
 /* Auto resize the image to fit with no scrolls */
 img {
 	max-width: 100%;

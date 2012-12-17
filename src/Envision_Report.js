@@ -10,7 +10,7 @@ function getDefaultsMetrics(ds, viz, metrics, default_config) {
     		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
 		if ($.inArray(metric, global_data['envision_hide'])===-1) {
 		    // TODO ds[0] hack
-			viz[metric] = Metric.getEnvisionDefaultsGraph('milestone0-'+ds[0]+'-'+metric, config);
+			viz[metric] = Metric.getEnvisionDefaultsGraph('report-'+ds[0]+'-'+metric, config);
 		}
     }
 
@@ -53,16 +53,14 @@ function getDefaults (ds) {
 	}
       
     config = default_config;
-    // TODO ds[0] hack
-    viz.summary = Metric.getEnvisionDefaultsGraph('milestone0-'+ds[0]+'-summary', config);
+    viz.summary = Metric.getEnvisionDefaultsGraph('report-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
     viz.summary.config.handles = {show:true};
     viz.summary.config.selection = {mode:'x'};
     viz.summary.config.mouse = {};
 
     viz.connection = {
-		// TODO ds[0] hack
-        name : 'milestone0-'+ds[0]+'-connection',
+        name : 'report-connection',
         adapterConstructor : V.components.QuadraticDrawing
     };    
     return viz;  
@@ -86,7 +84,7 @@ function Envision_Report (options, data_sources) {
   var
     data = options.data,
     defaults = getDefaults(ds),
-    vis = new V.Visualization({name : 'milestone0-'+ds.join(",")}),
+    vis = new V.Visualization({name : 'report-'+ds.join(",")}),
     selection = new V.Interaction(),
     hit = new V.Interaction();
   
