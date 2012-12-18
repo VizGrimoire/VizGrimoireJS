@@ -191,9 +191,34 @@ h3 {
 
 /* Specific layout for some vizs */
 
+/* 
+	MLS 
+*/
+
 .mls-dyn-list {
     float: left;
     margin-left: 8px;
     margin-right: 8px;
     width: 380px;
+}
+
+#mls-envision .envision-component-container.envision-first {
+    width: 500px;
+}
+
+#mls-envision .envision-component-container {
+    width: 500px;
+}
+
+#mls-envision-lists .envision-component-container.envision-first {
+    width: 325px;
+    height : 150px;			
+}
+
+#mls-envision-lists .report-summary .envision-component {
+  cursor: all-scroll;
+  height : 30px;
+  margin-top: -2px;
+  /* align envision and flotr2 graphs*/
+  margin-bottom: 200px;
 }
