@@ -487,7 +487,7 @@ var Report = {};
         		DS.displayBubbles(div_time);
         });
         
-        // Rada summaries
+        // Radar summaries
         if ($("#radar-activity").length > 0) {
         	Report.displayRadar ('radar-activity');
         }

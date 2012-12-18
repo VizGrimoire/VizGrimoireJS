@@ -167,10 +167,12 @@ function displayBubbles(divid, metric1, metric2) {
 	Flotr.draw(container, [bdata], config);
 }
 
-function displayDemographics(divid, ds, year) {
-	var container = document.getElementById(divid);
+function displayDemographics(divid, ds) {
 		
-	var data = DS.getDemographics();
+	var data = ds.getDemographicsData();
+	
+	if (data) displayBasicChart(divid, data.demography.email, data.demography.stay, "bars");
+
 	
 //	for (var i=0; i<data.id.length;i++) {
 //		bdata.push([data.id[i], data[metric1][i], data[metric2][i]]);

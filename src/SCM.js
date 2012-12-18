@@ -101,7 +101,7 @@ function displayBubbles(divid) {
 }
 
 function displayDemographics(divid) {
-	Metric.displayDemographics(divid, SCM.getData());
+	Metric.displayDemographics(divid, SCM);
 }
 
 function displayBasic(scm_file) {
