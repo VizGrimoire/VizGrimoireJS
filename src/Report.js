@@ -90,7 +90,7 @@ var Report = {};
 			data_load_file(DS.getDataFile(), DS.setData);
 			data_load_file(DS.getGlobalDataFile(), DS.setGlobalData);			
 		});
-		// Demographics just for SCM yet!
+		// TODO: Demographics just for SCM yet!
 		data_load_file(SCM.getDemographicsFile(), SCM.setDemographicsData);
 	}
 	
@@ -101,6 +101,8 @@ var Report = {};
 			if (DS.getData() === null) {all = false;return;}
 			if (DS.getGlobalData() === null) {all = false;return;}
 		});
+		// TODO: Demographics just for SCM yet!
+		if (SCM.getDemographicsData() === null) {all = false;return;}
 		if (!all) return;
 		// If all data sources are loaded invoke ready callback 
 		for (var i=0; i<data_callbacks.length; i++) {
