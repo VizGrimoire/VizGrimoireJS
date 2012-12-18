@@ -71,29 +71,27 @@ var Report = {};
 		end_data_load();
 	}
 	
+	function data_load_file(file, fn_data_set) {
+		$.when($.getJSON(file))
+		.done (function(history) {
+			fn_data_set(history);
+			end_data_load();
+		})
+		.fail(function() {
+			fn_data_set([]);
+			end_data_load();
+		});
+	}
+	
 	function data_load_metrics() {
 		// TODO: support for adding and removing data sources in Report 
 		var data_sources = Report.getDataSources();
 		$.each(data_sources, function(i, DS) {
-			$.when($.getJSON(DS.getDataFile()))
-			.done (function(history) {
-				DS.setData(history);
-				end_data_load();
-			})
-			.fail(function() {
-				DS.setData([]);
-				end_data_load();
-			});
-			$.when($.getJSON(DS.getGlobalDataFile()))
-			.done (function(history) {
-				DS.setGlobalData(history);
-				end_data_load();
-			})
-			.fail(function() {
-				DS.setGlobalData([]);
-				end_data_load();
-			});			
+			data_load_file(DS.getDataFile(), DS.setData);
+			data_load_file(DS.getGlobalDataFile(), DS.setGlobalData);			
 		});
+		// Demographics just for SCM yet!
+		data_load_file(SCM.getDemographicsFile(), SCM.setDemographicsData);
 	}
 	
 	function end_data_load() {
@@ -496,7 +494,13 @@ var Report = {};
         
         if ($("#radar-people").length > 0) {
         }
-
+        
+        // Demographics studies: DS-demographics
+        $.each(data_sources, function(index, DS) {
+        	var div_demog = DS.getName()+"-demographics";
+        	if ($("#"+div_demog).length > 0)
+        		DS.displayDemographics(div_demog);
+        });
         
         // Selectors
         $.each(data_sources, function(index, DS) {

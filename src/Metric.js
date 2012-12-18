@@ -10,6 +10,7 @@ Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
 Metric.displayBubbles = displayBubbles;
+Metric.displayDemographics = displayDemographics;
 Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Metric.getEnvisionOptions = getEnvisionOptions;
 Metric.checkBasicConfig = checkBasicConfig;
@@ -21,7 +22,6 @@ Metric.displayGridMetricAll = displayGridMetricAll;
 Metric.gridster_debug = gridster_debug;
 
 var gridster_debug = false;
-
 
 function mergeConfig(config1, config2)
 {
@@ -166,6 +166,36 @@ function displayBubbles(divid, metric1, metric2) {
 
 	Flotr.draw(container, [bdata], config);
 }
+
+function displayDemographics(divid, ds, year) {
+	var container = document.getElementById(divid);
+		
+	var data = DS.getDemographics();
+	
+//	for (var i=0; i<data.id.length;i++) {
+//		bdata.push([data.id[i], data[metric1][i], data[metric2][i]]);
+//	}
+//	
+//	var config = {
+//		    bubbles : { show : true, baseRadius : 5 },
+//		    mouse: {
+//	    		track:true,
+//	    		trackFormatter: function(o) {
+//	    			var value = data.date[o.index]+": "; 
+//	    			value += data[metric1][o.index] + " " + metric1 + ","; 
+//	    			value += data[metric2][o.index] + " " + metric2 + ",";
+//	    			return value;
+//	    		} 
+//		    },
+//		    xaxis : { tickFormatter : function(o) {
+//		    	return data.date[parseInt(o)-data.id[0]];}},
+//	};
+//		
+//	if (DS.getName() === "its") $.extend(config.bubbles, {baseRadius: 2});
+//
+//	Flotr.draw(container, [bdata], config);	
+}
+
 
 // Each metric can have several top: metric.period
 // For example: "committers.all":{"commits":[5310, ...],"name":["Brion Vibber",..]}

@@ -11,11 +11,15 @@ SCM.displayBasicHTML = displayBasicHTML;
 SCM.displayBasicMetricHTML = displayBasicMetricHTML;
 SCM.displayBubbles = displayBubbles;
 SCM.displayData = displayData;
+SCM.displayDemographics = displayDemographics;
 SCM.displayEvo = displayEvo;
 SCM.displayTop = displayTop;
 SCM.getMetrics = function() {return basic_metrics;};
 SCM.getDataFile = function() {return data_file;};
 SCM.setData = function(load_data) {data = load_data;};
+SCM.getDemographicsFile = function() {return demographics_file;};
+SCM.getDemographicsData = function() {return demographics_data;};
+SCM.setDemographicsData = function(data) {demographics_data = data;};
 SCM.getData = function() {return data;};
 SCM.getGlobalDataFile = function() {return global_data_file;};
 SCM.getGlobalData = function() {return global_data;};
@@ -24,8 +28,10 @@ SCM.getName = function() {return name;};
 
 var name = "scm";
 var data_file = 'data/json/scm-milestone0.json';
+var demographics_file = 'data/json/scm-demographics-2012.json';
 var global_data_file = 'data/json/scm-info-milestone0.json';
 var data = null;
+var demographics_data = null;
 var global_data = null;
 
 var basic_metrics = {
@@ -92,6 +98,10 @@ function displayTop(div, top_file, all, graph) {
 
 function displayBubbles(divid) {
 	Metric.displayBubbles(divid, "commits", "committers");
+}
+
+function displayDemographics(divid) {
+	Metric.displayDemographics(divid, SCM.getData());
 }
 
 function displayBasic(scm_file) {
