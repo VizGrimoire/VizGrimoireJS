@@ -168,34 +168,24 @@ function displayBubbles(divid, metric1, metric2) {
 }
 
 function displayDemographics(divid, ds) {
+	
+	var quarter = 365/4;
+	var data = ds.getDemographicsData();	
+	var quarter_data = [];
+	var labels = [];
+	
+	for (var i = 0; i < data.demography.stay.length; i++) {
+		var stay = data.demography.stay[i];
+		var index = parseInt(stay/quarter);
+		if (!quarter_data[index]) quarter_data[index] = 0;
+		quarter_data[index] += 1;
+	}
+	
+	for (var i = 0; i < quarter_data.length; i++) {
+		labels[i] = "Q" + parseInt(i);
+	}
 		
-	var data = ds.getDemographicsData();
-	
-	if (data) displayBasicChart(divid, data.demography.email, data.demography.stay, "bars");
-
-	
-//	for (var i=0; i<data.id.length;i++) {
-//		bdata.push([data.id[i], data[metric1][i], data[metric2][i]]);
-//	}
-//	
-//	var config = {
-//		    bubbles : { show : true, baseRadius : 5 },
-//		    mouse: {
-//	    		track:true,
-//	    		trackFormatter: function(o) {
-//	    			var value = data.date[o.index]+": "; 
-//	    			value += data[metric1][o.index] + " " + metric1 + ","; 
-//	    			value += data[metric2][o.index] + " " + metric2 + ",";
-//	    			return value;
-//	    		} 
-//		    },
-//		    xaxis : { tickFormatter : function(o) {
-//		    	return data.date[parseInt(o)-data.id[0]];}},
-//	};
-//		
-//	if (DS.getName() === "its") $.extend(config.bubbles, {baseRadius: 2});
-//
-//	Flotr.draw(container, [bdata], config);	
+	if (data) displayBasicChart(divid, labels, quarter_data, "bars"); 	
 }
 
 
