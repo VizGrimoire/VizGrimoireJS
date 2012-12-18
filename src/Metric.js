@@ -74,16 +74,25 @@ function displayTopMetric(div_id, metric, metric_period, history, graph) {
 }
 
 // TODO: Move basic lines here also
-function displayBasicChart(divid, labels, data, graph) {
+function displayBasicChart(divid, labels, data, graph, rotate) {
 
+	var horizontal = false;
+	if (rotate) horizontal = true;
+	
 	var container = document.getElementById(divid);
 	// var container_legend = document.getElementById(divid+"-legend");
 	var chart_data = [];
-
-	for (var i=0; i<labels.length;i++) {
-		chart_data.push({data: [[i,data[i]]], label:hideEmail(labels[i])});
+	
+	if (!horizontal) {
+		for (var i=0; i<labels.length;i++) {
+			chart_data.push({data: [[i,data[i]]], label:hideEmail(labels[i])});
+		}
+	} else {	
+		for (var i=0; i<labels.length;i++) {
+			chart_data.push({data: [[data[i],i]], label:hideEmail(labels[i])});
+		}
 	}
-				
+			
 	var config = {
 	    grid : {
 		      verticalLines : false,
@@ -95,8 +104,10 @@ function displayBasicChart(divid, labels, data, graph) {
 		mouse : {
 			track : true,			
 			trackFormatter : function(o) {
-				return hideEmail(labels[parseInt(o.x)]) + ": "
-				+ data[parseInt(o.x)];}
+				var i = 'x';
+				if (horizontal) i = 'y'; 
+				return hideEmail(labels[parseInt(o[i])]) + ": "
+				+ data[parseInt(o[i])];}
 		},
 		legend : {
 			show: false,
@@ -107,7 +118,7 @@ function displayBasicChart(divid, labels, data, graph) {
 	};
 	
 	if (graph === "bars") {
-		config.bars = {show : true};
+		config.bars = {show : true, horizontal:horizontal};
 		config.grid.horizontalLines = true;
 		config.yaxis = { showLabels : true};
 	}
@@ -185,7 +196,7 @@ function displayDemographics(divid, ds) {
 		labels[i] = "Q" + parseInt(i);
 	}
 		
-	if (data) displayBasicChart(divid, labels, quarter_data, "bars"); 	
+	if (data) displayBasicChart(divid, labels, quarter_data, "bars", true); 	
 }
 
 
