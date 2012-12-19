@@ -1,30 +1,30 @@
 /* 
- * Metric.js: Library for visualizing Bitergia Metric shared data and logic
+ * Viz.js: Library for visualizing Bitergia Metric shared data and logic
  */
 
-var Metric = {};
+var Viz = {};
 
 (function() {
 	
-Metric.displayTop = displayTop;
-Metric.displayBasicHTML = displayBasicHTML;
-Metric.displayBasicMetricHTML = displayBasicMetricHTML;
-Metric.displayBasicLinesFile = displayBasicLinesFile; 		
-Metric.displayBasicLines = displayBasicLines; 
-Metric.displayBubbles = displayBubbles;
-Metric.displayDemographics = displayDemographics;
-Metric.displayEvoSummary = displayEvoSummary;
-Metric.displayRadar = displayRadar;
-Metric.drawMetric = drawMetric;
-Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
-Metric.getEnvisionOptions = getEnvisionOptions;
-Metric.checkBasicConfig = checkBasicConfig;
-Metric.mergeConfig = mergeConfig;
-Metric.displayGridMetric = displayGridMetric;
-Metric.displayGridMetricSelector = displayGridMetricSelector;
-Metric.displayGridMetricAll = displayGridMetricAll;
+Viz.displayTop = displayTop;
+Viz.displayBasicHTML = displayBasicHTML;
+Viz.displayBasicMetricHTML = displayBasicMetricHTML;
+Viz.displayBasicLinesFile = displayBasicLinesFile; 		
+Viz.displayBasicLines = displayBasicLines; 
+Viz.displayBubbles = displayBubbles;
+Viz.displayDemographics = displayDemographics;
+Viz.displayEvoSummary = displayEvoSummary;
+Viz.displayRadar = displayRadar;
+Viz.drawMetric = drawMetric;
+Viz.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
+Viz.getEnvisionOptions = getEnvisionOptions;
+Viz.checkBasicConfig = checkBasicConfig;
+Viz.mergeConfig = mergeConfig;
+Viz.displayGridMetric = displayGridMetric;
+Viz.displayGridMetricSelector = displayGridMetricSelector;
+Viz.displayGridMetricAll = displayGridMetricAll;
 // Working fixing gridster issue: redmine issue 991
-Metric.gridster_debug = gridster_debug;
+Viz.gridster_debug = gridster_debug;
 
 var gridster_debug = false;
 
@@ -504,7 +504,7 @@ function displayGridMetric(metric_id, config) {
 		}
 	} else {
 		if ($("#"+divid).length > 0) {
-			if (Metric.gridster_debug) silent = false;
+			if (Viz.gridster_debug) silent = false;
 			gridster.remove_widget($("#"+divid), silent);
 		}
 	}
@@ -538,7 +538,7 @@ function displayGridMetricSelector(div_id) {
 	for (metric_id in metrics) {
 		html += '<input type=checkbox name="check_list" value="'+metric_id+'" ';
 		html += 'onClick="';
-		html += 'Metric.displayGridMetric(\''+metric_id+'\');';
+		html += 'Viz.displayGridMetric(\''+metric_id+'\');';
 		html += '" ';
 		html += 'id="'+metric_id+'_check" ';
 		// if ($.inArray(l, user_lists)>-1) html += 'checked ';
@@ -547,11 +547,11 @@ function displayGridMetricSelector(div_id) {
 		html += '<br>';
 	}
 	html += '<input type=button value="All" ';
-	html += 'onClick="Metric.displayGridMetricAll('+true+')">';
+	html += 'onClick="Viz.displayGridMetricAll('+true+')">';
 	html += '<input type=button value="None" ';
-	html += 'onClick="Metric.displayGridMetricAll('+false+')">';
+	html += 'onClick="Viz.displayGridMetricAll('+false+')">';
 	//html += '<input type=button value="Default" ';
-	//html += 'onClick="Metric.displayGridMetricDefault()">';
+	//html += 'onClick="Viz.displayGridMetricDefault()">';
 	html += "</form>";
 	$("#"+div_id).html(html);
 }

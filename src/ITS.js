@@ -82,16 +82,16 @@ function displayData() {
 
 // Create HTML code to show the metrics
 function displayBasicHTML(div_target, config) {
-	Metric.displayBasicHTML(ITS.getData(), div_target, 'Tickets', basic_metrics, 'its_hide', config);
+	Viz.displayBasicHTML(ITS.getData(), div_target, 'Tickets', basic_metrics, 'its_hide', config);
 }
 
 function displayBasicMetricHTML(metric_id, div_target, config) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], ITS.getData(), div_target, config);
+	Viz.displayBasicMetricHTML(basic_metrics[metric_id], ITS.getData(), div_target, config);
 }
 
 function displayTop(div, top_file, all, graph) {
 	if (all == undefined) all=true;
-	Metric.displayTop(div, top_file, basic_metrics, all, graph);
+	Viz.displayTop(div, top_file, basic_metrics, all, graph);
 }
 
 function displayBasic(its_file) {
@@ -99,7 +99,7 @@ function displayBasic(its_file) {
 }
 
 function displayBubbles(divid) {
-	Metric.displayBubbles(divid, "opened", "openers");
+	Viz.displayBubbles(divid, "opened", "openers");
 }
 
 function basicEvo (history) {
@@ -107,7 +107,7 @@ function basicEvo (history) {
 		var metric = basic_metrics[id];
 		if ($.inArray(metric.column,Report.getConfig().its_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			Metric.displayBasicLines(metric.divid, history, 
+			Viz.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }
@@ -115,7 +115,7 @@ function basicEvo (history) {
 function envisionEvo(div_id, history) {
 	var main_metric = "opened";
 	var config = Report.getConfig();
-	var options = Metric.getEnvisionOptions(
+	var options = Viz.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.its_hide);
 	new envision.templates.Envision_Report(options,[ITS]);
 

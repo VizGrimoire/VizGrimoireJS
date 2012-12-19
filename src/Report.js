@@ -216,7 +216,7 @@ var Report = {};
         
         // Envision
         if ($("#all-envision").length > 0)        	
-        	Metric.displayEvoSummary ('all-envision');
+        	Viz.displayEvoSummary ('all-envision');
         $.each(data_sources, function(index, DS) {
         	var div_envision = DS.getName()+"-envision";
         	if ($("#"+div_envision).length > 0)
@@ -236,7 +236,7 @@ var Report = {};
         
         // Radar summaries
         if ($("#radar-activity").length > 0) {
-        	Metric.displayRadar ('radar-activity');
+        	Viz.displayRadar ('radar-activity');
         }
         
         if ($("#radar-people").length > 0) {

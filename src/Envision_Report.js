@@ -7,10 +7,10 @@ function getDefaultsMetrics(ds, viz, metrics, default_config) {
     for (metric in metrics) {
     	config = default_config;
     	if (metrics[metric]['envision']) 
-    		config = Metric.mergeConfig(default_config, metrics[metric]['envision']); 
+    		config = Viz.mergeConfig(default_config, metrics[metric]['envision']); 
 		if ($.inArray(metric, global_data['envision_hide'])===-1) {
 		    // TODO ds[0] hack
-			viz[metric] = Metric.getEnvisionDefaultsGraph('report-'+ds[0]+'-'+metric, config);
+			viz[metric] = Viz.getEnvisionDefaultsGraph('report-'+ds[0]+'-'+metric, config);
 		}
     }
 
@@ -53,7 +53,7 @@ function getDefaults (ds) {
 	}
       
     config = default_config;
-    viz.summary = Metric.getEnvisionDefaultsGraph('report-summary', config);
+    viz.summary = Viz.getEnvisionDefaultsGraph('report-summary', config);
     viz.summary.config.xaxis = {noTickets:10, showLabels:true};
     viz.summary.config.handles = {show:true};
     viz.summary.config.selection = {mode:'x'};

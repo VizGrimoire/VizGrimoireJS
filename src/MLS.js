@@ -82,7 +82,7 @@ function getUserLists() {
 
 function displayTop(div, top_file, all, graph) {
 	if (all == undefined) all=true;
-	Metric.displayTop(div, top_file, basic_metrics, all, graph);
+	Viz.displayTop(div, top_file, basic_metrics, all, graph);
 }
 
 function displayBasicUserAll(id, all) {
@@ -142,7 +142,7 @@ function displayBasic(div_id, lists_file, config_metric) {
 // TODO: similar to displayBasicHTML in ITS and SCM. Join.
 // TODO: use cache to store mls_file and check it! 
 function displayBasicList(div_id, l, mls_file, config_metric) {
-	var config = Metric.checkBasicConfig(config_metric);
+	var config = Viz.checkBasicConfig(config_metric);
 	for (var id in basic_metrics) {
 		var metric = basic_metrics[id];
 		var title = '';
@@ -155,13 +155,13 @@ function displayBasicList(div_id, l, mls_file, config_metric) {
 			new_div += "<p>"+metric.desc+"</p>";
 		new_div += "</div>";
 		$("#"+div_id).append(new_div);
-		Metric.displayBasicLinesFile (metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
+		Viz.displayBasicLinesFile (metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
 	}
 
 }
 
 function displayBubbles(divid) {
-	Metric.displayBubbles(divid, "sent", "senders");
+	Viz.displayBubbles(divid, "sent", "senders");
 }
 
 function getReportId() {
@@ -185,7 +185,7 @@ function displayEvoAggregated(id) {
 }
 
 function displayBasicMetricHTML(metric_id, div_target, show_desc) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], MLS.getData(), div_target, show_desc);
+	Viz.displayBasicMetricHTML(basic_metrics[metric_id], MLS.getData(), div_target, show_desc);
 }
 
 function displayEvo(id, lists_file) {		
@@ -338,7 +338,7 @@ function envisionEvo (list_label, div_id, history) {
 	var config = Report.getConfig();
 
 	var main_metric = "sent";
-	var options = Metric.getEnvisionOptions(
+	var options = Viz.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.mls_hide);
 	options.data.list_label = displayMLSListName(list_label);
 	new envision.templates.Envision_Report(options,[MLS]);

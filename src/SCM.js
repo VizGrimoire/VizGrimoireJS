@@ -83,25 +83,25 @@ function displayData() {
 
 // Create HTML code to show the metrics
 function displayBasicHTML(div_target, config) {
-	Metric.displayBasicHTML(SCM.getData(), div_target, 'Change sets (commits to source code)', 
+	Viz.displayBasicHTML(SCM.getData(), div_target, 'Change sets (commits to source code)', 
 			basic_metrics, 'scm_hide', config);
 }
 
 function displayBasicMetricHTML(metric_id, div_target, config) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], SCM.getData(), div_target, config);
+	Viz.displayBasicMetricHTML(basic_metrics[metric_id], SCM.getData(), div_target, config);
 }
 
 function displayTop(div, top_file, all, graph) {
 	if (all == undefined) all=true;
-	Metric.displayTop(div, top_file, basic_metrics, all, graph);
+	Viz.displayTop(div, top_file, basic_metrics, all, graph);
 }
 
 function displayBubbles(divid) {
-	Metric.displayBubbles(divid, "commits", "committers");
+	Viz.displayBubbles(divid, "commits", "committers");
 }
 
 function displayDemographics(divid) {
-	Metric.displayDemographics(divid, SCM);
+	Viz.displayDemographics(divid, SCM);
 }
 
 function displayBasic(scm_file) {
@@ -113,7 +113,7 @@ function basicEvo (history) {
 		var metric = basic_metrics[id];
 		if ($.inArray(metric.column,Report.getConfig().scm_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			Metric.displayBasicLines(metric.divid, history, 
+			Viz.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }
@@ -125,7 +125,7 @@ function displayEvo (id, scm_file) {
 function envisionEvo (div_id, history) {
 	var config = Report.getConfig();
 	var main_metric = "commits";
-	var options = Metric.getEnvisionOptions(
+	var options = Viz.getEnvisionOptions(
 			div_id, history, basic_metrics, main_metric, config.scm_hide);
 	new envision.templates.Envision_Report(options, [SCM]);
 }
