@@ -131,7 +131,6 @@ function displayBasicLines (div_id, history, column, labels, title) {
 
 			grid : {
 				show : false,
-			// minorVerticalLines: true
 			},
 			mouse : {
 				track : true,
@@ -150,8 +149,6 @@ function displayBasicLines (div_id, history, column, labels, title) {
 	graph = Flotr.draw(container, [ line_data ], config);
 };
 
-
-// TODO: Move basic lines here also
 function displayBasicChart(divid, labels, data, graph, rotate) {
 
 	var horizontal = false;
