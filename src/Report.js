@@ -9,7 +9,6 @@ var Report = {};
 	// Public API
 	Report.data_load = data_load;
 	Report.data_ready = data_ready;
-	Report.displayEvoSummary = displayEvoSummary;
 	Report.getAllMetrics = getAllMetrics;
 	Report.getMarkers = getMarkers;
 	Report.getConfig = getConfig;
@@ -17,7 +16,6 @@ var Report = {};
 	Report.setGridster = setGridster;
 	Report.getProjectData = getProjectData;
 	Report.displayProjectData = displayProjectData;
-	Report.displayRadar = displayRadar;
 	Report.report = report;
 	Report.getDataSources = function () {return data_sources;};
 	Report.registerDataSource = function (backend) {data_sources.push(backend);};
@@ -104,174 +102,13 @@ var Report = {};
 			data_callbacks[i]();
 		}
 	}
-	
-	
-	function fillHistory(hist_complete_id, hist_partial) {
 		
-		// [ids, values]
-		var new_history = [[],[]];
-		for (var i = 0; i < hist_complete_id.length; i++) {
-			pos = hist_partial[0].indexOf(hist_complete_id[i]);
-			new_history[0][i] = hist_complete_id[i];
-			if (pos != -1) {
-				new_history[1][i] = hist_partial[1][pos];
-			} else {
-				new_history[1][i] = 0;
-			}
-		}
-		return new_history;
-	}
-	
 	function getAllMetrics() {
 		var all = $.extend({}, SCM.getMetrics(), ITS.getMetrics());
 		all = $.extend(all, MLS.getMetrics());
 		return all;
-	}
-		
-	function envisionEvoSummary (div_id, scm_data, its_data, mls_data) {
-		var container = document.getElementById(div_id);		
-		var full_history_id = [], dates = [];
-		
-		if (scm_data.length === 0) scm_data = null;
-		if (its_data.length === 0) its_data = null;
-		if (mls_data.length === 0) mls_data = null;
-		
-		if (scm_data) {
-			full_history_id = scm_data.id;
-			dates = scm_data.date;
-		} 
-		if (its_data && its_data.id.length>full_history_id.length) {			
-			full_history_id = its_data.id;
-			dates = its_data.date;
-		}
-		if (mls_data && mls_data.id.length>full_history_id.length)  {
-			full_history_id = mls_data.id;
-			dates = mls_data.date;
-		}
-		
-		markers = getMarkers();
-		
-		var V = envision,  options, vis, 
-			firstMonth = full_history_id[0];
-		
-		options = {
-			container : container,
-			xTickFormatter : function(index) {
-				var label = dates[index - firstMonth];
-				if (label === "0") label = "";
-				return label;
-			},
-			yTickFormatter : function(n) {
-				return n + '';
-			},
-			// Initial selection
-			selection : {
-				data : {
-					x : {
-						min : full_history_id[0],
-						max : full_history_id[full_history_id.length - 1]
-					}
-				}
-			}
-		};
-
-		var main_metric = "", main_matric_data = [];
-		if (scm_data) {
-			main_metric = "commits";
-			main_matric_data = scm_data[main_metric];
-		}
-		else if (its_data) {
-			main_metric = "opened";
-			main_matric_data = its_data[main_metric];
-		}
-		else if (mls_data) {
-			main_metric = "sent";
-			main_matric_data = mls_data[main_metric];
-		} else {
-			alert('No data for Summary viz');
-		}
-			
-		
-		var hide = getConfig().summary_hide;
-		options.data = {
-				summary : [full_history_id, main_matric_data],
-				markers : markers,
-				dates : dates,
-				envision_hide: hide,
-				main_metric: main_metric		
-		};
-		
-		var all_metrics = {};
-		if (scm_data) {all_metrics = $.extend(all_metrics, SCM.getMetrics());}
-		if (its_data) {all_metrics = $.extend(all_metrics, ITS.getMetrics());}
-		if (mls_data) {all_metrics = $.extend(all_metrics, MLS.getMetrics());}
-				
-		for (var id in all_metrics) {
-			if (scm_data && scm_data[id])
-				options.data[id] = fillHistory(full_history_id,[scm_data.id, scm_data[id]]);
-			else if (its_data && its_data[id])
-				options.data[id] = fillHistory(full_history_id,[its_data.id, its_data[id]]);
-			else if (mls_data && mls_data[id])
-				options.data[id] = fillHistory(full_history_id,[mls_data.id, mls_data[id]]);
-		}
-		
-		options.trackFormatter = function(o) {
-			var data = o.series.data, index = data[o.index][0]- firstMonth, value;
-
-			value = dates[index] + ":<br>";
-			
-			var i = 0;
-			for (var id in all_metrics) {
-				value += options.data[id][1][index] + " " + id + ", ";
-				if (++i % 3 == 0) value += "<br>";
-			}
-
-			return value;
-		};
+	}	
 	
-		// Create the TimeSeries
-		vis = new envision.templates.Envision_Report(options, Report.getDataSources());
-	}
-	
-	function displayEvoSummary(id) {
-			envisionEvoSummary (id, SCM.getData(), ITS.getData(), MLS.getData());
-	}
-	
-	function displayRadar(div_id) {		
-		var container = document.getElementById(div_id);
-		var scm_data = SCM.getGlobalData();
-		var data = [];
-//		data.push([0,parseInt(scm_data.commits)]);
-//		data.push([1,parseInt(scm_data.committers)]);
-//		data.push([2,parseInt(scm_data.files)]);
-		
-		data.push([0,8]);
-		data.push([1,3]);
-		data.push([2,5]);
-		data.push([3,7]);
-
-		var
-	    s1 = { label : project_data.project_name, data : data },	   
-	    graph, ticks;
-
-	  // Radar Labels
-	  ticks = [
-	    [0, "Commits"],
-		[1, "Opened"],
-		[2, "Closed"],
-	    [2, "Sent"]
-	  ];
-	    
-	  // Draw the graph.
-	  graph = Flotr.draw(container, [ s1], {
-	    radar : { show : true}, 
-	    grid  : { circular : true, minorHorizontalLines : true}, 
-	    yaxis : { min : 0, max : 10, minorTickFreq : 1}, 
-	    xaxis : { ticks : ticks}
-	  });
-		
-	}
-		
 	function displayProjectData() {
 		data = project_data;
 		document.title = data.project_name + ' Report by Bitergia';
@@ -379,7 +216,7 @@ var Report = {};
         
         // Envision
         if ($("#all-envision").length > 0)        	
-        	Report.displayEvoSummary ('all-envision');
+        	Metric.displayEvoSummary ('all-envision');
         $.each(data_sources, function(index, DS) {
         	var div_envision = DS.getName()+"-envision";
         	if ($("#"+div_envision).length > 0)
@@ -399,7 +236,7 @@ var Report = {};
         
         // Radar summaries
         if ($("#radar-activity").length > 0) {
-        	Report.displayRadar ('radar-activity');
+        	Metric.displayRadar ('radar-activity');
         }
         
         if ($("#radar-people").length > 0) {
