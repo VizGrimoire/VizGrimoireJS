@@ -82,13 +82,13 @@ function displayData() {
 }
 
 // Create HTML code to show the metrics
-function displayBasicHTML(scm_file, div_target, config) {
-	Metric.displayBasicHTML(scm_file, div_target, 'Change sets (commits to source code)', 
+function displayBasicHTML(div_target, config) {
+	Metric.displayBasicHTML(SCM.getData(), div_target, 'Change sets (commits to source code)', 
 			basic_metrics, 'scm_hide', config);
 }
 
-function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, config);
+function displayBasicMetricHTML(metric_id, div_target, config) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], SCM.getData(), div_target, config);
 }
 
 function displayTop(div, top_file, all, graph) {
@@ -113,7 +113,7 @@ function basicEvo (history) {
 		var metric = basic_metrics[id];
 		if ($.inArray(metric.column,Report.getConfig().scm_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			Report.displayBasicLines(metric.divid, history, 
+			Metric.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }

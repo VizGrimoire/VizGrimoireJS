@@ -9,7 +9,6 @@ var MLS = {};
 MLS.displayEvo = displayEvo;
 MLS.displayEvoAggregated = displayEvoAggregated;
 MLS.displayBasic = displayBasic;
-MLS.displayBasicMetric = displayBasicMetric;
 MLS.displayBasicMetricHTML = displayBasicMetricHTML;
 MLS.displayBasicListSelector = displayBasicListSelector;
 MLS.displayBubbles = displayBubbles;
@@ -156,13 +155,9 @@ function displayBasicList(div_id, l, mls_file, config_metric) {
 			new_div += "<p>"+metric.desc+"</p>";
 		new_div += "</div>";
 		$("#"+div_id).append(new_div);
-		Report.basic_lines(metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
+		Metric.displayBasicLinesFile (metric.divid+'_' + l, mls_file, metric.column , config.show_labels, title);
 	}
 
-}
-
-function displayBasicMetric(metric_id, mls_file, div_target, config) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], mls_file, div_target, config);
 }
 
 function displayBubbles(divid) {
@@ -189,8 +184,8 @@ function displayEvoAggregated(id) {
 	envisionEvo("Aggregated", id, MLS.getData());			
 }
 
-function displayBasicMetricHTML(metric_id, metric_file, div_target, show_desc) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], metric_file, div_target, show_desc);
+function displayBasicMetricHTML(metric_id, div_target, show_desc) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], MLS.getData(), div_target, show_desc);
 }
 
 function displayEvo(id, lists_file) {		

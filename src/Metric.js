@@ -9,8 +9,11 @@ var Metric = {};
 Metric.displayTop = displayTop;
 Metric.displayBasicHTML = displayBasicHTML;
 Metric.displayBasicMetricHTML = displayBasicMetricHTML;
+Metric.displayBasicLinesFile = displayBasicLinesFile; 		
+Metric.displayBasicLines = displayBasicLines; 
 Metric.displayBubbles = displayBubbles;
 Metric.displayDemographics = displayDemographics;
+Metric.drawMetric = drawMetric;
 Metric.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Metric.getEnvisionOptions = getEnvisionOptions;
 Metric.checkBasicConfig = checkBasicConfig;
@@ -45,6 +48,23 @@ function hideEmail(email) {
 	return clean;		
 }
 
+function drawMetric(metric_id, divid) {
+    var config_metric = {};
+    config_metric.show_desc = false;
+    config_metric.show_title = false;
+    config_metric.show_labels = true;
+    
+	$.each(Report.getDataSources(), function(index, DS) {			
+		var list_metrics = DS.getMetrics();
+		for (metric in list_metrics) {
+			if  (list_metrics[metric].column === metric_id) {
+	            DS.displayBasicMetricHTML(list_metrics[metric].column, divid, config_metric);
+	            return;
+			}
+		}
+	});
+}
+
 function displayTopMetric(div_id, metric, metric_period, history, graph) {
 	var top_metric_id = metric.column;
 	var metric_id = metric.action;
@@ -72,6 +92,62 @@ function displayTopMetric(div_id, metric, metric_period, history, graph) {
 	div.append(new_div);
 	if (graph) displayBasicChart(div_graph, history[doer], history[metric_id], graph);
 }
+
+function displayBasicLinesFile (div_id, json_file, column, labels, title) {
+	$.getJSON(json_file, function(history) {
+		displayBasicLines (div_id, history, column, labels, title);
+	});
+}
+		
+function displayBasicLines (div_id, history, column, labels, title) {
+	var line_data = [];
+	container = document.getElementById(div_id);
+	
+	// if ($('#'+div_id).is (':visible')) return;
+
+	for ( var i = 0; i < history[column].length; i++) {
+		line_data[i] = [ i, parseInt(history[column][i]) ];
+	}
+	
+	var config = {
+			title : title,
+			xaxis : {
+				minorTickFreq : 4,
+				tickFormatter : function(x) {
+					if (history.date) {
+						x = history.date[parseInt(x)];
+					}
+					return x;
+				}
+			},
+			yaxis : {
+				minorTickFreq : 1000,
+				tickFormatter : function(y) {
+					return parseInt(y) + "";
+				}
+			},
+
+			grid : {
+				show : false,
+			// minorVerticalLines: true
+			},
+			mouse : {
+				track : true,
+				trackY : false,
+				trackFormatter : function(o) {
+					return history.date[parseInt(o.x)] + ": "
+							+ parseInt(o.y);
+				}
+			}
+	};
+
+	if (!labels || labels==0) {
+		config.xaxis.showLabels = false;
+		config.yaxis.showLabels = false;
+	}
+	graph = Flotr.draw(container, [ line_data ], config);
+};
+
 
 // TODO: Move basic lines here also
 function displayBasicChart(divid, labels, data, graph, rotate) {
@@ -342,46 +418,33 @@ function checkBasicConfig(config) {
 	return config;
 }
 
-function displayBasicHTML(data_file, div_target, title, basic_metrics, hide, config) {
+function displayBasicHTML(data, div_target, title, basic_metrics, hide, config) {
 	config = checkBasicConfig(config);	
-	$.getJSON(data_file, function(history) {
-		var new_div = '<div class="info-pill">';
-		new_div += '<h1>'+title+'</h1></div>';
-		$("#"+div_target).append(new_div);
-		for (var id in basic_metrics) {
-			var metric = basic_metrics[id];
-			var title_metric = metric.name;
-			if (!config.show_title) title_metric='';
-			if ($.inArray(metric.column,Report.getConfig()[hide])>-1) continue;
-			new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
-			new_div += '<h1>'+metric.name+'</h1>';
-			new_div += '<div class ="m0-box" id="'+metric.divid+'"></div>' ;
-			if (config.show_desc==true)
-				new_div += '<p>'+metric.desc+'</p>';
-			new_div += '</div>' ;
-			$("#"+div_target).append(new_div);
-			Report.displayBasicLines(metric.divid, history, 
-					metric.column, config.show_labels, title_metric);
-		}
-	});
+	var new_div = '<div class="info-pill">';
+	new_div += '<h1>'+title+'</h1></div>';
+	$("#"+div_target).append(new_div);
+	for (var id in basic_metrics) {
+		var metric = basic_metrics[id];		
+		if ($.inArray(metric.column,Report.getConfig()[hide])>-1) continue;
+		displayBasicMetricHTML(metric, data, div_target, config);		
+	}
 }
 
-function displayBasicMetricHTML(metric, data_file, div_target, config) {
+function displayBasicMetricHTML(metric, data, div_target, config) {
 	config = checkBasicConfig(config);	
 	var title = metric.name;
 	if (!config.show_title) title='';
-	$.getJSON(data_file, function(history) { 
-		var new_div = '<div class="info-pill">';
-		$("#"+div_target).append(new_div);
-		new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
-		new_div += '<h1>'+metric.name+'</h1>';
-		new_div += '<div style="height:100px" id="'+metric.divid+'"></div>' ;
-		if (config.show_desc==true)
-			new_div += '<p>'+metric.desc+'</p>';
-		new_div += '</div>' ;
-		$("#"+div_target).append(new_div);
-		Report.displayBasicLines(metric.divid, history, metric.column, config.show_labels, title);
-	});
+ 
+	var new_div = '<div class="info-pill">';
+	$("#"+div_target).append(new_div);
+	new_div = '<div id="flotr2_'+metric.column+'" class="info-pill m0-box-div">';
+	new_div += '<h1>'+metric.name+'</h1>';
+	new_div += '<div style="height:100px" id="'+metric.divid+'"></div>' ;
+	if (config.show_desc==true)
+		new_div += '<p>'+metric.desc+'</p>';
+	new_div += '</div>' ;
+	$("#"+div_target).append(new_div);
+	displayBasicLines(metric.divid, data, metric.column, config.show_labels, title);
 }
 
 
@@ -401,7 +464,7 @@ function displayGridMetric(metric_id, config) {
 		if ($("#"+divid).length === 0) {
 			gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y, col, row);
 			// gridster.add_widget( "<div id='"+divid+"'></div>", size_x, size_y);
-			Report.drawMetric(metric_id, divid);
+			drawMetric(metric_id, divid);
 		}
 	} else {
 		if ($("#"+divid).length > 0) {

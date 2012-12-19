@@ -81,12 +81,12 @@ function displayData() {
 }
 
 // Create HTML code to show the metrics
-function displayBasicHTML(its_file, div_target, config) {
-	Metric.displayBasicHTML(its_file, div_target, 'Tickets', basic_metrics, 'its_hide', config);
+function displayBasicHTML(div_target, config) {
+	Metric.displayBasicHTML(ITS.getData(), div_target, 'Tickets', basic_metrics, 'its_hide', config);
 }
 
-function displayBasicMetricHTML(metric_id, scm_file, div_target, config) {
-	Metric.displayBasicMetricHTML(basic_metrics[metric_id], scm_file, div_target, config);
+function displayBasicMetricHTML(metric_id, div_target, config) {
+	Metric.displayBasicMetricHTML(basic_metrics[metric_id], ITS.getData(), div_target, config);
 }
 
 function displayTop(div, top_file, all, graph) {
@@ -107,7 +107,7 @@ function basicEvo (history) {
 		var metric = basic_metrics[id];
 		if ($.inArray(metric.column,Report.getConfig().its_hide)>-1) continue;
 		if ($('#'+metric.divid).length)
-			Report.displayBasicLines(metric.divid, history, 
+			Metric.displayBasicLines(metric.divid, history, 
 					metric.column, true, metric.name);
 	}
 }

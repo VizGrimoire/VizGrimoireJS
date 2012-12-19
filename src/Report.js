@@ -17,16 +17,11 @@ var Report = {};
 	Report.setGridster = setGridster;
 	Report.getProjectData = getProjectData;
 	Report.displayProjectData = displayProjectData;
-	Report.displayBasicLines = displayBasicLines;
 	Report.displayRadar = displayRadar;
-	Report.drawMetric = drawMetric;
 	Report.report = report;
 	Report.getDataSources = function () {return data_sources;};
 	Report.registerDataSource = function (backend) {data_sources.push(backend);};
 		
-	// Old public API
-	Report.basic_lines = basic_lines;
-	
 	// Shared config
 	var project_data = {}, markers = {}, config = {}, 
 	data_callbacks = [], gridster = {}, data_sources = [];
@@ -132,38 +127,7 @@ var Report = {};
 		all = $.extend(all, MLS.getMetrics());
 		return all;
 	}
-	
-	function drawMetric(metric_id, divid) {		
-        var config_metric = {};
-        config_metric.show_desc = false;
-        config_metric.show_title = false;
-        config_metric.show_labels = true;
 		
-		var list_metrics = SCM.getMetrics();
-		for (metric in list_metrics) {
-			if  (list_metrics[metric].column === metric_id) {
-	            SCM.displayBasicMetricHTML(list_metrics[metric].column,'data/json/scm-milestone0.json',divid, config_metric);
-	            return;
-			}
-		}
-		
-		list_metrics = ITS.getMetrics();
-		for (metric in list_metrics) {
-			if  (list_metrics[metric].column === metric_id) {
-	            ITS.displayBasicMetricHTML(list_metrics[metric].column,'data/json/its-milestone0.json',divid, config_metric);
-	            return;
-			}
-		}
-		
-		list_metrics = MLS.getMetrics();
-		for (metric in list_metrics) {
-			if  (list_metrics[metric].column === metric_id) {
-	            MLS.displayBasicMetricHTML(list_metrics[metric].column,'data/json/mls-milestone0.json',divid, config_metric);
-	            return;
-			}
-		}		
-	}
-	
 	function envisionEvoSummary (div_id, scm_data, its_data, mls_data) {
 		var container = document.getElementById(div_id);		
 		var full_history_id = [], dates = [];
@@ -307,63 +271,7 @@ var Report = {};
 	  });
 		
 	}
-	
-	function basic_lines(div_id, json_file, column, labels, title) {
-		$.getJSON(json_file, function(history) {
-			displayBasicLines (div_id, history, column, labels, title);
-		});
-	}
-	
-			
-	function displayBasicLines (div_id, history, column, labels, title) {
-		var line_data = [];
-		container = document.getElementById(div_id);
 		
-		// if ($('#'+div_id).is (':visible')) return;
-
-		for ( var i = 0; i < history[column].length; i++) {
-			line_data[i] = [ i, parseInt(history[column][i]) ];
-		}
-		
-		var config = {
-				title : title,
-				xaxis : {
-					minorTickFreq : 4,
-					tickFormatter : function(x) {
-						if (history.date) {
-							x = history.date[parseInt(x)];
-						}
-						return x;
-					}
-				},
-				yaxis : {
-					minorTickFreq : 1000,
-					tickFormatter : function(y) {
-						return parseInt(y) + "";
-					}
-				},
-
-				grid : {
-					show : false,
-				// minorVerticalLines: true
-				},
-				mouse : {
-					track : true,
-					trackY : false,
-					trackFormatter : function(o) {
-						return history.date[parseInt(o.x)] + ": "
-								+ parseInt(o.y);
-					}
-				}
-		};
-
-		if (!labels || labels==0) {
-			config.xaxis.showLabels = false;
-			config.yaxis.showLabels = false;
-		}
-		graph = Flotr.draw(container, [ line_data ], config);
-	};
-	
 	function displayProjectData() {
 		data = project_data;
 		document.title = data.project_name + ' Report by Bitergia';
@@ -449,14 +357,14 @@ var Report = {};
 	        $.each(DS.getMetrics(), function(i, metric) {
 	        	var div_flotr2 = metric.divid+"-flotr2";
 	        	if ($("#"+div_flotr2).length > 0)
-	        		DS.displayBasicMetricHTML(i,'data/json/'+DS.getName()+'-milestone0.json',div_flotr2, config_metric);
+	        		DS.displayBasicMetricHTML(i,div_flotr2, config_metric);
 	        });
 	        
 	        if ($("#"+DS.getName()+"-flotr2").length > 0) {
 	        	if (DS === MLS) {
 	                DS.displayBasic(DS.getName()+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
 	        	} else {
-	        		DS.displayBasicHTML('data/json/'+DS.getName()+'-milestone0.json',DS.getName()+'-flotr2',config_metric);
+	        		DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
 	        	}
 	        }
 
