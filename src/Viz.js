@@ -253,10 +253,23 @@ function displayBubbles(divid, metric1, metric2) {
 	Flotr.draw(container, [bdata], config);
 }
 
-function displayDemographics(divid, ds) {
+function displayDemographics(divid, ds, file) {
+	if (!file) {
+		var data = ds.getDemographicsData();
+		displayDemographicsChart(divid, ds, data);
+	} else {
+		$.when($.getJSON(file))
+		.done (function(history) {
+			displayDemographicsChart(divid, ds, history);
+		})
+		.fail(function() {alert("Can't load JSON file: " + file);});
+	}
+}
+
+function displayDemographicsChart(divid, ds, data) {
 	
 	var quarter = 365/4;
-	var data = ds.getDemographicsData();	
+	// var data = ds.getDemographicsData();	
 	var quarter_data = [];
 	var labels = [];
 	

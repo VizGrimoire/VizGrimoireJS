@@ -100,8 +100,8 @@ function displayBubbles(divid) {
 	Viz.displayBubbles(divid, "commits", "committers");
 }
 
-function displayDemographics(divid) {
-	Viz.displayDemographics(divid, SCM);
+function displayDemographics(divid, file) {
+	Viz.displayDemographics(divid, SCM, file);
 }
 
 function displayBasic(scm_file) {
