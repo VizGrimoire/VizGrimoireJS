@@ -66,12 +66,6 @@ function getDefaults (ds) {
     return viz;  
 }
 
-function getMetricDS(metric_id) {
-	if (SCM.getMetrics()[metric_id]) {return "scm";}
-	if (ITS.getMetrics()[metric_id]) {return "its";}
-	if (MLS.getMetrics()[metric_id]) {return "mls";}	
-}
-
 function Envision_Report (options, data_sources) {
 	
   var main_metric = options.data.main_metric;
@@ -100,7 +94,7 @@ function Envision_Report (options, data_sources) {
   for (metric in metrics) {
 	if ($.inArray(metric, data['envision_hide'])===-1) {
 		defaults[metric].data = [{label:metric,data:data[metric]}];
-		if (getMetricDS(metric) === 'mls' && data.list_label) 
+		if (Report.getMetricDS(metric).getName() === 'mls' && data.list_label) 
 			defaults[metric].data = 
 				[{label:metric+" "+data.list_label,data:data[metric]}];
 	}

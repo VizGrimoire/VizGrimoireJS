@@ -14,7 +14,8 @@ Viz.displayBasicLines = displayBasicLines;
 Viz.displayBubbles = displayBubbles;
 Viz.displayDemographics = displayDemographics;
 Viz.displayEvoSummary = displayEvoSummary;
-Viz.displayRadar = displayRadar;
+Viz.displayRadarActivity = displayRadarActivity;
+Viz.displayRadarCommunity = displayRadarCommunity;
 Viz.drawMetric = drawMetric;
 Viz.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
 Viz.getEnvisionOptions = getEnvisionOptions;
@@ -287,39 +288,42 @@ function displayDemographicsChart(divid, ds, data) {
 	if (data) displayBasicChart(divid, labels, quarter_data, "bars", true); 	
 }
 
-function displayRadar(div_id) {		
+function displayRadarChart(div_id, ticks, data) {
 	var container = document.getElementById(div_id);
-	var scm_data = SCM.getGlobalData();
-	var data = [];
-//	data.push([0,parseInt(scm_data.commits)]);
-//	data.push([1,parseInt(scm_data.committers)]);
-//	data.push([2,parseInt(scm_data.files)]);
-	
-	data.push([0,8]);
-	data.push([1,3]);
-	data.push([2,5]);
-	data.push([3,7]);
+	var max = $("#"+div_id).data('max');
 
+	graph = Flotr.draw(container, data, {
+		radar : { show : true}, 
+		grid  : { circular : true, minorHorizontalLines : true}, 
+		yaxis : { min : 0, max : max, minorTickFreq : 1}, 
+		xaxis : { ticks : ticks}
+	});
+}
+
+function displayRadar (div_id, metrics) {	
+	var data = [], ticks = [];
+	
+	for (var i=0; i<metrics.length; i++) {
+		var DS = Report.getMetricDS(metrics[i]); 
+		data.push([i,parseInt(DS.getGlobalData()[metrics[i]])]);
+		ticks.push([i,DS.getMetrics()[metrics[i]].name]);
+	}
+		
 	var
-    s1 = { label : Report.getProjectData().project_name, data : data },	   
-    graph, ticks;
-
-  // Radar Labels
-  ticks = [
-    [0, "Commits"],
-	[1, "Opened"],
-	[2, "Closed"],
-    [2, "Sent"]
-  ];
-    
-  // Draw the graph.
-  graph = Flotr.draw(container, [ s1], {
-    radar : { show : true}, 
-    grid  : { circular : true, minorHorizontalLines : true}, 
-    yaxis : { min : 0, max : 10, minorTickFreq : 1}, 
-    xaxis : { ticks : ticks}
-  });
+    s1 = { label : Report.getProjectData().project_name, 
+			data : data };
 	
+	displayRadarChart(div_id, ticks, [s1]);
+}
+
+function displayRadarCommunity (div_id) {
+	var metrics = ['committers','authors','openers','closers','changers','senders'];
+	displayRadar (div_id, metrics);
+}
+
+function displayRadarActivity (div_id) {
+	var metrics = ['commits','files','opened','closed','changed','sent'];	
+	displayRadar (div_id, metrics);
 }
 
 // Each metric can have several top: metric.period

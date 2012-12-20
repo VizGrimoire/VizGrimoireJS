@@ -12,6 +12,7 @@ var Report = {};
 	Report.getAllMetrics = getAllMetrics;
 	Report.getMarkers = getMarkers;
 	Report.getConfig = getConfig;
+	Report.getMetricDS = getMetricDS;
 	Report.getGridster = getGridster;
 	Report.setGridster = setGridster;
 	Report.getProjectData = getProjectData;
@@ -43,6 +44,12 @@ var Report = {};
 	
 	function getProjectData() {
 		return project_data;
+	}
+	
+	function getMetricDS(metric_id) {
+		if (SCM.getMetrics()[metric_id]) {return SCM;}
+		if (ITS.getMetrics()[metric_id]) {return ITS;}
+		if (MLS.getMetrics()[metric_id]) {return MLS;}	
 	}
 
 	function data_ready(callback) {
@@ -254,10 +261,11 @@ var Report = {};
         
         // Radar summaries
         if ($("#radar-activity").length > 0) {
-        	Viz.displayRadar ('radar-activity');
+        	Viz.displayRadarActivity ('radar-activity');
         }
         
-        if ($("#radar-people").length > 0) {
+        if ($("#radar-community").length > 0) {
+        	Viz.displayRadarCommunity ('radar-community');
         }
         
         // Demographics studies: DS-demographics

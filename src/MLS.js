@@ -176,8 +176,8 @@ function getMLSId() {
 function displayData() {
 	$("#mlsFirst").text(global_data.first_date);
 	$("#mlsLast").text(global_data.last_date);
-	$("#mlsMessages").text(global_data.messages);
-	$("#mlsSenders").text(global_data.people);
+	$("#mlsMessages").text(global_data.sent);
+	$("#mlsSenders").text(global_data.senders);
 }
 
 function displayEvoAggregated(id) {
