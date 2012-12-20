@@ -168,8 +168,17 @@ q <- paste ("SELECT count(distinct(changed_by)) as closers FROM changes WHERE ",
 data1 <- query(q)
 q <- paste ("SELECT count(distinct(changed_by)) as changers FROM changes")
 data2 <- query(q)
+q <- paste ("SELECT count(*) as opened FROM issues")
+data3 <- query(q)
+q <- paste ("SELECT count(distinct(issue_id)) as changed FROM changes")
+data4 <- query(q)
+q <- paste ("SELECT count(distinct(issue_id)) as closed FROM changes WHERE", closed_condition)
+data5 <- query(q)
 agg_data = merge(data, data1)
 agg_data = merge(agg_data, data2)
+agg_data = merge(agg_data, data3)
+agg_data = merge(agg_data, data4)
+agg_data = merge(agg_data, data5)
 createJSON (agg_data, "../data/json/its-info-milestone0.json")
 
 # Top
