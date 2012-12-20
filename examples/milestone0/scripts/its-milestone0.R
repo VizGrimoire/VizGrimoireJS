@@ -92,8 +92,6 @@ closed_condition <- "new_value='RESOLVED' OR new_value='CLOSED'"
 
 if (its == 'allura') closed_condition <- "new_value='CLOSED'"
 
-print (closed_condition)
-
 # Closed tickets: time ticket was open, first closed, time-to-first-close
 q <- paste("SELECT issue_id, issue,
         submitted_on as time_open,
@@ -166,7 +164,13 @@ q <- paste ("SELECT count(*) as tickets,
 			 DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
 			 FROM issues")
 data <- query(q)
-createJSON (data, "../data/json/its-info-milestone0.json")
+q <- paste ("SELECT count(distinct(changed_by)) as closers FROM changes WHERE ", closed_condition)
+data1 <- query(q)
+q <- paste ("SELECT count(distinct(changed_by)) as changers FROM changes")
+data2 <- query(q)
+agg_data = merge(data, data1)
+agg_data = merge(agg_data, data2)
+createJSON (agg_data, "../data/json/its-info-milestone0.json")
 
 # Top
 top_closers <- function(days = 0) {
