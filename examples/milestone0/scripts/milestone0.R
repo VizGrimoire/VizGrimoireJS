@@ -214,8 +214,20 @@ evol_info_data <- function() {
 				DATE_FORMAT (min(date), '%Y-%m-%d') as first_date, 
 				DATE_FORMAT (max(date), '%Y-%m-%d') as last_date 
 				FROM scmlog;")
-	data <- query(q)
-	return (data)
+	data1 <- query(q)
+	q <- paste("SELECT count(distinct(name)) as branches from branches")
+	data2 <- query(q)
+	q <- paste("SELECT count(distinct(file_name)) as files from files")
+	data3 <- query(q)
+	q <- paste("SELECT count(distinct(uri)) as repositories from repositories")
+	data4 <- query(q)
+	q <- paste("SELECT count(*) as actions from actions")
+	data5 <- query(q)
+	agg_data = merge(data1, data2)
+	agg_data = merge(agg_data, data3)
+	agg_data = merge(agg_data, data4)
+	agg_data = merge(agg_data, data5)
+	return (agg_data)
 }
 
 top_committers <- function(days = 0) {
