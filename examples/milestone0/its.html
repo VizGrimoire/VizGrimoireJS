@@ -21,75 +21,24 @@
         <div id="wrapper">
 
             <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-					$("#report_page").html("->Tickets activity");
-				});
-            </script>
             
             <div style="float:left">
          	<div id="navigation"></div>
 			</div>         	
             
             <div style="float:left">
-
-                <!-- TICKETS -->
-                <div class="tickets_info">
-
-                    <div class="left" id="envision-its">
-                        <div class="info-pill">
-                            <h1>Tickets</h1>
-                        </div>
-                        <div class="info-pill">
-                            <div class="left" id="its-envision"></div>
-                        </div>
-                    </div>
-
-                    <div class="left column">
-                        <div id="its-flotr2" style="width:300px"></div>
-                    </div>
-                </div>
+	            <div style="float:left;margin-right:10px">
+	                <div id="its-envision"></div>
+	            </div>
+	            <div style="float:left">
+	                <div id="its-flotr2" style="width:300px;margin-right:10px"></div>
+	            </div>
+          		<div style="float:left">			
+					<div id="its-top" data-show_all="true"></div>
+				</div>	            
 			</div>
-
-
-
-			<div style="float:left">
-        	</div>
 			
-			<div style="float:left">
-       		  <!--<div id="info-pill">
-        		<h1 style="font-weight:bold;">Time to close tickets (for those fixed)</h1>
-       			</div>
-	        	<div class="info-pill" style="width:200px;">
-         			<div id='its-quantil099' style="height:130px;"></div>
-         			<p>
-         			99% of tickets open during the corresponding month were closed in less than y days
-         			</p>
-        		</div>
-  			    <div class="info-pill" style="width:200px;">
-         			<div id='its-quantil095' style="height:130px;"></div>
-         			<p>
-         			95% of tickets open during the corresponding month were closed in less than y days
-         			</p>
-        		</div>        		
-        		<div class="info-pill" style="width:200px;">
-         			<div id='its-quantil050' style="height:130px;"></div>
-         			<p>
-         			50% of tickets open during the corresponding month were closed in less than y days
-         			</p>
-        		</div>-->
-			
-				<div id="its-top"></div>
-			</div>
-													
             <div id="footer"></div>
-            <script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-            </script>
-
         </div>
         <!-- wrapper -->
 
@@ -104,16 +53,6 @@
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>             
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-        <script type="text/javascript">
-		Report.data_ready(function() {
-			Report.report({top_all: true});
-			//ITS.displayTimeToFix('its-quantil099', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.99", 1, "quantil 0.99");
-            //ITS.displayTimeToFix('its-quantil095', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.95", 1, "quantil 0.95");
-            //ITS.displayTimeToFix('its-quantil050', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.5", 1, "quantil 0.50");
-            //ITS.displayTimeToFix('container_quantil025', "data/json/its-quantiles-month-time_to_fix_hour.json", "X0.25", 1, "quantil 0.25");
-		});
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
         </script>
     </body>
 </html>

@@ -22,12 +22,6 @@
         <div id="wrapper">
 
             <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-					$("#report_page").html("->Mailing list activity");
-				});
-            </script>
             
 			<div style="float:left;width:150px">
 				<div id="navigation"></div>
@@ -38,44 +32,38 @@
             
             <div style="float:left">
             
-            <div>
-            	<div id="info-pill">
-					<h1 style="font-weight: bold;">Aggregated activity (all lists)</h1>
-			  	</div>
-	  	        <div id="mls-envision" style="float:left;margin-right:20px"></div>
-	  	        <div id="mls-top" style="float:left"></div>            
-            </div>
-         				
-            <div style="float:left;">
-                <!-- MESSAGES -->
-                <div class="mls_info left">
-                    <div class="left">
-                        <div class="info-pill">
-                            <h1>Mailing Lists</h1>
-                        </div>
-                        <div class="info-pill">
-                            <div class="column-left">
-                                <div id="mls-envision-lists"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="mls-flotr2" class="mls-dyn-list">
-                        <div class="info-pill">
-                            <h1>Mailing Lists</h1>
-                        </div>
-                    </div>
-                </div>
-            </div>
+	            <div>
+	            	<div id="info-pill">
+						<h1 style="font-weight: bold;">Aggregated activity (all lists)</h1>
+				  	</div>
+		  	        <div id="mls-envision" style="float:left;margin-right:20px"></div>
+		  	        <div id="mls-top" style="float:left"></div>            
+	            </div>
+	         				
+	            <div>
+	                <!-- MESSAGES -->
+	                <div class="mls_info left">
+	                    <div class="left">
+	                        <div class="info-pill">
+	                            <h1>Mailing Lists</h1>
+	                        </div>
+	                        <div class="info-pill">
+	                            <div class="column-left">
+	                                <div id="mls-envision-lists"></div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <div id="mls-flotr2" class="mls-dyn-list">
+	                        <div class="info-pill">
+	                            <h1>Mailing Lists</h1>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
             
             </div>
             
             <div id="footer"></div>
-            <script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-            </script>
-
         </div>
         <!-- wrapper -->
 
@@ -90,12 +78,5 @@
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>             
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-        <script type="text/javascript">
-		Report.data_ready(function() {
-			Report.report();
-		});
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-        </script>
     </body>
 </html>

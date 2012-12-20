@@ -16,43 +16,22 @@
     <body>
         <div id="wrapper">
             <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-					$("#report_page").html("->Source code activity");
-				});
-            </script>
 
 			<div id="navigation" style="float:left"></div>
 					
             <div style="float:left">
-                <!-- SOURCE CODE -->
-                <div class="source_info">
-                    <div id="envision-scm" style="float:left;height:520px">
-                        <div class="info-pill">
-                            <h1>Change sets (commits to source code)</h1>
-                        </div>
-                        <div class="info-pill">
-                            <div class="left" id="scm-envision"></div>
-                        </div>
-                    </div>
-                    <div class="left column">
-                        <div id="scm-flotr2" ></div>
-                    </div>
-                </div>
-            </div>
-
-			<div style="float:left">
-				<div id="scm-top"></div>
+	            <div style="float:left;margin-right:10px">
+	                <div id="scm-envision"></div>
+	            </div>
+	            <div style="float:left">
+	                <div id="scm-flotr2" style="width:300px;margin-right:10px"></div>
+	            </div>
+          		<div style="float:left">			
+					<div id="scm-top" data-show_all="true"></div>
+				</div>	            
 			</div>
 	
 			<div id="footer"></div>
-            <script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-            </script>
-
         </div>
         <!-- wrapper -->
 
@@ -67,12 +46,5 @@
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>             
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-        <script type="text/javascript">
-		Report.data_ready(function() {
-			Report.report({top_all: true});
-		});
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-        </script>
     </body>
 </html>

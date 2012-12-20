@@ -161,11 +161,23 @@ var Report = {};
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
-        config_metric.top_all = false;
         
 		if (config) {
 			$.each(config, function(key, value) {config_metric[key] = value;});
 		}
+		
+		// Header and footer
+		if ($("#header").length > 0) {
+        	$.get("header.html", function(footer) {
+        		$("#header").html(footer);
+        	});
+		}
+
+        if ($("#footer").length > 0) {
+        	$.get("footer.html", function(footer) {
+        		$("#footer").html(footer);
+        	});
+        }
 				
         if ($("#navigation").length > 0) {
 			$.get("navigation.html", function(navigation) {
@@ -186,9 +198,7 @@ var Report = {};
 		} else {
 	        Report.displayProjectData('data/json/project-info-milestone0.json');
 		}
-		
-        var show_all = config_metric.top_all;
-        
+		        
         // flotr2 and top
         $.each(data_sources, function(index, DS) {
 	        $.each(DS.getMetrics(), function(i, metric) {
@@ -205,13 +215,21 @@ var Report = {};
 	        	}
 	        }
 
-	        if ($("#"+DS.getName()+"-top").length > 0)
-	        	DS.displayTop(DS.getName()+'-top','data/json/'+DS.getName()+'-top-milestone0.json',show_all);
-	        	$.each(['pie','bars'], function (index, chart) {
-		        	if ($("#"+DS.getName()+"-top-"+chart).length > 0)
-		        		DS.displayTop(DS.getName()+'-top-'+ chart 
-		        				,'data/json/'+DS.getName()+'-top-milestone0.json',show_all,chart);
-	        	});
+        	var div_id_top = DS.getName()+"-top";
+        	var show_all = false;
+        	
+	        if ($("#"+div_id_top).length > 0) {
+	        	if ($("#"+div_id_top).data('show_all')) show_all = true;
+	        	DS.displayTop(div_id_top,'data/json/'+DS.getName()+'-top-milestone0.json',show_all);
+	        }	        
+        	$.each(['pie','bars'], function (index, chart) {
+        		var div_id_top = DS.getName()+"-top-"+chart;
+	        	if ($("#"+div_id_top).length > 0) {
+	        		if ($("#"+div_id_top).data('show_all')) show_all = true;
+	        		DS.displayTop(DS.getName()+'-top-'+ chart 
+	        				,'data/json/'+DS.getName()+'-top-milestone0.json',show_all,chart);
+	        	}
+        	});
         });
         
         // Envision
@@ -227,7 +245,7 @@ var Report = {};
         			DS.displayEvo(div_envision, 'data/json/'+DS.getName()+'-milestone0.json');
         });
         
-        // Time evolution without Envision
+        // Bubbles for time evolution
         $.each(data_sources, function(index, DS) {
         	var div_time = DS.getName()+"-time-bubbles";
         	if ($("#"+div_time).length > 0)
@@ -249,6 +267,19 @@ var Report = {};
         		DS.displayDemographics(div_demog);
         });
         
+        // Gridster
+        if ($("#gridster").length > 0) {
+			var gridster = $("#gridster").gridster({
+        		widget_margins: [10, 10],
+        		widget_base_dimensions: [140, 140]
+    		}).data('gridster');
+			
+			Report.setGridster(gridster);		
+			gridster.add_widget( "<div id='metric_selector'></div>", 1, 3);									
+			Viz.displayGridMetricSelector('metric_selector');
+			Viz.displayGridMetricAll(true);
+        }
+        
         // Selectors
         $.each(data_sources, function(index, DS) {
         	var div_selector = DS.getName()+"-selector";
@@ -264,3 +295,8 @@ var Report = {};
         });        
 	}	
 })();
+
+Report.data_ready(function() {Report.report();});
+$(document).ready(function() {
+	Report.data_load();
+});

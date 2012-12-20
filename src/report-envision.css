@@ -34,10 +34,11 @@
 }
  */
  
-.milestone0-scm-committers {
+/* .milestone0-scm-committers {
   border-top: 0px;
 }
-
+ */
+ 
 /* Connection overlay */
 .milestone0-connection .canvas {
   z-index: 10;

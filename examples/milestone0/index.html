@@ -20,11 +20,6 @@
     <body>
         <div id="wrapper">
             <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-				});
-            </script>
                         
             <div id="info-column1"  style="width:180px">
             	<div id="navigation"></div>
@@ -84,11 +79,6 @@
 		
 			
 			<div id="footer"></div>
-			<script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-			</script>
 
 		</div>
 		<!-- wrapper -->
@@ -97,19 +87,12 @@
         <script type="text/javascript" src="/static/lib/FlashCanvas/bin/flashcanvas.js"></script>
         <![endif]-->
         <script type="text/javascript" src="VizGrimoireJS/src/envision.min.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>             
-        <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-        <script type="text/javascript">
-		Report.data_ready(function() {
-			Report.report();            
-		});
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-        </script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>             
     </body>
 </html>

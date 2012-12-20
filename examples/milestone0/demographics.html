@@ -15,26 +15,11 @@
     <body>
         <div id="wrapper">
             <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-					$("#report_page").html("->Demographics");
-				});
-            </script>
-
-			<div id="navigation" style="float:left"></div>
-					 
-			<div class="left" style="width: 400px;height:400px;">
-				<div id="scm-demographics" style="height:400px;"></div>
+			<div id="navigation" style="float:left"></div>					 
+			<div style="float:left">
+				<div id="scm-demographics" style="width:400px;height:400px;"></div>
 			</div>
-	
 			<div id="footer"></div>
-            <script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-            </script>
-
         </div>
         <!-- wrapper -->
 
@@ -48,12 +33,5 @@
         <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>             
         <script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-        <script type="text/javascript">
-		Report.data_ready(function() {
-			Report.report({top_all: true});
-		});
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-        </script>
     </body>
 </html>

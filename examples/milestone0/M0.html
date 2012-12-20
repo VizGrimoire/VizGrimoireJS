@@ -18,64 +18,25 @@
 		<div id="wrapper">
 
 			<div id="header"></div>
-			<script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-				});
-			</script>
 
-			<div id="info-column1" style="width:200px;"></div>
-			<script type="text/javascript">
-				$.get("refcard.html", function(refcard) {
-					$("#info-column1").html(refcard);
-				});
-			</script>
 
-			<div class="source_info" id="info-column2">
-				<div class="info-pill">
-					<h1>Change sets (commits to source code)</h1>
-				</div>
-
-				<div class="info-pill">
-					<div class="column-left" id="scm-time"></div>
-				</div>
-			</div>
-
-			<div class="tickets_info" id="info-column3">
-				<div class="info-pill">
-					<h1>Tickets</h1>
-				</div>
-
-				<div class="info-pill">
-					<div class="column-left">
-						<div id="its-time"></div>
-					</div>
-				</div>
-			</div>
-
-			<div class="mls_info" id="info-column4">
-				<div class="info-pill">
-					<h1>Messages</h1>
-				</div>
-
-				<div class="info-pill">
-					<div class="column-left">
-						<div id="mls-time"></div>
-					</div>
-				</div>
-			</div>
-			
-			<div id="selector" style="float:right">
-				<div id="scm-selector"></div>
-				<div id="mls-selector"></div>
-			</div>
-			
+			<div style="float:left;">
+   	            <div style="float:left;width:180px;" id="refcard"></div>
+   	                    
+	            <div style="float:left;" id="info-column2">
+	                <div id="scm-envision" ></div>
+	            </div>
+	
+	            <div style="float:left;"  id="info-column3">
+	                <div id="its-envision" ></div>
+	            </div>
+	
+	            <div style="float:left;" id="info-column4">
+	                <div id="mls-envision">
+	            </div>
+            </div>
+						
 			<div id="footer"></div>
-			<script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-			</script>
 
 		</div>
 		<!-- wrapper -->
@@ -91,23 +52,5 @@
 		<script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
 		<script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>		
 		<script type="text/javascript" src="VizGrimoireJS/src/markers.js"></script>
-
-		<script type="text/javascript">
-
-				
-				Report.data_ready(function() {
-					SCM.displayData('data/json/scm-info-milestone0.json');
-					SCM.displayEvo('scm-time', 'data/json/scm-milestone0.json');
-					
-					ITS.displayData('data/json/its-info-milestone0.json');
-					ITS.displayEvo('its-time', 'data/json/its-milestone0.json');
-					
-					MLS.displayData('data/json/mls-info-milestone0.json');
-					MLS.displayEvo('mls-time', 'data/json/mls-lists-milestone0.json');
-					
-					Report.displayProjectData('data/json/project-info-milestone0.json');
-				});
-				Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-		</script>
 	</body>
 </html>

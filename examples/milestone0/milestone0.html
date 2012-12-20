@@ -23,40 +23,26 @@
     <body>
         <div id="wrapper">
 
-            <div id="header"></div>
-            <script type="text/javascript">
-				$.get("header.html", function(header) {
-					$("#header").html(header);
-				});
-            </script>
-
-            <div id="info-column1"></div>
-            <script type="text/javascript">
-				$.get("refcard.html", function(refcard) {
-					$("#info-column1").html(refcard);
-				});
-            </script>
-
-            <div class="source_info" id="info-column2">
-                <div id="scm_flotr2" ></div>
-            </div>
-
-            <div class="tickets_info" id="info-column3">
-                <div id="its_flotr2" ></div>
-            </div>
-
-            <div class="mls_info" id="info-column4">
-                <div class="info-pill">
-                    <h1>Mailing list analysis</h1>
-                </div>
+            <div id="header"></div> 
+           
+                        
+            <div style="float:left;">
+   	            <div style="float:left;width:180px;" id="refcard"></div>
+   	                    
+	            <div style="float:left;" id="info-column2">
+	                <div id="scm-flotr2" ></div>
+	            </div>
+	
+	            <div style="float:left;"  id="info-column3">
+	                <div id="its-flotr2" ></div>
+	            </div>
+	
+	            <div style="float:left;" id="info-column4">
+	                <div id="mls-flotr2">
+	            </div>
             </div>
 
             <div id="footer"></div>
-            <script type="text/javascript">
-				$.get("footer.html", function(footer) {
-					$("#footer").html(footer);
-				});
-            </script>
 
         </div>
 
@@ -65,25 +51,6 @@
         <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
-        
-        <script type="text/javascript">
-        
-		Report.data_ready(function() {
-
-			SCM.displayData('data/json/scm-info-milestone0.json');			
-			SCM.displayBasicHTML('data/json/scm-milestone0.json','scm_flotr2');
-
-			ITS.displayData('data/json/its-info-milestone0.json');
-			ITS.displayBasicHTML('data/json/its-milestone0.json','its_flotr2');
-
-			MLS.displayData('data/json/mls-info-milestone0.json');
-			MLS.displayBasic('info-column4', 'data/json/mls-lists-milestone0.json','data/json/viz_cfg.json');
-
-			Report.displayProjectData('data/json/project-info-milestone0.json');			
-		});
-            
-   		Report.data_load('data/json/project-info-milestone0.json','data/json/viz_cfg.json','data/json/markers.json');
-        </script>
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>        
     </body>
 </html>
