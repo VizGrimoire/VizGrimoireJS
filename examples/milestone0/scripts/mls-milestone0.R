@@ -226,12 +226,12 @@ if (is.na(mailing_lists$mailing_list)) {
 }
 
 # Aggregated data
-q <- paste ("SELECT count(*) as messages,
+q <- paste ("SELECT count(*) as sent,
     DATE_FORMAT (min(first_date), '%Y-%m-%d') as first_date,
     DATE_FORMAT (max(first_date), '%Y-%m-%d') as last_date
     FROM messages")
 num_msg <- query(q)
-q <- paste ("SELECT count(*) as people from people")
+q <- paste ("SELECT count(*) as senders from people")
 num_ppl <- query(q)
 
 agg_data = merge(num_msg,num_ppl)
