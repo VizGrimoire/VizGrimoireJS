@@ -31,9 +31,10 @@ vizgrimoire.core.js: \
 
 vizgrimoire%js: Makefile
 	@rm -f $@
-	@cat $(filter %.js,$^) > $@.tmp
-	$(JS_UGLIFY) -o $@  $@.tmp
-	@rm $@.tmp
+	@cat $(filter %.js,$^) > $@
+	# @cat $(filter %.js,$^) > $@.tmp
+	# $(JS_UGLIFY) -o $@  $@.tmp
+	# @rm $@.tmp
 	@chmod a-w $@
 	
 clean:
