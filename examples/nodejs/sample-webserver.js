@@ -3,8 +3,8 @@ var url = require('url');
 
 var mysql = require('mysql');
 var connection = mysql.createConnection({
-	user : 'webkit',
-	password : '****',
+	user : 'root',
+	password : '',
 	database : 'acs_cvsanaly_webkit'
 });
 
@@ -31,6 +31,16 @@ var commits_ts_sql = "" +
 
 connection.connect();
 
+function toBitergiaJSON(rows) {
+	var data = {id:[],date:[],commits:[]};
+	for (var i =0; i<rows.length; i++) {
+		data.id.push(rows[i].id);
+		data.date.push(rows[i].date);
+		data.commits.push(rows[i].commits);
+	}
+	return data;
+}
+
 http.createServer(
 		function(req, res) {
 			var total_changes;
@@ -40,7 +50,6 @@ http.createServer(
 				res.writeHead(200, {
 					'Content-Type' : 'application/javascript'
 				});
-				console.log('JSONP query ' + query.callback);
 			}
 			else {
 				res.writeHead(200, {
@@ -56,12 +65,10 @@ http.createServer(
 				var data = {
 					'total_changes' : total_changes
 				};
-				// res.write('Total ticket changes: ' + total_changes + '\n');
 				if (query.callback)
-					res.end(query.callback + '(' +JSON.stringify(rows) + ')');
+					res.end(query.callback + '(' +JSON.stringify(toBitergiaJSON(rows)) + ')');
 				else
-					res.end(JSON.stringify(data));
-				console.log('Total ticket changes: ' + total_changes);
+					res.end(JSON.stringify(toBitergiaJSON(rows)));
 			});
 		}).listen(1337, '127.0.0.1');
 console.log('Server running at http://127.0.0.1:1337/');
