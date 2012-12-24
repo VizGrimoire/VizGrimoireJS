@@ -1421,7 +1421,11 @@ Flotr = {
       if (v && typeof(v) === 'object') {
         if (v.constructor === Array) {
           result[i] = this._.clone(v);
-        } else if (v.constructor !== RegExp && !this._.isElement(v)) {
+        } else if (
+            v.constructor !== RegExp &&
+            !this._.isElement(v) &&
+            !v.jquery
+        ) {
           result[i] = Flotr.merge(v, (dest ? dest[i] : undefined));
         } else {
           result[i] = v;
@@ -1606,6 +1610,7 @@ Flotr.defaultOptions = {
   fontSize: 7.5,           // => canvas' text font size
   resolution: 1,           // => resolution of the graph, to have printer-friendly graphs !
   parseFloat: true,        // => whether to preprocess data for floats (ie. if input is string)
+  preventDefault: true,    // => preventDefault by default for mobile events.  Turn off to enable scroll.
   xaxis: {
     ticks: null,           // => format: either [1, 3] or [[1, 'a'], 3]
     minorTicks: null,      // => format: either [1, 3] or [[1, 'a'], 3]
@@ -1886,8 +1891,8 @@ Flotr.Date = {
         S: leftPad(get(d, 'Seconds', mode)),
         s: get(d, 'Milliseconds', mode),
         d: get(d, 'Date', mode).toString(),
-        m: (get(d, 'Month') + 1).toString(),
-        y: get(d, 'FullYear').toString(),
+        m: (get(d, 'Month', mode) + 1).toString(),
+        y: get(d, 'FullYear', mode).toString(),
         b: Flotr.Date.monthNames[get(d, 'Month', mode)]
       };
 
@@ -1982,10 +1987,8 @@ Flotr.Date = {
     axis.tickUnit = tickUnit;
     axis.tickSize = tickSize;
 
-    var
-      d = new Date(min);
-
     var step = tickSize * timeUnits[tickUnit];
+    d = new Date(min);
 
     function setTick (name) {
       set(d, name, mode, Flotr.floorInBase(
@@ -2021,10 +2024,10 @@ Flotr.Date = {
            so we don't end up in the middle of a day */
           set(d, 'Date', mode, 1);
           var start = d.getTime();
-          set(d, 'Month', mode, get(d, 'Month', mode) + 1)
+          set(d, 'Month', mode, get(d, 'Month', mode) + 1);
           var end = d.getTime();
           d.setTime(v + carry * timeUnits.hour + (end - start) * tickSize);
-          carry = get(d, 'Hours', mode)
+          carry = get(d, 'Hours', mode);
           set(d, 'Hours', mode, 0);
         }
         else
@@ -2066,8 +2069,13 @@ Flotr.Date = {
 
 var _ = Flotr._;
 
+function getEl (el) {
+  return (el && el.jquery) ? el[0] : el;
+}
+
 Flotr.DOM = {
   addClass: function(element, name){
+    element = getEl(element);
     var classList = (element.className ? element.className : '');
       if (_.include(classList.split(/\s+/g), name)) return;
     element.className = (classList ? classList + ' ' : '') + name;
@@ -2089,6 +2097,7 @@ Flotr.DOM = {
    * Remove all children.
    */
   empty: function(element){
+    element = getEl(element);
     element.innerHTML = '';
     /*
     if (!element) return;
@@ -2098,7 +2107,12 @@ Flotr.DOM = {
     });
     */
   },
+  remove: function (element) {
+    element = getEl(element);
+    element.parentNode.removeChild(element);
+  },
   hide: function(element){
+    element = getEl(element);
     Flotr.DOM.setStyles(element, {display:'none'});
   },
   /**
@@ -2107,6 +2121,7 @@ Flotr.DOM = {
    * @param {Element|String} Element or string to be appended.
    */
   insert: function(element, child){
+    element = getEl(element);
     if(_.isString(child))
       element.innerHTML += child;
     else if (_.isElement(child))
@@ -2114,9 +2129,11 @@ Flotr.DOM = {
   },
   // @TODO find xbrowser implementation
   opacity: function(element, opacity) {
+    element = getEl(element);
     element.style.opacity = opacity;
   },
   position: function(element, p){
+    element = getEl(element);
     if (!element.offsetParent)
       return {left: (element.offsetLeft || 0), top: (element.offsetTop || 0)};
 
@@ -2127,22 +2144,26 @@ Flotr.DOM = {
   },
   removeClass: function(element, name) {
     var classList = (element.className ? element.className : '');
+    element = getEl(element);
     element.className = _.filter(classList.split(/\s+/g), function (c) {
       if (c != name) return true; }
     ).join(' ');
   },
   setStyles: function(element, o) {
+    element = getEl(element);
     _.each(o, function (value, key) {
       element.style[key] = value;
     });
   },
   show: function(element){
+    element = getEl(element);
     Flotr.DOM.setStyles(element, {display:''});
   },
   /**
    * Return element size.
    */
   size: function(element){
+    element = getEl(element);
     return {
       height : element.offsetHeight,
       width : element.offsetWidth };
@@ -2569,6 +2590,8 @@ Graph.prototype = {
     var
       type = series[typeKey],
       graphType = this[typeKey],
+      xaxis = series.xaxis,
+      yaxis = series.yaxis,
       options = {
         context     : this.ctx,
         width       : this.plotWidth,
@@ -2582,8 +2605,10 @@ Graph.prototype = {
         data        : series.data,
         color       : series.color,
         shadowSize  : series.shadowSize,
-        xScale      : _.bind(series.xaxis.d2p, series.xaxis),
-        yScale      : _.bind(series.yaxis.d2p, series.yaxis)
+        xScale      : xaxis.d2p,
+        yScale      : yaxis.d2p,
+        xInverse    : xaxis.p2d,
+        yInverse    : yaxis.p2d
       };
 
     options = flotr.merge(type, options);
@@ -2735,13 +2760,14 @@ Graph.prototype = {
     }
   },
 
-  clip: function () {
+  clip: function (ctx) {
 
     var
-      ctx = this.ctx,
       o   = this.plotOffset,
       w   = this.canvasWidth,
       h   = this.canvasHeight;
+
+    ctx = ctx || this.ctx;
 
     if (flotr.isIE && flotr.isIE < 9) {
       // Clipping for excanvas :-(
@@ -2810,7 +2836,9 @@ Graph.prototype = {
 
         var pos = this.getEventPosition(e);
 
-        e.preventDefault();
+        if (this.options.preventDefault) {
+          e.preventDefault();
+        }
 
         movement = true;
 
@@ -3057,8 +3085,6 @@ function Axis (o) {
   this.datamax = -Number.MAX_VALUE;
 
   _.extend(this, o);
-
-  this._setTranslations();
 }
 
 
@@ -3066,11 +3092,38 @@ function Axis (o) {
 Axis.prototype = {
 
   setScale : function () {
-    var length = this.length;
-    if (this.options.scaling == LOGARITHMIC) {
-      this.scale = length / (log(this.max, this.options.base) - log(this.min, this.options.base));
+    var
+      length = this.length,
+      max = this.max,
+      min = this.min,
+      offset = this.offset,
+      orientation = this.orientation,
+      options = this.options,
+      logarithmic = options.scaling === LOGARITHMIC,
+      scale;
+
+    if (logarithmic) {
+      scale = length / (log(max, options.base) - log(min, options.base));
     } else {
-      this.scale = length / (this.max - this.min);
+      scale = length / (max - min);
+    }
+    this.scale = scale;
+
+    // Logarithmic?
+    if (logarithmic) {
+      this.d2p = function (dataValue) {
+        return offset + orientation * (log(dataValue, options.base) - log(min, options.base)) * scale;
+      };
+      this.p2d = function (pointValue) {
+        return exp((offset + orientation * pointValue) / scale + log(min, options.base), options.base);
+      };
+    } else {
+      this.d2p = function (dataValue) {
+        return offset + orientation * (dataValue - min) * scale;
+      };
+      this.p2d = function (pointValue) {
+        return (offset + orientation * pointValue) / scale + min;
+      };
     }
   },
 
@@ -3094,6 +3147,10 @@ Axis.prototype = {
         this._calculateTicks();
       }
     }
+
+    // Ticks to strings
+    _.each(this.ticks, function (tick) { tick.label += ''; });
+    _.each(this.minorTicks, function (tick) { tick.label += ''; });
   },
 
   /**
@@ -3288,11 +3345,6 @@ Axis.prototype = {
       }
     }
 
-  },
-
-  _setTranslations : function (logarithmic) {
-    this.d2p = (logarithmic ? d2pLog : d2p);
-    this.p2d = (logarithmic ? p2dLog : p2d);
   }
 };
 
@@ -3312,21 +3364,6 @@ _.extend(Axis, {
 
 // Helper Methods
 
-function d2p (dataValue) {
-  return this.offset + this.orientation * (dataValue - this.min) * this.scale;
-}
-
-function p2d (pointValue) {
-  return (this.offset + this.orientation * pointValue) / this.scale + this.min;
-}
-
-function d2pLog (dataValue) {
-  return this.offset + this.orientation * (log(dataValue, this.options.base) - log(this.min, this.options.base)) * this.scale;
-}
-
-function p2dLog (pointValue) {
-  return exp((this.offset + this.orientation * pointValue) / this.scale + log(this.min, this.options.base), this.options.base);
-}
 
 function log (value, base) {
   value = Math.log(Math.max(value, Number.MIN_VALUE));
@@ -3376,10 +3413,14 @@ Series.prototype = {
     for (i = 0; i < length; i++) {
       x = data[i][0];
       y = data[i][1];
-      if (x < xmin) { xmin = x; xused = true; }
-      if (x > xmax) { xmax = x; xused = true; }
-      if (y < ymin) { ymin = y; yused = true; }
-      if (y > ymax) { ymax = y; yused = true; }
+      if (x !== null) {
+        if (x < xmin) { xmin = x; xused = true; }
+        if (x > xmax) { xmax = x; xused = true; }
+      }
+      if (y !== null) {
+        if (y < ymin) { ymin = y; yused = true; }
+        if (y > ymax) { ymax = y; yused = true; }
+      }
     }
 
     return {
@@ -3485,6 +3526,7 @@ Flotr.addType('lines', {
       prevx     = null,
       prevy     = null,
       zero      = yScale(0),
+      start     = null,
       x1, x2, y1, y2, stack1, stack2, i;
       
     if (length < 1) return;
@@ -3494,7 +3536,18 @@ Flotr.addType('lines', {
     for (i = 0; i < length; ++i) {
 
       // To allow empty values
-      if (data[i][1] === null || data[i+1][1] === null) continue;
+      if (data[i][1] === null || data[i+1][1] === null) {
+        if (options.fill) {
+          if (i > 0 && data[i][1]) {
+            context.stroke();
+            fill();
+            start = null;
+            context.closePath();
+            context.beginPath();
+          }
+        }
+        continue;
+      }
 
       // Zero is infinity for log scales
       // TODO handle zero for logarithmic
@@ -3503,6 +3556,8 @@ Flotr.addType('lines', {
       
       x1 = xScale(data[i][0]);
       x2 = xScale(data[i+1][0]);
+
+      if (start === null) start = data[i];
       
       if (stack) {
 
@@ -3546,16 +3601,20 @@ Flotr.addType('lines', {
     
     if (!options.fill || options.fill && !options.fillBorder) context.stroke();
 
-    // TODO stacked lines
-    if(!shadowOffset && options.fill){
-      x1 = xScale(data[0][0]);
-      context.fillStyle = options.fillStyle;
-      context.lineTo(x2, zero);
-      context.lineTo(x1, zero);
-      context.lineTo(x1, yScale(data[0][1]));
-      context.fill();
-      if (options.fillBorder) {
-        context.stroke();
+    fill();
+
+    function fill () {
+      // TODO stacked lines
+      if(!shadowOffset && options.fill && start){
+        x1 = xScale(start[0]);
+        context.fillStyle = options.fillStyle;
+        context.lineTo(x2, zero);
+        context.lineTo(x1, zero);
+        context.lineTo(x1, yScale(start[1]));
+        context.fill();
+        if (options.fillBorder) {
+          context.stroke();
+        }
       }
     }
 
@@ -3630,7 +3689,7 @@ Flotr.addType('lines', {
           mouse = args[0],
           length = data.length,
           n = args[1],
-          x = mouse.x,
+          x = options.xInverse(mouse.relX),
           relY = mouse.relY,
           i;
 
@@ -3707,7 +3766,8 @@ Flotr.addType('bars', {
     horizontal: false,     // => horizontal bars (x and y inverted)
     stacked: false,        // => stacked bar charts
     centered: true,        // => center the bars to their x axis value
-    topPadding: 0.1        // => top padding in percent
+    topPadding: 0.1,       // => top padding in percent
+    grouped: false         // => groups bars together which share x value, hit not supported.
   },
 
   stack : { 
@@ -3720,6 +3780,8 @@ Flotr.addType('bars', {
   draw : function (options) {
     var
       context = options.context;
+
+    this.current += 1;
 
     context.save();
     context.lineJoin = 'miter';
@@ -3791,6 +3853,14 @@ Flotr.addType('bars', {
       stackOffset   = 0,
       stackValue, left, right, top, bottom;
 
+    if (options.grouped) {
+      this.current / this.groups;
+      xValue = xValue - bisection;
+      barWidth = barWidth / this.groups;
+      bisection = barWidth / 2;
+      xValue = xValue + barWidth * this.current - bisection;
+    }
+
     // Stacked bars
     if (stack) {
       stackValue          = yValue > 0 ? stack.positive : stack.negative;
@@ -3827,16 +3897,27 @@ Flotr.addType('bars', {
       args = options.args,
       mouse = args[0],
       n = args[1],
-      x = mouse.x,
-      y = mouse.y,
+      x = options.xInverse(mouse.relX),
+      y = options.yInverse(mouse.relY),
       hitGeometry = this.getBarGeometry(x, y, options),
       width = hitGeometry.width / 2,
       left = hitGeometry.left,
+      height = hitGeometry.y,
       geometry, i;
 
     for (i = data.length; i--;) {
       geometry = this.getBarGeometry(data[i][0], data[i][1], options);
-      if (geometry.y > hitGeometry.y && Math.abs(left - geometry.left) < width) {
+      if (
+        // Height:
+        (
+          // Positive Bars:
+          (height > 0 && height < geometry.y) ||
+          // Negative Bars:
+          (height < 0 && height > geometry.y)
+        ) &&
+        // Width:
+        (Math.abs(left - geometry.left) < width)
+      ) {
         n.x = data[i][0];
         n.y = data[i][1];
         n.index = i;
@@ -3901,6 +3982,8 @@ Flotr.addType('bars', {
 
   extendXRange : function (axis, data, options, bars) {
     this._extendRange(axis, data, options, bars);
+    this.groups = (this.groups + 1) || 1;
+    this.current = 0;
   },
 
   extendYRange : function (axis, data, options, bars) {
@@ -4034,22 +4117,27 @@ Flotr.addType('bubbles', {
       args = options.args,
       mouse = args[0],
       n = args[1],
-      x = mouse.x,
-      y = mouse.y,
+      relX = mouse.relX,
+      relY = mouse.relY,
+      distance,
       geometry,
       dx, dy;
+
+    n.best = n.best || Number.MAX_VALUE;
 
     for (i = data.length; i--;) {
       geometry = this.getGeometry(data[i], options);
 
-      dx = geometry.x - options.xScale(x);
-      dy = geometry.y - options.yScale(y);
+      dx = geometry.x - relX;
+      dy = geometry.y - relY;
+      distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (Math.sqrt(dx * dx + dy * dy) < geometry.z) {
+      if (distance < geometry.z && geometry.z < n.best) {
         n.x = data[i][0];
         n.y = data[i][1];
         n.index = i;
         n.seriesIndex = options.index;
+        n.best = geometry.z;
       }
     }
   },
@@ -4588,8 +4676,9 @@ function isImage (i) {
 
 })();
 
-/** Pie **/
 /**
+ * Pie
+ *
  * Formats the pies labels.
  * @param {Object} slice - Slice object
  * @return {String} Formatted pie label string
@@ -4616,7 +4705,8 @@ Flotr.addType('pie', {
     labelFormatter: Flotr.defaultPieLabelFormatter,
     pie3D: false,          // => whether to draw the pie in 3 dimenstions or not (ineffective) 
     pie3DviewAngle: (Math.PI/2 * 0.8),
-    pie3DspliceThickness: 20
+    pie3DspliceThickness: 20,
+    epsilon: 0.1           // => how close do you have to get to hit empty slice
   },
 
   draw : function (options) {
@@ -4652,8 +4742,7 @@ Flotr.addType('pie', {
       textAlign     = distX < 0 ? 'right' : 'left',
       textBaseline  = distY > 0 ? 'top' : 'bottom',
       style,
-      x, y,
-      distX, distY;
+      x, y;
     
     context.save();
     context.translate(width / 2, height / 2);
@@ -4742,7 +4831,8 @@ Flotr.addType('pie', {
       circle    = Math.PI * 2,
       explode   = slice.explode || options.explode,
       start     = slice.start % circle,
-      end       = slice.end % circle;
+      end       = slice.end % circle,
+      epsilon   = options.epsilon;
 
     if (x < 0) {
       theta += Math.PI;
@@ -4751,10 +4841,14 @@ Flotr.addType('pie', {
     }
 
     if (r < slice.radius + explode && r > explode) {
-      if ((start > end && (theta < end || theta > start)) ||
-        (theta > start && theta < end)) {
-
-        // TODO Decouple this from hit plugin (chart shouldn't know what n means)
+      if (
+          (theta > start && theta < end) || // Normal Slice
+          (start > end && (theta < end || theta > start)) || // First slice
+          // TODO: Document the two cases at the end:
+          (start === end && ((slice.start === slice.end && Math.abs(theta - start) < epsilon) || (slice.start !== slice.end && Math.abs(theta-start) > epsilon)))
+         ) {
+          
+          // TODO Decouple this from hit plugin (chart shouldn't know what n means)
          n.x = data[0];
          n.y = data[1];
          n.sAngle = start;
@@ -4806,8 +4900,9 @@ Flotr.addType('points', {
     radius: 3,             // => point radius (pixels)
     lineWidth: 2,          // => line width in pixels
     fill: true,            // => true to fill the points with a color, false for (transparent) no fill
-    fillColor: '#FFFFFF',  // => fill color
-    fillOpacity: 0.4       // => opacity of color inside the points
+    fillColor: '#FFFFFF',  // => fill color.  Null to use series color.
+    fillOpacity: 1,        // => opacity of color inside the points
+    hitRadius: null        // => override for points hit radius
   },
 
   draw : function (options) {
@@ -4830,7 +4925,7 @@ Flotr.addType('points', {
 
     context.lineWidth = options.lineWidth;
     context.strokeStyle = options.color;
-    context.fillStyle = options.fillColor || options.color;
+    if (options.fill) context.fillStyle = options.fillStyle;
 
     this.plot(options);
     context.restore();
@@ -4873,7 +4968,8 @@ Flotr.addType('radar', {
     lineWidth: 2,          // => line width in pixels
     fill: true,            // => true to fill the area from the line to the x axis, false for (transparent) no fill
     fillOpacity: 0.4,      // => opacity of the fill color, set to 1 for a solid fill, 0 hides the fill
-    radiusRatio: 0.90      // => ratio of the radar, against the plot size
+    radiusRatio: 0.90,      // => ratio of the radar, against the plot size
+    sensibility: 2         // => the lower this number, the more precise you have to aim to show a value.
   },
   draw : function (options) {
     var
@@ -4921,6 +5017,92 @@ Flotr.addType('radar', {
     context.closePath();
     if (options.fill) context.fill();
     context.stroke();
+  },
+  getGeometry : function (point, options) {
+      var
+        radius  = Math.min(options.height, options.width) * options.radiusRatio / 2,
+        step    = 2 * Math.PI / options.data.length,
+        angle   = -Math.PI / 2,
+        ratio = point[1] / this.max;
+
+      return {
+        x : (Math.cos(point[0] * step + angle) * radius * ratio) + options.width / 2,
+        y : (Math.sin(point[0] * step + angle) * radius * ratio) + options.height / 2
+      };
+    },
+  hit : function (options) {
+      var
+        args = options.args,
+        mouse = args[0],
+        n = args[1],
+        relX = mouse.relX,
+        relY = mouse.relY,
+        distance,
+        geometry,
+        dx, dy;
+
+      for (var i = 0; i < n.series.length; i++) {
+
+          var serie = n.series[i];
+          var data = serie.data;
+
+          for (var j = data.length; j--;) {
+            geometry = this.getGeometry(data[j], options);
+
+            dx = geometry.x - relX;
+            dy = geometry.y - relY;
+            distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance <  options.sensibility*2) {
+              n.x = data[j][0];
+              n.y = data[j][1];
+              n.index = j;
+              n.seriesIndex = i;
+              return n;
+            }
+          }
+      }
+    },
+  drawHit : function (options) {
+      var step = 2 * Math.PI / options.data.length;
+      var angle   = -Math.PI / 2;
+      var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
+
+      var s = options.args.series;
+      var point_radius = s.points.hitRadius || s.points.radius || s.mouse.radius;
+
+      var context = options.context;
+
+      context.translate(options.width / 2, options.height / 2);
+
+      var j = options.args.index;
+      var ratio = options.data[j][1] / this.max;
+      var x = Math.cos(j * step + angle) * radius * ratio;
+      var y = Math.sin(j * step + angle) * radius * ratio;
+      context.beginPath();
+      context.arc(x, y, point_radius , 0, 2 * Math.PI, true);
+      context.closePath();
+      context.stroke();
+  },
+  clearHit : function (options) {
+      var step = 2 * Math.PI / options.data.length;
+      var angle   = -Math.PI / 2;
+      var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
+
+      var context = options.context;
+
+      var
+          s = options.args.series,
+          lw = (s.points ? s.points.lineWidth : 1);
+          offset = (s.points.hitRadius || s.points.radius || s.mouse.radius) + lw;
+
+      context.translate(options.width / 2, options.height / 2);
+
+      var j = options.args.index;
+      var ratio = options.data[j][1] / this.max;
+      var x = Math.cos(j * step + angle) * radius * ratio;
+      var y = Math.sin(j * step + angle) * radius * ratio;
+      context.clearRect(x-offset,y-offset,offset*2,offset*2);
   },
   extendYRange : function (axis, data) {
     this.max = Math.max(axis.max, this.max || -Number.MAX_VALUE);
@@ -5043,8 +5225,8 @@ Flotr.addPlugin('crosshair', {
     var octx = this.octx,
       options = this.options.crosshair,
       plotOffset = this.plotOffset,
-      x = plotOffset.left + pos.relX + 0.5,
-      y = plotOffset.top + pos.relY + 0.5;
+      x = plotOffset.left + Math.round(pos.relX) + 0.5,
+      y = plotOffset.top + Math.round(pos.relY) + 0.5;
     
     if (pos.relX < 0 || pos.relY < 0 || pos.relX > this.plotWidth || pos.relY > this.plotHeight) {
       this.el.style.cursor = null;
@@ -5087,14 +5269,14 @@ Flotr.addPlugin('crosshair', {
 
     if (position) {
       context.clearRect(
-        position.relX + plotOffset.left,
+        Math.round(position.relX) + plotOffset.left,
         plotOffset.top,
         1,
         this.plotHeight + 1
       );
       context.clearRect(
         plotOffset.left,
-        position.relY + plotOffset.top,
+        Math.round(position.relY) + plotOffset.top,
         this.plotWidth + 1,
         1
       );    
@@ -5378,15 +5560,20 @@ Flotr.addPlugin('hit', {
       this.hit.track(pos);
     },
     'flotr:click': function(pos) {
-      this.hit.track(pos);
+      var
+        hit = this.hit.track(pos);
+      _.defaults(pos, hit);
     },
     'flotr:mouseout': function() {
       this.hit.clearHit();
+    },
+    'flotr:destroy': function() {
+      this.mouseTrack = null;
     }
   },
   track : function (pos) {
     if (this.options.mouse.track || _.any(this.series, function(s){return s.mouse && s.mouse.track;})) {
-      this.hit.hit(pos);
+      return this.hit.hit(pos);
     }
   },
   /**
@@ -5439,17 +5626,19 @@ Flotr.addPlugin('hit', {
       octx.translate(this.plotOffset.left, this.plotOffset.top);
 
       if (!this.hit.executeOnType(s, 'drawHit', n)) {
-        var xa = n.xaxis,
+        var
+          xa = n.xaxis,
           ya = n.yaxis;
 
         octx.beginPath();
           // TODO fix this (points) should move to general testable graph mixin
-          octx.arc(xa.d2p(n.x), ya.d2p(n.y), s.points.radius || s.mouse.radius, 0, 2 * Math.PI, true);
+          octx.arc(xa.d2p(n.x), ya.d2p(n.y), s.points.hitRadius || s.points.radius || s.mouse.radius, 0, 2 * Math.PI, true);
           octx.fill();
           octx.stroke();
         octx.closePath();
       }
       octx.restore();
+      this.clip(octx);
     }
     this.prevHit = n;
   },
@@ -5468,7 +5657,7 @@ Flotr.addPlugin('hit', {
         var
           s = prev.series,
           lw = (s.points ? s.points.lineWidth : 1);
-          offset = (s.points.radius || s.mouse.radius) + lw;
+          offset = (s.points.hitRadius || s.points.radius || s.mouse.radius) + lw;
         octx.clearRect(
           prev.xaxis.d2p(prev.x) - offset,
           prev.yaxis.d2p(prev.y) - offset,
@@ -5487,12 +5676,12 @@ Flotr.addPlugin('hit', {
    * value of the data.
    * @param {Object} mouse - Object that holds the relative x and y coordinates of the cursor.
    */
-  hit: function(mouse){
+  hit : function (mouse) {
 
     var
       options = this.options,
       prevHit = this.prevHit,
-      closest, sensibility, dataIndex, seriesIndex, series, value, xaxis, yaxis;
+      closest, sensibility, dataIndex, seriesIndex, series, value, xaxis, yaxis, n;
 
     if (this.series.length === 0) return;
 
@@ -5503,21 +5692,20 @@ Flotr.addPlugin('hit', {
       relX : mouse.relX,
       relY : mouse.relY,
       absX : mouse.absX,
-      absY : mouse.absY
+      absY : mouse.absY,
+      series: this.series
     };
 
     if (options.mouse.trackY &&
         !options.mouse.trackAll &&
-        this.hit.executeOnType(this.series, 'hit', [mouse, n]))
+        this.hit.executeOnType(this.series, 'hit', [mouse, n]) &&
+        !_.isUndefined(n.seriesIndex))
       {
-
-      if (!_.isUndefined(n.seriesIndex)) {
-        series    = this.series[n.seriesIndex];
-        n.series  = series;
-        n.mouse   = series.mouse;
-        n.xaxis   = series.xaxis;
-        n.yaxis   = series.yaxis;
-      }
+      series    = this.series[n.seriesIndex];
+      n.series  = series;
+      n.mouse   = series.mouse;
+      n.xaxis   = series.xaxis;
+      n.yaxis   = series.yaxis;
     } else {
 
       closest = this.hit.closest(mouse);
@@ -5557,6 +5745,8 @@ Flotr.addPlugin('hit', {
         Flotr.EventAdapter.fire(this.el, 'flotr:hit', [n, this]);
       }
     }
+
+    return n;
   },
 
   closest : function (mouse) {
@@ -5564,8 +5754,8 @@ Flotr.addPlugin('hit', {
     var
       series    = this.series,
       options   = this.options,
-      mouseX    = mouse.x,
-      mouseY    = mouse.y,
+      relX      = mouse.relX,
+      relY      = mouse.relY,
       compare   = Number.MAX_VALUE,
       compareX  = Number.MAX_VALUE,
       closest   = {},
@@ -5573,6 +5763,7 @@ Flotr.addPlugin('hit', {
       check     = false,
       serie, data,
       distance, distanceX, distanceY,
+      mouseX, mouseY,
       x, y, i, j;
 
     function setClosest (o) {
@@ -5583,14 +5774,15 @@ Flotr.addPlugin('hit', {
       o.dataIndex = j;
       o.x = x;
       o.y = y;
+      check = true;
     }
 
     for (i = 0; i < series.length; i++) {
 
       serie = series[i];
       data = serie.data;
-
-      if (data.length) check = true;
+      mouseX = serie.xaxis.p2d(relX);
+      mouseY = serie.yaxis.p2d(relY);
 
       for (j = data.length; j--;) {
 
@@ -5633,6 +5825,8 @@ Flotr.addPlugin('hit', {
       s           = n.series,
       p           = n.mouse.position, 
       m           = n.mouse.margin,
+      x           = n.x,
+      y           = n.y,
       elStyle     = S_MOUSETRACK,
       mouseTrack  = this.mouseTrack,
       plotOffset  = this.plotOffset,
@@ -5657,13 +5851,8 @@ Flotr.addPlugin('hit', {
       if      (p.charAt(1) == 'e') pos += 'right:' + (m + right) + 'px;left:auto;';
       else if (p.charAt(1) == 'w') pos += 'left:' + (m + left) + 'px;right:auto;';
 
-    // Bars
-    } else if (s.bars.show) {
-        pos += 'bottom:' + (m - top - n.yaxis.d2p(n.y/2) + this.canvasHeight) + 'px;top:auto;';
-        pos += 'left:' + (m + left + n.xaxis.d2p(n.x - options.bars.barWidth/2)) + 'px;right:auto;';
-
     // Pie
-    } else if (s.pie.show) {
+    } else if (s.pie && s.pie.show) {
       var center = {
           x: (this.plotWidth)/2,
           y: (this.plotHeight)/2
@@ -5675,21 +5864,24 @@ Flotr.addPlugin('hit', {
       pos += 'left:' + (m + left + center.x + Math.cos(bisection) * radius/2) + 'px;right:auto;';
 
     // Default
-    } else {
-      if      (p.charAt(0) == 'n') pos += 'bottom:' + (m - top - n.yaxis.d2p(n.y) + this.canvasHeight) + 'px;top:auto;';
-      else if (p.charAt(0) == 's') pos += 'top:' + (m + top + n.yaxis.d2p(n.y)) + 'px;bottom:auto;';
-      if      (p.charAt(1) == 'e') pos += 'left:' + (m + left + n.xaxis.d2p(n.x)) + 'px;right:auto;';
-      else if (p.charAt(1) == 'w') pos += 'right:' + (m - left - n.xaxis.d2p(n.x) + this.canvasWidth) + 'px;left:auto;';
+    } else {    
+      if (/n/.test(p)) pos += 'bottom:' + (m - top - n.yaxis.d2p(n.y) + this.canvasHeight) + 'px;top:auto;';
+      else             pos += 'top:' + (m + top + n.yaxis.d2p(n.y)) + 'px;bottom:auto;';
+      if (/w/.test(p)) pos += 'right:' + (m - left - n.xaxis.d2p(n.x) + this.canvasWidth) + 'px;left:auto;';
+      else             pos += 'left:' + (m + left + n.xaxis.d2p(n.x)) + 'px;right:auto;';
     }
 
     elStyle += pos;
     mouseTrack.style.cssText = elStyle;
-
     if (!decimals || decimals < 0) decimals = 0;
     
+    if (x && x.toFixed) x = x.toFixed(decimals);
+
+    if (y && y.toFixed) y = y.toFixed(decimals);
+
     mouseTrack.innerHTML = n.mouse.trackFormatter({
-      x: n.x.toFixed(decimals), 
-      y: n.y.toFixed(decimals), 
+      x: x ,
+      y: y, 
       series: n.series, 
       index: n.index,
       nearest: n,
@@ -5697,6 +5889,19 @@ Flotr.addPlugin('hit', {
     });
 
     D.show(mouseTrack);
+
+    if (n.mouse.relative) {
+      if (!/[ew]/.test(p)) {
+        // Center Horizontally
+        mouseTrack.style.left =
+          (left + n.xaxis.d2p(n.x) - D.size(mouseTrack).width / 2) + 'px';
+      } else
+      if (!/[ns]/.test(p)) {
+        // Center Vertically
+        mouseTrack.style.top =
+          (top + n.yaxis.d2p(n.y) - D.size(mouseTrack).height / 2) + 'px';
+      }
+    }
   }
 
 });
@@ -5792,15 +5997,27 @@ Flotr.addPlugin('selection', {
   // TODO This isn't used.  Maybe it belongs in the draw area and fire select event methods?
   getArea: function() {
 
-    var s = this.selection.selection,
+    var
+      s = this.selection.selection,
+      a = this.axes,
       first = s.first,
-      second = s.second;
+      second = s.second,
+      x1, x2, y1, y2;
+
+    x1 = a.x.p2d(s.first.x);
+    x2 = a.x.p2d(s.second.x);
+    y1 = a.y.p2d(s.first.y);
+    y2 = a.y.p2d(s.second.y);
 
     return {
-      x1: Math.min(first.x, second.x),
-      x2: Math.max(first.x, second.x),
-      y1: Math.min(first.y, second.y),
-      y2: Math.max(first.y, second.y)
+      x1 : Math.min(x1, x2),
+      y1 : Math.min(y1, y2),
+      x2 : Math.max(x1, x2),
+      y2 : Math.max(y1, y2),
+      xfirst : x1,
+      xsecond : x2,
+      yfirst : y1,
+      ysecond : y2
     };
   },
 
@@ -5812,24 +6029,11 @@ Flotr.addPlugin('selection', {
    * Fires the 'flotr:select' event when the user made a selection.
    */
   fireSelectEvent: function(name){
-    var a = this.axes,
-        s = this.selection.selection,
-        x1, x2, y1, y2;
-
+    var
+      area = this.selection.getArea();
     name = name || 'select';
-
-    x1 = a.x.p2d(s.first.x);
-    x2 = a.x.p2d(s.second.x);
-    y1 = a.y.p2d(s.first.y);
-    y2 = a.y.p2d(s.second.y);
-
-    E.fire(this.el, 'flotr:'+name, [{
-      x1:Math.min(x1, x2), 
-      y1:Math.min(y1, y2), 
-      x2:Math.max(x1, x2), 
-      y2:Math.max(y1, y2),
-      xfirst:x1, xsecond:x2, yfirst:y1, ysecond:y2
-    }, this]);
+    area.selection = this.selection.selection;
+    E.fire(this.el, 'flotr:'+name, [area, this]);
   },
 
   /**
@@ -5850,8 +6054,8 @@ Flotr.addPlugin('selection', {
 
     s.first.y  = boundY((selX && !selY) ? 0 : (ya.max - area.y1) * vertScale, this);
     s.second.y = boundY((selX && !selY) ? this.plotHeight - 1: (ya.max - area.y2) * vertScale, this);
-    s.first.x  = boundX((selY && !selX) ? 0 : area.x1, this);
-    s.second.x = boundX((selY && !selX) ? this.plotWidth : area.x2, this);
+    s.first.x  = boundX((selY && !selX) ? 0 : (area.x1 - xa.min) * hozScale, this);
+    s.second.x = boundX((selY && !selX) ? this.plotWidth : (area.x2 - xa.min) * hozScale, this);
     
     this.selection.drawSelection();
     if (!preventEvent)
@@ -6224,16 +6428,22 @@ Flotr.addPlugin('legend', {
     labelBoxWidth: 14,
     labelBoxHeight: 10,
     labelBoxMargin: 5,
-    labelBoxOpacity: 0.4,
     container: null,       // => container (as jQuery object) to put legend in, null means default on top of graph
     position: 'nw',        // => position of default legend container within plot
     margin: 5,             // => distance from grid edge to default legend container within plot
-    backgroundColor: null, // => null means auto-detect
+    backgroundColor: '#F0F0F0', // => Legend background color.
     backgroundOpacity: 0.85// => set to 0 to avoid background, set to 1 for a solid background
   },
   callbacks: {
     'flotr:afterinit': function() {
       this.legend.insertLegend();
+    },
+    'flotr:destroy': function() {
+      var markup = this.legend.markup;
+      if (markup) {
+        this.legend.markup = null;
+        D.remove(markup);
+      }
     }
   },
   /**
@@ -6254,38 +6464,46 @@ Flotr.addPlugin('legend', {
       itemCount     = _.filter(series, function(s) {return (s.label && !s.hide);}).length,
       p             = legend.position, 
       m             = legend.margin,
+      opacity       = legend.backgroundOpacity,
       i, label, color;
 
     if (itemCount) {
-      if (!options.HtmlText && this.textEnabled && !legend.container) {
-        var style = {
-          size: options.fontSize*1.1,
-          color: options.grid.color
-        };
 
-        var lbw = legend.labelBoxWidth,
-            lbh = legend.labelBoxHeight,
-            lbm = legend.labelBoxMargin,
-            offsetX = plotOffset.left + m,
-            offsetY = plotOffset.top + m;
-        
-        // We calculate the labels' max width
-        var labelMaxWidth = 0;
-        for(i = series.length - 1; i > -1; --i){
-          if(!series[i].label || series[i].hide) continue;
-          label = legend.labelFormatter(series[i].label);
-          labelMaxWidth = Math.max(labelMaxWidth, this._text.measureText(label, style).width);
-        }
-        
-        var legendWidth  = Math.round(lbw + lbm*3 + labelMaxWidth),
-            legendHeight = Math.round(itemCount*(lbm+lbh) + lbm);
+      var lbw = legend.labelBoxWidth,
+          lbh = legend.labelBoxHeight,
+          lbm = legend.labelBoxMargin,
+          offsetX = plotOffset.left + m,
+          offsetY = plotOffset.top + m,
+          labelMaxWidth = 0,
+          style = {
+            size: options.fontSize*1.1,
+            color: options.grid.color
+          };
+
+      // We calculate the labels' max width
+      for(i = series.length - 1; i > -1; --i){
+        if(!series[i].label || series[i].hide) continue;
+        label = legend.labelFormatter(series[i].label);
+        labelMaxWidth = Math.max(labelMaxWidth, this._text.measureText(label, style).width);
+      }
+
+      var legendWidth  = Math.round(lbw + lbm*3 + labelMaxWidth),
+          legendHeight = Math.round(itemCount*(lbm+lbh) + lbm);
+
+      // Default Opacity
+      if (!opacity && opacity !== 0) {
+        opacity = 0.1;
+      }
+
+      if (!options.HtmlText && this.textEnabled && !legend.container) {
         
         if(p.charAt(0) == 's') offsetY = plotOffset.top + this.plotHeight - (m + legendHeight);
+        if(p.charAt(0) == 'c') offsetY = plotOffset.top + (this.plotHeight/2) - (m + (legendHeight/2));
         if(p.charAt(1) == 'e') offsetX = plotOffset.left + this.plotWidth - (m + legendWidth);
         
         // Legend box
-        color = this.processColor(legend.backgroundColor || 'rgb(240,240,240)', {opacity: legend.backgroundOpacity || 0.1});
-        
+        color = this.processColor(legend.backgroundColor, { opacity : opacity });
+
         ctx.fillStyle = color;
         ctx.fillRect(offsetX, offsetY, legendWidth, legendHeight);
         ctx.strokeStyle = legend.labelBoxBorderColor;
@@ -6319,13 +6537,10 @@ Flotr.addPlugin('legend', {
             fragments.push(rowStarted ? '</tr><tr>' : '<tr>');
             rowStarted = true;
           }
-           
-          // @TODO remove requirement on bars
+
           var s = series[i],
             boxWidth = legend.labelBoxWidth,
-            boxHeight = legend.labelBoxHeight,
-            opacityValue = (s.bars ? s.bars.fillOpacity : legend.labelBoxOpacity),
-            opacity = 'opacity:' + opacityValue + ';filter:alpha(opacity=' + opacityValue*100 + ');';
+            boxHeight = legend.labelBoxHeight;
 
           label = legend.labelFormatter(s.label);
           color = 'background-color:' + ((s.bars && s.bars.show && s.bars.fillColor && s.bars.fill) ? s.bars.fillColor : s.color) + ';';
@@ -6334,7 +6549,7 @@ Flotr.addPlugin('legend', {
             '<td class="flotr-legend-color-box">',
               '<div style="border:1px solid ', legend.labelBoxBorderColor, ';padding:1px">',
                 '<div style="width:', (boxWidth-1), 'px;height:', (boxHeight-1), 'px;border:1px solid ', series[i].color, '">', // Border
-                  '<div style="width:', boxWidth, 'px;height:', boxHeight, 'px;', 'opacity:.4;', color, '"></div>', // Background
+                  '<div style="width:', boxWidth, 'px;height:', boxHeight, 'px;', color, '"></div>', // Background
                 '</div>',
               '</div>',
             '</td>',
@@ -6346,30 +6561,33 @@ Flotr.addPlugin('legend', {
         if(fragments.length > 0){
           var table = '<table style="font-size:smaller;color:' + options.grid.color + '">' + fragments.join('') + '</table>';
           if(legend.container){
+            table = D.node(table);
+            this.legend.markup = table;
             D.insert(legend.container, table);
           }
           else {
-            var styles = {position: 'absolute', 'z-index': 2};
-            
+            var styles = {position: 'absolute', 'zIndex': '2', 'border' : '1px solid ' + legend.labelBoxBorderColor};
+
                  if(p.charAt(0) == 'n') { styles.top = (m + plotOffset.top) + 'px'; styles.bottom = 'auto'; }
+            else if(p.charAt(0) == 'c') { styles.top = (m + (this.plotHeight - legendHeight) / 2) + 'px'; styles.bottom = 'auto'; }
             else if(p.charAt(0) == 's') { styles.bottom = (m + plotOffset.bottom) + 'px'; styles.top = 'auto'; }
                  if(p.charAt(1) == 'e') { styles.right = (m + plotOffset.right) + 'px'; styles.left = 'auto'; }
             else if(p.charAt(1) == 'w') { styles.left = (m + plotOffset.left) + 'px'; styles.right = 'auto'; }
-                 
+
             var div = D.create('div'), size;
             div.className = 'flotr-legend';
             D.setStyles(div, styles);
             D.insert(div, table);
             D.insert(this.el, div);
             
-            if(!legend.backgroundOpacity)
-              return;
+            if (!opacity) return;
 
             var c = legend.backgroundColor || options.grid.backgroundColor || '#ffffff';
 
             _.extend(styles, D.size(div), {
               'backgroundColor': c,
-              'z-index': 1
+              'zIndex' : '',
+              'border' : ''
             });
             styles.width += 'px';
             styles.height += 'px';
@@ -6378,7 +6596,7 @@ Flotr.addPlugin('legend', {
             div = D.create('div');
             div.className = 'flotr-legend-bg';
             D.setStyles(div, styles);
-            D.opacity(div, legend.backgroundOpacity);
+            D.opacity(div, opacity);
             D.insert(div, ' ');
             D.insert(this.el, div);
           }
@@ -6824,14 +7042,14 @@ Flotr.addPlugin('titles', {
           '<div style="position:absolute;top:', 
           (this.plotOffset.top + this.plotHeight + options.grid.labelMargin + a.x.titleSize.height), 
           'px;left:', this.plotOffset.left, 'px;width:', this.plotWidth, 
-          'px;text-align:', a.x.options.titleAlign, ';" class="flotr-axis-title">', a.x.options.title, '</div>'
+          'px;text-align:', a.x.options.titleAlign, ';" class="flotr-axis-title flotr-axis-title-x1">', a.x.options.title, '</div>'
         );
       
       // Add x2 axis title
       if (a.x2.options.title && a.x2.used)
         html.push(
           '<div style="position:absolute;top:0;left:', this.plotOffset.left, 'px;width:', 
-          this.plotWidth, 'px;text-align:', a.x2.options.titleAlign, ';" class="flotr-axis-title">', a.x2.options.title, '</div>'
+          this.plotWidth, 'px;text-align:', a.x2.options.titleAlign, ';" class="flotr-axis-title flotr-axis-title-x2">', a.x2.options.title, '</div>'
         );
       
       // Add y axis title
@@ -6839,7 +7057,7 @@ Flotr.addPlugin('titles', {
         html.push(
           '<div style="position:absolute;top:', 
           (this.plotOffset.top + this.plotHeight/2 - a.y.titleSize.height/2), 
-          'px;left:0;text-align:', a.y.options.titleAlign, ';" class="flotr-axis-title">', a.y.options.title, '</div>'
+          'px;left:0;text-align:', a.y.options.titleAlign, ';" class="flotr-axis-title flotr-axis-title-y1">', a.y.options.title, '</div>'
         );
       
       // Add y2 axis title
@@ -6847,7 +7065,7 @@ Flotr.addPlugin('titles', {
         html.push(
           '<div style="position:absolute;top:', 
           (this.plotOffset.top + this.plotHeight/2 - a.y.titleSize.height/2), 
-          'px;right:0;text-align:', a.y2.options.titleAlign, ';" class="flotr-axis-title">', a.y2.options.title, '</div>'
+          'px;right:0;text-align:', a.y2.options.titleAlign, ';" class="flotr-axis-title flotr-axis-title-y2">', a.y2.options.title, '</div>'
         );
       
       html = html.join('');

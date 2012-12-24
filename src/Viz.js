@@ -294,6 +294,7 @@ function displayRadarChart(div_id, ticks, data) {
 
 	graph = Flotr.draw(container, data, {
 		radar : { show : true}, 
+        mouse:  { track:true},
 		grid  : { circular : true, minorHorizontalLines : true}, 
 		yaxis : { min : 0, max : max, minorTickFreq : 1}, 
 		xaxis : { ticks : ticks}
