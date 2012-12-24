@@ -97,7 +97,7 @@ function displayTopMetric(div_id, metric, metric_period, history, graph) {
 }
 
 function displayBasicLinesFile (div_id, json_file, column, labels, title) {
-	$.getJSON(json_file, function(history) {
+	$.getJSON(json_file, null, function(history) {
 		displayBasicLines (div_id, history, column, labels, title);
 	});
 }
@@ -495,7 +495,11 @@ function displayBasicMetricHTML(metric, data, div_target, config) {
 		new_div += '<p>'+metric.desc+'</p>';
 	new_div += '</div>' ;
 	$("#"+div_target).append(new_div);
-	displayBasicLines(metric.divid, data, metric.column, config.show_labels, title);
+	if (config.realtime)
+		displayBasicLinesFile(metric.divid, config.json_ds, metric.column, 
+				config.show_labels, title);
+	else
+		displayBasicLines(metric.divid, data, metric.column, config.show_labels, title);
 }
 
 

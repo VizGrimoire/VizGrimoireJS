@@ -212,6 +212,13 @@ var Report = {};
 	        	var div_flotr2 = metric.divid+"-flotr2";
 	        	if ($("#"+div_flotr2).length > 0)
 	        		DS.displayBasicMetricHTML(i,div_flotr2, config_metric);
+	        	// Getting data real time
+	        	var div_flotr2_rt = metric.divid+"-flotr2-rt";
+	        	if ($("#"+div_flotr2_rt).length > 0) {
+	        		config_metric.realtime = true;
+	        		config_metric.json_ds = "http://localhost:1337/?callback=?";
+	        		DS.displayBasicMetricHTML(i,div_flotr2_rt, config_metric);
+	        	}
 	        });
 	        
 	        if ($("#"+DS.getName()+"-flotr2").length > 0) {
