@@ -426,6 +426,7 @@ var Viz = {};
             name : name,
             config : {
                 colors : gconfig.colors,
+                grid: {verticalLines:false, horizontalLines:false},
                 mouse : {
                     track : true,
                     trackY : false,
