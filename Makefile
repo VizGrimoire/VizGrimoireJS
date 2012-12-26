@@ -1,20 +1,20 @@
 # See the README for installation instructions.
 
 JS_UGLIFY = uglifyjs
+# JSHINT = jshint
 
 all: \
 	vizgrimoire.js \
 	vizgrimoire.min.js
 	
 .INTERMEDIATE vizgrimoire.js: \
+	vizgrimoire.deps.js \
 	vizgrimoire.core.js
 
 vizgrimoire.deps.js: \
     src/envision.js \
-    src/flotr2.js \
-    src/markers.js \
-    src/jquery-1.7.1.min.js \
     src/jquery.gridster.js
+    # src/jquery-1.7.1.min.js
 
 vizgrimoire.core.js: \
     src/Envision_Report.js \
