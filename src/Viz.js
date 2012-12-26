@@ -314,9 +314,9 @@ var Viz = {};
         var quarter_data = [];
         var labels = [], i;
 
-        for (i = 0; i < data.demography.stay.length; i++) {
-            var stay = data.demography.stay[i];
-            var index = parseInt(stay / quarter, 10);
+        for (i = 0; i < data.persons.age.length; i++) {
+            var age = data.persons.age[i];
+            var index = parseInt(age / quarter, 10);
             if (!quarter_data[index])
                 quarter_data[index] = 0;
             quarter_data[index] += 1;
