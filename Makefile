@@ -18,6 +18,7 @@ all: \
 	vizgrimoire.core.css
 
 vizgrimoire.deps.js: \
+    src/License.js \
     src/envision.js \
     src/jquery.gridster.js
 
