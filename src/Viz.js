@@ -413,6 +413,7 @@ var Viz = {};
 
     function getDefaultsMarkers(option, markers, dates) {
         var mark = "";
+        if (!markers || markers.length === 0) return mark;
         for ( var i = 0; i < markers.date.length; i++) {
             if (markers.date[i] == dates[option.index]) {
                 mark = markers.marks[i];

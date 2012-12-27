@@ -203,16 +203,10 @@ var Report = {};
             });
         }
 
-        if ($("#header").length > 0) {
-            $.get("header.html", function(footer) {
-                $("#header").html(footer);
-            });
-        }
-
         // Header and footer
         if ($("#header").length > 0) {
-            $.get("header.html", function(footer) {
-                $("#header").html(footer);
+            $.get("header.html", function(header) {
+                $("#header").html(header);
             });
         }
 
