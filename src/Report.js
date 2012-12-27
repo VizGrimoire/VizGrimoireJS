@@ -70,15 +70,11 @@ var Report = {};
         var project_file = "data/json/project-info-milestone0.json", 
             config_file = "data/json/viz_cfg.json", 
             markers_file = "data/json/markers.json";
-
-        $.when($.getJSON(project_file), $.getJSON(config_file),
-                $.getJSON(markers_file)).done(function(res1, res2, res3) {
-            project_data = res1[0];
-            config = res2[0];
-            markers = res3[0];
-            data_load_metrics();
-        });
-        end_data_load();
+        
+        data_load_file(project_file, function(data) {project_data = data;});
+        data_load_file(config_file, function(data) {config = data;});
+        data_load_file(markers_file, function(data) {markers = data;});
+        data_load_metrics();
     }
 
     function data_load_file(file, fn_data_set) {
