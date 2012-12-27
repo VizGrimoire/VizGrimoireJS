@@ -33,6 +33,9 @@ var MLS = {};
     MLS.getDataFile = function() {
         return data_file;
     };
+    MLS.setDataFile = function(file) {
+        data_file = file;
+    };
     MLS.setData = function(load_data) {
         data = load_data;
     };
@@ -67,7 +70,7 @@ var MLS = {};
             'action' : "sent"
         }
     };
-
+    
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
     // <allura-dev.incubator.apache.org>
     function displayMLSListName(listinfo) {

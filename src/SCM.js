@@ -28,6 +28,9 @@ var SCM = {};
     SCM.getDataFile = function() {
         return data_file;
     };
+    SCM.setDataFile = function(file) {
+        data_file = file;
+    };
     SCM.setData = function(load_data) {
         data = load_data;
     };
@@ -109,7 +112,7 @@ var SCM = {};
             }
         }
     };
-
+    
     function displayData() {
         $("#scmFirst").text(global_data.first_date);
         $("#scmLast").text(global_data.last_date);

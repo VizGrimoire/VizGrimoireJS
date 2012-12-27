@@ -27,6 +27,9 @@ var ITS = {};
     ITS.getDataFile = function() {
         return data_file;
     };
+    ITS.setDataFile = function(file) {
+        data_file = file;
+    };
     ITS.setData = function(load_data) {
         data = load_data;
     };
@@ -44,7 +47,7 @@ var ITS = {};
     };
     ITS.getName = function() {
         return name;
-    };
+    };    
 
     var basic_metrics = {
         'opened' : {

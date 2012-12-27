@@ -7,7 +7,8 @@ var Report = {};
 (function() {
 
     // Shared config
-    var project_data = {}, markers = {}, config = {}, data_callbacks = [], gridster = {}, data_sources = [];
+    var project_data = {}, markers = {}, config = {}, data_callbacks = [], 
+        gridster = {}, data_sources = [];
 
     // Public API
     Report.data_load = data_load;
@@ -21,6 +22,7 @@ var Report = {};
     Report.getProjectData = getProjectData;
     Report.displayProjectData = displayProjectData;
     Report.report = report;
+    Report.setConfig = setConfig;
     Report.getDataSources = function() {
         return data_sources;
     };
@@ -65,7 +67,9 @@ var Report = {};
     }
 
     function data_load() {
-        var project_file = "data/json/project-info-milestone0.json", config_file = "data/json/viz_cfg.json", markers_file = "data/json/markers.json";
+        var project_file = "data/json/project-info-milestone0.json", 
+            config_file = "data/json/viz_cfg.json", 
+            markers_file = "data/json/markers.json";
 
         $.when($.getJSON(project_file), $.getJSON(config_file),
                 $.getJSON(markers_file)).done(function(res1, res2, res3) {
@@ -173,12 +177,26 @@ var Report = {};
             $('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
         }
     }
+    
+    function setConfig() {
+        var data_sources = Report.getDataSources();
+        if ($("#report-config").length > 0) {
+            $.each(data_sources, function(index, DS) {
+                var ds = DS.getName();
+                if ($("#report-config").data(ds+'-data-file')) {
+                    var data_file = $("#report-config").data(ds+'-data-file');
+                    DS.setDataFile(data_file);
+                }
+            });
+        }
+    }
 
     function report(config) {
-        // TODO: support for adding and removing data sources in Report
         var data_sources = Report.getDataSources();
-
+        
+        // General config for metrics viz
         var config_metric = {};
+                
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
@@ -186,6 +204,12 @@ var Report = {};
         if (config) {
             $.each(config, function(key, value) {
                 config_metric[key] = value;
+            });
+        }
+
+        if ($("#header").length > 0) {
+            $.get("header.html", function(footer) {
+                $("#header").html(footer);
             });
         }
 
@@ -210,18 +234,14 @@ var Report = {};
 
         // Reference card with info from all data sources
         if ($("#refcard").length > 0) {
-            $
-                    .get(
-                            "refcard.html",
-                            function(refcard) {
-                                $("#refcard").html(refcard);
-                                $.each(data_sources, function(i, DS) {
-                                    DS.displayData();
-                                });
-                                // This fills refcard
-                                Report
-                                        .displayProjectData('data/json/project-info-milestone0.json');
-                            });
+            $.get("refcard.html", function(refcard) {
+                $("#refcard").html(refcard);
+                $.each(data_sources, function(i, DS) {
+                    DS.displayData();
+                });
+                // This fills refcard
+                Report.displayProjectData('data/json/project-info-milestone0.json');
+            });
         } else {
             Report.displayProjectData('data/json/project-info-milestone0.json');
         }
@@ -343,5 +363,6 @@ Report.data_ready(function() {
     Report.report();
 });
 $(document).ready(function() {
+    Report.setConfig();
     Report.data_load();
 });

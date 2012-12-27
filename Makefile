@@ -1,7 +1,7 @@
 # See the README for installation instructions.
 
 JS_UGLIFY = uglifyjs
-# JSHINT = jshint
+JSHINT = jshint
 # CSSHINT = csslint
 
 all: \
@@ -44,6 +44,7 @@ vizgrimoire.core.css: \
 
 vizgrimoire%js: Makefile
 	@rm -f $@
+	# @$(JSHINT) $(filter %.js,$^)
 	@cat $(filter %.js,$^) > $@
 	# @cat $(filter %.js,$^) > $@.tmp
 	# $(JS_UGLIFY) -o $@  $@.tmp
