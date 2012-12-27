@@ -2,19 +2,24 @@
 
 JS_UGLIFY = uglifyjs
 # JSHINT = jshint
+# CSSHINT = csslint
 
 all: \
 	vizgrimoire.js \
-	vizgrimoire.min.js
+	vizgrimoire.min.js \
+	vizgrimoire.css
 	
 .INTERMEDIATE vizgrimoire.js: \
 	vizgrimoire.deps.js \
 	vizgrimoire.core.js
 
+.INTERMEDIATE vizgrimoire.css: \
+	vizgrimoire.deps.css \
+	vizgrimoire.core.css
+
 vizgrimoire.deps.js: \
     src/envision.js \
     src/jquery.gridster.js
-    # src/jquery-1.7.1.min.js
 
 vizgrimoire.core.js: \
     src/Envision_Report.js \
@@ -24,6 +29,14 @@ vizgrimoire.core.js: \
     src/MLS.js \
     src/SCM.js
     
+vizgrimoire.deps.css: \
+    src/envision.min.css \
+    src/jquery.gridster.css
+        
+vizgrimoire.core.css: \
+    src/report.css \
+    src/report-envision.css
+
 %.min.js: %.js Makefile
 	@rm -f $@
 	# $(JS_UGLIFY) -o $@ -c -m $<
@@ -36,8 +49,12 @@ vizgrimoire%js: Makefile
 	# $(JS_UGLIFY) -o $@  $@.tmp
 	# @rm $@.tmp
 	@chmod a-w $@
+
+vizgrimoire%css: Makefile
+	@rm -f $@
+	@cat $(filter %.css,$^) > $@
 	
 clean:
-	rm -f vizgrimoire*.js
+	rm -f vizgrimoire*.js vizgrimoire*.css
 
 
