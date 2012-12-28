@@ -275,14 +275,14 @@ var Report = {};
             
             if ($("#"+div_id_top).length > 0) {
                 if ($("#"+div_id_top).data('show_all')) show_all = true;
-                DS.displayTop(div_id_top,'data/json/'+DS.getName()+'-top-milestone0.json',show_all);
+                // DS.displayTop(div_id_top,'data/json/'+DS.getName()+'-top-milestone0.json',show_all);
+                DS.displayTop(div_id_top, show_all);
             }           
             $.each(['pie','bars'], function (index, chart) {
                 var div_id_top = DS.getName()+"-top-"+chart;
                 if ($("#"+div_id_top).length > 0) {
                     if ($("#"+div_id_top).data('show_all')) show_all = true;
-                    DS.displayTop(DS.getName()+'-top-'+ chart 
-                            ,'data/json/'+DS.getName()+'-top-milestone0.json',show_all,chart);
+                    DS.displayTop(DS.getName()+'-top-'+ chart, show_all, chart);
                 }
             });
         });

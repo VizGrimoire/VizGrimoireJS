@@ -27,6 +27,7 @@ var MLS = {};
     var demographics_file = 'data/json/mls-demographics-2012.json';
     var global_data_file = 'data/json/mls-info-milestone0.json';
     var global_data = null;
+    var top_data_file = 'data/json/mls-top-milestone0.json';
 
     MLS.displayEvo = displayEvo;
     MLS.displayEvoAggregated = displayEvoAggregated;
@@ -62,6 +63,7 @@ var MLS = {};
         data_file = dataDir + '/mls-milestone0.json';
         demographics_file = dataDir + '/mls-demographics-2012.json';
         global_data_file = dataDir + '/mls-info-milestone0.json';
+        top_data_file = dataDir + '/mls-top-milestone0.json';
     };
     MLS.getGlobalDataFile = function() {
         return global_data_file;

@@ -27,6 +27,7 @@ var ITS = {};
     var demographics_file = 'data/json/its-demographics-2012.json';
     var global_data_file = 'data/json/its-info-milestone0.json';
     var global_data = null;
+    var top_data_file = 'data/json/its-top-milestone0.json';
 
     // Public API
     ITS.displayBasic = displayBasic;
@@ -56,6 +57,7 @@ var ITS = {};
         data_file = dataDir + '/its-milestone0.json';
         demographics_file = dataDir + '/its-demographics-2012.json';
         global_data_file = dataDir + '/its-info-milestone0.json';
+        top_data_file = dataDir + '/its-top-milestone0.json';
     };
     ITS.getGlobalDataFile = function() {
         return global_data_file;
@@ -147,10 +149,10 @@ var ITS = {};
                 div_target, config);
     }
 
-    function displayTop(div, top_file, all, graph) {
+    function displayTop(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, top_file, basic_metrics, all, graph);
+        Viz.displayTop(div, top_data_file, basic_metrics, all, graph);
     }
 
     function displayBasic(its_file) {

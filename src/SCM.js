@@ -25,6 +25,7 @@ var SCM = {};
     var data_file = 'data/json/scm-milestone0.json';
     var demographics_file = 'data/json/scm-demographics-2012.json';
     var global_data_file = 'data/json/scm-info-milestone0.json';
+    var top_data_file = 'data/json/scm-top-milestone0.json';
     var data = null;
     var demographics_data = null;
     var global_data = null;
@@ -65,6 +66,7 @@ var SCM = {};
         data_file = dataDir + '/scm-milestone0.json';
         demographics_file = dataDir + '/scm-demographics-2012.json';
         global_data_file = dataDir + '/scm-info-milestone0.json';
+        top_data_file = dataDir + '/scm-top-milestone0.json';
     };
     SCM.getGlobalDataFile = function() {
         return global_data_file;
@@ -153,10 +155,10 @@ var SCM = {};
                 div_target, config);
     }
 
-    function displayTop(div, top_file, all, graph) {
+    function displayTop(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, top_file, basic_metrics, all, graph);
+        Viz.displayTop(div, top_data_file, basic_metrics, all, graph);
     }
 
     function displayBubbles(divid) {

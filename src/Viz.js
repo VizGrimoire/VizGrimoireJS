@@ -417,8 +417,7 @@ var Viz = {};
                     if (metric.column == top_metric) {
                         displayTopMetric(div, metric, top_period, history[key],
                                 graph);
-                        if (!all)
-                            return;
+                        if (!all) return false;
                         break;
                     }
                 }
