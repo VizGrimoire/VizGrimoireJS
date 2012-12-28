@@ -22,8 +22,8 @@ var Report = {};
 (function() {
 
     // Shared config
-    var project_data = {}, markers = {}, config = {}, data_callbacks = [], 
-        gridster = {}, data_sources = [];
+    var project_data = null, markers = null, config = null, 
+        data_callbacks = [], gridster = {}, data_sources = [];
 
     // Public API
     Report.data_load = data_load;
