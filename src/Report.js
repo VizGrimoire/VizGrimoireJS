@@ -114,26 +114,17 @@ var Report = {};
     }
 
     function end_data_load() {
-        var all = true;
+        if (project_data === null || config === null || markers === null) 
+            return;
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(index, DS) {
-            if (DS.getData() === null) {
-                all = false;
-                return;
-            }
-            if (DS.getGlobalData() === null) {
-                all = false;
-                return;
-            }
+            if (DS.getData() === null) return;
+            if (DS.getGlobalData() === null) return;
         });
         // TODO: Demographics just for SCM yet!
-        if (SCM.getDemographicsData() === null) {
-            all = false;
-            return;
-        }
-        if (!all)
-            return;
-        // If all data sources are loaded invoke ready callback
+        if (SCM.getDemographicsData() === null) return;
+        
+        // If all global data and data sources are loaded invoke ready callback
         for ( var i = 0; i < data_callbacks.length; i++) {
             data_callbacks[i]();
         }
