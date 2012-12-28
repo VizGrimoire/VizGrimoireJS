@@ -24,6 +24,7 @@ var ITS = {};
     var name = "its";
     var data_file = 'data/json/its-milestone0.json';
     var data = null;
+    var demographics_file = 'data/json/its-demographics-2012.json';
     var global_data_file = 'data/json/its-info-milestone0.json';
     var global_data = null;
 
@@ -50,6 +51,11 @@ var ITS = {};
     };
     ITS.getData = function() {
         return data;
+    };
+    ITS.setDataDir = function(dataDir) {
+        data_file = dataDir + '/its-milestone0.json';
+        demographics_file = dataDir + '/its-demographics-2012.json';
+        global_data_file = dataDir + '/its-info-milestone0.json';
     };
     ITS.getGlobalDataFile = function() {
         return global_data_file;

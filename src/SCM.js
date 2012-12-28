@@ -61,6 +61,11 @@ var SCM = {};
     SCM.getData = function() {
         return data;
     };
+    SCM.setDataDir = function(dataDir) {
+        data_file = dataDir + '/scm-milestone0.json';
+        demographics_file = dataDir + '/scm-demographics-2012.json';
+        global_data_file = dataDir + '/scm-info-milestone0.json';
+    };
     SCM.getGlobalDataFile = function() {
         return global_data_file;
     };

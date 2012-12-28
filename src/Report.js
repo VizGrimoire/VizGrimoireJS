@@ -199,6 +199,11 @@ var Report = {};
                     DS.setDataFile(data_file);
                 }
             });
+            if ($("#report-config").data('global-data-dir')) {
+                $.each(data_sources, function(index, DS) {
+                    DS.setDataDir($("#report-config").data('global-data-dir'));
+                });
+            }
         }
     }
 
