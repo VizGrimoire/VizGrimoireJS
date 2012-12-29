@@ -26,6 +26,7 @@ var Report = {};
         data_callbacks = [], gridster = {}, data_sources = [];
 
     // Public API
+    Report.check_data_loaded = check_data_loaded;
     Report.data_load = data_load;
     Report.data_ready = data_ready;
     Report.getAllMetrics = getAllMetrics;
@@ -112,21 +113,26 @@ var Report = {};
         // TODO: Demographics just for SCM yet!
         data_load_file(SCM.getDemographicsFile(), SCM.setDemographicsData);
     }
-
-    function end_data_load() {
+    
+    function check_data_loaded() {
         if (project_data === null || config === null || markers === null) 
-            return;
+            return false;
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(index, DS) {
-            if (DS.getData() === null) return;
-            if (DS.getGlobalData() === null) return;
+            if (DS.getData() === null) return false;
+            if (DS.getGlobalData() === null) return false;
         });
         // TODO: Demographics just for SCM yet!
-        if (SCM.getDemographicsData() === null) return;
-        
-        // If all global data and data sources are loaded invoke ready callback
-        for ( var i = 0; i < data_callbacks.length; i++) {
-            data_callbacks[i]();
+        if (SCM.getDemographicsData() === null) return false;
+        return true;
+    }
+
+    function end_data_load() {        
+        if (check_data_loaded()) {
+            // Invoke callbacks informing all data needed has been loaded
+            for ( var i = 0; i < data_callbacks.length; i++) {
+                data_callbacks[i]();
+            }
         }
     }
 
