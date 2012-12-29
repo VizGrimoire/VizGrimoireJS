@@ -1,9 +1,6 @@
 describe( "VizGrimoireJS library", function () {
     describe( "Report", function () {
         it("data files should be loaded", function () {
-            runs(function() {
-                Report.data_load();
-            });
             waitsFor(function() {
                 return Report.check_data_loaded();
             }, "It took too long to load data", 100);
@@ -12,17 +9,21 @@ describe( "VizGrimoireJS library", function () {
             });
         });
         
-        it("html report should be converted", function () {
-            runs(function() {
-                Report.data_load();
+        describe( "html report should be converted", function () {        
+            it("html envision should be converted", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    buildNode("scm-envision");
+                    buildNode("its-envision");
+                    buildNode("mls-envision");
+                    Report.report();
+                    var envisionCreated = document.getElementsByClassName
+                        ('envision-visualization');
+                    expect(envisionCreated.length).toEqual(3);
+                });        
             });
-            waitsFor(function() {
-                return Report.check_data_loaded();
-            }, "It took too long to load data", 100);
-            runs(function() {
-                buildNode("scm-envision");
-                expect(Report.report).not.toThrow();
-            });        
         });
         
     });
@@ -44,6 +45,7 @@ describe( "VizGrimoireJS library", function () {
     });
     
     function buildNode (id) {
+        if (document.getElementById(id)) return;
         var node = document.createElement('div');
         document.body.appendChild(node);
         //node.style.width = '320px';
