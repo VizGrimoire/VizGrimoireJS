@@ -203,6 +203,33 @@ var Report = {};
             }
         }
     }
+    
+    var supported_divs = {
+        "#navigation": {
+            convert: function() {
+                $.get("navigation.html", function(navigation) {
+                    $("#navigation").html(navigation);
+                });                
+            },
+            like: false
+        },
+        "#header": {
+            convert: function() {
+                $.get("header.html", function(header) {
+                    $("#header").html(header);
+                });
+            },
+            like: false
+        },
+        "#footer": {
+            convert: function() {
+                $.get("footer.html", function(footer) {
+                    $("#footer").html(footer);
+                });
+            },
+            like: false
+        }       
+    };
 
     function report(config) {
         var data_sources = Report.getDataSources();
@@ -220,24 +247,9 @@ var Report = {};
             });
         }
 
-        // Header and footer
-        if ($("#header").length > 0) {
-            $.get("header.html", function(header) {
-                $("#header").html(header);
-            });
-        }
-
-        if ($("#footer").length > 0) {
-            $.get("footer.html", function(footer) {
-                $("#footer").html(footer);
-            });
-        }
-
-        if ($("#navigation").length > 0) {
-            $.get("navigation.html", function(navigation) {
-                $("#navigation").html(navigation);
-            });
-        }
+        $.each (supported_divs, function(divid, value) {
+            if ($(divid).length > 0) value.convert(); 
+        });
 
         // Reference card with info from all data sources
         if ($("#refcard").length > 0) {
