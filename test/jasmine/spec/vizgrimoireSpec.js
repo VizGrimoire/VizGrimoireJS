@@ -10,7 +10,7 @@ describe( "VizGrimoireJS library", function () {
         });
         
         describe( "html report should be converted", function () {        
-            it("html envision should be converted", function () {
+            it("html envision should be displayed", function () {
                 waitsFor(function() {
                     return Report.check_data_loaded();
                 }, "It took too long to load data", 100);
