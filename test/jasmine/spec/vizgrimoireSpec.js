@@ -12,6 +12,19 @@ describe( "VizGrimoireJS library", function () {
             });
         });
         
+        it("html report should be converted", function () {
+            runs(function() {
+                Report.data_load();
+            });
+            waitsFor(function() {
+                return Report.check_data_loaded();
+            }, "It took too long to load data", 100);
+            runs(function() {
+                buildNode("scm-envision");
+                expect(Report.report).not.toThrow();
+            });        
+        });
+        
     });
     describe("Viz", function () {
         
@@ -29,19 +42,17 @@ describe( "VizGrimoireJS library", function () {
             });
         });
     });
-});
-
     
-//    it("throws an error when passed an unknown from-unit", function () {
-//        var testFn = function () {
-//            Convert(1, "dollar").to("yens");
-//        }
-//        expect(testFn).toThrow(new Error("unrecognized from-unit"));
-//    });
-//    it("throws an error when passed an unknown to-unit", function () {
-//        var testFn = function () {
-//            Convert(1, "cm").to("furlongs");
-//        }
-//        expect(testFn).toThrow(new Error("unrecognized to-unit"));
-//    }); 
-//});
+    function buildNode (id) {
+        var node = document.createElement('div');
+        document.body.appendChild(node);
+        //node.style.width = '320px';
+        //node.style.height = '240px';
+        node.id = id;
+        return node;
+      }
+
+      function destroyNode (node) {
+        document.body.removeChild(node);
+      }
+});
