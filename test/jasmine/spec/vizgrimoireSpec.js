@@ -98,8 +98,8 @@ describe( "VizGrimoireJS library", function () {
                                 .childNodes.length).toBeGreaterThan(0);
                     });
                 });        
-            });            
-
+            });
+            // TODO: Missing tests for bubbles, demographics, selector, radars and gridster
         });
         
     });
