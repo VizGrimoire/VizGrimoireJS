@@ -23,7 +23,7 @@ var Report = {};
 
     // Shared config
     var project_data = null, markers = null, config = null, 
-        data_callbacks = [], gridster = {}, data_sources = [];
+        data_callbacks = [], gridster = {}, data_sources = [], html_dir="";
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
@@ -36,6 +36,9 @@ var Report = {};
     Report.getGridster = getGridster;
     Report.setGridster = setGridster;
     Report.getProjectData = getProjectData;
+    Report.getSupportedDivs = function() {
+        return supported_divs;
+    }; 
     Report.displayProjectData = displayProjectData;
     Report.report = report;
     Report.setConfig = setConfig;
@@ -62,6 +65,10 @@ var Report = {};
         gridster = grid;
     }
 
+    Report.setHtmlDir = function (dir) {
+        html_dir = dir;
+    };
+    
     function getProjectData() {
         return project_data;
     }
@@ -201,13 +208,16 @@ var Report = {};
                     DS.setDataDir($("#report-config").data('global-data-dir'));
                 });
             }
+            if ($("#report-config").data('global-html-dir')) {
+                Report.setHtmlDir($("#report-config").data('global-html-dir'));
+            }
         }
     }
     
     var supported_divs = {
         "#navigation": {
             convert: function() {
-                $.get("navigation.html", function(navigation) {
+                $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
                 });                
             },
@@ -215,7 +225,7 @@ var Report = {};
         },
         "#header": {
             convert: function() {
-                $.get("header.html", function(header) {
+                $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                 });
             },
@@ -223,7 +233,7 @@ var Report = {};
         },
         "#footer": {
             convert: function() {
-                $.get("footer.html", function(footer) {
+                $.get(html_dir+"footer.html", function(footer) {
                     $("#footer").html(footer);
                 });
             },

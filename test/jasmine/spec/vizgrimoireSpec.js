@@ -9,6 +9,26 @@ describe( "VizGrimoireJS library", function () {
             });
         });
         
+        it("navigation should be loaded from file", function () {
+            var loaded = null;
+            waitsFor(function() {
+                return Report.check_data_loaded();
+            }, "It took too long to load data", 100);
+            runs(function() {
+                buildNode("navigation");
+            });
+            waitsFor(function() {
+                Report.getSupportedDivs()["#navigation"].convert();
+                loaded = document.getElementsByClassName('info-pill');
+                return (loaded.length === 1);
+            }, "It took too long to convert navigation", 100);
+            runs(function() {
+                var navCreated = document.getElementById("navigation");
+                navCreated = navCreated.childNodes;
+                expect(navCreated.length).toBeGreaterThan(1);
+            });
+        });
+        
         describe( "html report should be converted", function () {        
             it("html envision should be displayed", function () {
                 waitsFor(function() {
