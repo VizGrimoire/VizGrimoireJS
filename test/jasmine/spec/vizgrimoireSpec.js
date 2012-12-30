@@ -9,32 +9,26 @@ describe( "VizGrimoireJS library", function () {
             });
         });
         
-        it("navigation, header and footer should be loaded from file", function () {
+        var blocks = ["navigation","refcard","header","footer"];
+        it(blocks.join() + " should be loaded from file", function () {
             var loaded = null;
+            
             waitsFor(function() {
                 return Report.check_data_loaded();
             }, "It took too long to load data", 100);
             runs(function() {
-                buildNode("navigation");
-                buildNode("header");
-                buildNode("footer");
+                $.each(blocks, function(index, value) {buildNode(value);});
             });
             waitsFor(function() {
-                Report.getSupportedDivs()["#navigation"].convert();
-                Report.getSupportedDivs()["#header"].convert();
-                Report.getSupportedDivs()["#footer"].convert();
+                $.each(blocks, function(index, value) {
+                    Report.getSupportedDivs()[value].convert();});                
                 loaded = document.getElementsByClassName('info-pill');
-                return (loaded.length === 1);
-            }, "It took too long to convert navigation, header or footer", 100);
+                return (loaded.length > 1);
+            }, "It took too long to convert " + blocks.join(), 100);
             runs(function() {
-                var navCreated = document.getElementById("navigation");
-                navCreated = navCreated.childNodes;
-                expect(document.getElementById("navigation").childNodes.length)
-                    .toBeGreaterThan(0);
-                expect(document.getElementById("header").childNodes.length)
-                    .toBeGreaterThan(0);
-                expect(document.getElementById("footer").childNodes.length)
-                    .toBeGreaterThan(0);
+                $.each(blocks, function(index, value) {
+                    expect(document.getElementById(value).childNodes.length)
+                    .toBeGreaterThan(0);});
             });
         });
         

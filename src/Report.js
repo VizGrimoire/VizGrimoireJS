@@ -215,30 +215,39 @@ var Report = {};
     }
     
     var supported_divs = {
-        "#navigation": {
+        "navigation": {
             convert: function() {
                 $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
                 });                
-            },
-            like: false
+            }
         },
-        "#header": {
+        "header": {
             convert: function() {
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                 });
-            },
-            like: false
+            }
         },
-        "#footer": {
+        "footer": {
             convert: function() {
                 $.get(html_dir+"footer.html", function(footer) {
                     $("#footer").html(footer);
                 });
-            },
-            like: false
-        }       
+            }
+        },
+        // Reference card with info from all data sources
+        "refcard": {
+            convert: function() {
+                $.get(html_dir+"refcard.html", function(refcard) {
+                    $("#refcard").html(refcard);
+                    $.each(data_sources, function(i, DS) {
+                        DS.displayData();
+                        displayProjectData('data/json/project-info-milestone0.json');
+                    });
+                });
+            }
+        }
     };
 
     function report(config) {
@@ -258,22 +267,10 @@ var Report = {};
         }
 
         $.each (supported_divs, function(divid, value) {
-            if ($(divid).length > 0) value.convert(); 
+            if ($("#".divid).length > 0) value.convert(); 
         });
-
-        // Reference card with info from all data sources
-        if ($("#refcard").length > 0) {
-            $.get("refcard.html", function(refcard) {
-                $("#refcard").html(refcard);
-                $.each(data_sources, function(i, DS) {
-                    DS.displayData();
-                });
-                // This fills refcard
-                Report.displayProjectData('data/json/project-info-milestone0.json');
-            });
-        } else {
-            Report.displayProjectData('data/json/project-info-milestone0.json');
-        }
+        
+        displayProjectData('data/json/project-info-milestone0.json');
         
         // flotr2 and top
         $.each(data_sources, function(index, DS) {
