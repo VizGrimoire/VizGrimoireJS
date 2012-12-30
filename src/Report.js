@@ -30,6 +30,7 @@ var Report = {};
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
+    Report.convertEnvision = convertEnvision;
     Report.convertFlotr2 = convertFlotr2;
     Report.convertTop = convertTop;
     Report.data_load = data_load;
@@ -296,8 +297,23 @@ var Report = {};
         });        
     }
     
+    function convertEnvision() {
+        if ($("#all-envision").length > 0)
+            Viz.displayEvoSummary('all-envision');
+        $.each(Report.getDataSources(), function(index, DS) {
+            var div_envision = DS.getName() + "-envision";
+            if ($("#" + div_envision).length > 0)
+                if (DS === MLS) {
+                    DS.displayEvoAggregated(div_envision);
+                    DS.displayEvo(div_envision + "-lists", 'data/json/'
+                            + DS.getName() + '-lists-milestone0.json');
+                } else
+                    DS.displayEvo(div_envision, 'data/json/' + DS.getName()
+                            + '-milestone0.json');
+        });
+    }
+    
     function convertTop() {
-        // top
         $.each(Report.getDataSources(), function(index, DS) {
             var div_id_top = DS.getName()+"-top";
             var show_all = false;
@@ -331,22 +347,9 @@ var Report = {};
         convertFlotr2(config);
         
         convertTop();
+        
+        convertEnvision();
                 
-        // Envision
-        if ($("#all-envision").length > 0)
-            Viz.displayEvoSummary('all-envision');
-        $.each(data_sources, function(index, DS) {
-            var div_envision = DS.getName() + "-envision";
-            if ($("#" + div_envision).length > 0)
-                if (DS === MLS) {
-                    DS.displayEvoAggregated(div_envision);
-                    DS.displayEvo(div_envision + "-lists", 'data/json/'
-                            + DS.getName() + '-lists-milestone0.json');
-                } else
-                    DS.displayEvo(div_envision, 'data/json/' + DS.getName()
-                            + '-milestone0.json');
-        });
-
         // Bubbles for time evolution
         $.each(data_sources, function(index, DS) {
             var div_time = DS.getName() + "-time-bubbles";

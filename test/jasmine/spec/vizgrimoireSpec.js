@@ -38,13 +38,14 @@ describe( "VizGrimoireJS library", function () {
                     return Report.check_data_loaded();
                 }, "It took too long to load data", 100);
                 runs(function() {
-                    buildNode("scm-envision");
-                    buildNode("its-envision");
-                    buildNode("mls-envision");
-                    Report.report();
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        buildNode(DS.getName()+"-envision");
+                    });
+                    Report.convertEnvision();
                     var envisionCreated = document.getElementsByClassName
                         ('envision-visualization');
-                    expect(envisionCreated.length).toEqual(3);
+                    expect(envisionCreated.length).toEqual
+                        (Report.getDataSources().length);
                 });        
             });
             it("html flotr2 should be displayed", function () {
@@ -58,9 +59,16 @@ describe( "VizGrimoireJS library", function () {
                         });
                     });
                     Report.convertFlotr2();
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        $.each(DS.getMetrics(), function(i, metric) {
+                            expect(document.getElementById("flotr2_"+i)
+                                    .childNodes.length).toBeGreaterThan(0);
+                        });
+                    });
+                        
                 });        
             });
-            it("html top should be displayed", function () {
+            it("html top should be displayed", function () {               
                 waitsFor(function() {
                     return Report.check_data_loaded();
                 }, "It took too long to load data", 100);
@@ -71,9 +79,26 @@ describe( "VizGrimoireJS library", function () {
                         buildNode(DS.getName()+"-top-bars");
                     });
                     Report.convertTop();
+                });
+                // TODO: JSON files for top should be loaded. 
+                //       Change this load to global data loading
+                waitsFor(function() {
+                    return (document.getElementById("its-top-bars")
+                    .childNodes.length > 0);
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        if (DS.getName() === "mls") return;
+                        expect(document.getElementById(DS.getName()+"-top")
+                                .childNodes.length).toBeGreaterThan(0);
+                        expect(document.getElementById(DS.getName()+"-top-pie")
+                                .childNodes.length).toBeGreaterThan(0);
+                        expect(document.getElementById(DS.getName()+"-top-bars")
+                                .childNodes.length).toBeGreaterThan(0);
+                    });
                 });        
-            });
-            
+            });            
 
         });
         

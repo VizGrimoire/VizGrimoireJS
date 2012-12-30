@@ -74,7 +74,7 @@ var ITS = {};
 
     var basic_metrics = {
         'opened' : {
-            'divid' : 'its-open',
+            'divid' : 'its-opened',
             'column' : "opened",
             'name' : "Opened",
             'desc' : "Number of opened tickets",
