@@ -100,6 +100,23 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             // TODO: Missing tests for bubbles, demographics, selector, radars and gridster
+            it("html bubbles should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        buildNode(DS.getName()+"-time-bubbles","bubbles");
+                    });
+                    var ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    Report.convertBubbles();
+                    var new_ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    expect(new_ncanvas-ncanvas).toEqual
+                        (Report.getDataSources().length);
+                });        
+            });
         });
         
     });
@@ -120,12 +137,14 @@ describe( "VizGrimoireJS library", function () {
         });
     });
     
-    function buildNode (id) {
+    function buildNode (id, div_class) {
         if (document.getElementById(id)) return;
         var node = document.createElement('div');
         document.body.appendChild(node);
         //node.style.width = '320px';
         //node.style.height = '240px';
+        if (div_class)
+            node.className = div_class;
         node.id = id;
         return node;
       }
