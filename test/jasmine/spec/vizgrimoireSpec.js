@@ -21,7 +21,7 @@ describe( "VizGrimoireJS library", function () {
             });
             waitsFor(function() {
                 $.each(blocks, function(index, value) {
-                    Report.getSupportedDivs()[value].convert();});                
+                    Report.getBasicDivs()[value].convert();});                
                 loaded = document.getElementsByClassName('info-pill');
                 return (loaded.length > 1);
             }, "It took too long to convert " + blocks.join(), 100);
@@ -47,6 +47,20 @@ describe( "VizGrimoireJS library", function () {
                     expect(envisionCreated.length).toEqual(3);
                 });        
             });
+            it("html flotr2 should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        $.each(DS.getMetrics(), function(i, metric) {
+                            buildNode(metric.divid+"-flotr2");
+                        });
+                    });
+                    Report.convertFlotr2();
+                });        
+            });
+
         });
         
     });

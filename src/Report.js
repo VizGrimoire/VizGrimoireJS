@@ -30,6 +30,7 @@ var Report = {};
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
+    Report.convertFlotr2 = convertFlotr2;
     Report.data_load = data_load;
     Report.data_ready = data_ready;
     Report.getAllMetrics = getAllMetrics;
@@ -39,8 +40,8 @@ var Report = {};
     Report.getGridster = getGridster;
     Report.setGridster = setGridster;
     Report.getProjectData = getProjectData;
-    Report.getSupportedDivs = function() {
-        return supported_divs;
+    Report.getBasicDivs = function() {
+        return basic_divs;
     }; 
     Report.displayProjectData = displayProjectData;
     Report.report = report;
@@ -220,7 +221,7 @@ var Report = {};
         }
     }
     
-    var supported_divs = {
+    var basic_divs = {
         "navigation": {
             convert: function() {
                 $.get(html_dir+"navigation.html", function(navigation) {
@@ -255,10 +256,8 @@ var Report = {};
             }
         }
     };
-
-    function report(config) {
-        var data_sources = Report.getDataSources();
-        
+    
+    function convertFlotr2(config) {        
         // General config for metrics viz
         var config_metric = {};
                 
@@ -272,14 +271,8 @@ var Report = {};
             });
         }
 
-        $.each (supported_divs, function(divid, value) {
-            if ($("#"+divid).length > 0) value.convert(); 
-        });
-        
-        displayProjectData();
-        
-        // flotr2        
-        $.each(data_sources, function(index, DS) {
+        // flotr2
+        $.each(Report.getDataSources(), function(index, DS) {
             $.each(DS.getMetrics(), function(i, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
                 if ($("#"+div_flotr2).length > 0)
@@ -300,8 +293,21 @@ var Report = {};
                     DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
                 }
             }
+        });        
+    }
+
+    function report(config) {
+        var data_sources = Report.getDataSources();
+        
+
+        $.each (basic_divs, function(divid, value) {
+            if ($("#"+divid).length > 0) value.convert(); 
         });
         
+        displayProjectData();
+        
+        convertFlotr2(config);
+                
         // top
         $.each(data_sources, function(index, DS) {
             var div_id_top = DS.getName()+"-top";
