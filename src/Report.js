@@ -256,6 +256,29 @@ var Report = {};
                     });
                 });
             }
+        },
+        "radar-activity": {
+            convert: function() {
+                Viz.displayRadarActivity('radar-activity');
+            }
+        },
+        "radar-community": {
+            convert: function() {
+                Viz.displayRadarCommunity('radar-community');
+            }
+        },
+        "gridster": {
+            convert: function() {
+                var gridster = $("#gridster").gridster({
+                    widget_margins : [ 10, 10 ],
+                    widget_base_dimensions : [ 140, 140 ]
+                }).data('gridster');
+    
+                Report.setGridster(gridster);
+                gridster.add_widget("<div id='metric_selector'></div>", 1, 3);
+                Viz.displayGridMetricSelector('metric_selector');
+                Viz.displayGridMetricAll(true);
+            }
         }
     };
     
@@ -332,42 +355,17 @@ var Report = {};
             });
         });
     }
-
-
-    function report(config) {
-        var data_sources = Report.getDataSources();
-        
-
-        $.each (basic_divs, function(divid, value) {
-            if ($("#"+divid).length > 0) value.convert(); 
-        });
-        
-        displayProjectData();
-        
-        convertFlotr2(config);
-        
-        convertTop();
-        
-        convertEnvision();
-                
-        // Bubbles for time evolution
-        $.each(data_sources, function(index, DS) {
+    
+    function convertBubbles() {
+        $.each(Report.getDataSources(), function(index, DS) {
             var div_time = DS.getName() + "-time-bubbles";
             if ($("#" + div_time).length > 0)
                 DS.displayBubbles(div_time);
-        });
-
-        // Radar summaries
-        if ($("#radar-activity").length > 0) {
-            Viz.displayRadarActivity('radar-activity');
-        }
-
-        if ($("#radar-community").length > 0) {
-            Viz.displayRadarCommunity('radar-community');
-        }
-
-        // Demographics studies: DS-demographics
-        $.each(data_sources, function(index, DS) {
+        });        
+    }
+    
+    function convertDemographics() {
+        $.each(Report.getDataSources(), function(index, DS) {
             var div_demog = DS.getName() + "-demographics";
             if ($("#" + div_demog).length > 0)
                 DS.displayDemographics(div_demog);
@@ -378,22 +376,11 @@ var Report = {};
                 DS.displayDemographics(divs[i].id, file);
             }
         });
-
-        // Gridster
-        if ($("#gridster").length > 0) {
-            var gridster = $("#gridster").gridster({
-                widget_margins : [ 10, 10 ],
-                widget_base_dimensions : [ 140, 140 ]
-            }).data('gridster');
-
-            Report.setGridster(gridster);
-            gridster.add_widget("<div id='metric_selector'></div>", 1, 3);
-            Viz.displayGridMetricSelector('metric_selector');
-            Viz.displayGridMetricAll(true);
-        }
-
+    }
+    
+    function convertSelectors() {       
         // Selectors
-        $.each(data_sources, function(index, DS) {
+        $.each(Report.getDataSources(), function(index, DS) {
             var div_selector = DS.getName() + "-selector";
             var div_envision = DS.getName() + "-envision";
             var div_flotr2 = DS.getName() + "-flotr2";
@@ -405,6 +392,20 @@ var Report = {};
                             div_flotr2, 'data/json/mls-lists-milestone0.json');
                 }
         });
+    }
+
+
+    function report(config) {
+        $.each (basic_divs, function(divid, value) {
+            if ($("#"+divid).length > 0) value.convert(); 
+        });        
+        displayProjectData();        
+        convertFlotr2(config);        
+        convertTop();        
+        convertEnvision();        
+        convertBubbles();        
+        convertDemographics();        
+        convertSelectors();
     }
 })();
 
