@@ -60,6 +60,20 @@ describe( "VizGrimoireJS library", function () {
                     Report.convertFlotr2();
                 });        
             });
+            it("html top should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        buildNode(DS.getName()+"-top");
+                        buildNode(DS.getName()+"-top-pie");
+                        buildNode(DS.getName()+"-top-bars");
+                    });
+                    Report.convertTop();
+                });        
+            });
+            
 
         });
         

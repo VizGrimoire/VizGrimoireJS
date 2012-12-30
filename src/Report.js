@@ -31,6 +31,7 @@ var Report = {};
     // Public API
     Report.check_data_loaded = check_data_loaded;
     Report.convertFlotr2 = convertFlotr2;
+    Report.convertTop = convertTop;
     Report.data_load = data_load;
     Report.data_ready = data_ready;
     Report.getAllMetrics = getAllMetrics;
@@ -271,7 +272,6 @@ var Report = {};
             });
         }
 
-        // flotr2
         $.each(Report.getDataSources(), function(index, DS) {
             $.each(DS.getMetrics(), function(i, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
@@ -295,21 +295,10 @@ var Report = {};
             }
         });        
     }
-
-    function report(config) {
-        var data_sources = Report.getDataSources();
-        
-
-        $.each (basic_divs, function(divid, value) {
-            if ($("#"+divid).length > 0) value.convert(); 
-        });
-        
-        displayProjectData();
-        
-        convertFlotr2(config);
-                
+    
+    function convertTop() {
         // top
-        $.each(data_sources, function(index, DS) {
+        $.each(Report.getDataSources(), function(index, DS) {
             var div_id_top = DS.getName()+"-top";
             var show_all = false;
             
@@ -326,7 +315,23 @@ var Report = {};
                 }
             });
         });
+    }
 
+
+    function report(config) {
+        var data_sources = Report.getDataSources();
+        
+
+        $.each (basic_divs, function(divid, value) {
+            if ($("#"+divid).length > 0) value.convert(); 
+        });
+        
+        displayProjectData();
+        
+        convertFlotr2(config);
+        
+        convertTop();
+                
         // Envision
         if ($("#all-envision").length > 0)
             Viz.displayEvoSummary('all-envision');
