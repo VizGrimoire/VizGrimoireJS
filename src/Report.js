@@ -267,12 +267,12 @@ var Report = {};
         }
 
         $.each (supported_divs, function(divid, value) {
-            if ($("#".divid).length > 0) value.convert(); 
+            if ($("#"+divid).length > 0) value.convert(); 
         });
         
         displayProjectData('data/json/project-info-milestone0.json');
         
-        // flotr2 and top
+        // flotr2        
         $.each(data_sources, function(index, DS) {
             $.each(DS.getMetrics(), function(i, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
@@ -294,7 +294,10 @@ var Report = {};
                     DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
                 }
             }
-
+        });
+        
+        // top
+        $.each(data_sources, function(index, DS) {
             var div_id_top = DS.getName()+"-top";
             var show_all = false;
             
