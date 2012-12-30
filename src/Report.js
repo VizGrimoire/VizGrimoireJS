@@ -30,6 +30,7 @@ var Report = {};
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
+    Report.convertBasicDivs = convertBasicDivs;
     Report.convertEnvision = convertEnvision;
     Report.convertFlotr2 = convertFlotr2;
     Report.convertTop = convertTop;
@@ -385,23 +386,25 @@ var Report = {};
         // Selectors
         $.each(Report.getDataSources(), function(index, DS) {
             var div_selector = DS.getName() + "-selector";
-            var div_envision = DS.getName() + "-envision";
-            var div_flotr2 = DS.getName() + "-flotr2";
+            var div_envision = DS.getName() + "-envision-lists";
+            var div_flotr2 = DS.getName() + "-flotr2-lists";
             if ($("#" + div_selector).length > 0)
                 // TODO: Only MLS supported 
                 if (DS === MLS) {
-                    div_envision = DS.getName() + "-envision-lists";
                     DS.displayEvoBasicListSelector(div_selector, div_envision,
-                            div_flotr2, 'data/json/mls-lists-milestone0.json');
+                            div_flotr2);
                 }
         });
     }
-
-
-    function report(config) {
+    
+    function convertBasicDivs() {
         $.each (basic_divs, function(divid, value) {
             if ($("#"+divid).length > 0) value.convert(); 
-        });        
+        });
+    }
+
+    function report(config) {
+        convertBasicDivs();
         displayProjectData();        
         convertFlotr2(config);        
         convertTop();        

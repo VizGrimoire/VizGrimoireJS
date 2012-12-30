@@ -25,9 +25,11 @@ var MLS = {};
     var data_file = 'data/json/mls-milestone0.json';
     var data = null;
     var demographics_file = 'data/json/mls-demographics-2012.json';
+    var demographics_data = null;
     var global_data_file = 'data/json/mls-info-milestone0.json';
     var global_data = null;
     var top_data_file = 'data/json/mls-top-milestone0.json';
+    var data_lists_file = 'data/json/mls-lists-milestone0.json';
 
     MLS.displayEvo = displayEvo;
     MLS.displayEvoAggregated = displayEvoAggregated;
@@ -35,6 +37,7 @@ var MLS = {};
     MLS.displayBasicMetricHTML = displayBasicMetricHTML;
     MLS.displayBasicListSelector = displayBasicListSelector;
     MLS.displayBubbles = displayBubbles;
+    MLS.displayDemographics = displayDemographics;
     MLS.displayEvoListSelector = displayEvoListSelector;
     MLS.displayEvoBasicListSelector = displayEvoBasicListSelector;
     MLS.displayBasicUser = displayBasicUser;
@@ -59,11 +62,21 @@ var MLS = {};
     MLS.getData = function() {
         return data;
     };
+    MLS.getDemographicsFile = function() {
+        return demographics_file;
+    };
+    MLS.getDemographicsData = function() {
+        return demographics_data;
+    };
+    MLS.setDemographicsData = function(data) {
+        demographics_data = data;
+    };
     MLS.setDataDir = function(dataDir) {
         data_file = dataDir + '/mls-milestone0.json';
         demographics_file = dataDir + '/mls-demographics-2012.json';
         global_data_file = dataDir + '/mls-info-milestone0.json';
         top_data_file = dataDir + '/mls-top-milestone0.json';
+        data_lists_file = dataDir + '/mls-lists-milestone0.json';
     };
     MLS.getGlobalDataFile = function() {
         return global_data_file;
@@ -216,6 +229,10 @@ var MLS = {};
     function displayBubbles(divid) {
         Viz.displayBubbles(divid, "sent", "senders");
     }
+    
+    function displayDemographics(divid, file) {
+        Viz.displayDemographics(divid, MLS, file);
+    }
 
     function getReportId() {
         var project_data = Report.getProjectData();
@@ -299,79 +316,75 @@ var MLS = {};
         displayEvoLists(id, lists);
     }
 
-    function displayEvoListSelector(div_id_sel, div_id_mls, lists_file) {
-        displayEvoBasicListSelector(div_id_sel, div_id_mls, null, lists_file);
+    function displayEvoListSelector(div_id_sel, div_id_mls) {
+        displayEvoBasicListSelector(div_id_sel, div_id_mls, null);
     }
 
-    function displayBasicListSelector(div_id_sel, div_id_mls, lists_file) {
-        displayEvoBasicListSelector(div_id_sel, null, div_id_mls, lists_file);
+    function displayBasicListSelector(div_id_sel, div_id_mls) {
+        displayEvoBasicListSelector(div_id_sel, null, div_id_mls);
     }
 
-    function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic,
-            lists_file) {
-        $
-                .when($.getJSON(lists_file))
-                .done(
-                        function(res1) {
-                            var lists = res1.mailing_list;
-                            var user_lists = [];
+    function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic){
+        $.when($.getJSON(data_lists_file)).done(function(res1) {
+            var lists = res1.mailing_list;
+            var user_lists = [];
 
-                            if (localStorage) {
-                                if (localStorage.length
-                                        && localStorage.getItem(getMLSId())) {
-                                    user_lists = JSON.parse(localStorage
-                                            .getItem(getMLSId()));
-                                }
-                            }
+            if (localStorage) {
+                if (localStorage.length
+                        && localStorage.getItem(getMLSId())) {
+                    user_lists = JSON.parse(localStorage
+                            .getItem(getMLSId()));
+                }
+            }
 
-                            var html = "Mailing list selector:";
-                            html += "<form id='form_mls_selector'>";
+            var html = "Mailing list selector:";
+            html += "<form id='form_mls_selector'>";
 
-                            if (typeof lists === 'string') {
-                                lists = [ lists ];
-                            }
-                            for ( var i = 0; i < lists.length; i++) {
-                                var l = lists[i];
-                                html += '<input type=checkbox name="check_list" value="'
-                                        + l + '" ';
-                                html += 'onClick="';
-                                if (div_id_evo)
-                                    html += 'MLS.displayEvoUser(\''
-                                            + div_id_evo + '\');';
-                                if (div_id_basic)
-                                    html += 'MLS.displayBasicUser(\''
-                                            + div_id_basic + '\')";';
-                                html += '" ';
-                                html += 'id="' + l + '_check" ';
-                                if ($.inArray(l, user_lists) > -1)
-                                    html += 'checked ';
-                                html += '>';
-                                html += displayMLSListName(l);
-                                html += '<br>';
-                            }
-                            html += '<input type=button value="All" ';
-                            html += 'onClick="';
-                            if (div_id_evo)
-                                html += 'MLS.displayEvoUserAll(\'' + div_id_evo
-                                        + '\',true);';
-                            if (div_id_basic)
-                                html += 'MLS.displayBasicUserAll(\''
-                                        + div_id_basic + '\',true);';
-                            html += '">';
-                            html += '<input type=button value="None" ';
-                            html += 'onClick="';
-                            if (div_id_evo)
-                                html += 'MLS.displayEvoUserAll(\'' + div_id_evo
-                                        + '\',false);';
-                            if (div_id_basic)
-                                html += 'MLS.displayBasicUserAll(\''
-                                        + div_id_basic + '\',false);';
-                            html += '">';
-                            html += '<input type=button value="Default" ';
-                            html += 'onClick="MLS.displayEvoDefault()">';
-                            html += "</form>";
-                            $("#" + div_id_sel).html(html);
-                        });
+            if (typeof lists === 'string') {
+                lists = [ lists ];
+            }
+            for ( var i = 0; i < lists.length; i++) {
+                var l = lists[i];
+                html += '<input type=checkbox name="check_list" value="'
+                        + l + '" ';
+                html += 'onClick="';
+                if (div_id_evo)
+                    html += 'MLS.displayEvoUser(\''
+                            + div_id_evo + '\');';
+                if (div_id_basic)
+                    html += 'MLS.displayBasicUser(\''
+                            + div_id_basic + '\')";';
+                html += '" ';
+                html += 'id="' + l + '_check" ';
+                if ($.inArray(l, user_lists) > -1)
+                    html += 'checked ';
+                html += '>';
+                html += displayMLSListName(l);
+                html += '<br>';
+            }
+            html += '<input type=button value="All" ';
+            html += 'onClick="';
+            if (div_id_evo)
+                html += 'MLS.displayEvoUserAll(\'' + div_id_evo
+                        + '\',true);';
+            if (div_id_basic)
+                html += 'MLS.displayBasicUserAll(\''
+                        + div_id_basic + '\',true);';
+            html += '">';
+            html += '<input type=button value="None" ';
+            html += 'onClick="';
+            if (div_id_evo)
+                html += 'MLS.displayEvoUserAll(\'' + div_id_evo
+                        + '\',false);';
+            if (div_id_basic)
+                html += 'MLS.displayBasicUserAll(\''
+                        + div_id_basic + '\',false);';
+            html += '">';
+            html += '<input type=button value="Default" ';
+            html += 'onClick="MLS.displayEvoDefault()">';
+            html += "</form>";
+            $("#" + div_id_sel).html(html);
+        }).fail(function() {alert("Probs");});
     }
 
     // history values should be always arrays

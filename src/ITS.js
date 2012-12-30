@@ -25,6 +25,7 @@ var ITS = {};
     var data_file = 'data/json/its-milestone0.json';
     var data = null;
     var demographics_file = 'data/json/its-demographics-2012.json';
+    var demographics_data = null;
     var global_data_file = 'data/json/its-info-milestone0.json';
     var global_data = null;
     var top_data_file = 'data/json/its-top-milestone0.json';
@@ -35,6 +36,7 @@ var ITS = {};
     ITS.displayBasicMetricHTML = displayBasicMetricHTML;
     ITS.displayBubbles = displayBubbles;
     ITS.displayData = displayData;
+    ITS.displayDemographics = displayDemographics;
     ITS.displayEvo = displayEvo;
     ITS.displayTop = displayTop;
     ITS.displayTimeToFix = displayTimeToFix;
@@ -59,6 +61,16 @@ var ITS = {};
         global_data_file = dataDir + '/its-info-milestone0.json';
         top_data_file = dataDir + '/its-top-milestone0.json';
     };
+    ITS.getDemographicsFile = function() {
+        return demographics_file;
+    };
+    ITS.getDemographicsData = function() {
+        return demographics_data;
+    };
+    ITS.setDemographicsData = function(data) {
+        demographics_data = data;
+    };
+    
     ITS.getGlobalDataFile = function() {
         return global_data_file;
     };
@@ -162,6 +174,11 @@ var ITS = {};
     function displayBubbles(divid) {
         Viz.displayBubbles(divid, "opened", "openers");
     }
+    
+    function displayDemographics(divid, file) {
+        Viz.displayDemographics(divid, ITS, file);
+    }
+
 
     function basicEvo(history) {
         for ( var id in basic_metrics) {

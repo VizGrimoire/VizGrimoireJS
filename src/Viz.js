@@ -323,6 +323,7 @@ var Viz = {};
     }
 
     function displayDemographicsChart(divid, ds, data) {
+        if (!data) return; 
 
         var quarter = 365 / 4;
         // var data = ds.getDemographicsData();

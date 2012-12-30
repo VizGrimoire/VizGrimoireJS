@@ -47,6 +47,9 @@ var SCM = {};
     SCM.setDataFile = function(file) {
         data_file = file;
     };
+    SCM.getData = function() {
+        return data;
+    };
     SCM.setData = function(load_data) {
         data = load_data;
     };
@@ -58,9 +61,6 @@ var SCM = {};
     };
     SCM.setDemographicsData = function(data) {
         demographics_data = data;
-    };
-    SCM.getData = function() {
-        return data;
     };
     SCM.setDataDir = function(dataDir) {
         data_file = dataDir + '/scm-milestone0.json';

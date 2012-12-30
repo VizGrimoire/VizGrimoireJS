@@ -85,7 +85,6 @@ describe( "VizGrimoireJS library", function () {
                 waitsFor(function() {
                     return (document.getElementById("its-top-bars")
                     .childNodes.length > 0);
-                    return Report.check_data_loaded();
                 }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
@@ -99,7 +98,6 @@ describe( "VizGrimoireJS library", function () {
                     });
                 });        
             });
-            // TODO: Missing tests for bubbles, demographics, selector, radars and gridster
             it("html bubbles should be displayed", function () {
                 waitsFor(function() {
                     return Report.check_data_loaded();
@@ -117,14 +115,79 @@ describe( "VizGrimoireJS library", function () {
                         (Report.getDataSources().length);
                 });        
             });
-        });
-        
-    });
-    describe("Viz", function () {
-        
-    });
-    describe("Data Sources", function () {
-        
+            it("html demographics should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        // TODO: ITS and MLS demographics not supported yet
+                        if (DS.getName() === "scm")
+                            buildNode(DS.getName()+"-demographics",
+                                        "demographics");
+                    });
+                    var ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    Report.convertDemographics();
+                    var new_ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    expect(new_ncanvas-ncanvas).toEqual(1);
+                });        
+            });
+            it("html selectors should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        // TODO: SCM and ITS selectors not supported yet
+                        if (DS.getName() === "mls")
+                            buildNode(DS.getName()+"-selector");
+                            buildNode(DS.getName()+"-flotr2-lists", "mls-dyn-list");
+                            buildNode(DS.getName()+"-envision-lists");
+                    });
+                    Report.convertSelectors();
+                });
+                waitsFor(function() {
+                        return (document.getElementById("form_mls_selector") != null);
+                    }, "It took too long to load data", 100);               
+                runs(function() {
+                    $.each(Report.getDataSources(), function(index, DS) {
+                        if (DS.getName() === "mls")
+                            expect(document.getElementById
+                                ("form_"+DS.getName()+"_selector")
+                                .childNodes.length).toBeGreaterThan(0);
+                    });
+                });
+            });
+            it("html radar should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    buildNode("radar-activity","radar");
+                    buildNode("radar-community","radar");
+                    var ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    Report.convertBasicDivs();
+                    var new_ncanvas = document.getElementsByClassName
+                        ('flotr-canvas').length;
+                    expect(new_ncanvas-ncanvas).toEqual(2);
+                });        
+            });
+            it("html gridster should be displayed", function () {
+                waitsFor(function() {
+                    return Report.check_data_loaded();
+                }, "It took too long to load data", 100);
+                runs(function() {
+                    buildNode("gridster","gridster");
+                    Report.getBasicDivs()["gridster"].convert(); 
+                    var grids = document.getElementsByClassName
+                        ('gs_w').length;
+                    expect(grids).toBeGreaterThan(0);
+                });        
+            });
+        });        
     });
     describe("VizGrimoireJS loaded", function() {
         it("should be present in the global namespace", function () {
