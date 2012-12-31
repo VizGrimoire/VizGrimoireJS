@@ -1,4 +1,10 @@
-describe( "VizGrimoireJS library", function () {
+describe( "VizGrimoireJS library", function () {    
+    beforeEach(function() {
+        waitsFor(function() {
+            return Report.check_data_loaded();
+        }, "It took too long to load data", 100);
+      });
+    
     describe( "Report", function () {
         it("data files should be loaded", function () {
             waitsFor(function() {
@@ -11,20 +17,15 @@ describe( "VizGrimoireJS library", function () {
         
         var blocks = ["navigation","refcard","header","footer"];
         it(blocks.join() + " should be loaded from file", function () {
-            var loaded = null;
-            
-            waitsFor(function() {
-                return Report.check_data_loaded();
-            }, "It took too long to load data", 100);
             runs(function() {
                 $.each(blocks, function(index, value) {buildNode(value);});
+                $.each(blocks, function(index, value) {
+                    Report.getBasicDivs()[value].convert();});
             });
             waitsFor(function() {
-                $.each(blocks, function(index, value) {
-                    Report.getBasicDivs()[value].convert();});                
-                loaded = document.getElementsByClassName('info-pill');
+                var loaded = document.getElementsByClassName('info-pill');
                 return (loaded.length > 1);
-            }, "It took too long to convert " + blocks.join(), 100);
+            }, "It took too long to convert " + blocks.join(), 500);
             runs(function() {
                 $.each(blocks, function(index, value) {
                     expect(document.getElementById(value).childNodes.length)
@@ -34,9 +35,6 @@ describe( "VizGrimoireJS library", function () {
         
         describe( "html report should be converted", function () {        
             it("html envision should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         buildNode(DS.getName()+"-envision");
@@ -49,9 +47,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html flotr2 should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         $.each(DS.getMetrics(), function(i, metric) {
@@ -69,9 +64,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html top should be displayed", function () {               
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         buildNode(DS.getName()+"-top");
@@ -99,9 +91,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html bubbles should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         buildNode(DS.getName()+"-time-bubbles","bubbles");
@@ -116,9 +105,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html demographics should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         // TODO: ITS and MLS demographics not supported yet
@@ -135,9 +121,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html selectors should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
                         // TODO: SCM and ITS selectors not supported yet
@@ -148,6 +131,7 @@ describe( "VizGrimoireJS library", function () {
                     });
                     Report.convertSelectors();
                 });
+                // TODO: Move JSON loading to global loading
                 waitsFor(function() {
                         return (document.getElementById("form_mls_selector") != null);
                     }, "It took too long to load data", 100);               
@@ -161,9 +145,6 @@ describe( "VizGrimoireJS library", function () {
                 });
             });
             it("html radar should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     buildNode("radar-activity","radar");
                     buildNode("radar-community","radar");
@@ -176,9 +157,6 @@ describe( "VizGrimoireJS library", function () {
                 });        
             });
             it("html gridster should be displayed", function () {
-                waitsFor(function() {
-                    return Report.check_data_loaded();
-                }, "It took too long to load data", 100);
                 runs(function() {
                     buildNode("gridster","gridster");
                     Report.getBasicDivs()["gridster"].convert(); 
@@ -204,8 +182,6 @@ describe( "VizGrimoireJS library", function () {
         if (document.getElementById(id)) return;
         var node = document.createElement('div');
         document.body.appendChild(node);
-        //node.style.width = '320px';
-        //node.style.height = '240px';
         if (div_class)
             node.className = div_class;
         node.id = id;
