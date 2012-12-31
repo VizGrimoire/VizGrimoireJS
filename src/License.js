@@ -22,6 +22,7 @@
  * Bonzo: DOM Utility (c) Dustin Diaz 2011, MIT license
  * Envision.js (c) 2012 Carl Sutherland, Humble Software, MIT license
  * gridster.js Copyright (c) 2012 ducksboard; Licensed MIT
+ * TinyColor v0.9.12 2012-11-28, Brian Grinstead, MIT License
  * 
  */
 ;

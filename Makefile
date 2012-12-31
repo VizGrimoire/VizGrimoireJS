@@ -20,7 +20,8 @@ all: \
 vizgrimoire.deps.js: \
     src/License.js \
     src/envision.js \
-    src/jquery.gridster.js
+    src/jquery.gridster.js \
+    src/tinycolor.js \
 
 vizgrimoire.core.js: \
     src/Envision_Report.js \

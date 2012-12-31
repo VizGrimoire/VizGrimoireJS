@@ -234,6 +234,24 @@ var Viz = {};
         };
 
         if (graph === "bars") {
+            var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
+                                    '#9440ED' ];
+            defaults_colors = [];
+            var defaults_colors_tiny = [];
+            // defaults_colors_tiny = tinycolor.analogous(tinycolor('#ffa500'));
+            // defaults_colors_tiny = tinycolor.tetrad(tinycolor('#ffa500'));
+            // defaults_colors_tiny = tinycolor.monochromatic(tinycolor('#ffa500'));
+            // defaults_colors_tiny = tinycolor.splitcomplement(tinycolor('#ffa500'));
+            var last = tinycolor('#ffa500');
+            for (var i=0; i<30; i++) {
+                defaults_colors_tiny.push(last);
+                last = tinycolor.darken(last,2);
+                // last = tinycolor.lighten(last,1);
+            }
+            $.each(defaults_colors_tiny, function(index,value) {
+                defaults_colors.push(value.toHexString());
+            });
+            config.colors = defaults_colors,
             config.bars = {
                 show : true,
                 horizontal : horizontal
