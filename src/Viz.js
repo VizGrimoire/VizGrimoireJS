@@ -238,6 +238,10 @@ var Viz = {};
                 show : true,
                 horizontal : horizontal
             };
+            // TODO: Color management should be defined
+            var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
+                                    '#9440ED' ];
+            config.colors = defaults_colors,
             config.grid.horizontalLines = true;
             config.yaxis = {
                 showLabels : true, min:0
