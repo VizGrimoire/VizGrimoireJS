@@ -207,10 +207,13 @@ var Viz = {};
                 outlineWidth : 0
             },
             xaxis : {
-                showLabels : false
+                showLabels : false,
+                min : 0
+                
             },
             yaxis : {
-                showLabels : false
+                showLabels : false,
+                min : 0
             },
             mouse : {
                 track : true,
@@ -237,7 +240,10 @@ var Viz = {};
             };
             config.grid.horizontalLines = true;
             config.yaxis = {
-                showLabels : true
+                showLabels : true, min:0
+            };
+            config.xaxis = {
+                    showLabels : true, min:0
             };
         }
         if (graph === "pie")
