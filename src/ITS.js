@@ -43,6 +43,9 @@ var ITS = {};
     ITS.getMetrics = function() {
         return basic_metrics;
     };
+    ITS.getMainMetric = function() {
+        return "opened";
+    };
     ITS.getDataFile = function() {
         return data_file;
     };

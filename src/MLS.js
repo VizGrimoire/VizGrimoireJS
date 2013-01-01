@@ -50,6 +50,9 @@ var MLS = {};
     MLS.getMetrics = function() {
         return basic_metrics;
     };
+    MLS.getMainMetric = function() {
+        return "sent";
+    };
     MLS.getDataFile = function() {
         return data_file;
     };

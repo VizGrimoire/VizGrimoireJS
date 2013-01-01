@@ -104,6 +104,7 @@ var Viz = {};
         new_div += "<table><tbody>";
         // new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
         new_div += "<tr><th></th><th>" + metric_id + "</th></tr>";
+        if (history[metric_id] === undefined) return;
         for ( var i = 0; i < history[metric_id].length; i++) {
             var metric_value = history[metric_id][i];
             var doer_value = history[doer][i];
@@ -707,35 +708,22 @@ var Viz = {};
 
     function displayEvoSummary(div_id) {
 
-        var scm_data = SCM.getData(), its_data = ITS.getData(), mls_data = MLS
-                .getData();
-
         var container = document.getElementById(div_id);
         var full_history_id = [], dates = [];
+        var data_sources = Report.getDataSources();
 
-        if (scm_data.length === 0)
-            scm_data = null;
-        if (its_data.length === 0)
-            its_data = null;
-        if (mls_data.length === 0)
-            mls_data = null;
+        $.each(data_sources, function(i, DS) {
+            if (DS.getData().id &&
+                    DS.getData().id.length > full_history_id.length) {
+                full_history_id = DS.getData().id;
+                dates = DS.getData().date;                
+            }
+        });
 
-        if (scm_data) {
-            full_history_id = scm_data.id;
-            dates = scm_data.date;
-        }
-        if (its_data && its_data.id.length > full_history_id.length) {
-            full_history_id = its_data.id;
-            dates = its_data.date;
-        }
-        if (mls_data && mls_data.id.length > full_history_id.length) {
-            full_history_id = mls_data.id;
-            dates = mls_data.date;
-        }
 
         markers = Report.getMarkers();
 
-        var V = envision, options, vis, firstMonth = full_history_id[0];
+        var options, firstMonth = full_history_id[0];
 
         options = {
             container : container,
@@ -760,18 +748,10 @@ var Viz = {};
         };
 
         var main_metric = "", main_matric_data = [];
-        if (scm_data) {
-            main_metric = "commits";
-            main_matric_data = scm_data[main_metric];
-        } else if (its_data) {
-            main_metric = "opened";
-            main_matric_data = its_data[main_metric];
-        } else if (mls_data) {
-            main_metric = "sent";
-            main_matric_data = mls_data[main_metric];
-        } else {
-            alert('No data for Summary viz');
-        }
+        $.each(data_sources, function(i, DS) {
+            main_metric = DS.getMainMetric();
+            main_matric_data = DS.getData()[main_metric];
+        });
 
         var hide = Report.getConfig().summary_hide;
         options.data = {
@@ -783,27 +763,21 @@ var Viz = {};
         };
 
         var all_metrics = {};
-        if (scm_data) {
-            all_metrics = $.extend(all_metrics, SCM.getMetrics());
-        }
-        if (its_data) {
-            all_metrics = $.extend(all_metrics, ITS.getMetrics());
-        }
-        if (mls_data) {
-            all_metrics = $.extend(all_metrics, MLS.getMetrics());
-        }
+        $.each(data_sources, function(i, DS) {
+            if (DS.getData()) {
+                all_metrics = $.extend(all_metrics, DS.getMetrics());
+            }
+        });
 
-        for ( var id in all_metrics) {
-            if (scm_data && scm_data[id])
-                options.data[id] = fillHistory(full_history_id, [ scm_data.id,
-                        scm_data[id] ]);
-            else if (its_data && its_data[id])
-                options.data[id] = fillHistory(full_history_id, [ its_data.id,
-                        its_data[id] ]);
-            else if (mls_data && mls_data[id])
-                options.data[id] = fillHistory(full_history_id, [ mls_data.id,
-                        mls_data[id] ]);
-        }
+        $.each(data_sources, function(i, DS) {
+            var ds_data = DS.getData();
+            for (var id in all_metrics) {
+                if (ds_data && ds_data[id]) {
+                    options.data[id] = fillHistory(full_history_id, [ ds_data.id,
+                            ds_data[id] ]);
+                }
+            }
+        });
 
         options.trackFormatter = function(o) {
             var data = o.series.data, index = data[o.index][0] - firstMonth, value;
@@ -821,7 +795,7 @@ var Viz = {};
         };
 
         // Create the TimeSeries
-        vis = new envision.templates.Envision_Report(options, Report
+        var vis = new envision.templates.Envision_Report(options, Report
                 .getDataSources());
     }
 

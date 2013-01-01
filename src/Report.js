@@ -90,15 +90,13 @@ var Report = {};
     }
 
     function getMetricDS(metric_id) {
-        if (SCM.getMetrics()[metric_id]) {
-            return SCM;
-        }
-        if (ITS.getMetrics()[metric_id]) {
-            return ITS;
-        }
-        if (MLS.getMetrics()[metric_id]) {
-            return MLS;
-        }
+        var ds = null;
+        $.each(Report.getDataSources(), function(i, DS) {
+            if (DS.getMetrics()[metric_id]) {
+                ds = DS;
+            }
+        });
+        return ds;
     }
 
     function data_ready(callback) {
@@ -128,22 +126,27 @@ var Report = {};
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getDataFile(), DS.setData);
             data_load_file(DS.getGlobalDataFile(), DS.setGlobalData);
+            // TODO: Demographics just for SCM yet!
+            if (DS.getName() === "scm") {
+                data_load_file(DS.getDemographicsFile(), DS.setDemographicsData);
+            }
         });
-        // TODO: Demographics just for SCM yet!
-        data_load_file(SCM.getDemographicsFile(), SCM.setDemographicsData);
     }
     
     function check_data_loaded() {
+        var check = true;
         if (project_data === null || config === null || markers === null) 
-            return false;
+            check = false;
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(index, DS) {
-            if (DS.getData() === null) return false;
-            if (DS.getGlobalData() === null) return false;
-        });
-        // TODO: Demographics just for SCM yet!
-        if (SCM.getDemographicsData() === null) return false;
-        return true;
+            if (DS.getData() === null) {check = false; return false;}
+            if (DS.getGlobalData() === null) {check = false; return false;}
+            // TODO: Demographics just for SCM yet!
+            if (DS.getName() === "scm") {
+                if (DS.getDemographicsData() === null) {check = false; return false;} 
+            }
+        });         
+        return check;
     }
 
     function end_data_load() {        
@@ -156,8 +159,10 @@ var Report = {};
     }
 
     function getAllMetrics() {
-        var all = $.extend({}, SCM.getMetrics(), ITS.getMetrics());
-        all = $.extend(all, MLS.getMetrics());
+        var all = {};
+        $.each(Report.getDataSources(), function(index, DS) {
+            all = $.extend({}, all, DS.getMetrics());
+        });
         return all;
     }
 

@@ -42,29 +42,23 @@
             dates : global_data.dates,
             markers : global_data.markers
         };
+        
+        var data_sources = Report.getDataSources();
 
         var viz = {};
         var metrics = {};
         if (!ds) {
-            metrics = SCM.getMetrics();
-            getDefaultsMetrics([ 'scm' ], viz, metrics, default_config);
-            metrics = ITS.getMetrics();
-            getDefaultsMetrics([ 'its' ], viz, metrics, default_config);
-            metrics = MLS.getMetrics();
-            getDefaultsMetrics([ 'mls' ], viz, metrics, default_config);
+            $.each(data_sources, function(i, DS) {
+                metrics = DS.getMetrics();
+                getDefaultsMetrics([ DS.getName() ], viz, metrics, default_config);
+            });
         } else {
-            if ($.inArray('scm', ds) > -1) {
-                metrics = SCM.getMetrics();
-                getDefaultsMetrics([ 'scm' ], viz, metrics, default_config);
-            }
-            if ($.inArray('its', ds) > -1) {
-                metrics = ITS.getMetrics();
-                getDefaultsMetrics([ 'its' ], viz, metrics, default_config);
-            }
-            if ($.inArray('mls', ds) > -1) {
-                metrics = MLS.getMetrics();
-                getDefaultsMetrics([ 'mls' ], viz, metrics, default_config);
-            }
+            $.each(data_sources, function(i, DS) {
+                if ($.inArray(DS.getName(), ds) > -1) {
+                    metrics = DS.getMetrics();
+                    getDefaultsMetrics([ DS.getName() ], viz, metrics, default_config);
+                }
+            });
         }
 
         config = default_config;
@@ -104,15 +98,13 @@
 
         var metrics = {};
         if (!ds)
-            metrics = Replace.getAllMetrics();
+            metrics = Report.getAllMetrics();
         else {
             // TODO: iterate here over all DS
-            if ($.inArray(SCM.getName(), ds) > -1)
-                metrics = $.extend(metrics, SCM.getMetrics());
-            if ($.inArray(ITS.getName(), ds) > -1)
-                metrics = $.extend(metrics, ITS.getMetrics());
-            if ($.inArray(MLS.getName(), ds) > -1)
-                metrics = $.extend(metrics, MLS.getMetrics());
+            $.each(Report.getDataSources(), function(i, DS) {    
+                if ($.inArray(DS.getName(), ds) > -1)
+                    metrics = $.extend(metrics, DS.getMetrics());
+            });
         }
 
         $.each(metrics, function(metric, value) {

@@ -3,7 +3,7 @@
  * Copyright (C) 2012, Bitergia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
+ * you may not use self file except in compliance with the License.
  * You may obtain a copy of the License at
  *
  *      http://www.apache.org/licenses/LICENSE-2.0
@@ -19,131 +19,138 @@
 
 
 // TODO: Use attributes for getters and setters 
-function DataSource(name, basic_metrics, displayData) {
+function DataSource(name, basic_metrics) {
+    
+    // Work around: http://bit.ly/yP8tGP
+    var self = this; 
+    self.name = name;
+    self.data_file = 'data/json/'+self.name+'-milestone0.json';
+    self.demographics_file = 'data/json/'+self.name+'-demographics-2012.json';
+    self.global_data_file = 'data/json/'+self.name+'-info-milestone0.json';
+    self.top_data_file = 'data/json/'+self.name+'-top-milestone0.json';
+    self.data = null;
+    self.demographics_data = null;
+    self.global_data = null;
+    self.basic_metrics = basic_metrics; 
 
-    this.name = name;
-    this.data_file = 'data/json/'+this.name+'-milestone0.json';
-    this.demographics_file = 'data/json/'+this.name+'-demographics-2012.json';
-    this.global_data_file = 'data/json/'+this.name+'-info-milestone0.json';
-    this.top_data_file = 'data/json/'+this.name+'-top-milestone0.json';
-    this.data = null;
-    this.demographics_data = null;
-    this.global_data = null;
-
-    this.getMetrics = function() {
-        return this.basic_metrics;
+    // TODO: define a better way for it
+    self.getMetrics = function() {
+        return self.basic_metrics;
     };  
-    this.getMainMetric = function() {
-        return this.basic_metrics.main_metric;
+    
+    self.getMainMetric = function() {
+        // TODO: Each new DS should provide its main metric
+        var metric = "";
+        if (self.getName() === "scm") metric = "commits";
+        else if (self.getName() === "its") metric = "opened";
+        else if (self.getName() === "mls") metric = "sent";
+        return metric;
     };
     
-    this.getDataFile = function() {
-        return this.data_file;
+    self.getDataFile = function() {
+        return self.data_file;
     };
-    this.setDataFile = function(file) {
-        this.data_file = file;
+    self.setDataFile = function(file) {
+        self.data_file = file;
     };
-    this.getData = function() {
-        return this.data;
+    self.getData = function() {
+        return self.data;
     };
-    this.setData = function(load_data) {
-        this.data = load_data;
+    self.setData = function(load_data) {
+        self.data = load_data;
     };
-    this.getDemographicsFile = function() {
-        return this.demographics_file;
+    self.getDemographicsFile = function() {
+        return self.demographics_file;
     };
-    this.getDemographicsData = function() {
-        return this.demographics_data;
+    self.getDemographicsData = function() {
+        return self.demographics_data;
     };
-    this.setDemographicsData = function(data) {
-        this.demographics_data = data;
+    self.setDemographicsData = function(data) {
+        self.demographics_data = data;
     };
-    this.setDataDir = function(dataDir) {
-        this.data_file = dataDir + '/'+this.name+'-milestone0.json';
-        this.demographics_file = dataDir + '/'+this.name+'-demographics-2012.json';
-        this.global_data_file = dataDir + '/'+this.name+'-info-milestone0.json';
-        this.top_data_file = dataDir + '/'+this.name+'-top-milestone0.json';
+    self.setDataDir = function(dataDir) {
+        self.data_file = dataDir + '/'+self.name+'-milestone0.json';
+        self.demographics_file = dataDir + '/'+self.name+'-demographics-2012.json';
+        self.global_data_file = dataDir + '/'+self.name+'-info-milestone0.json';
+        self.top_data_file = dataDir + '/'+self.name+'-top-milestone0.json';
     };
-    this.getGlobalDataFile = function() {
-        return this.global_data_file;
+    self.getGlobalDataFile = function() {
+        return self.global_data_file;
     };
-    this.getGlobalData = function() {
-        return this.global_data;
+    self.getGlobalData = function() {
+        return self.global_data;
     };
-    this.setGlobalData = function(data) {
-        this.global_data = data;
+    self.setGlobalData = function(data) {
+        self.global_data = data;
     };
-    this.getName = function() {
-        return this.name;
+    self.getName = function() {
+        return self.name;
     };
-
-    this.basic_metrics = basic_metrics; 
         
-    this.displayData = function() {
-        if (getName() === "scm") {
-            $("#scmFirst").text(global_data.first_date);
-            $("#scmLast").text(global_data.last_date);
-            $("#scmCommits").text(global_data.commits);
-            $("#scmAuthors").text(global_data.authors);
-            $("#scmCommitters").text(global_data.committers);
+    self.displayData = function() {
+        if (self.getName() === "scm") {
+            $("#scmFirst").text(self.global_data.first_date);
+            $("#scmLast").text(self.global_data.last_date);
+            $("#scmCommits").text(self.global_data.commits);
+            $("#scmAuthors").text(self.global_data.authors);
+            $("#scmCommitters").text(self.global_data.committers);
         }
     };
 
     // Create HTML code to show the metrics
-    this.displayBasicHTML = function(div_target, config) {
+    self.displayBasicHTML = function(div_target, config) {
         var title = "";
-        if (getName() === "scm") {
+        if (self.getName() === "scm") {
             title = "Change sets (commits to source code)";
         }
-        Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config);
+        Viz.displayBasicHTML(self.getData(), div_target, title, 
+                self.basic_metrics, self.name+'_hide', config);
     };
 
-    this.displayBasicMetricHTML = function(metric_id, div_target, config) {
-        Viz.displayBasicMetricHTML(this.basic_metrics[metric_id], this.getData(),
+    self.displayBasicMetricHTML = function(metric_id, div_target, config) {
+        Viz.displayBasicMetricHTML(self.basic_metrics[metric_id], self.getData(),
                 div_target, config);
     };
 
-    this.displayTop = function(div, all, graph) {
+    self.displayTop = function(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, this.top_data_file, this.basic_metrics, all,graph);
+        Viz.displayTop(div, self.top_data_file, self.basic_metrics, all,graph);
     };
 
-    this.displayBubbles = function(divid) {
-        if (getName() === "scm") {
+    self.displayBubbles = function(divid) {
+        if (self.getName() === "scm") {
             Viz.displayBubbles(divid, "commits", "committers");
         }
     };
 
-    this.displayDemographics = function(divid, file) {
-        Viz.displayDemographics(divid, this, file);
+    self.displayDemographics = function(divid, file) {
+        Viz.displayDemographics(divid, self, file);
     };
 
-    this.displayBasic = function() {
-        basicEvo(this.getData());
+    self.displayBasic = function() {
+        self.basicEvo(self.getData());
     };
 
-    this.basicEvo = function(history) {
-        for (var id in basic_metrics) {
-            var metric = this.basic_metrics[id];
-            if ($.inArray(metric.column, Report.getConfig()[getName()+"_hide"]) > -1)
+    self.basicEvo = function(history) {
+        for (var id in self.basic_metrics) {
+            var metric = self.basic_metrics[id];
+            if ($.inArray(metric.column, Report.getConfig()[self.getName()+"_hide"]) > -1)
                 continue;
             if ($('#' + metric.divid).length)
                 Viz.displayBasicLines(metric.divid, history, metric.column,
                         true, metric.name);
-        };
+        }
     };
 
-    this.displayEvo = function(id) {
-        envisionEvo(id, this.getData());
+    self.displayEvo = function(id) {
+        self.envisionEvo(id, self.getData());
     };
 
-    this.envisionEvo = function(div_id, history) {
-        this.config = Report.getConfig();
-        this.main_metric = getMainMetric(); // "commits";
-        this.options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
-                main_metric, config.scm_hide);
-        new envision.templates.Envision_Report(options, [ this ]);
+    self.envisionEvo = function(div_id, history) {
+        config = Report.getConfig();
+        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
+                self.getMainMetric(), config.scm_hide);
+        new envision.templates.Envision_Report(options, [ self ]);
     };
 }
