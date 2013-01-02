@@ -142,10 +142,10 @@ var MLS = {};
         return lists;
     }
 
-    function displayTop(div, top_file, all, graph) {
+    function displayTop(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, top_file, basic_metrics, all, graph);
+        Viz.displayTop(div, top_data_file, basic_metrics, all, graph);
     }
 
     function displayBasicUserAll(id, all) {
