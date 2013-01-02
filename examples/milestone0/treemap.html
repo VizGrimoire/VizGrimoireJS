@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis, libreplan" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+        <meta name="description" content="Bitergia company website" />
+        <!-- <link rel="stylesheet" type="text/css" href="VizGrimoireJS/src/envision.min.css" />
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/report.css" /> -->
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css" />
+        <link rel="stylesheet" type="text/css" href="custom.css" />
+        <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+        <title>Bitergia Report: TreeMap (D3 based)</title>
+    </head>
+    <body>
+    <style>
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: auto;
+  position: relative;
+  width: 960px;
+}
+
+form1 {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+
+.node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+
+</style>
+        <div id="wrapper">
+            <div id="header"></div>
+
+			<div style="float:left">
+			<div id="navigation" style="float:left"></div>
+
+			<div style="float:left">					 
+				<div>
+					<h1>Community TreeMap</h1>
+                    <form>
+                      <label><input type="radio" name="mode" value="size" checked> Size</label>
+                      <label><input type="radio" name="mode" value="count"> Count</label>
+                    </form>                    
+					<div id="treemap-community"></div>
+				</div>
+			</div>
+			</div>
+	
+		<div id="footer"></div>
+        </div>
+        <!-- wrapper -->
+                
+        <script type="text/javascript" src="VizGrimoireJS/src/d3.v3.min.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+        <script>	
+var margin = {top: 40, right: 10, bottom: 10, left: 10},
+    width = 960 - margin.left - margin.right,
+    height = 500 - margin.top - margin.bottom;
+
+var color = d3.scale.category20c();
+
+var treemap = d3.layout.treemap()
+    .size([width, height])
+    .sticky(true)
+    .value(function(d) { return d.size; });
+
+// var div = d3.select("body").append("div")
+var div = d3.select("#treemap-community")
+    .style("position", "relative")
+    .style("width", (width + margin.left + margin.right) + "px")
+    .style("height", (height + margin.top + margin.bottom) + "px")
+    .style("left", margin.left + "px")
+    .style("top", margin.top + "px");
+
+d3.json("flare.json", function(error, root) {
+  var node = div.datum(root).selectAll(".node")
+      .data(treemap.nodes)
+    .enter().append("div")
+      .attr("class", "node")
+      .call(position)
+      .style("background", function(d) { return d.children ? color(d.name) : null; })
+      .text(function(d) { return d.children ? null : d.name; });
+
+  d3.selectAll("input").on("change", function change() {
+    var value = this.value === "count"
+        ? function() { return 1; }
+        : function(d) { return d.size; };
+
+    node
+        .data(treemap.value(value).nodes)
+      .transition()
+        .duration(1500)
+        .call(position);
+  });
+});
+
+function position() {
+  this.style("left", function(d) { return d.x + "px"; })
+      .style("top", function(d) { return d.y + "px"; })
+      .style("width", function(d) { return Math.max(0, d.dx - 1) + "px"; })
+      .style("height", function(d) { return Math.max(0, d.dy - 1) + "px"; });
+}
+
+</script>
+             
+    </body>
+</html>
