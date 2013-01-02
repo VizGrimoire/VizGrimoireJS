@@ -22,6 +22,7 @@ var Viz = {};
 (function() {
 
     var gridster_debug = false;
+    var bitergiaColor = "#ffa500";
 
     Viz.displayTop = displayTop;
     Viz.displayBasicHTML = displayBasicHTML;
@@ -176,7 +177,7 @@ var Viz = {};
         graph = Flotr.draw(container, [ line_data ], config);
     }
 
-    function displayBasicChart(divid, labels, data, graph, rotate) {
+    function displayBasicChart(divid, labels, data, graph, rotate, fixColor) {
 
         var horizontal = false;
         if (rotate)
@@ -236,9 +237,14 @@ var Viz = {};
 
         if (graph === "bars") {
             config.bars = {
-                show : true,
+                show : true, 
                 horizontal : horizontal
             };
+            if (fixColor) {
+                config.bars.color = fixColor;
+                config.bars.fillColor = fixColor;
+            }
+            
             // TODO: Color management should be defined
             var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
                                     '#9440ED' ];
@@ -354,7 +360,7 @@ var Viz = {};
         }
 
         if (data)
-            displayBasicChart(divid, labels, quarter_data, "bars", true);
+            displayBasicChart(divid, labels, quarter_data, "bars", true, bitergiaColor);
     }
 
     function displayRadarChart(div_id, ticks, data) {
