@@ -25,14 +25,16 @@ function DataSource(name, basic_metrics) {
     // Work around: http://bit.ly/yP8tGP
     var self = this; 
     self.name = name;
-    self.data_file = 'data/json/'+self.name+'-milestone0.json';
-    self.demographics_file = 'data/json/'+self.name+'-demographics-2012.json';
-    self.global_data_file = 'data/json/'+self.name+'-info-milestone0.json';
-    self.top_data_file = 'data/json/'+self.name+'-top-milestone0.json';
+    self.data_dir = 'data/json';
+    self.data_file = self.data_dir + '/'+self.name+'-milestone0.json';
+    self.demographics_file = self.data_dir + '/'+self.name+'-demographics-2012.json';
+    self.global_data_file = self.data_dir + '/'+self.name+'-info-milestone0.json';
+    self.top_data_file = self.data_dir + '/'+self.name+'-top-milestone0.json';
+    self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
     self.data = null;
     self.demographics_data = null;
     self.global_data = null;
-    self.basic_metrics = basic_metrics; 
+    self.basic_metrics = basic_metrics;
 
     // TODO: define a better way for it
     self.getMetrics = function() {
@@ -47,7 +49,6 @@ function DataSource(name, basic_metrics) {
         else if (self.getName() === "mls") metric = "sent";
         return metric;
     };
-    
     self.getDataFile = function() {
         return self.data_file;
     };
@@ -69,11 +70,16 @@ function DataSource(name, basic_metrics) {
     self.setDemographicsData = function(data) {
         self.demographics_data = data;
     };
+    self.getDataDir = function() {
+        return self.data_dir;
+    };
     self.setDataDir = function(dataDir) {
+        self.data_dir = dataDir;
         self.data_file = dataDir + '/'+self.name+'-milestone0.json';
         self.demographics_file = dataDir + '/'+self.name+'-demographics-2012.json';
         self.global_data_file = dataDir + '/'+self.name+'-info-milestone0.json';
         self.top_data_file = dataDir + '/'+self.name+'-top-milestone0.json';
+        self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
     };
     self.getGlobalDataFile = function() {
         return self.global_data_file;
@@ -100,6 +106,11 @@ function DataSource(name, basic_metrics) {
             $("#itsLast").text(self.global_data.last_date);
             $("#itsTickets").text(self.global_data.tickets);
             $("#itsOpeners").text(self.global_data.openers);
+        } else if (self.getName() === "mls") {
+            $("#mlsFirst").text(self.global_data.first_date);
+            $("#mlsLast").text(self.global_data.last_date);
+            $("#mlsMessages").text(self.global_data.sent);
+            $("#mlsSenders").text(self.global_data.senders);
         }
     };
 
@@ -129,6 +140,8 @@ function DataSource(name, basic_metrics) {
             Viz.displayBubbles(divid, "commits", "committers");
         } else if (self.getName() === "its") {
             Viz.displayBubbles(divid, "opened", "openers");
+        } else if (self.getName() === "mls") {
+            Viz.displayBubbles(divid, "sent", "senders");
         }
     };
 

@@ -130,6 +130,10 @@ var Report = {};
             if (DS.getName() === "scm") {
                 data_load_file(DS.getDemographicsFile(), DS.setDemographicsData);
             }
+            if (DS.getName() === "mls") {
+                data_load_file(DS.getListsFile(), DS.setListsData);
+            }
+
         });
     }
     
@@ -144,6 +148,9 @@ var Report = {};
             // TODO: Demographics just for SCM yet!
             if (DS.getName() === "scm") {
                 if (DS.getDemographicsData() === null) {check = false; return false;} 
+            }
+            if (DS.getName() === "mls") {
+                if (DS.getListsData() === null) {check = false; return false;}
             }
         });         
         return check;
@@ -320,10 +327,16 @@ var Report = {};
             });
             
             if ($("#"+DS.getName()+"-flotr2").length > 0) {
-                if (DS === MLS) {
+                if (DS.getName() === "mls") {
                     DS.displayBasic(DS.getName()+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
                 } else {
                     DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
+                }
+            }
+            
+            if (DS.getName() === "mls") {
+                if ($("#"+DS.getName()+"-flotr2"+"-lists").length > 0) {
+                    DS.displayBasic(DS.getName() + "-flotr2"+"-lists");
                 }
             }
         });        
@@ -335,10 +348,10 @@ var Report = {};
         $.each(Report.getDataSources(), function(index, DS) {
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0)
-                if (DS === MLS) {
+                if (DS.getName() === "mls") {
                     DS.displayEvoAggregated(div_envision);
-                    DS.displayEvo(div_envision + "-lists", 'data/json/'
-                            + DS.getName() + '-lists-milestone0.json');
+                    if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
+                        DS.displayEvo(DS.getName() + "-envision"+"-lists");
                 } else
                     DS.displayEvo(div_envision, 'data/json/' + DS.getName()
                             + '-milestone0.json');
@@ -395,7 +408,7 @@ var Report = {};
             var div_flotr2 = DS.getName() + "-flotr2-lists";
             if ($("#" + div_selector).length > 0)
                 // TODO: Only MLS supported 
-                if (DS === MLS) {
+                if (DS.getName() === "mls") {
                     DS.displayEvoBasicListSelector(div_selector, div_envision,
                             div_flotr2);
                 }
