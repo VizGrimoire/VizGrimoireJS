@@ -127,6 +127,7 @@ var Viz = {};
         });
     }
 
+    // TODO: Mix with displayBasicChart
     function displayBasicLines(div_id, history, column, labels, title) {
         var line_data = [];
         container = document.getElementById(div_id);
@@ -182,7 +183,6 @@ var Viz = {};
             horizontal = true;
 
         var container = document.getElementById(divid);
-        // var container_legend = document.getElementById(divid+"-legend");
         var chart_data = [], i;
 
         if (!horizontal) {
@@ -410,6 +410,12 @@ var Viz = {};
         var metrics = [ 'commits', 'files', 'opened', 'closed', 'changed',
                 'sent' ];
         displayRadar(div_id, metrics);
+    }
+    
+    function displayTimeToFix(div_id, json_file, column, labels, title) {
+        $.getJSON(json_file, function(history) {            
+            Viz.displayBasicLines(div_id, history, column, labels, title);
+        });
     }
 
     // Each metric can have several top: metric.period

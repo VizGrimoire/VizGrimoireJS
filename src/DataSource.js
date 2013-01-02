@@ -18,7 +18,8 @@
  */
 
 
-// TODO: Use attributes for getters and setters 
+// TODO: Use attributes for getters and setters
+// TODO: Try to remove specific scm, its, mls logic
 function DataSource(name, basic_metrics) {
     
     // Work around: http://bit.ly/yP8tGP
@@ -94,6 +95,11 @@ function DataSource(name, basic_metrics) {
             $("#scmCommits").text(self.global_data.commits);
             $("#scmAuthors").text(self.global_data.authors);
             $("#scmCommitters").text(self.global_data.committers);
+        } else if (self.getName() === "its") {
+            $("#itsFirst").text(self.global_data.first_date);
+            $("#itsLast").text(self.global_data.last_date);
+            $("#itsTickets").text(self.global_data.tickets);
+            $("#itsOpeners").text(self.global_data.openers);
         }
     };
 
@@ -102,6 +108,8 @@ function DataSource(name, basic_metrics) {
         var title = "";
         if (self.getName() === "scm") {
             title = "Change sets (commits to source code)";
+        } else if (self.getName() === "scm") {
+            title = "Tickets";
         }
         Viz.displayBasicHTML(self.getData(), div_target, title, 
                 self.basic_metrics, self.name+'_hide', config);
@@ -111,25 +119,35 @@ function DataSource(name, basic_metrics) {
         Viz.displayBasicMetricHTML(self.basic_metrics[metric_id], self.getData(),
                 div_target, config);
     };
-
-    self.displayTop = function(div, all, graph) {
-        if (all === undefined)
-            all = true;
-        Viz.displayTop(div, self.top_data_file, self.basic_metrics, all,graph);
+    
+    self.displayBasic = function() {
+        self.basicEvo(self.getData());
     };
 
     self.displayBubbles = function(divid) {
         if (self.getName() === "scm") {
             Viz.displayBubbles(divid, "commits", "committers");
+        } else if (self.getName() === "its") {
+            Viz.displayBubbles(divid, "opened", "openers");
         }
     };
 
     self.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, self, file);
     };
-
-    self.displayBasic = function() {
-        self.basicEvo(self.getData());
+    
+    self.displayEvo = function(id) {
+        self.envisionEvo(id, self.getData());
+    };
+    
+    self.displayTimeToFix = function(div_id, json_file, column, labels, title) {
+        Viz.displayTimeToFix(div_id, json_file, column, labels, title);
+    };
+    
+    self.displayTop = function(div, all, graph) {
+        if (all === undefined)
+            all = true;
+        Viz.displayTop(div, self.top_data_file, self.basic_metrics, all,graph);
     };
 
     self.basicEvo = function(history) {
@@ -141,10 +159,6 @@ function DataSource(name, basic_metrics) {
                 Viz.displayBasicLines(metric.divid, history, metric.column,
                         true, metric.name);
         }
-    };
-
-    self.displayEvo = function(id) {
-        self.envisionEvo(id, self.getData());
     };
 
     self.envisionEvo = function(div_id, history) {

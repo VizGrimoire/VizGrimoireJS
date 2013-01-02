@@ -25,10 +25,10 @@ vizgrimoire.deps.js: \
 vizgrimoire.core.js: \
     src/Envision_Report.js \
     src/Report.js \
+    src/DataSource.js \
     src/Viz.js \
     src/ITS.js \
     src/MLS.js \
-    src/DataSource.js \
     src/SCM.js
     
 vizgrimoire.deps.css: \
