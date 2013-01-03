@@ -20,6 +20,7 @@ all: \
 vizgrimoire.deps.js: \
     src/License.js \
     src/envision.js \
+    src/d3-treemap.min.js \
     src/jquery.gridster.js
 
 vizgrimoire.core.js: \
