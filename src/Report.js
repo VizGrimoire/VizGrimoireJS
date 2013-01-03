@@ -255,6 +255,7 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
+                    displayProjectData();
                 });
             }
         },
@@ -432,14 +433,14 @@ var Report = {};
     }
 
     function report(config) {
-        convertBasicDivs();
-        displayProjectData();        
+        convertBasicDivs();        
         convertFlotr2(config);        
         convertTop();        
         convertEnvision();        
         convertBubbles();        
         convertDemographics();        
         convertSelectors();
+        displayProjectData();
     }
 })();
 
