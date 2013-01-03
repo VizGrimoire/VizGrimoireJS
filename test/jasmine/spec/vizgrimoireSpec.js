@@ -162,9 +162,25 @@ describe( "VizGrimoireJS library", function () {
                     Report.getBasicDivs()["gridster"].convert(); 
                     var grids = document.getElementsByClassName
                         ('gs_w').length;
-                    expect(grids).toBeGreaterThan(0);
+                    expect(grids).toEqual(15);
                 });        
             });
+            it("html treemap should be displayed", function () {               
+                runs(function() {
+                    buildNode("treemap","treemap",
+                            {'data-file':'data/json/treemap.json'});
+                    Report.getBasicDivs()["treemap"].convert();
+                });
+                waitsFor(function() {
+                    return (document.getElementsByClassName("treemap-node").length>0);
+                }, "It took too long to load treemap data", 100);
+                runs(function() {
+                    var nodes = document.getElementsByClassName
+                        ('treemap-node').length;
+                    expect(nodes).toEqual(252);
+                });        
+            });
+
         });        
     });
     describe("VizGrimoireJS loaded", function() {
@@ -178,13 +194,15 @@ describe( "VizGrimoireJS library", function () {
         });
     });
     
-    function buildNode (id, div_class) {
+    function buildNode (id, div_class, attr_map) {
         if (document.getElementById(id)) return;
         var node = document.createElement('div');
         document.body.appendChild(node);
         if (div_class)
             node.className = div_class;
         node.id = id;
+        if (attr_map)
+            $('#'+id).attr(attr_map);
         return node;
       }
 
