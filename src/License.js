@@ -25,6 +25,7 @@
  * Bonzo: DOM Utility (c) Dustin Diaz 2011, MIT license
  * Envision.js (c) 2012 Carl Sutherland, Humble Software, MIT license
  * gridster.js Copyright (c) 2012 ducksboard; Licensed MIT
+ * d3.js: Copyright (c) 2012, Michael Bostocks
  * 
  */
 ;
