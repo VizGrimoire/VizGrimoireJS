@@ -299,6 +299,12 @@ var Report = {};
                 Viz.displayGridMetricSelector('metric_selector');
                 Viz.displayGridMetricAll(true);
             }
+        },
+        "treemap": {
+            convert: function() {
+                var file = $('#treemap').data('file');
+                Viz.displayTreeMap('treemap', file);
+            }
         }
     };
     

@@ -224,7 +224,7 @@ h3 {
 }
 
 /*
-	OTHER STYLES TO BE ORGANIZED
+	OTHER STYLES FOR SPECIFIC CHARTS
 */
 .graph .flotr-grid-label {
     font-size: 0.6em
@@ -249,3 +249,19 @@ h3 {
 	height:400px;
 	width:400px;
 }
+
+.treemap {
+ 	position: relative;
+    width: 700px;
+    height: 500px;
+}
+
+.treemap-node {
+  border: solid 1px white;
+  font: 10px sans-serif;
+  line-height: 12px;
+  overflow: hidden;
+  position: absolute;
+  text-indent: 2px;
+}
+
