@@ -68,9 +68,9 @@ var Report = {};
     };
     
     Report.setDataDir = function(dataDir) {
-        project_file = dataDir + "project-info-milestone0.json", 
-        config_file = dataDir + "viz_cfg.json", 
-        markers_file = dataDir + "markers.json";
+        project_file = dataDir + "/project-info-milestone0.json", 
+        config_file = dataDir + "/viz_cfg.json", 
+        markers_file = dataDir + "/markers.json";
     };
    
     function getMarkers() {
@@ -221,26 +221,35 @@ var Report = {};
         }
     }
     
-    function setConfig() {
+    
+    
+    function setConfigDirs(data_dir, html_dir) {
         var data_sources = Report.getDataSources();
-        if ($("#report-config").length > 0) {
+        if (data_dir) {
             $.each(data_sources, function(index, DS) {
-                var ds = DS.getName();
-                if ($("#report-config").data(ds+'-data-file')) {
-                    var data_file = $("#report-config").data(ds+'-data-file');
-                    DS.setDataFile(data_file);
-                }
+                DS.setDataDir(data_dir);
             });
-            if ($("#report-config").data('global-data-dir')) {
-                $.each(data_sources, function(index, DS) {
-                    DS.setDataDir($("#report-config").data('global-data-dir'));
-                });
-                Report.setDataDir($("#report-config").data('global-data-dir'));
-            }
-            if ($("#report-config").data('global-html-dir')) {
-                Report.setHtmlDir($("#report-config").data('global-html-dir'));
-            }
+            Report.setDataDir(data_dir);
         }
+        if (html_dir) {
+            Report.setHtmlDir(html_dir);
+        }
+    }
+    
+    function setConfig() {
+        if ($("#report-config").length > 0) {
+            var data_dir = $("#report-config").data('global-data-dir');
+            var html_dir = $("#report-config").data('global-html-dir');
+            setConfigDirs(data_dir, html_dir);
+        }
+      
+        var querystr = window.location.search.substr(1);
+        if (querystr) {
+            var full_params = querystr.split ("&");
+            var data_dir = full_params[0].split("=")[1];
+            setConfigDirs(data_dir);
+        }
+
     }
     
     var basic_divs = {
