@@ -3564,7 +3564,7 @@ Flotr.addType('lines', {
         stack2 = stack.values[data[i+1][0]] || stack.values[data[i][0]] || 0;
 
         y1 = yScale(data[i][1] + stack1);
-        y2 = yScale(data[i+1][1] + stack2);             
+        y2 = yScale(data[i+1][1] + stack2);         
       }
       else{
         y1 = yScale(data[i][1]);
@@ -3594,7 +3594,7 @@ Flotr.addType('lines', {
     if (!options.fill || options.fill && !options.fillBorder) context.stroke();
 
     fill();
-    
+
     if (stack) {        
       for (i = 0; i < length; ++i) {
         stack1 = stack.values[data[i][0]] || 0;
@@ -3607,22 +3607,28 @@ Flotr.addType('lines', {
         }
       }
     }
-    
+
     function drawPathRev(data) {
       for (i = length-1; i >= 0 ; --i) {
         if (!options.fill) return;
-                    
+
+        // Empty values not full supported
+        if (!data[i]) return;
+        if (data[i][1] === null) {
+          data[i][1] = 0;
+        }
+
         x = xScale(data[i][0]);
         y = yScale(data[i][1]);
 
         if (
           (y > height) || (x > width) ||
-          (y < 0) || (x < 0) 
-        ) return;      
-        context.lineTo(x, y);            
+          (y < 0) || (x < 0)
+        ) return;
+        context.lineTo(x, y);
       }          
     }
-    
+
     function stackToPlot(data) {
       var stack_data = [];
       for (i = 0; i < data.length; ++i) {
@@ -3637,7 +3643,6 @@ Flotr.addType('lines', {
           context.stroke();
         }
         x1 = xScale(start[0]);
-        x2 = xScale(data[data.length-1][0]);
         context.fillStyle = options.fillStyle;
         if (!stack || stack.values.length === 0) {
           context.lineTo(x2, zero);
@@ -3649,7 +3654,7 @@ Flotr.addType('lines', {
           stack_x1 = xScale(stack_plot[0][0]);
           stack_y2 = yScale(stack_plot[stack_plot.length-1][1]);
           context.lineTo(x2, stack_y2);
-          drawPathRev(stack_plot);                    
+          drawPathRev(stack_plot);
           context.lineTo(stack_x1, yScale(data[0][1]));
         }
         context.fill();
@@ -4697,90 +4702,89 @@ Flotr.addType('radar', {
     context.stroke();
   },
   getGeometry : function (point, options) {
-      var
-        radius  = Math.min(options.height, options.width) * options.radiusRatio / 2,
-        step    = 2 * Math.PI / options.data.length,
-        angle   = -Math.PI / 2,
-        ratio = point[1] / this.max;
+    var
+      radius  = Math.min(options.height, options.width) * options.radiusRatio / 2,
+      step    = 2 * Math.PI / options.data.length,
+      angle   = -Math.PI / 2,
+      ratio = point[1] / this.max;
 
-      return {
-        x : (Math.cos(point[0] * step + angle) * radius * ratio) + options.width / 2,
-        y : (Math.sin(point[0] * step + angle) * radius * ratio) + options.height / 2
-      };
-    },
+    return {
+      x : (Math.cos(point[0] * step + angle) * radius * ratio) + options.width / 2,
+      y : (Math.sin(point[0] * step + angle) * radius * ratio) + options.height / 2
+    };
+  },
   hit : function (options) {
-      var
-        args = options.args,
-        mouse = args[0],
-        n = args[1],
-        relX = mouse.relX,
-        relY = mouse.relY,
-        distance,
-        geometry,
-        dx, dy;
+    var
+      args = options.args,
+      mouse = args[0],
+      n = args[1],
+      relX = mouse.relX,
+      relY = mouse.relY,
+      distance,
+      geometry,
+      dx, dy;
 
       for (var i = 0; i < n.series.length; i++) {
+        var serie = n.series[i];
+        var data = serie.data;
 
-          var serie = n.series[i];
-          var data = serie.data;
+        for (var j = data.length; j--;) {
+          geometry = this.getGeometry(data[j], options);
 
-          for (var j = data.length; j--;) {
-            geometry = this.getGeometry(data[j], options);
+          dx = geometry.x - relX;
+          dy = geometry.y - relY;
+          distance = Math.sqrt(dx * dx + dy * dy);
 
-            dx = geometry.x - relX;
-            dy = geometry.y - relY;
-            distance = Math.sqrt(dx * dx + dy * dy);
-
-            if (distance <  options.sensibility*2) {
-              n.x = data[j][0];
-              n.y = data[j][1];
-              n.index = j;
-              n.seriesIndex = i;
-              return n;
-            }
+          if (distance <  options.sensibility*2) {
+            n.x = data[j][0];
+            n.y = data[j][1];
+            n.index = j;
+            n.seriesIndex = i;
+            return n;
           }
+        }
       }
     },
   drawHit : function (options) {
-      var step = 2 * Math.PI / options.data.length;
-      var angle   = -Math.PI / 2;
-      var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
+    var step = 2 * Math.PI / options.data.length;
+    var angle   = -Math.PI / 2;
+    var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
 
-      var s = options.args.series;
-      var point_radius = s.points.hitRadius || s.points.radius || s.mouse.radius;
+    var s = options.args.series;
+    var point_radius = s.points.hitRadius || s.points.radius || s.mouse.radius;
 
-      var context = options.context;
+    var context = options.context;
 
-      context.translate(options.width / 2, options.height / 2);
+    context.translate(options.width / 2, options.height / 2);
 
-      var j = options.args.index;
-      var ratio = options.data[j][1] / this.max;
-      var x = Math.cos(j * step + angle) * radius * ratio;
-      var y = Math.sin(j * step + angle) * radius * ratio;
-      context.beginPath();
-      context.arc(x, y, point_radius , 0, 2 * Math.PI, true);
-      context.closePath();
-      context.stroke();
+    var j = options.args.index;
+    var ratio = options.data[j][1] / this.max;
+    var x = Math.cos(j * step + angle) * radius * ratio;
+    var y = Math.sin(j * step + angle) * radius * ratio;
+    context.beginPath();
+    context.arc(x, y, point_radius , 0, 2 * Math.PI, true);
+    context.closePath();
+    context.stroke();
   },
   clearHit : function (options) {
-      var step = 2 * Math.PI / options.data.length;
-      var angle   = -Math.PI / 2;
-      var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
+    var step = 2 * Math.PI / options.data.length;
+    var angle   = -Math.PI / 2;
+    var radius  = Math.min(options.height, options.width) * options.radiusRatio / 2;
 
-      var context = options.context;
+    var context = options.context;
 
-      var
-          s = options.args.series,
-          lw = (s.points ? s.points.lineWidth : 1);
-          offset = (s.points.hitRadius || s.points.radius || s.mouse.radius) + lw;
+    var
+        s = options.args.series,
+        lw = (s.points ? s.points.lineWidth : 1);
+        offset = (s.points.hitRadius || s.points.radius || s.mouse.radius) + lw;
 
-      context.translate(options.width / 2, options.height / 2);
+    context.translate(options.width / 2, options.height / 2);
 
-      var j = options.args.index;
-      var ratio = options.data[j][1] / this.max;
-      var x = Math.cos(j * step + angle) * radius * ratio;
-      var y = Math.sin(j * step + angle) * radius * ratio;
-      context.clearRect(x-offset,y-offset,offset*2,offset*2);
+    var j = options.args.index;
+    var ratio = options.data[j][1] / this.max;
+    var x = Math.cos(j * step + angle) * radius * ratio;
+    var y = Math.sin(j * step + angle) * radius * ratio;
+    context.clearRect(x-offset,y-offset,offset*2,offset*2);
   },
   extendYRange : function (axis, data) {
     this.max = Math.max(axis.max, this.max || -Number.MAX_VALUE);
