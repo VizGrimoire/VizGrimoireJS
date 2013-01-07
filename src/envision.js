@@ -3560,19 +3560,11 @@ Flotr.addType('lines', {
       if (start === null) start = data[i];
       
       if (stack) {
-
         stack1 = stack.values[data[i][0]] || 0;
         stack2 = stack.values[data[i+1][0]] || stack.values[data[i][0]] || 0;
 
         y1 = yScale(data[i][1] + stack1);
-        y2 = yScale(data[i+1][1] + stack2);
-        
-        if(incStack){
-          stack.values[data[i][0]] = data[i][1]+stack1;
-            
-          if(i == length-1)
-            stack.values[data[i+1][0]] = data[i+1][1]+stack2;
-        }
+        y2 = yScale(data[i+1][1] + stack2);             
       }
       else{
         y1 = yScale(data[i][1]);
@@ -3602,23 +3594,67 @@ Flotr.addType('lines', {
     if (!options.fill || options.fill && !options.fillBorder) context.stroke();
 
     fill();
-
-    function fill () {
-      // TODO stacked lines
-      if(!shadowOffset && options.fill && start){
-        x1 = xScale(start[0]);
-        context.fillStyle = options.fillStyle;
-        context.lineTo(x2, zero);
-        context.lineTo(x1, zero);
-        context.lineTo(x1, yScale(start[1]));
-        context.fill();
-        if (options.fillBorder) {
-          context.stroke();
+    
+    if (stack) {        
+      for (i = 0; i < length; ++i) {
+        stack1 = stack.values[data[i][0]] || 0;
+        stack2 = stack.values[data[i+1][0]] || 
+                 stack.values[data[i][0]] || 0;
+        if (incStack) {
+            stack.values[data[i][0]] = data[i][1]+stack1;                  
+            if (i == length-1) 
+              stack.values[data[i+1][0]] = data[i+1][1]+stack2;
         }
       }
     }
+    
+    function drawPathRev(data) {
+      for (i = length-1; i >= 0 ; --i) {
+        if (!options.fill) return;
+                    
+        x = xScale(data[i][0]);
+        y = yScale(data[i][1]);
 
-    context.closePath();
+        if (
+          (y > height) || (x > width) ||
+          (y < 0) || (x < 0) 
+        ) return;      
+        context.lineTo(x, y);            
+      }          
+    }
+    
+    function stackToPlot(data) {
+      var stack_data = [];
+      for (i = 0; i < data.length; ++i) {
+          stack_data.push([i, data[i]]);
+      }
+      return stack_data;
+    }
+
+    function fill () {
+      if(!shadowOffset && options.fill && start){
+        if (options.fillBorder) {
+          context.stroke();
+        }
+        x1 = xScale(start[0]);
+        x2 = xScale(data[data.length-1][0]);
+        context.fillStyle = options.fillStyle;
+        if (!stack || stack.values.length === 0) {
+          context.lineTo(x2, zero);
+          context.lineTo(x1, zero);
+          context.lineTo(x1, yScale(start[1]));
+        }
+        else {
+          var stack_plot = stackToPlot(stack.values);
+          stack_x1 = xScale(stack_plot[0][0]);
+          stack_y2 = yScale(stack_plot[stack_plot.length-1][1]);
+          context.lineTo(x2, stack_y2);
+          drawPathRev(stack_plot);                    
+          context.lineTo(stack_x1, yScale(data[0][1]));
+        }
+        context.fill();
+      }
+    }
   },
 
   // Perform any pre-render precalculations (this should be run on data first)
