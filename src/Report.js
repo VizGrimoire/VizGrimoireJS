@@ -28,9 +28,10 @@ var Report = {};
     // Shared config
     var project_data = null, markers = null, config = null, 
         data_callbacks = [], gridster = {}, data_sources = [], html_dir="";
-    var project_file = "data/json/project-info-milestone0.json", 
-        config_file = "data/json/viz_cfg.json", 
-        markers_file = "data/json/markers.json";
+    var data_dir = "data/json";
+    var project_file = data_dir + "/project-info-milestone0.json",
+        config_file = data_dir + "/viz_cfg.json",
+        markers_file = data_dir + "/markers.json";
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
@@ -66,8 +67,13 @@ var Report = {};
     Report.setHtmlDir = function (dir) {
         html_dir = dir;
     };
-    
+
+    Report.getDataDir = function() {
+      return data_dir;
+    };
+
     Report.setDataDir = function(dataDir) {
+        data_dir = dataDir;
         project_file = dataDir + "/project-info-milestone0.json", 
         config_file = dataDir + "/viz_cfg.json", 
         markers_file = dataDir + "/markers.json";
@@ -257,6 +263,10 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
+                    var $links = $("#navigation a");
+                    $.each($links, function(index, value){
+                      value.href += "?data_dir=" + Report.getDataDir();
+                    });
                 });                
             }
         },
@@ -265,6 +275,11 @@ var Report = {};
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                     displayProjectData();
+                    var $links = $("#header a");
+                    $.each($links, function(index, value){
+                      value.href += "?data_dir=" + Report.getDataDir();
+                    });
+
                 });
             }
         },
