@@ -88,31 +88,51 @@
         };
         return viz;
     }
+    
+    function getOrderedDataSources(ds_list, main_metric) {
+        var ordered = [];
+        var main_DS = null;
+        $.each(ds_list, function(i, DS) {
+           if (DS.getMetrics()[main_metric]) {
+               main_DS = DS;
+               return false;
+           }
+        });
+        ordered.push(main_DS);
+        $.each(ds_list, function(i, DS) {
+            if (DS===main_DS) return;
+            ordered.push(DS);
+         });
+        return ordered;
+    }
 
     function Envision_Report(options, data_sources) {
 
         var main_metric = options.data.main_metric;
         global_data = options.data;
 
+        if (!data_sources) data_sources = Report.getDataSources();
+        
+        data_sources = getOrderedDataSources(data_sources, main_metric);
+        
         var ds = [];
-        for ( var i = 0; i < data_sources.length; i++)
+        for ( var i = 0; i < data_sources.length; i++) {
+            if (data_sources[i].getData().length === 0) continue;
             ds.push(data_sources[i].getName());
+        }
 
-        var data = options.data, defaults = getDefaults(ds), vis = new V.Visualization(
+        var data = options.data, defaults = getDefaults(ds), 
+            vis = new V.Visualization(
                 {
                     name : 'report-' + ds.join(",")
                 }), selection = new V.Interaction(), hit = new V.Interaction();
 
         var metrics = {};
-        if (!ds)
-            metrics = Report.getAllMetrics();
-        else {
-            // TODO: iterate here over all DS
-            $.each(Report.getDataSources(), function(i, DS) {
-                if ($.inArray(DS.getName(), ds) > -1)
-                    metrics = $.extend(metrics, DS.getMetrics());
-            });
-        }
+
+        $.each(data_sources, function(i, DS) {
+            if (DS.getData().length === 0) return;
+            metrics = $.extend(metrics, DS.getMetrics());
+        });
 
         $.each(metrics, function(metric, value) {
             if ($.inArray(metric, data.envision_hide) === -1) {

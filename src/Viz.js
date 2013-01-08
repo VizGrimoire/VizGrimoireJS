@@ -829,8 +829,10 @@ var Viz = {};
         var main_metric = "", main_matric_data = [];
         $.each(data_sources, function(i, DS) {
             if (DS.getData().length === 0) return;
+            // TODO: better control of the main metric
             main_metric = DS.getMainMetric();
             main_matric_data = DS.getData()[main_metric];
+            if (DS.getName() === "scm") return false;
         });
 
         var hide = Report.getConfig().summary_hide;
@@ -874,12 +876,6 @@ var Viz = {};
         };
 
         // Create the TimeSeries
-        var ds_with_data = [];
-        $.each(data_sources, function(i, DS) {
-            if (DS.getData().length === 0) return;
-            ds_with_data.push(DS);
-        });
-        var vis = new envision.templates.Envision_Report(options, ds_with_data);
+        var vis = new envision.templates.Envision_Report(options); 
     }
-
 })();
