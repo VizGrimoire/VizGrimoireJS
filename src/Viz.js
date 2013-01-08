@@ -371,6 +371,11 @@ var Viz = {};
     function displayRadarChart(div_id, ticks, data) {
         var container = document.getElementById(div_id);
         var max = $("#" + div_id).data('max');
+        
+        for (var i=0; i<data[0].data.length; i++) {
+            var value =  data[0].data[i][1];
+            if (value>max) max = value;            
+        }
 
         graph = Flotr.draw(container, data, {
             radar : {
@@ -733,8 +738,12 @@ var Viz = {};
     }
 
     function displayGridMetricSelector(div_id) {
-        var metrics = Report.getAllMetrics();
-        // var metrics = MLS.getMetrics();
+        var metrics = {};
+        $.each(Report.getDataSources(), function(i, DS) {
+            if (DS.getData().length === 0) return;
+            metrics = $.extend(metrics, DS.getMetrics());
+        });
+
         var html = "Metrics Selector:";
         html += "<form id='form_metric_selector'>";
 
@@ -819,6 +828,7 @@ var Viz = {};
 
         var main_metric = "", main_matric_data = [];
         $.each(data_sources, function(i, DS) {
+            if (DS.getData().length === 0) return;
             main_metric = DS.getMainMetric();
             main_matric_data = DS.getData()[main_metric];
         });
@@ -834,9 +844,8 @@ var Viz = {};
 
         var all_metrics = {};
         $.each(data_sources, function(i, DS) {
-            if (DS.getData()) {
-                all_metrics = $.extend(all_metrics, DS.getMetrics());
-            }
+            if (DS.getData().length === 0) return;
+            all_metrics = $.extend(all_metrics, DS.getMetrics());
         });
 
         $.each(data_sources, function(i, DS) {
@@ -865,8 +874,12 @@ var Viz = {};
         };
 
         // Create the TimeSeries
-        var vis = new envision.templates.Envision_Report(options, Report
-                .getDataSources());
+        var ds_with_data = [];
+        $.each(data_sources, function(i, DS) {
+            if (DS.getData().length === 0) return;
+            ds_with_data.push(DS);
+        });
+        var vis = new envision.templates.Envision_Report(options, ds_with_data);
     }
 
 })();

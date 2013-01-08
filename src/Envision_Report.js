@@ -108,7 +108,7 @@
             metrics = Report.getAllMetrics();
         else {
             // TODO: iterate here over all DS
-            $.each(Report.getDataSources(), function(i, DS) {    
+            $.each(Report.getDataSources(), function(i, DS) {
                 if ($.inArray(DS.getName(), ds) > -1)
                     metrics = $.extend(metrics, DS.getMetrics());
             });
