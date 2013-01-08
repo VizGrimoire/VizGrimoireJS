@@ -265,7 +265,10 @@ var Report = {};
                     $("#navigation").html(navigation);
                     var $links = $("#navigation a");
                     $.each($links, function(index, value){
-                      value.href += "?data_dir=" + Report.getDataDir();
+                      if (value.href.indexOf("jasmine")>-1)
+                        value.href += "?data_dir=../" + Report.getDataDir();
+                      else 
+                        value.href += "?data_dir=" + Report.getDataDir();
                     });
                 });                
             }
