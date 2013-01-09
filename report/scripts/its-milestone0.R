@@ -91,6 +91,7 @@ source("swscopio.R")
 closed_condition <- "new_value='RESOLVED' OR new_value='CLOSED'"
 
 if (its == 'allura') closed_condition <- "new_value='CLOSED'"
+if (its == 'github') closed_condition <- "field='closed'"
 
 # Closed tickets: time ticket was open, first closed, time-to-first-close
 q <- paste("SELECT issue_id, issue,
