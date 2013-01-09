@@ -199,9 +199,11 @@ top_senders <- function(days = 0) {
 					GROUP by email_address ORDER BY sent DESC LIMIT 10;")
 		
 	} else {
+        q <- paste("SELECT @maxdate:=max(first_date) from messages limit 1;")
+        data <- query(q)
 		q <- paste("SELECT email_address as developer, count(m.message_id) as sent 
 						FROM messages m join messages_people m_p on m_p.message_id=m.message_ID
- 						WHERE DATEDIFF(CURDATE(),first_date)<",days," 
+ 						WHERE DATEDIFF(@maxdate,first_date)<",days," 
 						GROUP by email_address ORDER BY sent DESC LIMIT 10;")		
 	}
 	data <- query(q)
