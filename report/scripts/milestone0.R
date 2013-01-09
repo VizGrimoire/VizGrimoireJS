@@ -237,9 +237,11 @@ top_committers <- function(days = 0) {
 				GROUP BY p.email ORDER BY commits DESC 
 				LIMIT 10;")
 	} else {
+    q <- paste("SELECT @maxdate:=max(date) from scmlog limit 1;")
+    data <- query(q)
 	q <- paste("SELECT count(s.id) as commits, p.email as developer
 			   FROM scmlog s JOIN people p ON p.id=s.committer_id
-			   WHERE DATEDIFF(CURDATE(),date)<",days," 
+			   WHERE DATEDIFF(@maxdate,date)<",days," 
 			   GROUP BY p.email ORDER BY commits DESC 
 			   LIMIT 10;")
 	}
