@@ -29,6 +29,8 @@ var Report = {};
     var project_data = null, markers = null, config = null, 
         data_callbacks = [], gridster = {}, data_sources = [], html_dir="";
     var data_dir = "data/json";
+    var default_data_dir = "data/json";
+    var default_html_dir = "";
     var project_file = data_dir + "/project-info-milestone0.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
@@ -57,7 +59,6 @@ var Report = {};
     }; 
     Report.displayProjectData = displayProjectData;
     Report.report = report;
-    Report.setConfig = setConfig;
     Report.getDataSources = function() {
         return data_sources;
     };
@@ -227,45 +228,55 @@ var Report = {};
             $('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
         }
     }    
+           
+    function getReportDirs() {
+        var data_sources = [];
+        var dirs = {
+            data: default_data_dir,
+            html: default_html_dir,
+            data_sources: data_sources            
+        };
         
-    function setConfigDirs(data_dir, html_dir) {
-        var data_sources = Report.getDataSources();
-        if (data_dir) {
-            $.each(data_sources, function(index, DS) {
-                DS.setDataDir(data_dir);
-            });
-            Report.setDataDir(data_dir);
-        }
-        if (html_dir) {
-            Report.setHtmlDir(html_dir);
-        }
-    }
-    
-    function createDataSources() {
-        // TODO: only create the data sources we have data for
-        Report.registerDataSource(new ITS());
-        Report.registerDataSource(new MLS());
-        Report.registerDataSource(new SCM());
-        setConfig();
-    }
-    
-    function setConfig() {
-        if ($("#report-config").length > 0) {
-            var data_dir = $("#report-config").data('global-data-dir');
-            var html_dir = $("#report-config").data('global-html-dir');
-            setConfigDirs(data_dir, html_dir);
-        }
-      
-        var querystr = window.location.search.substr(1);
+        var querystr = window.location.search.substr(1);        
         if (querystr) {
             var full_params = querystr.split ("&");
             var data_dir = full_params[0].split("=")[1];
-            setConfigDirs(data_dir);
+            dirs.data_sources.push(data_dir);
             if (full_params[1]) alert("More than one project: "+full_params[1]);
+        }                
+        else if ($("#report-config").length > 0) {
+            var data = $("#report-config").data('global-data-dir');
+            var html = $("#report-config").data('global-html-dir');
+            if (data) dirs.data_sources.push(data);
+            if (data) dirs.data = data;
+            if (html) dirs.html = html;
+        } else {
+            data_sources.push(default_data_dir);
         }
-
+        return dirs;
     }
     
+    function createDataSources() {
+        var dirs = getReportDirs();
+        
+        // TODO: Move global config to a better method name
+        Report.setHtmlDir(dirs.html);
+        Report.setDataDir(dirs.data);
+        
+        for (var i=0; i<dirs.data_sources.length;i++) {
+            var its = new ITS();
+            Report.registerDataSource(its);
+            var mls = new MLS();        
+            Report.registerDataSource(mls);        
+            var scm = new SCM();
+            Report.registerDataSource(scm);
+        
+            its.setDataDir(dirs.data_sources[i]);
+            mls.setDataDir(dirs.data_sources[i]);
+            scm.setDataDir(dirs.data_sources[i]);            
+        }
+    }
+        
     var basic_divs = {
         "navigation": {
             convert: function() {
