@@ -21,7 +21,10 @@
  *   Alvaro del Castillo San Felix <acs@bitergia.com>
  */
 
-(function() {
+function SCM() {
+    // Work around: http://bit.ly/yP8tGP
+    var self = this;
+
     var basic_metrics = {
         'commits' : {
             'divid' : "scm-commits",
@@ -75,5 +78,41 @@
             }
         }
     };
-    Report.registerDataSource(new DataSource("scm", basic_metrics));
-})();
+    
+    self.getMetrics = function() {return basic_metrics;};
+    
+    self.getMainMetric = function() {
+        return "commits";
+    };
+    
+    self.displayData = function() {
+        $("#scmFirst").text(self.global_data.first_date);
+        $("#scmLast").text(self.global_data.last_date);
+        $("#scmCommits").text(self.global_data.commits);
+        $("#scmAuthors").text(self.global_data.authors);
+        $("#scmCommitters").text(self.global_data.committers);
+    };
+    
+    self.displayBasicHTML = function(div_target, config) {
+        var title = "Change sets (commits to source code)";
+        Viz.displayBasicHTML(self.getData(), div_target, title, 
+                self.basic_metrics, self.name+'_hide', config);
+    };
+    
+    self.displayBubbles = function(divid) {
+        Viz.displayBubbles(divid, "commits", "committers");
+    };
+    
+    self.displayEvo = function(id) {
+        self.envisionEvo(id, self.getData());
+    };
+    
+    self.envisionEvo = function(div_id, history) {
+        config = Report.getConfig();
+        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
+                self.getMainMetric(), config.scm_hide);
+        new envision.templates.Envision_Report(options, [ self ]);
+    };   
+}
+var aux = new SCM();
+SCM.prototype = new DataSource("scm", aux.getMetrics());

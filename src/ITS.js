@@ -21,7 +21,10 @@
  *   Alvaro del Castillo San Felix <acs@bitergia.com>
  */
 
-(function() {
+function ITS() {
+    // Work around: http://bit.ly/yP8tGP
+    var self = this;
+
     var basic_metrics = {
         'opened' : {
             'divid' : 'its-opened',
@@ -75,6 +78,42 @@
                 gtype : 'whiskers'
             }
         }
-    };    
-    Report.registerDataSource(new DataSource("its", basic_metrics));
-})();
+    };
+    self.getMetrics = function() {return basic_metrics;};
+    
+    self.getMainMetric = function() {
+        return "opened";
+    };
+    
+    self.displayData = function() {
+        $("#itsFirst").text(self.global_data.first_date);
+        $("#itsLast").text(self.global_data.last_date);
+        $("#itsTickets").text(self.global_data.tickets);
+        $("#itsOpeners").text(self.global_data.openers);
+    };
+    
+    self.displayBasicHTML = function(div_target, config) {
+        var title = "Tickets";
+        Viz.displayBasicHTML(self.getData(), div_target, title, 
+                self.basic_metrics, self.name+'_hide', config);
+    };
+    
+    self.displayBubbles = function(divid) {
+        Viz.displayBubbles(divid, "opened", "openers");
+    };
+    
+    self.displayEvo = function(id) {
+        self.envisionEvo(id, self.getData());
+    };
+    
+    self.envisionEvo = function(div_id, history) {
+        config = Report.getConfig();
+        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
+                self.getMainMetric(), config.its_hide);
+        new envision.templates.Envision_Report(options, [ self ]);
+    };
+
+    
+}
+var aux = new ITS();
+ITS.prototype = new DataSource("its", aux.getMetrics());

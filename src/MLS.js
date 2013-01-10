@@ -22,11 +22,28 @@
  */
 
 function MLS() {
-
+    
+    var basic_metrics = {
+        'sent' : {
+            'divid' : "mls-sent",
+            'column' : "sent",
+            'name' : "Sent",
+            'desc' : "Number of messages"
+        },
+        'senders' : {
+            'divid' : "mls-senders",
+            'column' : "senders",
+            'name' : "Senders",
+            'desc' : "Number of unique message senders",
+            'action' : "sent"
+        }
+    };
+        
     // Work around: http://bit.ly/yP8tGP
     var self = this;
     var data_lists = null;
-
+    
+    self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
 
     self.displayEvo = displayEvo;
     self.displayEvoAggregated = displayEvoAggregated;
@@ -47,24 +64,25 @@ function MLS() {
     self.getMetrics = function() {return basic_metrics;};
     self.getListsFile = function() {return self.data_lists_file;};
     self.getListsData = function() {return data_lists;};
-    self.setListsData = function(lists) {data_lists = lists;};    
+    self.setListsData = function(lists) {data_lists = lists;}; 
 
-    var basic_metrics = {
-        'sent' : {
-            'divid' : "mls-sent",
-            'column' : "sent",
-            'name' : "Sent",
-            'desc' : "Number of messages"
-        },
-        'senders' : {
-            'divid' : "mls-senders",
-            'column' : "senders",
-            'name' : "Senders",
-            'desc' : "Number of unique message senders",
-            'action' : "sent"
-        }
+    self.setDataDir = function(dataDir) {
+        self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
+        MLS.prototype.setDataDir.call(self, dataDir);
     };
     
+    self.displayData = function() {
+        $("#mlsFirst").text(self.global_data.first_date);
+        $("#mlsLast").text(self.global_data.last_date);
+        $("#mlsMessages").text(self.global_data.sent);
+        $("#mlsSenders").text(self.global_data.senders);
+    };
+    
+    
+    self.displayBubbles = function(divid) {
+        Viz.displayBubbles(divid, "sent", "senders");
+    };
+        
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
     // <allura-dev.incubator.apache.org>
     function displayMLSListName(listinfo) {
@@ -268,9 +286,10 @@ function MLS() {
 
     function displayEvoDefault(div_id) {
         cleanLocalStorage();
-        displaySelectorCheckDefault();
+        if (document.getElementById('form_mls_selector'))
+            displaySelectorCheckDefault();
         $("#" + div_id).empty();
-        self.displayEvo(div_id);
+        displayEvoLists(div_id, getDefaultLists());
     }
 
     function displayEvoUserAll(id, all) {
@@ -284,8 +303,7 @@ function MLS() {
 
     function displayEvoUser(id) {
         $("#" + id).empty();
-        var lists = getUserLists();
-        displayEvoLists(id, lists);
+        displayEvoLists(id, getUserLists());
     }
 
     function displayEvoListSelector(div_id_sel, div_id_mls) {
@@ -309,7 +327,7 @@ function MLS() {
             }
         }
         
-        // Methods visible to HTML
+        // TODO: Hack! Methods visible to HTML
         Report.displayBasicUser = self.displayBasicUser;
         Report.displayBasicUserAll = self.displayBasicUserAll;
         Report.displayBasicDefault = self.displayBasicDefault;
@@ -410,4 +428,3 @@ function MLS() {
 }
 var aux = new MLS();
 MLS.prototype = new DataSource("mls", aux.getMetrics());
-Report.registerDataSource(new MLS());

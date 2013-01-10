@@ -22,7 +22,7 @@
  */
 
 // TODO: Use attributes for getters and setters
-// TODO: Try to remove specific scm, its, mls logic
+
 function DataSource(name, basic_metrics) {
     
     // Work around: http://bit.ly/yP8tGP
@@ -33,7 +33,6 @@ function DataSource(name, basic_metrics) {
     self.demographics_file = self.data_dir + '/'+self.name+'-demographics-2012.json';
     self.global_data_file = self.data_dir + '/'+self.name+'-info-milestone0.json';
     self.top_data_file = self.data_dir + '/'+self.name+'-top-milestone0.json';
-    self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
     self.data = null;
     self.demographics_data = null;
     self.global_data = null;
@@ -44,14 +43,6 @@ function DataSource(name, basic_metrics) {
         return self.basic_metrics;
     };  
     
-    self.getMainMetric = function() {
-        // TODO: Each new DS should provide its main metric
-        var metric = "";
-        if (self.getName() === "scm") metric = "commits";
-        else if (self.getName() === "its") metric = "opened";
-        else if (self.getName() === "mls") metric = "sent";
-        return metric;
-    };
     self.getDataFile = function() {
         return self.data_file;
     };
@@ -82,7 +73,6 @@ function DataSource(name, basic_metrics) {
         self.demographics_file = dataDir + '/'+self.name+'-demographics-2012.json';
         self.global_data_file = dataDir + '/'+self.name+'-info-milestone0.json';
         self.top_data_file = dataDir + '/'+self.name+'-top-milestone0.json';
-        self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
     };
     self.getGlobalDataFile = function() {
         return self.global_data_file;
@@ -97,34 +87,9 @@ function DataSource(name, basic_metrics) {
         return self.name;
     };
         
-    self.displayData = function() {
-        if (self.getName() === "scm") {
-            $("#scmFirst").text(self.global_data.first_date);
-            $("#scmLast").text(self.global_data.last_date);
-            $("#scmCommits").text(self.global_data.commits);
-            $("#scmAuthors").text(self.global_data.authors);
-            $("#scmCommitters").text(self.global_data.committers);
-        } else if (self.getName() === "its") {
-            $("#itsFirst").text(self.global_data.first_date);
-            $("#itsLast").text(self.global_data.last_date);
-            $("#itsTickets").text(self.global_data.tickets);
-            $("#itsOpeners").text(self.global_data.openers);
-        } else if (self.getName() === "mls") {
-            $("#mlsFirst").text(self.global_data.first_date);
-            $("#mlsLast").text(self.global_data.last_date);
-            $("#mlsMessages").text(self.global_data.sent);
-            $("#mlsSenders").text(self.global_data.senders);
-        }
-    };
-
     // Create HTML code to show the metrics
     self.displayBasicHTML = function(div_target, config) {
         var title = "";
-        if (self.getName() === "scm") {
-            title = "Change sets (commits to source code)";
-        } else if (self.getName() === "scm") {
-            title = "Tickets";
-        }
         Viz.displayBasicHTML(self.getData(), div_target, title, 
                 self.basic_metrics, self.name+'_hide', config);
     };
@@ -138,24 +103,10 @@ function DataSource(name, basic_metrics) {
         self.basicEvo(self.getData());
     };
 
-    self.displayBubbles = function(divid) {
-        if (self.getName() === "scm") {
-            Viz.displayBubbles(divid, "commits", "committers");
-        } else if (self.getName() === "its") {
-            Viz.displayBubbles(divid, "opened", "openers");
-        } else if (self.getName() === "mls") {
-            Viz.displayBubbles(divid, "sent", "senders");
-        }
-    };
-
     self.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, self, file);
     };
-    
-    self.displayEvo = function(id) {
-        self.envisionEvo(id, self.getData());
-    };
-    
+        
     self.displayTimeToFix = function(div_id, json_file, column, labels, title) {
         Viz.displayTimeToFix(div_id, json_file, column, labels, title);
     };
@@ -175,12 +126,5 @@ function DataSource(name, basic_metrics) {
                 Viz.displayBasicLines(metric.divid, history, metric.column,
                         true, metric.name);
         }
-    };
-
-    self.envisionEvo = function(div_id, history) {
-        config = Report.getConfig();
-        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
-                self.getMainMetric(), config.scm_hide);
-        new envision.templates.Envision_Report(options, [ self ]);
     };
 }

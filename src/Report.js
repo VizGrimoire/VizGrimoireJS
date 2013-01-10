@@ -42,6 +42,7 @@ var Report = {};
     Report.convertBubbles = convertBubbles;
     Report.convertDemographics = convertDemographics;
     Report.convertSelectors = convertSelectors;
+    Report.createDataSources = createDataSources;
     Report.data_load = data_load;
     Report.data_ready = data_ready;
     Report.getAllMetrics = getAllMetrics;
@@ -225,10 +226,8 @@ var Report = {};
         } else {
             $('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
         }
-    }
-    
-    
-    
+    }    
+        
     function setConfigDirs(data_dir, html_dir) {
         var data_sources = Report.getDataSources();
         if (data_dir) {
@@ -240,6 +239,14 @@ var Report = {};
         if (html_dir) {
             Report.setHtmlDir(html_dir);
         }
+    }
+    
+    function createDataSources() {
+        // TODO: only create the data sources we have data for
+        Report.registerDataSource(new ITS());
+        Report.registerDataSource(new MLS());
+        Report.registerDataSource(new SCM());
+        setConfig();
     }
     
     function setConfig() {
@@ -254,6 +261,7 @@ var Report = {};
             var full_params = querystr.split ("&");
             var data_dir = full_params[0].split("=")[1];
             setConfigDirs(data_dir);
+            if (full_params[1]) alert("More than one project: "+full_params[1]);
         }
 
     }
@@ -481,6 +489,6 @@ Report.data_ready(function() {
     Report.report();
 });
 $(document).ready(function() {
-    Report.setConfig();
+    Report.createDataSources();
     Report.data_load();
 });
