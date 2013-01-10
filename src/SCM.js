@@ -77,42 +77,42 @@ function SCM() {
                 gtype : 'whiskers'
             }
         }
-    };
+    };           
     
-    self.getMetrics = function() {return basic_metrics;};
+    this.getMetrics = function() {return basic_metrics;};
     
-    self.getMainMetric = function() {
+    this.getMainMetric = function() {
         return "commits";
     };
     
-    self.displayData = function() {
-        $("#scmFirst").text(self.global_data.first_date);
-        $("#scmLast").text(self.global_data.last_date);
-        $("#scmCommits").text(self.global_data.commits);
-        $("#scmAuthors").text(self.global_data.authors);
-        $("#scmCommitters").text(self.global_data.committers);
+    this.displayData = function() {
+        $("#scmFirst").text(this.global_data.first_date);
+        $("#scmLast").text(this.global_data.last_date);
+        $("#scmCommits").text(this.global_data.commits);
+        $("#scmAuthors").text(this.global_data.authors);
+        $("#scmCommitters").text(this.global_data.committers);
     };
     
-    self.displayBasicHTML = function(div_target, config) {
+    this.displayBasicHTML = function(div_target, config) {
         var title = "Change sets (commits to source code)";
-        Viz.displayBasicHTML(self.getData(), div_target, title, 
-                self.basic_metrics, self.name+'_hide', config);
+        Viz.displayBasicHTML(this.getData(), div_target, title, 
+                this.basic_metrics, this.name+'_hide', config);
     };
     
-    self.displayBubbles = function(divid) {
+    this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "commits", "committers");
     };
     
-    self.displayEvo = function(id) {
-        self.envisionEvo(id, self.getData());
+    this.displayEvo = function(id) {
+        this.envisionEvo(id, this.getData());
     };
     
-    self.envisionEvo = function(div_id, history) {
+    this.envisionEvo = function(div_id, history) {
         config = Report.getConfig();
-        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
-                self.getMainMetric(), config.scm_hide);
+        options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
+                this.getMainMetric(), config.scm_hide);
         new envision.templates.Envision_Report(options, [ self ]);
-    };   
+    }; 
 }
 var aux = new SCM();
 SCM.prototype = new DataSource("scm", aux.getMetrics());

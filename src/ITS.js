@@ -24,6 +24,7 @@
 function ITS() {
     // Work around: http://bit.ly/yP8tGP
     var self = this;
+    
 
     var basic_metrics = {
         'opened' : {
@@ -78,38 +79,39 @@ function ITS() {
                 gtype : 'whiskers'
             }
         }
-    };
-    self.getMetrics = function() {return basic_metrics;};
+    };       
     
-    self.getMainMetric = function() {
-        return "opened";
-    };
+    this.getMetrics = function() {return basic_metrics;};
     
-    self.displayData = function() {
-        $("#itsFirst").text(self.global_data.first_date);
-        $("#itsLast").text(self.global_data.last_date);
-        $("#itsTickets").text(self.global_data.tickets);
-        $("#itsOpeners").text(self.global_data.openers);
+    this.getMainMetric = function() {
+        return "closed";
     };
     
-    self.displayBasicHTML = function(div_target, config) {
+    this.displayData = function() {
+        $("#itsFirst").text(this.global_data.first_date);
+        $("#itsLast").text(this.global_data.last_date);
+        $("#itsTickets").text(this.global_data.tickets);
+        $("#itsOpeners").text(this.global_data.openers);
+    };
+    
+    this.displayBasicHTML = function(div_target, config) {
         var title = "Tickets";
-        Viz.displayBasicHTML(self.getData(), div_target, title, 
-                self.basic_metrics, self.name+'_hide', config);
+        Viz.displayBasicHTML(this.getData(), div_target, title, 
+                this.basic_metrics, this.name+'_hide', config);
     };
     
-    self.displayBubbles = function(divid) {
+    this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "opened", "openers");
     };
     
-    self.displayEvo = function(id) {
-        self.envisionEvo(id, self.getData());
+    this.displayEvo = function(id) {
+        this.envisionEvo(id, this.getData());
     };
     
-    self.envisionEvo = function(div_id, history) {
+    this.envisionEvo = function(div_id, history) {
         config = Report.getConfig();
-        options = Viz.getEnvisionOptions(div_id, history, self.basic_metrics,
-                self.getMainMetric(), config.its_hide);
+        options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
+                this.getMainMetric(), config.its_hide);
         new envision.templates.Envision_Report(options, [ self ]);
     };
 

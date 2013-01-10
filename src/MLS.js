@@ -41,45 +41,45 @@ function MLS() {
         
     // Work around: http://bit.ly/yP8tGP
     var self = this;
-    var data_lists = null;
     
-    self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
-
-    self.displayEvo = displayEvo;
-    self.displayEvoAggregated = displayEvoAggregated;
-    self.displayBasic = displayBasic;
-    self.displayBasicMetricHTML = displayBasicMetricHTML;
-    self.displayBasicListSelector = displayBasicListSelector;
-    self.displayEvoListSelector = displayEvoListSelector;
-    self.displayEvoBasicListSelector = displayEvoBasicListSelector;
-    self.displayBasicUser = displayBasicUser;
-    self.displayEvoUser = displayEvoUser;
-    self.displayEvoUserAll = displayEvoUserAll;
-    self.displayBasicUserAll = displayBasicUserAll;
-    self.displayEvoDefault = displayEvoDefault;
-    self.displayBasicDefault = displayBasicDefault;
-    self.getMainMetric = function() {
-        return "sent";
-    };
-    self.getMetrics = function() {return basic_metrics;};
-    self.getListsFile = function() {return self.data_lists_file;};
-    self.getListsData = function() {return data_lists;};
-    self.setListsData = function(lists) {data_lists = lists;}; 
-
-    self.setDataDir = function(dataDir) {
-        self.data_lists_file = self.data_dir + '/mls-lists-milestone0.json';
+    this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
+    this.getListsFile = function() {return this.data_lists_file;};
+    var data_lists = null;
+    this.getListsData = function() {return data_lists;};
+    this.setListsData = function(lists) {data_lists = lists;}; 
+    
+    this.setDataDir = function(dataDir) {
+        this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
         MLS.prototype.setDataDir.call(self, dataDir);
     };
+
+    this.displayEvo = displayEvo;
+    this.displayEvoAggregated = displayEvoAggregated;
+    this.displayBasic = displayBasic;
+    this.displayBasicMetricHTML = displayBasicMetricHTML;
+    this.displayBasicListSelector = displayBasicListSelector;
+    this.displayEvoListSelector = displayEvoListSelector;
+    this.displayEvoBasicListSelector = displayEvoBasicListSelector;
+    this.displayBasicUser = displayBasicUser;
+    this.displayEvoUser = displayEvoUser;
+    this.displayEvoUserAll = displayEvoUserAll;
+    this.displayBasicUserAll = displayBasicUserAll;
+    this.displayEvoDefault = displayEvoDefault;
+    this.displayBasicDefault = displayBasicDefault;
+    this.getMainMetric = function() {
+        return "sent";
+    };
+    this.getMetrics = function() {return basic_metrics;};
     
-    self.displayData = function() {
-        $("#mlsFirst").text(self.global_data.first_date);
-        $("#mlsLast").text(self.global_data.last_date);
-        $("#mlsMessages").text(self.global_data.sent);
-        $("#mlsSenders").text(self.global_data.senders);
+    this.displayData = function() {
+        $("#mlsFirst").text(this.global_data.first_date);
+        $("#mlsLast").text(this.global_data.last_date);
+        $("#mlsMessages").text(this.global_data.sent);
+        $("#mlsSenders").text(this.global_data.senders);
     };
     
     
-    self.displayBubbles = function(divid) {
+    this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "sent", "senders");
     };
         
@@ -132,7 +132,7 @@ function MLS() {
 
         for ( var i = 0; i < lists.length; i++) {
             var l = lists[i];
-            file_messages = self.getDataDir()+"/mls-";
+            file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
             file_messages += "-milestone0.json";
             displayBasicList(div_id, l, file_messages);
@@ -140,7 +140,7 @@ function MLS() {
     }
 
     function displayBasic(div_id, config_metric) {
-        var lists = self.getListsData();
+        var lists = this.getListsData();
 
         lists_hide = Report.getConfig().mls_hide_lists;
         lists = lists.mailing_list;
@@ -161,7 +161,7 @@ function MLS() {
             if (!user_pref)
                 if ($.inArray(l, lists_hide) > -1)
                     continue;
-            file_messages = self.getDataDir()+ "/mls-";
+            file_messages = this.getDataDir()+ "/mls-";
             file_messages += l;
             file_messages += "-milestone0.json";
             displayBasicList(div_id, l, file_messages, config_metric);
@@ -206,11 +206,11 @@ function MLS() {
     }
 
     function displayEvoAggregated(id) {
-        envisionEvo("Aggregated", id, self.getData());
+        envisionEvo("Aggregated", id, this.getData());
     }
 
     function displayBasicMetricHTML(metric_id, div_target, show_desc) {
-        Viz.displayBasicMetricHTML(basic_metrics[metric_id], self.getData(),
+        Viz.displayBasicMetricHTML(basic_metrics[metric_id], this.getData(),
                 div_target, show_desc);
     }
 
@@ -222,7 +222,7 @@ function MLS() {
             }
         }
 
-        history = self.getListsData();
+        history = this.getListsData();
         lists = history.mailing_list;
         var config = Report.getConfig();
         lists_hide = config.mls_hide_lists;
@@ -256,7 +256,7 @@ function MLS() {
     function getDefaultLists() {
         var default_lists = [];        
         var hide_lists = Report.getConfig().mls_hide_lists;
-        $.each(self.getListsData().mailing_list, function(index,list) {
+        $.each(this.getListsData().mailing_list, function(index,list) {
             if ($.inArray(list, hide_lists) === -1) default_lists.push(list);
         });
         return default_lists;
@@ -281,7 +281,7 @@ function MLS() {
         cleanLocalStorage();
         displaySelectorCheckDefault();
         $("#" + div_id).empty();
-        self.displayBasic(div_id);
+        this.displayBasic(div_id);
     }
 
     function displayEvoDefault(div_id) {
@@ -315,7 +315,7 @@ function MLS() {
     }
 
     function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic){
-        var res1 = self.getListsData();
+        var res1 = this.getListsData();
         var lists = res1.mailing_list;
         var user_lists = [];
 
@@ -328,12 +328,12 @@ function MLS() {
         }
         
         // TODO: Hack! Methods visible to HTML
-        Report.displayBasicUser = self.displayBasicUser;
-        Report.displayBasicUserAll = self.displayBasicUserAll;
-        Report.displayBasicDefault = self.displayBasicDefault;
-        Report.displayEvoDefault = self.displayEvoDefault;            
-        Report.displayEvoUser = self.displayEvoUser;
-        Report.displayEvoUserAll = self.displayEvoUserAll;
+        Report.displayBasicUser = this.displayBasicUser;
+        Report.displayBasicUserAll = this.displayBasicUserAll;
+        Report.displayBasicDefault = this.displayBasicDefault;
+        Report.displayEvoDefault = this.displayEvoDefault;            
+        Report.displayEvoUser = this.displayEvoUser;
+        Report.displayEvoUserAll = this.displayEvoUserAll;
 
         var html = "Mailing list selector:";
         html += "<form id='form_mls_selector'>";
@@ -403,7 +403,7 @@ function MLS() {
         for ( var i = 0; i < lists.length; i++) {
             var l = lists[i];
 
-            file_messages = self.getDataDir()+"/mls-";
+            file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
             file_messages += "-milestone0.json";
             displayEvoList(displayMLSListName(l), id, file_messages);

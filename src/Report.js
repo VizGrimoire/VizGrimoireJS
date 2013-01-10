@@ -60,7 +60,8 @@ var Report = {};
     Report.displayProjectData = displayProjectData;
     Report.report = report;
     Report.getDataSources = function() {
-        return data_sources;
+        return data_sources.slice(0,3);
+        // return data_sources;
     };
     Report.registerDataSource = function(backend) {
         data_sources.push(backend);
@@ -133,7 +134,6 @@ var Report = {};
     }
 
     function data_load_metrics() {
-        // TODO: support for adding and removing data sources in Report
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getDataFile(), DS.setData);
@@ -240,9 +240,16 @@ var Report = {};
         var querystr = window.location.search.substr(1);        
         if (querystr) {
             var full_params = querystr.split ("&");
-            var data_dir = full_params[0].split("=")[1];
-            dirs.data_sources.push(data_dir);
-            if (full_params[1]) alert("More than one project: "+full_params[1]);
+            var dirs_param = $.grep(full_params,function(item, index) {
+                return (item.indexOf("data_dir=") === 0);
+            });
+            for (var i=0; i< dirs_param.length; i++) {                
+                var data_dir = dirs_param[i].split("=")[1];
+                dirs.data_sources.push(data_dir);
+                // TODO: With different projects ... mix or don't show any?
+                if (i>0) dirs.data = '';
+                else dirs.data = data_dir; 
+            } 
         }                
         else if ($("#report-config").length > 0) {
             var data = $("#report-config").data('global-data-dir');
@@ -275,6 +282,8 @@ var Report = {};
             mls.setDataDir(dirs.data_sources[i]);
             scm.setDataDir(dirs.data_sources[i]);            
         }
+        
+        return true;
     }
         
     var basic_divs = {

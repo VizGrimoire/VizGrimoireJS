@@ -27,100 +27,103 @@ function DataSource(name, basic_metrics) {
     
     // Work around: http://bit.ly/yP8tGP
     var self = this; 
-    self.name = name;
-    self.data_dir = 'data/json';
-    self.data_file = self.data_dir + '/'+self.name+'-milestone0.json';
-    self.demographics_file = self.data_dir + '/'+self.name+'-demographics-2012.json';
-    self.global_data_file = self.data_dir + '/'+self.name+'-info-milestone0.json';
-    self.top_data_file = self.data_dir + '/'+self.name+'-top-milestone0.json';
-    self.data = null;
-    self.demographics_data = null;
-    self.global_data = null;
-    self.basic_metrics = basic_metrics;
+    this.name = name;
+    this.data_dir = 'data/json';
+    this.data_file = this.data_dir + '/'+this.name+'-milestone0.json';
+    this.demographics_file = this.data_dir + '/'+this.name+'-demographics-2012.json';
+    this.global_data_file = this.data_dir + '/'+this.name+'-info-milestone0.json';
+    this.top_data_file = this.data_dir + '/'+this.name+'-top-milestone0.json';
+    this.data = null;
+    this.demographics_data = null;
+    this.global_data = null;
+    this.basic_metrics = basic_metrics;
 
     // TODO: define a better way for it
-    self.getMetrics = function() {
-        return self.basic_metrics;
+    this.getMetrics = function() {
+        return this.basic_metrics;
     };  
     
-    self.getDataFile = function() {
-        return self.data_file;
+    this.getDataFile = function() {
+        return this.data_file;
     };
-    self.setDataFile = function(file) {
-        self.data_file = file;
+    this.setDataFile = function(file) {
+        this.data_file = file;
     };
-    self.getData = function() {
-        return self.data;
+    this.getData = function() {
+        return this.data;
     };
-    self.setData = function(load_data) {
-        self.data = load_data;
+    this.setData = function(load_data) {
+        if (this instanceof Window) self.data = load_data;
+        else this.data = load_data;
     };
-    self.getDemographicsFile = function() {
-        return self.demographics_file;
+    this.getDemographicsFile = function() {
+        return this.demographics_file;
     };
-    self.getDemographicsData = function() {
-        return self.demographics_data;
+    this.getDemographicsData = function() {
+        return this.demographics_data;
     };
-    self.setDemographicsData = function(data) {
-        self.demographics_data = data;
+    this.setDemographicsData = function(data) {
+        if (this instanceof Window) self.demographics_data = data;
+        this.demographics_data = data;
     };
-    self.getDataDir = function() {
-        return self.data_dir;
+    this.getDataDir = function() {
+        return this.data_dir;
     };
-    self.setDataDir = function(dataDir) {
-        self.data_dir = dataDir;
-        self.data_file = dataDir + '/'+self.name+'-milestone0.json';
-        self.demographics_file = dataDir + '/'+self.name+'-demographics-2012.json';
-        self.global_data_file = dataDir + '/'+self.name+'-info-milestone0.json';
-        self.top_data_file = dataDir + '/'+self.name+'-top-milestone0.json';
+    this.setDataDir = function(dataDir) {
+        this.data_dir = dataDir;
+        this.data_file = dataDir + '/'+this.name+'-milestone0.json';
+        this.demographics_file = dataDir + '/'+this.name+'-demographics-2012.json';
+        this.global_data_file = dataDir + '/'+this.name+'-info-milestone0.json';
+        this.top_data_file = dataDir + '/'+this.name+'-top-milestone0.json';
     };
-    self.getGlobalDataFile = function() {
-        return self.global_data_file;
+    this.getGlobalDataFile = function() {
+        return this.global_data_file;
     };
-    self.getGlobalData = function() {
-        return self.global_data;
+    this.getGlobalData = function() {
+        return this.global_data;
     };
-    self.setGlobalData = function(data) {
-        self.global_data = data;
+    this.setGlobalData = function(data) {
+        if (this instanceof Window) self.global_data = data;
+        else this.global_data = data;
     };
-    self.getName = function() {
-        return self.name;
+    this.getName = function() {
+        return this.name;
     };
         
     // Create HTML code to show the metrics
-    self.displayBasicHTML = function(div_target, config) {
+    this.displayBasicHTML = function(div_target, config) {
         var title = "";
-        Viz.displayBasicHTML(self.getData(), div_target, title, 
-                self.basic_metrics, self.name+'_hide', config);
+        Viz.displayBasicHTML(this.getData(), div_target, title, 
+                this.basic_metrics, this.name+'_hide', config);
     };
 
-    self.displayBasicMetricHTML = function(metric_id, div_target, config) {
-        Viz.displayBasicMetricHTML(self.basic_metrics[metric_id], self.getData(),
+    this.displayBasicMetricHTML = function(metric_id, div_target, config) {
+        Viz.displayBasicMetricHTML(this.basic_metrics[metric_id], this.getData(),
                 div_target, config);
     };
     
-    self.displayBasic = function() {
-        self.basicEvo(self.getData());
+    this.displayBasic = function() {
+        this.basicEvo(this.getData());
     };
 
-    self.displayDemographics = function(divid, file) {
+    this.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, self, file);
     };
         
-    self.displayTimeToFix = function(div_id, json_file, column, labels, title) {
+    this.displayTimeToFix = function(div_id, json_file, column, labels, title) {
         Viz.displayTimeToFix(div_id, json_file, column, labels, title);
     };
     
-    self.displayTop = function(div, all, graph) {
+    this.displayTop = function(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, self.top_data_file, self.basic_metrics, all,graph);
+        Viz.displayTop(div, this.top_data_file, this.basic_metrics, all,graph);
     };
 
-    self.basicEvo = function(history) {
-        for (var id in self.basic_metrics) {
-            var metric = self.basic_metrics[id];
-            if ($.inArray(metric.column, Report.getConfig()[self.getName()+"_hide"]) > -1)
+    this.basicEvo = function(history) {
+        for (var id in this.basic_metrics) {
+            var metric = this.basic_metrics[id];
+            if ($.inArray(metric.column, Report.getConfig()[this.getName()+"_hide"]) > -1)
                 continue;
             if ($('#' + metric.divid).length)
                 Viz.displayBasicLines(metric.divid, history, metric.column,
