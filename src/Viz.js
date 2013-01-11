@@ -164,7 +164,7 @@ var Viz = {};
         
         if (history instanceof Array) data = history;
         else data = [history];
-        
+                
         $.each(data, function(i, serie) {
             if (serie.id && serie.id.length > full_history_id.length) {
                 full_history_id = serie.id;
@@ -182,6 +182,9 @@ var Viz = {};
             else
                 lines_data[j] = fillHistoryLines(full_history_id, lines_data[j]);
         }
+
+        // TODO: Hack to have lines_data visible in track/tickFormatter
+        (function() {var x = lines_data;})();
         
         var config = {
             title : title,
@@ -210,8 +213,13 @@ var Viz = {};
                 track : true,
                 trackY : false,
                 trackFormatter : function(o) {
-                    return dates[parseInt(o.index, 10)] + ": "
-                            + parseInt(o.y, 10);
+                    var label = dates[parseInt(o.index, 10)] + "<br>";
+
+                    for (var i=0; i<lines_data.length; i++) {
+                        label += lines_data[i].label +":";
+                        label += lines_data[i].data[o.index][1]+"<br>";
+                    }
+                    return label;
                 }
             }
         };
