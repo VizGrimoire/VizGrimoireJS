@@ -124,8 +124,8 @@ var Report = {};
         data_load_file(markers_file, function(data, self) {markers = data;});        
         for (var i=0;  i<projects_dir.length; i++) {
             var data_dir = projects_dir[i];
-            var project_file = data_dir + "/project-info-milestone0.json";
-            data_load_file(project_file, function(data, dir) {
+            var prj_file = data_dir + "/project-info-milestone0.json";
+            data_load_file(prj_file, function(data, dir) {
                 projects_data[data.project_name] = dir;
             }, data_dir);
         }
@@ -414,7 +414,7 @@ var Report = {};
             if ($("#"+DS.getName()+"-flotr2").length > 0) {
                 if (DS instanceof MLS) {
                     DS.displayBasic(DS.getName()+'-flotr2', config_metric);
-                } else if (DS instanceof SCM && false) {
+                } else if (DS instanceof SCM) {
                     DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric, DS.getProject());
                 } else {
                     DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric, DS.getProject());
@@ -423,7 +423,7 @@ var Report = {};
             
             if (DS instanceof MLS) {
                 if ($("#"+DS.getName()+"-flotr2"+"-lists").length > 0) {
-                    DS.displayBasic(DS.getName() + "-flotr2"+"-lists");
+                    DS.displayBasic(DS.getName() + "-flotr2"+"-lists", config_metric);
                 }
             }
         });        

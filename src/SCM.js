@@ -93,14 +93,16 @@ function SCM() {
     
     this.displayBasicHTMLMix = function(div_target, config) {
         var full_data = [];
+        var projects = [];
         $.each(Report.getDataSources(), function (index, ds) {
            if (ds instanceof SCM) {
                full_data.push(ds.getData());
+               projects.push(ds.getProject());
            } 
         });
         var title = "Change sets Mix (commits to source code)";
         Viz.displayBasicHTML(full_data, div_target, title, 
-                this.basic_metrics, this.name+'_hide', config, this.getProject());
+                this.basic_metrics, this.name+'_hide', config, projects);
     };
     
     this.displayBasicHTML = function(div_target, config) {

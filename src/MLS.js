@@ -23,6 +23,8 @@
 
 function MLS() {
     
+    var self = this;
+    
     var basic_metrics = {
         'sent' : {
             'divid' : "mls-sent",
@@ -53,20 +55,6 @@ function MLS() {
         MLS.prototype.setDataDir.call(this, dataDir);
     };
 
-    this.displayEvo = displayEvo;
-    this.displayEvoAggregated = displayEvoAggregated;
-    this.displayBasic = displayBasic;
-    this.displayBasicMetricHTML = displayBasicMetricHTML;
-    this.displayBasicListSelector = displayBasicListSelector;
-    this.displayEvoListSelector = displayEvoListSelector;
-    this.displayEvoBasicListSelector = displayEvoBasicListSelector;
-    this.displayBasicUser = displayBasicUser;
-    this.displayEvoUser = displayEvoUser;
-    this.displayEvoUserAll = displayEvoUserAll;
-    this.displayBasicUserAll = displayBasicUserAll;
-    this.displayEvoDefault = displayEvoDefault;
-    this.displayBasicDefault = displayBasicDefault;
-    this.envisionEvo = envisionEvo;
     this.getMainMetric = function() {
         return "sent";
     };
@@ -116,16 +104,16 @@ function MLS() {
         return lists;
     }
 
-    function displayBasicUserAll(id, all) {
+    this.displayBasicUserAll = function (id, all) {
         var form = document.getElementById('form_mls_selector');
         for ( var i = 0; i < form.elements.length; i++) {
             if (form.elements[i].type == "checkbox")
                 form.elements[i].checked = all;
         }
-        displayBasicUser(id);
+        this.displayBasicUser(id);
     }
 
-    function displayBasicUser(div_id) {
+    this.displayBasicUser = function(div_id) {
 
         $("#" + div_id).empty();
 
@@ -140,7 +128,7 @@ function MLS() {
         }
     }
 
-    function displayBasic(div_id, config_metric) {
+    this.displayBasic = function (div_id, config_metric) {
         var lists = this.getListsData();
 
         lists_hide = Report.getConfig().mls_hide_lists;
@@ -206,20 +194,20 @@ function MLS() {
         return getReportId() + "_mls_lists";
     }
 
-    function displayEvoAggregated(id) {
+    this.displayEvoAggregated = function (id) {
         this.envisionEvo("Aggregated", id, this.getData());
-    }
+    };
 
-    function displayBasicMetricHTML(metric_id, div_target, show_desc) {
+    this.displayBasicMetricHTML = function(metric_id, div_target, show_desc) {
         Viz.displayBasicMetricHTML(basic_metrics[metric_id], this.getData(),
                 div_target, show_desc);
-    }
+    };
 
-    function displayEvo(id) {
+    this.displayEvo = function (id) {
         if (localStorage) {
             if (localStorage.length && localStorage.getItem(getMLSId())) {
                 lists = JSON.parse(localStorage.getItem(getMLSId()));
-                return displayEvoLists(id, lists);
+                return this.displayEvoLists(id, lists);
             }
         }
 
@@ -243,8 +231,8 @@ function MLS() {
                         .stringify(filtered_lists));
             }
         }
-        displayEvoLists(id, filtered_lists);
-    }
+        this.displayEvoLists(id, filtered_lists);
+    };
     
     function cleanLocalStorage() {
         if (localStorage) {
@@ -254,7 +242,7 @@ function MLS() {
         }
     }
     
-    function getDefaultLists() {
+    this.getDefaultLists = function () {
         var default_lists = [];        
         var hide_lists = Report.getConfig().mls_hide_lists;
         $.each(this.getListsData().mailing_list, function(index,list) {
@@ -263,8 +251,8 @@ function MLS() {
         return default_lists;
     }
     
-    function displaySelectorCheckDefault() {
-        var default_lists = getDefaultLists();
+    this.displaySelectorCheckDefault = function () {
+        var default_lists = this.getDefaultLists();
         
         var form = document.getElementById('form_mls_selector');
         for ( var i = 0; i < form.elements.length; i++) {
@@ -276,46 +264,55 @@ function MLS() {
                 else form.elements[i].checked = false;
             }
         }
-    }
+    };
     
-    function displayBasicDefault(div_id) {
-        cleanLocalStorage();
-        displaySelectorCheckDefault();
-        $("#" + div_id).empty();
-        this.displayBasic(div_id);
-    }
+    this.displayBasicDefault = function (div_id) {
+        
+        var obj = self;
+        if (this instanceof MLS) obj = this;
 
-    function displayEvoDefault(div_id) {
+        cleanLocalStorage();
+        obj.displaySelectorCheckDefault();
+        $("#" + div_id).empty();
+        obj.displayBasic(div_id);
+    };
+
+    this.displayEvoDefault = function (div_id) {
+        var obj = self;
+        if (this instanceof MLS) obj = this;
+
         cleanLocalStorage();
         if (document.getElementById('form_mls_selector'))
-            displaySelectorCheckDefault();
+            obj.displaySelectorCheckDefault();
         $("#" + div_id).empty();
-        displayEvoLists(div_id, getDefaultLists());
-    }
+        obj.displayEvoLists(div_id, obj.getDefaultLists());
+    };
 
-    function displayEvoUserAll(id, all) {
+    this.displayEvoUserAll = function (id, all) {
         var form = document.getElementById('form_mls_selector');
         for ( var i = 0; i < form.elements.length; i++) {
             if (form.elements[i].type == "checkbox")
                 form.elements[i].checked = all;
         }
-        displayEvoUser(id);
-    }
+        this.displayEvoUser(id);
+    };
 
-    function displayEvoUser(id) {
+    this.displayEvoUser = function (id) {
         $("#" + id).empty();
-        displayEvoLists(id, getUserLists());
-    }
+        var obj = self;
+        if (this instanceof MLS) obj = this;
+        obj.displayEvoLists(id, getUserLists());
+    };
 
-    function displayEvoListSelector(div_id_sel, div_id_mls) {
-        displayEvoBasicListSelector(div_id_sel, div_id_mls, null);
-    }
+    this.displayEvoListSelector = function (div_id_sel, div_id_mls) {
+        this.displayEvoBasicListSelector(div_id_sel, div_id_mls, null);
+    };
 
-    function displayBasicListSelector(div_id_sel, div_id_mls) {
-        displayEvoBasicListSelector(div_id_sel, null, div_id_mls);
-    }
+    this.displayBasicListSelector = function (div_id_sel, div_id_mls) {
+        this.displayEvoBasicListSelector(div_id_sel, null, div_id_mls);
+    };
 
-    function displayEvoBasicListSelector(div_id_sel, div_id_evo, div_id_basic){
+    this.displayEvoBasicListSelector = function (div_id_sel, div_id_evo, div_id_basic){
         var res1 = this.getListsData();
         var lists = res1.mailing_list;
         var user_lists = [];
@@ -400,24 +397,25 @@ function MLS() {
         return history;
     }
 
-    function displayEvoLists(id, lists) {
+    this.displayEvoLists = function (id, lists) {
         for ( var i = 0; i < lists.length; i++) {
             var l = lists[i];
 
             file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
             file_messages += "-milestone0.json";
-            displayEvoList(displayMLSListName(l), id, file_messages);
+            this.displayEvoList(displayMLSListName(l), id, file_messages);
         }
     }
 
-    function displayEvoList(list_label, id, mls_file) {
+    this.displayEvoList = function(list_label, id, mls_file) {
+        var self = this;
         $.getJSON(mls_file, function(history) {
-            envisionEvo(list_label, id, history);
+            self.envisionEvo(list_label, id, history);
         });
     }
 
-    function envisionEvo(list_label, div_id, history) {
+    this.envisionEvo = function (list_label, div_id, history) {
         var config = Report.getConfig();
 
         var main_metric = "sent";

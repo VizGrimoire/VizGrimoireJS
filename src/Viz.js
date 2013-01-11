@@ -127,37 +127,73 @@ var Viz = {};
                     graph);
     }
 
-    function displayBasicLinesFile(div_id, json_file, column, labels, title) {
+    function displayBasicLinesFile(div_id, json_file, column, labels, title, projects) {
         $.getJSON(json_file, null, function(history) {
-            displayBasicLines(div_id, history, column, labels, title);
+            displayBasicLines(div_id, history, column, labels, title, projects);
         });
     }
 
-    // TODO: We need to consolidate data series in history. fillHistory
-    function displayBasicLines(div_id, history, column, labels, title) {
+    // Envision and Flotr2 formats are different.
+    function fillHistoryLines(hist_complete_id, hist_partial) {        
+        // [ids, values]
+        var old_history = [ [], [] ];
+        var new_history = [ [], [] ];
+        var lines_history = [];
+        
+        for ( var i = 0; i < hist_partial.length; i++) {
+            // ids
+            old_history[0].push(hist_partial[i][0]);
+            // values
+            old_history[1].push(hist_partial[i][1]);
+        }
+        
+        new_history = fillHistory(hist_complete_id, old_history);
+        
+        for ( var i = 0; i < hist_complete_id.length; i++) {
+            lines_history.push([new_history[0][i],new_history[1][i]]);
+        }
+        return lines_history;
+    }
+
+
+    function displayBasicLines(div_id, history, column, labels, title, projects) {
         var lines_data = [];
         var data = [];
+        var full_history_id = [], dates = [];
         container = document.getElementById(div_id);
         
         if (history instanceof Array) data = history;
         else data = [history];
+        
+        $.each(data, function(i, serie) {
+            if (serie.id && serie.id.length > full_history_id.length) {
+                full_history_id = serie.id;
+                dates = serie.date;                
+            }
+        });
 
         for ( var j = 0; j < data.length; j++) {
             lines_data[j] = [];
             for ( var i = 0; i < data[j][column].length; i++) {
-                lines_data[j][i] = [ i, parseInt(data[j][column][i], 10) ];
+                lines_data[j][i] = [ data[j].id[i], parseInt(data[j][column][i], 10) ];
             }
+            if (projects && projects.length>1)
+                lines_data[j] = {label:projects[j], data:fillHistoryLines(full_history_id, lines_data[j])};
+            else
+                lines_data[j] = fillHistoryLines(full_history_id, lines_data[j]);
         }
-
+        
         var config = {
             title : title,
             xaxis : {
                 minorTickFreq : 4,
                 tickFormatter : function(x) {
-                    if (history.date) {
-                        x = history.date[parseInt(x, 10)];
+                    var index = null;
+                    for ( var i = 0; i < full_history_id.length; i++) {
+                        if (parseInt(x)===full_history_id[i]) {
+                            index = i; break;}
                     }
-                    return x;
+                    return dates[index];
                 }
             },
             yaxis : {
@@ -174,7 +210,7 @@ var Viz = {};
                 track : true,
                 trackY : false,
                 trackFormatter : function(o) {
-                    return data[0].date[parseInt(o.x, 10)] + ": "
+                    return dates[parseInt(o.index, 10)] + ": "
                             + parseInt(o.y, 10);
                 }
             }
@@ -651,7 +687,7 @@ var Viz = {};
     }
 
     function displayBasicHTML(data, div_target, title, basic_metrics, hide,
-            config, proj) {
+            config, projs) {
         config = checkBasicConfig(config);
         var new_div = '<div class="info-pill">';
         new_div += '<h1>' + title + '</h1></div>';
@@ -660,11 +696,11 @@ var Viz = {};
             var metric = basic_metrics[id];
             if ($.inArray(metric.column, Report.getConfig()[hide]) > -1)
                 continue;
-            displayBasicMetricHTML(metric, data, div_target, config, proj);
+            displayBasicMetricHTML(metric, data, div_target, config, projs);
         }
     }
 
-    function displayBasicMetricHTML(metric, data, div_target, config, proj) {
+    function displayBasicMetricHTML(metric, data, div_target, config, projs) {
         config = checkBasicConfig(config);
         var title = metric.name;
         if (!config.show_title)
@@ -672,21 +708,21 @@ var Viz = {};
 
         var new_div = '<div class="info-pill">';
         $("#" + div_target).append(new_div);
-        new_div = '<div id="flotr2_' + metric.column + '_' + proj
+        new_div = '<div id="flotr2_' + metric.column
                 + '" class="info-pill m0-box-div">';
-        new_div += '<h1>' + metric.name + ' ' + proj + '</h1>';
+        new_div += '<h1>' + metric.name + '</h1>';
         new_div += '<div style="height:100px" id="' + metric.divid;
-        new_div += '_'+ proj +'"></div>';
+        new_div += '"></div>';
         if (config.show_desc === true)
             new_div += '<p>' + metric.desc + '</p>';
         new_div += '</div>';
         $("#" + div_target).append(new_div);
         if (config.realtime)
-            displayBasicLinesFile(metric.divid+'_'+ proj, config.json_ds, 
-                    metric.column, config.show_labels, title);
+            displayBasicLinesFile(metric.divid, config.json_ds, 
+                    metric.column, config.show_labels, title, projs);
         else
-            displayBasicLines(metric.divid+'_'+ proj, data, metric.column,
-                    config.show_labels, title);
+            displayBasicLines(metric.divid, data, metric.column,
+                    config.show_labels, title, projs);
     }
 
     function displayGridMetric(metric_id, config) {
