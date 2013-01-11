@@ -91,10 +91,22 @@ function SCM() {
         $("#scmCommitters").text(this.global_data.committers);
     };
     
+    this.displayBasicHTMLMix = function(div_target, config) {
+        var full_data = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof SCM) {
+               full_data.push(ds.getData());
+           } 
+        });
+        var title = "Change sets Mix (commits to source code)";
+        Viz.displayBasicHTML(full_data, div_target, title, 
+                this.basic_metrics, this.name+'_hide', config, this.getProject());
+    };
+    
     this.displayBasicHTML = function(div_target, config) {
         var title = "Change sets (commits to source code)";
         Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config);
+                this.basic_metrics, this.name+'_hide', config, this.getProject());
     };
     
     this.displayBubbles = function(divid) {

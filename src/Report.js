@@ -31,6 +31,8 @@ var Report = {};
     var data_dir = "data/json";
     var default_data_dir = "data/json";
     var default_html_dir = "";
+    var projects_dir = [];
+    var projects_data = {};
     var project_file = data_dir + "/project-info-milestone0.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
@@ -119,7 +121,14 @@ var Report = {};
     function data_load() {
         data_load_file(project_file, function(data, self) {project_data = data;});
         data_load_file(config_file, function(data, self) {config = data;});
-        data_load_file(markers_file, function(data, self) {markers = data;});
+        data_load_file(markers_file, function(data, self) {markers = data;});        
+        for (var i=0;  i<projects_dir.length; i++) {
+            var data_dir = projects_dir[i];
+            var project_file = data_dir + "/project-info-milestone0.json";
+            data_load_file(project_file, function(data, dir) {
+                projects_data[data.project_name] = dir;
+            }, data_dir);
+        }
         data_load_metrics();
     }
 
@@ -153,7 +162,12 @@ var Report = {};
         var check = true;
         if (project_data === null || config === null || markers === null) 
             return false;
-        var data_sources = Report.getDataSources();
+        
+        var projects_loaded = 0;        
+        for (var key in projects_data) {projects_loaded++;}       
+        if (projects_loaded < projects_dir.length ) return false;
+        
+        var data_sources = Report.getDataSources();        
         $.each(data_sources, function(index, DS) {
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
@@ -260,6 +274,9 @@ var Report = {};
         } else {
             data_sources.push(default_data_dir);
         }
+        
+        projects_dir = dirs.data_sources;
+
         return dirs;
     }
     
@@ -396,9 +413,11 @@ var Report = {};
             
             if ($("#"+DS.getName()+"-flotr2").length > 0) {
                 if (DS instanceof MLS) {
-                    DS.displayBasic(DS.getName()+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
+                    DS.displayBasic(DS.getName()+'-flotr2', config_metric);
+                } else if (DS instanceof SCM && false) {
+                    DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric, DS.getProject());
                 } else {
-                    DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
+                    DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric, DS.getProject());
                 }
             }
             
@@ -492,8 +511,22 @@ var Report = {};
             if ($("#"+divid).length > 0) value.convert(); 
         });
     }
+    
+    function configDataSources() {
+        
+        $.each(Report.getDataSources(), function (index, ds) {
+            $.each(projects_data, function (name, dir) {
+                if (dir === ds.getDataDir()) {
+                    ds.setProject(name);
+                    return false;
+                }
+            });            
+        });
+        
+    }
 
     function report(config) {
+        configDataSources();
         convertBasicDivs();        
         convertFlotr2(config);        
         convertTop();        

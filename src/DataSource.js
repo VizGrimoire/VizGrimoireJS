@@ -25,28 +25,22 @@
 
 function DataSource(name, basic_metrics) {
     
-    this.name = name;
-    this.data_dir = 'data/json';
-    this.data_file = this.data_dir + '/'+this.name+'-milestone0.json';
-    this.demographics_file = this.data_dir + '/'+this.name+'-demographics-2012.json';
-    this.global_data_file = this.data_dir + '/'+this.name+'-info-milestone0.json';
     this.top_data_file = this.data_dir + '/'+this.name+'-top-milestone0.json';
-    this.data = null;
-    this.demographics_data = null;
-    this.global_data = null;
+    
     this.basic_metrics = basic_metrics;
-
-    // TODO: define a better way for it
     this.getMetrics = function() {
         return this.basic_metrics;
-    };  
+    };
     
+    this.data_file = this.data_dir + '/'+this.name+'-milestone0.json';
     this.getDataFile = function() {
         return this.data_file;
     };
     this.setDataFile = function(file) {
         this.data_file = file;
     };
+    
+    this.data = null;
     this.getData = function() {
         return this.data;
     };
@@ -54,9 +48,14 @@ function DataSource(name, basic_metrics) {
         if (self === undefined) self = this;
         self.data = load_data;
     };
+    
+    
+    this.demographics_file = this.data_dir + '/'+this.name+'-demographics-2012.json';
     this.getDemographicsFile = function() {
         return this.demographics_file;
     };
+    
+    this.demographics_data = null;
     this.getDemographicsData = function() {
         return this.demographics_data;
     };
@@ -64,6 +63,8 @@ function DataSource(name, basic_metrics) {
         if (self === undefined) self = this;
         self.demographics_data = data;
     };
+    
+    this.data_dir = 'data/json';
     this.getDataDir = function() {
         return this.data_dir;
     };
@@ -74,9 +75,14 @@ function DataSource(name, basic_metrics) {
         this.global_data_file = dataDir + '/'+this.name+'-info-milestone0.json';
         this.top_data_file = dataDir + '/'+this.name+'-top-milestone0.json';
     };
+    
+
+    this.global_data_file = this.data_dir + '/'+this.name+'-info-milestone0.json';
     this.getGlobalDataFile = function() {
         return this.global_data_file;
     };
+    
+    this.global_data = null;
     this.getGlobalData = function() {
         return this.global_data;
     };
@@ -84,8 +90,18 @@ function DataSource(name, basic_metrics) {
         if (self === undefined) self = this;
         self.global_data = data;
     };
+    
+    this.name = name;    
     this.getName = function() {
         return this.name;
+    };
+    
+    this.project = null;
+    this.getProject = function() {
+        return this.project;
+    };
+    this.setProject = function(project) {
+        this.project = project;
     };
         
     // Create HTML code to show the metrics
