@@ -25,8 +25,6 @@
 
 function DataSource(name, basic_metrics) {
     
-    // Work around: http://bit.ly/yP8tGP
-    var self = this; 
     this.name = name;
     this.data_dir = 'data/json';
     this.data_file = this.data_dir + '/'+this.name+'-milestone0.json';
@@ -52,9 +50,9 @@ function DataSource(name, basic_metrics) {
     this.getData = function() {
         return this.data;
     };
-    this.setData = function(load_data) {
-        if (this instanceof Window) self.data = load_data;
-        else this.data = load_data;
+    this.setData = function(load_data, self) {
+        if (self === undefined) self = this;
+        self.data = load_data;
     };
     this.getDemographicsFile = function() {
         return this.demographics_file;
@@ -62,9 +60,9 @@ function DataSource(name, basic_metrics) {
     this.getDemographicsData = function() {
         return this.demographics_data;
     };
-    this.setDemographicsData = function(data) {
-        if (this instanceof Window) self.demographics_data = data;
-        this.demographics_data = data;
+    this.setDemographicsData = function(data, self) {
+        if (self === undefined) self = this;
+        self.demographics_data = data;
     };
     this.getDataDir = function() {
         return this.data_dir;
@@ -82,9 +80,9 @@ function DataSource(name, basic_metrics) {
     this.getGlobalData = function() {
         return this.global_data;
     };
-    this.setGlobalData = function(data) {
-        if (this instanceof Window) self.global_data = data;
-        else this.global_data = data;
+    this.setGlobalData = function(data, self) {
+        if (self === undefined) self = this;
+        self.global_data = data;
     };
     this.getName = function() {
         return this.name;
@@ -107,7 +105,7 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displayDemographics = function(divid, file) {
-        Viz.displayDemographics(divid, self, file);
+        Viz.displayDemographics(divid, this, file);
     };
         
     this.displayTimeToFix = function(div_id, json_file, column, labels, title) {

@@ -60,8 +60,8 @@ var Report = {};
     Report.displayProjectData = displayProjectData;
     Report.report = report;
     Report.getDataSources = function() {
-        return data_sources.slice(0,3);
-        // return data_sources;
+        // return data_sources.slice(0,3);
+        return data_sources;
     };
     Report.registerDataSource = function(backend) {
         data_sources.push(backend);
@@ -117,18 +117,18 @@ var Report = {};
     }
 
     function data_load() {
-        data_load_file(project_file, function(data) {project_data = data;});
-        data_load_file(config_file, function(data) {config = data;});
-        data_load_file(markers_file, function(data) {markers = data;});
+        data_load_file(project_file, function(data, self) {project_data = data;});
+        data_load_file(config_file, function(data, self) {config = data;});
+        data_load_file(markers_file, function(data, self) {markers = data;});
         data_load_metrics();
     }
 
-    function data_load_file(file, fn_data_set) {
+    function data_load_file(file, fn_data_set, self) {
         $.when($.getJSON(file)).done(function(history) {
-            fn_data_set(history);
+            fn_data_set(history, self);
             end_data_load();
         }).fail(function() {
-            fn_data_set([]);
+            fn_data_set([], self);
             end_data_load();
         });
     }
@@ -136,14 +136,14 @@ var Report = {};
     function data_load_metrics() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getDataFile(), DS.setData);
-            data_load_file(DS.getGlobalDataFile(), DS.setGlobalData);
+            data_load_file(DS.getDataFile(), DS.setData, DS);
+            data_load_file(DS.getGlobalDataFile(), DS.setGlobalData, DS);
             // TODO: Demographics just for SCM yet!
-            if (DS.getName() === "scm") {
-                data_load_file(DS.getDemographicsFile(), DS.setDemographicsData);
+            if (DS instanceof SCM) {
+                data_load_file(DS.getDemographicsFile(), DS.setDemographicsData, DS);
             }
-            if (DS.getName() === "mls") {
-                data_load_file(DS.getListsFile(), DS.setListsData);
+            if (DS instanceof MLS) {
+                data_load_file(DS.getListsFile(), DS.setListsData, DS);
             }
 
         });
@@ -152,16 +152,16 @@ var Report = {};
     function check_data_loaded() {
         var check = true;
         if (project_data === null || config === null || markers === null) 
-            check = false;
+            return false;
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(index, DS) {
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
             // TODO: Demographics just for SCM yet!
-            if (DS.getName() === "scm") {
+            if (DS instanceof SCM) {
                 if (DS.getDemographicsData() === null) {check = false; return false;} 
             }
-            if (DS.getName() === "mls") {
+            if (DS instanceof MLS) {
                 if (DS.getListsData() === null) {check = false; return false;}
             }
         });         
@@ -395,14 +395,14 @@ var Report = {};
             });
             
             if ($("#"+DS.getName()+"-flotr2").length > 0) {
-                if (DS.getName() === "mls") {
+                if (DS instanceof MLS) {
                     DS.displayBasic(DS.getName()+'-flotr2', 'data/json/mls-lists-milestone0.json', config_metric);
                 } else {
                     DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric);
                 }
             }
             
-            if (DS.getName() === "mls") {
+            if (DS instanceof MLS) {
                 if ($("#"+DS.getName()+"-flotr2"+"-lists").length > 0) {
                     DS.displayBasic(DS.getName() + "-flotr2"+"-lists");
                 }
@@ -417,7 +417,7 @@ var Report = {};
             if (DS.getData().length === 0) return;
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0)
-                if (DS.getName() === "mls") {
+                if (DS instanceof MLS) {
                     DS.displayEvoAggregated(div_envision);
                     if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
                         DS.displayEvo(DS.getName() + "-envision"+"-lists");
@@ -480,7 +480,7 @@ var Report = {};
             var div_flotr2 = DS.getName() + "-flotr2-lists";
             if ($("#" + div_selector).length > 0)
                 // TODO: Only MLS supported 
-                if (DS.getName() === "mls") {
+                if (DS instanceof MLS) {
                     DS.displayEvoBasicListSelector(div_selector, div_envision,
                             div_flotr2);
                 }

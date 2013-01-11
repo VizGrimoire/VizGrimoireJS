@@ -22,9 +22,6 @@
  */
 
 function ITS() {
-    // Work around: http://bit.ly/yP8tGP
-    var self = this;
-    
 
     var basic_metrics = {
         'opened' : {
@@ -112,7 +109,7 @@ function ITS() {
         config = Report.getConfig();
         options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
                 this.getMainMetric(), config.its_hide);
-        new envision.templates.Envision_Report(options, [ self ]);
+        new envision.templates.Envision_Report(options, [ this ]);
     };
 
     

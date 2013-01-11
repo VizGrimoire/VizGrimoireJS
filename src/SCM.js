@@ -22,8 +22,6 @@
  */
 
 function SCM() {
-    // Work around: http://bit.ly/yP8tGP
-    var self = this;
 
     var basic_metrics = {
         'commits' : {
@@ -111,7 +109,7 @@ function SCM() {
         config = Report.getConfig();
         options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
                 this.getMainMetric(), config.scm_hide);
-        new envision.templates.Envision_Report(options, [ self ]);
+        new envision.templates.Envision_Report(options, [ this ]);
     }; 
 }
 var aux = new SCM();

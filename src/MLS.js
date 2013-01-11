@@ -39,18 +39,18 @@ function MLS() {
         }
     };
         
-    // Work around: http://bit.ly/yP8tGP
-    var self = this;
-    
     this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
     this.getListsFile = function() {return this.data_lists_file;};
-    var data_lists = null;
-    this.getListsData = function() {return data_lists;};
-    this.setListsData = function(lists) {data_lists = lists;}; 
+    this.data_lists = null;
+    this.getListsData = function() {return this.data_lists;};
+    this.setListsData = function(lists, self) {
+        if (self === undefined) self = this;
+        self.data_lists = lists;
+    }; 
     
     this.setDataDir = function(dataDir) {
         this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
-        MLS.prototype.setDataDir.call(self, dataDir);
+        MLS.prototype.setDataDir.call(this, dataDir);
     };
 
     this.displayEvo = displayEvo;
@@ -66,6 +66,7 @@ function MLS() {
     this.displayBasicUserAll = displayBasicUserAll;
     this.displayEvoDefault = displayEvoDefault;
     this.displayBasicDefault = displayBasicDefault;
+    this.envisionEvo = envisionEvo;
     this.getMainMetric = function() {
         return "sent";
     };
@@ -206,7 +207,7 @@ function MLS() {
     }
 
     function displayEvoAggregated(id) {
-        envisionEvo("Aggregated", id, this.getData());
+        this.envisionEvo("Aggregated", id, this.getData());
     }
 
     function displayBasicMetricHTML(metric_id, div_target, show_desc) {
@@ -423,7 +424,7 @@ function MLS() {
         var options = Viz.getEnvisionOptions(div_id, history, basic_metrics,
                 main_metric, config.mls_hide);
         options.data.list_label = displayMLSListName(list_label);
-        new envision.templates.Envision_Report(options, [ self ]);
+        new envision.templates.Envision_Report(options, [ this ]);
     }
 }
 var aux = new MLS();
