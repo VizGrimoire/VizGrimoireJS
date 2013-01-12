@@ -136,10 +136,14 @@
 
         $.each(metrics, function(metric, value) {
             if ($.inArray(metric, data.envision_hide) === -1) {
-                defaults[metric].data = [ {
-                    label : metric,
-                    data : data[metric]
-                } ];
+                // One project
+                if (data[metric][0] instanceof Array)
+                    defaults[metric].data = 
+                        [{label : metric,data : data[metric]}];
+                // Multi project
+                else
+                    defaults[metric].data = data[metric];
+
                 if (Report.getMetricDS(metric).getName() === 'mls' &&
                         data.list_label)
                     defaults[metric].data = [ {

@@ -115,14 +115,26 @@ function ITS() {
         Viz.displayBubbles(divid, "opened", "openers");
     };
     
+    this.displayEvoMix = function(divid) {
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof ITS) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        this.envisionEvo(divid, full_data, projects);
+    };
+    
     this.displayEvo = function(id) {
         this.envisionEvo(id, this.getData());
     };
     
-    this.envisionEvo = function(div_id, history) {
+    this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
         options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
-                this.getMainMetric(), config.its_hide);
+                this.getMainMetric(), config.its_hide, projects);
         new envision.templates.Envision_Report(options, [ this ]);
     };
 

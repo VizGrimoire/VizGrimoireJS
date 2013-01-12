@@ -115,14 +115,27 @@ function SCM() {
         Viz.displayBubbles(divid, "commits", "committers");
     };
     
-    this.displayEvo = function(id) {
-        this.envisionEvo(id, this.getData());
+    this.displayEvoMix = function(divid) {
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof SCM) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        this.envisionEvo(divid, full_data, projects);
+    };
+
+    
+    this.displayEvo = function(divid) {
+        this.envisionEvo(divid, this.getData());
     };
     
-    this.envisionEvo = function(div_id, history) {
+    this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
         options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
-                this.getMainMetric(), config.scm_hide);
+                this.getMainMetric(), config.scm_hide, projects);
         new envision.templates.Envision_Report(options, [ this ]);
     }; 
 }

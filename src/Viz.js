@@ -627,9 +627,15 @@ var Viz = {};
     }
 
     function getEnvisionOptions(div_id, history, basic_metrics, main_metric,
-            hide) {
+            hide, projects) {
 
-        var firstMonth = history.id[0], dates = history.date, container = document
+        var data;
+        
+        if (history instanceof Array) data = history;
+        else data = [history];
+
+
+        var firstMonth = data[0].id[0], dates = data[0].date, container = document
                 .getElementById(div_id), options;
         var markers = Report.getMarkers();
 
@@ -648,15 +654,15 @@ var Viz = {};
             selection : {
                 data : {
                     x : {
-                        min : history.id[0],
-                        max : history.id[history.id.length - 1]
+                        min : data[0].id[0],
+                        max : data[0].id[data[0].id.length - 1]
                     }
                 }
             }
         };
 
         options.data = {
-            summary : [ history.id, history[main_metric] ],
+            summary : [ data[0].id, data[0][main_metric] ],
             markers : markers,
             dates : dates,
             envision_hide : hide,
@@ -664,11 +670,19 @@ var Viz = {};
         };
 
         for ( var id in basic_metrics) {
-            options.data[id] = [ history.id, history[id] ];
+            options.data[id] = [];
+            if (data.length ===1) {
+                options.data[id] = [data[0].id, data[0][id]];
+                continue;
+            }
+            for (var i = 0; i < data.length; i++) {                 
+                options.data[id].push(
+                        {label:projects[i], data:[data[i].id, data[i][id]]});
+            }
         }
 
         options.trackFormatter = function(o) {
-            var data = o.series.data, index = data[o.index][0] - firstMonth, value;
+            var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;
 
             value = dates[index] + ":<br>";
 
