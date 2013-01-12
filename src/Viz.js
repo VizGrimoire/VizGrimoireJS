@@ -177,7 +177,10 @@ var Viz = {};
             for ( var i = 0; i < data[j][column].length; i++) {
                 lines_data[j][i] = [ data[j].id[i], parseInt(data[j][column][i], 10) ];
             }           
-            lines_data[j] = {label:projects[j], data:fillHistoryLines(full_history_id, lines_data[j])};
+            if (projects) 
+                lines_data[j] = {label:projects[j], data:fillHistoryLines(full_history_id, lines_data[j])};
+            else
+                lines_data[j] = fillHistoryLines(full_history_id, lines_data[j]);
         }
 
         // TODO: Hack to have lines_data visible in track/tickFormatter
@@ -213,7 +216,8 @@ var Viz = {};
                     var label = dates[parseInt(o.index, 10)] + "<br>";
 
                     for (var i=0; i<lines_data.length; i++) {
-                        label += lines_data[i].label +":";
+                        if (lines_data.length > 1)
+                            label += lines_data[i].label +":";
                         label += lines_data[i].data[o.index][1]+"<br>";
                     }
                     return label;
@@ -225,7 +229,7 @@ var Viz = {};
             config.xaxis.showLabels = false;
             config.yaxis.showLabels = false;
         }
-        if (projects.length === 1) config.legend = {show:false};
+        if (projects && projects.length === 1) config.legend = {show:false};
             
         graph = Flotr.draw(container, lines_data, config);
     }

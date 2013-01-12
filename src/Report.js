@@ -394,7 +394,8 @@ var Report = {};
                 config_metric[key] = value;
             });
         }
-
+        
+        var already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getData().length === 0) return;
             
@@ -411,13 +412,15 @@ var Report = {};
                 }
             });
             
-            if ($("#"+DS.getName()+"-flotr2").length > 0) {
+            if ($("#"+DS.getName()+"-flotr2").length > 0) {              
                 if (DS instanceof MLS) {
                     DS.displayBasic(DS.getName()+'-flotr2', config_metric);
-                } else if (DS instanceof SCM) {
-                    DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric, DS.getProject());
-                } else {
-                    DS.displayBasicHTML(DS.getName()+'-flotr2',config_metric, DS.getProject());
+                } else if (DS instanceof SCM && $.inArray(SCM, already_shown) === -1) {
+                    DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric); 
+                    already_shown.push(SCM);
+                } else if (DS instanceof ITS && $.inArray(ITS, already_shown) === -1) {
+                    DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric); 
+                    already_shown.push(ITS);
                 }
             }
             

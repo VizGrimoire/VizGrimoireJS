@@ -108,7 +108,7 @@ function SCM() {
     this.displayBasicHTML = function(div_target, config) {
         var title = "Change sets (commits to source code)";
         Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config, this.getProject());
+                this.basic_metrics, this.name+'_hide', config, [this.getProject()]);
     };
     
     this.displayBubbles = function(divid) {

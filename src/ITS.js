@@ -91,10 +91,24 @@ function ITS() {
         $("#itsOpeners").text(this.global_data.openers);
     };
     
+    this.displayBasicHTMLMix = function(div_target, config) {
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof ITS) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        var title = "Tickets Mix";
+        Viz.displayBasicHTML(full_data, div_target, title, 
+                this.basic_metrics, this.name+'_hide', config, projects);
+    };
+       
     this.displayBasicHTML = function(div_target, config) {
         var title = "Tickets";
         Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config);
+                this.basic_metrics, this.name+'_hide', config, [this.getProject()]);
     };
     
     this.displayBubbles = function(divid) {
