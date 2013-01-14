@@ -623,6 +623,7 @@ var Viz = {};
                     return getDefaultsMarkers(o, gconfig.markers, gconfig.dates);
                 }
             };
+        
         return graph;
     }
 
@@ -689,8 +690,10 @@ var Viz = {};
             for (var i = 0; i < data.length; i++) {
                 var full_data =  
                     fillHistory(full_history_id, [data[i].id, data[i][metric]]);
-                options.data[metric].push(
-                        {label:projects[i], data:full_data});
+                if (metric === main_metric)
+                    options.data[metric].push(
+                            {label:projects[i], data:full_data});
+                else options.data[metric].push({label:"", data:full_data});
             }
         }
 

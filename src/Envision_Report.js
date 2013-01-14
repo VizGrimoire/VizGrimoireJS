@@ -35,6 +35,7 @@
                 // TODO ds[0] hack
                 viz[metric] = Viz.getEnvisionDefaultsGraph
                     ('report-' + ds[0] + '-' + metric, config);
+                viz[metric].config.subtitle = metric;
             }            
         });
     }
@@ -44,10 +45,10 @@
                 '#9440ED' ];
         var default_config = {
             colors : defaults_colors,
-            y_labels : false,
-            g_type : '',
             dates : global_data.dates,
-            markers : global_data.markers
+            g_type : '',
+            markers : global_data.markers,
+            y_labels : false
         };
         
         var data_sources = Report.getDataSources();
@@ -141,7 +142,7 @@
                     defaults[metric].data = 
                         [{label : metric,data : data[metric]}];
                 // Multi project
-                else
+                else          
                     defaults[metric].data = data[metric];
 
                 if (Report.getMetricDS(metric).getName() === 'mls' &&
