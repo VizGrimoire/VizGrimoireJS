@@ -685,12 +685,25 @@ var Viz = {};
             var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;
 
             value = dates[index] + ":<br>";
-
+            
             var i = 0;
             for ( var id in basic_metrics) {
-                value += options.data[id][1][index] + " " + id + ", ";
-                if (++i % 3 === 0)
-                    value += "<br>";
+                // Single project
+                if (options.data[id][0] instanceof Array) { 
+                    value += options.data[id][1][index] + " " + id + ", ";
+                    if (++i % 3 === 0)
+                        value += "<br>";
+                } 
+                // Multiproject
+                else {
+                    for (var j=0;j<options.data[id].length; j++) {
+                        var project = options.data[id][j].label;
+                        var pdata = options.data[id][j].data;
+                        value += project + " " + pdata[1][index] + " " + id + ", ";
+                        if (++i % 2 === 0)
+                            value += "<br>";
+                    }
+                }                    
             }
 
             return value;
