@@ -626,17 +626,28 @@ var Viz = {};
         return graph;
     }
 
-    function getEnvisionOptions(div_id, history, basic_metrics, main_metric,
-            hide, projects) {
+    function getEnvisionOptions(div_id, history, ds, hide, projects) {
 
+        var basic_metrics = ds.getMetrics();
+        var main_metric = ds.getMainMetric();
+        var full_history_id = [], dates = [];
         var data;
         
         if (history instanceof Array) data = history;
         else data = [history];
+        
+        for (var i=0; i<data.length; i++) {
+            for (var metric in basic_metrics) {
+                var mdata = history[i][metric];
+                if (mdata && mdata.length > full_history_id.length) {
+                    full_history_id = history[i].id;
+                    dates = history[i].date;
+                }
+            }
+        }
 
-
-        var firstMonth = data[0].id[0], dates = data[0].date, container = document
-                .getElementById(div_id), options;
+        var firstMonth = data[0].id[0], 
+                container = document.getElementById(div_id), options;
         var markers = Report.getMarkers();
 
         options = {
@@ -669,15 +680,17 @@ var Viz = {};
             main_metric : main_metric
         };
 
-        for ( var id in basic_metrics) {
-            options.data[id] = [];
-            if (data.length ===1) {
-                options.data[id] = [data[0].id, data[0][id]];
+        for ( var metric in basic_metrics) {
+            options.data[metric] = [];
+            if (data.length === 1) {
+                options.data[metric] = [data[0].id, data[0][metric]];
                 continue;
             }
-            for (var i = 0; i < data.length; i++) {                 
-                options.data[id].push(
-                        {label:projects[i], data:[data[i].id, data[i][id]]});
+            for (var i = 0; i < data.length; i++) {
+                var full_data =  
+                    fillHistory(full_history_id, [data[i].id, data[i][metric]]);
+                options.data[metric].push(
+                        {label:projects[i], data:full_data});
             }
         }
 

@@ -133,8 +133,8 @@ function ITS() {
     
     this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
-        options = Viz.getEnvisionOptions(div_id, history, this.basic_metrics,
-                this.getMainMetric(), config.its_hide, projects);
+        var options = Viz.getEnvisionOptions(div_id, history, this,
+                config.its_hide, projects);
         new envision.templates.Envision_Report(options, [ this ]);
     };
 

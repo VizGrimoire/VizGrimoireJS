@@ -419,8 +419,8 @@ function MLS() {
         var config = Report.getConfig();
 
         var main_metric = "sent";
-        var options = Viz.getEnvisionOptions(div_id, history, basic_metrics,
-                main_metric, config.mls_hide);
+        var options = Viz.getEnvisionOptions(div_id, history, this,
+                config.mls_hide);
         options.data.list_label = displayMLSListName(list_label);
         new envision.templates.Envision_Report(options, [ this ]);
     }
