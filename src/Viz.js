@@ -310,7 +310,7 @@ var Viz = {};
         });
         return ds;
     }
-
+    
     // The two metrics should be from the same data source
     function displayBubbles(divid, metric1, metric2) {
 
@@ -325,11 +325,34 @@ var Viz = {};
             alert("Metrics for bubbles have different data sources");
             return;
         }
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds.getName() ===  DS.getName()) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           }
+        });
+        
+        // [ids, values] Complete timeline for all the data
+        var dates = [[],[]];
+        
+        // Healthy initial value
+        dates = [full_data[0].id, full_data[0].date];
+        
+        for (var i=0; i<full_data.length; i++) {
+            dates = fillDates(dates, [full_data[i].id, full_data[i].date]);
+        }
 
-        var data = DS.getData();
-
-        for ( var i = 0; i < data.id.length; i++) {
-            bdata.push([ data.id[i], data[metric1][i], data[metric2][i] ]);
+        for ( var j = 0; j < full_data.length; j++) {
+            var serie = [];
+            var data = full_data[j];
+            var data1 = fillHistory(dates[0], [data.id, data[metric1]]);
+            var data2 = fillHistory(dates[0], [data.id, data[metric2]]);
+            for ( var i = 0; i < dates[0].length; i++) {
+                serie.push( [ dates[0][i], data1[1][i], data2[1][i] ]);
+            }
+            bdata.push({legend:projects[j],data:serie});
         }
 
         var config = {
@@ -341,8 +364,9 @@ var Viz = {};
                 track : true,
                 trackFormatter : function(o) {
                     var value = data.date[o.index] + ": ";
-                    value += data[metric1][o.index] + " " + metric1 + ",";
-                    value += data[metric2][o.index] + " " + metric2 + ",";
+                    value += o.series.legend + " ";
+                    value += o.series.data[o.index][1] + " " + metric1 + ",";
+                    value += o.series.data[o.index][2] + " " + metric2;
                     return value;
                 }
             },
@@ -355,10 +379,11 @@ var Viz = {};
 
         if (DS.getName() === "its")
             $.extend(config.bubbles, {
-                baseRadius : 2
+                baseRadius : 1.5
             });
 
-        Flotr.draw(container, [ bdata ], config);
+        // Flotr.draw(container, [ {legend:"Test", data:bdata} ], config);
+        Flotr.draw(container, bdata, config);
     }
 
     function displayDemographics(divid, ds, file) {
@@ -689,7 +714,7 @@ var Viz = {};
         if (history instanceof Array) data = history;
         else data = [history];
         
-        // Healthy initial valie
+        // Healthy initial value
         dates = [data[0].id, data[0].date];
         
         for (var i=0; i<data.length; i++) {
