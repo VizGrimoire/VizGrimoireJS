@@ -111,7 +111,7 @@ function MLS() {
                 form.elements[i].checked = all;
         }
         this.displayBasicUser(id);
-    }
+    };
 
     this.displayBasicUser = function(div_id) {
 
@@ -126,7 +126,7 @@ function MLS() {
             file_messages += "-milestone0.json";
             displayBasicList(div_id, l, file_messages);
         }
-    }
+    };
 
     this.displayBasic = function (div_id, config_metric) {
         var lists = this.getListsData();
@@ -156,7 +156,7 @@ function MLS() {
             displayBasicList(div_id, l, file_messages, config_metric);
         }
 
-    }
+    };
 
     // TODO: similar to displayBasicHTML in ITS and SCM. Join.
     // TODO: use cache to store mls_file and check it!
@@ -249,7 +249,7 @@ function MLS() {
             if ($.inArray(list, hide_lists) === -1) default_lists.push(list);
         });
         return default_lists;
-    }
+    };
     
     this.displaySelectorCheckDefault = function () {
         var default_lists = this.getDefaultLists();
