@@ -194,9 +194,22 @@ function MLS() {
         return getReportId() + "_mls_lists";
     }
 
-    this.displayEvoAggregated = function (id) {
-        this.envisionEvo("Aggregated", id, this.getData());
+    this.displayEvoAggregated = function (divid) {
+        this.envisionEvo("Aggregated", divid, this.getData());
     };
+    
+    this.displayEvoAggregatedMix = function (divid) {
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof MLS) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        this.envisionEvo("Aggregated", divid, full_data, projects);
+    };
+
 
     this.displayBasicMetricHTML = function(metric_id, div_target, show_desc) {
         Viz.displayBasicMetricHTML(basic_metrics[metric_id], this.getData(),
@@ -406,24 +419,22 @@ function MLS() {
             file_messages += "-milestone0.json";
             this.displayEvoList(displayMLSListName(l), id, file_messages);
         }
-    }
+    };
 
     this.displayEvoList = function(list_label, id, mls_file) {
         var self = this;
         $.getJSON(mls_file, function(history) {
             self.envisionEvo(list_label, id, history);
         });
-    }
+    };
 
-    this.envisionEvo = function (list_label, div_id, history) {
+    this.envisionEvo = function (list_label, div_id, history, projects) {
         var config = Report.getConfig();
-
-        var main_metric = "sent";
         var options = Viz.getEnvisionOptions(div_id, history, this,
-                config.mls_hide);
+                config.mls_hide, projects);
         options.data.list_label = displayMLSListName(list_label);
         new envision.templates.Envision_Report(options, [ this ]);
-    }
+    };
 }
 var aux = new MLS();
 MLS.prototype = new DataSource("mls", aux.getMetrics());

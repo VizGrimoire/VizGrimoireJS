@@ -56,6 +56,7 @@ var Report = {};
     Report.getGridster = getGridster;
     Report.setGridster = setGridster;
     Report.getProjectData = getProjectData;
+    Report.getProjecstData = getProjectsData;
     Report.getBasicDivs = function() {
         return basic_divs;
     }; 
@@ -102,6 +103,10 @@ var Report = {};
 
     function getProjectData() {
         return project_data;
+    }
+    
+    function getProjectsData() {
+        return projects_data;
     }
 
     function getMetricDS(metric_id) {
@@ -441,10 +446,13 @@ var Report = {};
             if (DS.getData().length === 0) return;
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0) {
-                if (DS instanceof MLS) {
-                    DS.displayEvoAggregated(div_envision);
+                if (DS instanceof MLS && 
+                        $.inArray(MLS, already_shown) === -1) {
+                    // DS.displayEvoAggregated(div_envision);
+                    DS.displayEvoAggregatedMix(div_envision);
                     if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
                         DS.displayEvo(DS.getName() + "-envision"+"-lists");
+                    already_shown.push(MLS);
                 } else if (DS instanceof SCM && 
                         $.inArray(SCM, already_shown) === -1) {
                     DS.displayEvoMix(div_envision); 
