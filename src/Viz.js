@@ -352,7 +352,7 @@ var Viz = {};
             for ( var i = 0; i < dates[0].length; i++) {
                 serie.push( [ dates[0][i], data1[1][i], data2[1][i] ]);
             }
-            bdata.push({legend:projects[j],data:serie});
+            bdata.push({label:projects[j],data:serie});
         }
 
         var config = {
