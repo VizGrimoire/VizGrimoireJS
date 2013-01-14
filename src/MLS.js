@@ -157,8 +157,21 @@ function MLS() {
         }
 
     };
+    
+    this.displayBasicHTMLMix = function(div_target, config) {
+        var full_data = [];
+        var projects = [];
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds instanceof MLS) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        var title = "Mailing Lists Mix";
+        Viz.displayBasicHTML(full_data, div_target, title, 
+                this.basic_metrics, this.name+'_hide', config, projects);
+    };
 
-    // TODO: similar to displayBasicHTML in ITS and SCM. Join.
     // TODO: use cache to store mls_file and check it!
     function displayBasicList(div_id, l, mls_file, config_metric) {
         var config = Viz.checkBasicConfig(config_metric);
@@ -209,13 +222,7 @@ function MLS() {
         });
         this.envisionEvo("Aggregated", divid, full_data, projects);
     };
-
-
-    this.displayBasicMetricHTML = function(metric_id, div_target, show_desc) {
-        Viz.displayBasicMetricHTML(basic_metrics[metric_id], this.getData(),
-                div_target, show_desc);
-    };
-
+    
     this.displayEvo = function (id) {
         if (localStorage) {
             if (localStorage.length && localStorage.getItem(getMLSId())) {
@@ -398,6 +405,10 @@ function MLS() {
         html += '">';
         html += "</form>";
         $("#" + div_id_sel).html(html);
+        if (Report.getProjectsList().length>1) {
+            $("#" + div_id_sel).append("Not supported in multiproject");
+            $('#' + div_id_sel + ' :input').attr('disabled', true);
+        }
     }
 
     // history values should be always arrays

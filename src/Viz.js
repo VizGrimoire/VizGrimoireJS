@@ -133,29 +133,6 @@ var Viz = {};
         });
     }
 
-    // Envision and Flotr2 formats are different.
-    function fillHistoryLines(hist_complete_id, hist_partial) {        
-        // [ids, values]
-        var old_history = [ [], [] ];
-        var new_history = [ [], [] ];
-        var lines_history = [];
-        
-        for ( var i = 0; i < hist_partial.length; i++) {
-            // ids
-            old_history[0].push(hist_partial[i][0]);
-            // values
-            old_history[1].push(hist_partial[i][1]);
-        }
-        
-        new_history = fillHistory(hist_complete_id, old_history);
-        
-        for ( var i = 0; i < hist_complete_id.length; i++) {
-            lines_history.push([new_history[0][i],new_history[1][i]]);
-        }
-        return lines_history;
-    }
-
-
     function displayBasicLines(div_id, history, column, labels, title, projects) {
         var lines_data = [];
         var data = [];
@@ -644,8 +621,8 @@ var Viz = {};
         for (var i=0; i< dates_orig[0].length; i++) {
             pos = new_dates[0].indexOf(dates_orig[0][i]);
             if (pos === -1) {
-                new_dates[0].push(dates_orig[i][0]);
-                new_dates[1].push(dates_orig[i][1]);
+                new_dates[0].push(dates_orig[0][i]);
+                new_dates[1].push(dates_orig[1][i]);
             }
         }
         
@@ -678,7 +655,28 @@ var Viz = {};
         }
         return new_history;
     }
-
+    
+    // Envision and Flotr2 formats are different.
+    function fillHistoryLines(hist_complete_id, hist_partial) {        
+        // [ids, values]
+        var old_history = [ [], [] ];
+        var new_history = [ [], [] ];
+        var lines_history = [];
+        
+        for ( var i = 0; i < hist_partial.length; i++) {
+            // ids
+            old_history[0].push(hist_partial[i][0]);
+            // values
+            old_history[1].push(hist_partial[i][1]);
+        }
+        
+        new_history = fillHistory(hist_complete_id, old_history);
+        
+        for ( var i = 0; i < hist_complete_id.length; i++) {
+            lines_history.push([new_history[0][i],new_history[1][i]]);
+        }
+        return lines_history;
+    }
 
     function getEnvisionOptions(div_id, history, ds, hide, projects) {
 

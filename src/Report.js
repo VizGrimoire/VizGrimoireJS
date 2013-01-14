@@ -108,6 +108,15 @@ var Report = {};
     function getProjectsData() {
         return projects_data;
     }
+    
+    Report.getProjectsList = function () {
+        var projects_list = [];
+        for (key in getProjectsData()) {
+            projects_list.push(key);
+        }
+        return projects_list;
+    };
+    
 
     function getMetricDS(metric_id) {
         var ds = null;
@@ -418,8 +427,9 @@ var Report = {};
             });
             
             if ($("#"+DS.getName()+"-flotr2").length > 0) {              
-                if (DS instanceof MLS) {
-                    DS.displayBasic(DS.getName()+'-flotr2', config_metric);
+                if (DS instanceof MLS && $.inArray(MLS, already_shown) === -1) {
+                    DS.displayBasicHTMLMix(DS.getName()+'-flotr2', config_metric);
+                    already_shown.push(MLS);
                 } else if (DS instanceof SCM && $.inArray(SCM, already_shown) === -1) {
                     DS.displayBasicHTMLMix(DS.getName()+'-flotr2',config_metric); 
                     already_shown.push(SCM);
@@ -431,7 +441,9 @@ var Report = {};
             
             if (DS instanceof MLS) {
                 if ($("#"+DS.getName()+"-flotr2"+"-lists").length > 0) {
-                    DS.displayBasic(DS.getName() + "-flotr2"+"-lists", config_metric);
+                    if (Report.getProjectsList().length === 1)
+                        DS.displayBasic
+                            (DS.getName() + "-flotr2"+"-lists", config_metric);
                 }
             }
         });        
@@ -450,8 +462,9 @@ var Report = {};
                         $.inArray(MLS, already_shown) === -1) {
                     // DS.displayEvoAggregated(div_envision);
                     DS.displayEvoAggregatedMix(div_envision);
-                    if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
-                        DS.displayEvo(DS.getName() + "-envision"+"-lists");
+                    if (Report.getProjectsList().length === 1)
+                        if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
+                            DS.displayEvo(DS.getName() + "-envision"+"-lists");
                     already_shown.push(MLS);
                 } else if (DS instanceof SCM && 
                         $.inArray(SCM, already_shown) === -1) {
