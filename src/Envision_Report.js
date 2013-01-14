@@ -180,7 +180,9 @@
         $.each(components, function(component, value) {
             vis.add(value);
         });
-        vis.add(connection).add(summary).render(options.container);
+        vis
+        .add(connection).add(summary)
+        .render(options.container);
 
         // ZOOMING
         $.each(components, function(component, value) {

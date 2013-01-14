@@ -626,35 +626,85 @@ var Viz = {};
         
         return graph;
     }
+    
+    function fillDates (dates_orig, more_dates) {
+        // [ids, values]
+        var new_dates = [[],[]];
+        
+        // Insert older dates
+        if (dates_orig[0][0]>= more_dates[0][0]) {
+            for (var i=0; i< more_dates[0].length; i++) {
+                new_dates[0][i] = more_dates[0][i];
+                new_dates[1][i] = more_dates[1][i];
+            }
+        }
+
+        // Push already existing dates
+        for (var i=0; i< dates_orig[0].length; i++) {
+            pos = new_dates[0].indexOf(dates_orig[0][i]);
+            if (pos === -1) {
+                new_dates[0].push(dates_orig[i][0]);
+                new_dates[1].push(dates_orig[i][1]);
+            }
+        }
+        
+        // Push newer dates
+        if (dates_orig[0][dates_orig-1]<= more_dates[0][more_dates-1]) {
+            for (var i=0; i< more_dates.length; i++) {
+                pos = new_dates[0].indexOf(more_dates[0][i]);
+                if (pos === -1) {
+                    new_dates[0].push(more_dates[i][0]);
+                    new_dates[1].push(more_dates[i][1]);
+                }
+            }
+        }
+        
+        return new_dates;
+
+    }
+    
+    function fillHistory(hist_complete_id, hist_partial) {
+        // [ids, values]
+        var new_history = [ [], [] ];
+        for ( var i = 0; i < hist_complete_id.length; i++) {
+            pos = hist_partial[0].indexOf(hist_complete_id[i]);
+            new_history[0][i] = hist_complete_id[i];
+            if (pos != -1) {
+                new_history[1][i] = hist_partial[1][pos];
+            } else {
+                new_history[1][i] = 0;
+            }
+        }
+        return new_history;
+    }
+
 
     function getEnvisionOptions(div_id, history, ds, hide, projects) {
 
         var basic_metrics = ds.getMetrics();
         var main_metric = ds.getMainMetric();
-        var full_history_id = [], dates = [];
+        // [ids, values] Complete timeline for all the data
+        var dates = [[],[]];
         var data;
         
         if (history instanceof Array) data = history;
         else data = [history];
         
+        // Healthy initial valie
+        dates = [data[0].id, data[0].date];
+        
         for (var i=0; i<data.length; i++) {
-            for (var metric in basic_metrics) {
-                var mdata = history[i][metric];
-                if (mdata && mdata.length > full_history_id.length) {
-                    full_history_id = history[i].id;
-                    dates = history[i].date;
-                }
-            }
+            dates = fillDates(dates, [data[i].id, data[i].date]);
         }
-
-        var firstMonth = data[0].id[0], 
+        
+        var firstMonth = dates[0][0], 
                 container = document.getElementById(div_id), options;
         var markers = Report.getMarkers();
 
         options = {
             container : container,
             xTickFormatter : function(index) {
-                var label = dates[index - firstMonth];
+                var label = dates[1][index - firstMonth];
                 if (label === "0")
                     label = "";
                 return label;
@@ -666,21 +716,21 @@ var Viz = {};
             selection : {
                 data : {
                     x : {
-                        min : data[0].id[0],
-                        max : data[0].id[data[0].id.length - 1]
+                        min : dates[0][0],
+                        max : dates[0][dates[0].length - 1]
                     }
                 }
             }
         };
 
         options.data = {
-            summary : [ data[0].id, data[0][main_metric] ],
+            summary : fillHistory(dates[0], [data[0].id, data[0][main_metric]]),
             markers : markers,
-            dates : dates,
+            dates : dates[1],
             envision_hide : hide,
             main_metric : main_metric
         };
-
+        
         for ( var metric in basic_metrics) {
             options.data[metric] = [];
             if (data.length === 1) {
@@ -689,7 +739,7 @@ var Viz = {};
             }
             for (var i = 0; i < data.length; i++) {
                 var full_data =  
-                    fillHistory(full_history_id, [data[i].id, data[i][metric]]);
+                    fillHistory(dates[0], [data[i].id, data[i][metric]]);
                 if (metric === main_metric)
                     options.data[metric].push(
                             {label:projects[i], data:full_data});
@@ -700,7 +750,7 @@ var Viz = {};
         options.trackFormatter = function(o) {
             var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;
 
-            value = dates[index] + ":<br>";
+            value = dates[1][index] + ":<br>";
             
             var i = 0;
             for ( var id in basic_metrics) {
