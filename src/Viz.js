@@ -730,8 +730,20 @@ var Viz = {};
 
     function getEnvisionOptions(div_id, history, ds, hide, projects) {
 
-        var basic_metrics = ds.getMetrics();
-        var main_metric = ds.getMainMetric();
+        var basic_metrics, main_metric="", summary_data = [];
+        if (ds) {
+            basic_metrics = ds.getMetrics();
+            main_metric = ds.getMainMetric();
+            summary_data = DS.getData()[main_metric];
+        } else {
+            basic_metrics = Report.getAllMetrics();
+            $.each(Report.getDataSources(), function(i, DS) {
+                main_metric = DS.getMainMetric();
+                summary_data = DS.getData()[main_metric];
+                if (DS.getName() === "scm") return false;
+            });
+        }
+        
         // [ids, values] Complete timeline for all the data
         var dates = [[],[]];
         var data;
@@ -770,22 +782,25 @@ var Viz = {};
                     }
                 }
             }
-        };
-
+        };        
+        
         options.data = {
-            summary : fillHistory(dates[0], [data[0].id, data[0][main_metric]]),
+            summary : fillHistory(dates[0], [data[0].id, summary_data]),
             markers : markers,
             dates : dates[1],
             envision_hide : hide,
             main_metric : main_metric
         };
         
-        for ( var metric in basic_metrics) {
+        for (var metric in basic_metrics) {
             options.data[metric] = [];
+            // Monoproject
             if (data.length === 1) {
-                options.data[metric] = [data[0].id, data[0][metric]];
+                options.data[metric] = 
+                    fillHistory(dates[0], [data[0].id, data[0][metric]]);
                 continue;
             }
+            // Multiproject
             for (var i = 0; i < data.length; i++) {
                 var full_data =  
                     fillHistory(dates[0], [data[i].id, data[i][metric]]);
@@ -964,99 +979,40 @@ var Viz = {};
         $("#" + div_id).html(html);
     }
 
-    function displayEvoSummary(div_id) {
-        var container = document.getElementById(div_id);
-        var full_history_id = [], dates = [];
-        var data_sources = Report.getDataSources();        
-        // [ids, values] Complete timeline for all the data
+    function displayEvoSummary(div_id) {        
+        var projects_data = {};
+        var full_data = [];
+        var projects = [];
+        
         var dates = [[],[]];
-
-        $.each(data_sources, function(i, DS) {
-            var ds_data = DS.getData();
-            if (ds_data.id) {
-                if (dates[0].length === 0) dates = [ds_data.id, ds_data.date];
-                dates = fillDates(dates, [ds_data.id, ds_data.date]);                
-            }
+        
+        $.each(Report.getDataSources(), function (index, ds) {
+            var data = ds.getData();
+            if (dates[0].length === 0) dates = [data.id, data.date];
+            dates = fillDates(dates, [data.id, data.date]);
         });
-
-
-        markers = Report.getMarkers();
-
-        var options, firstMonth = full_history_id[0];
-
-        options = {
-            container : container,
-            xTickFormatter : function(index) {
-                var label = dates[index - firstMonth];
-                if (label === "0")
-                    label = "";
-                return label;
-            },
-            yTickFormatter : function(n) {
-                return n + '';
-            },
-            // Initial selection
-            selection : {
-                data : {
-                    x : {
-                        min : dates[0][0],
-                        max : dates[0][dates[0].length - 1]
-                    }
-                }
-            }
-        };
-
-        var main_metric = "", main_matric_data = [];
-        $.each(data_sources, function(i, DS) {
-            if (DS.getData().length === 0) return;
-            // TODO: better control of the main metric
-            main_metric = DS.getMainMetric();
-            main_matric_data = DS.getData()[main_metric];
-            if (DS.getName() === "scm") return false;
+                
+        $.each(Report.getDataSources(), function (index, ds) {
+           if ($.inArray(ds.getProject(), projects) === -1) {
+               projects.push(ds.getProject());
+               projects_data[ds.getProject()] = {};
+           }
+           var data = ds.getData();
+           var new_data = {};
+           $.each(data, function (metric, values) {
+               new_data[metric] = 
+                   fillHistory(dates[0], [data.id, data[metric]])[1];
+           });           
+           $.extend(projects_data[ds.getProject()], new_data);
         });
-
-        var hide = Report.getConfig().summary_hide;
-        options.data = {
-            summary : [ dates[0], main_matric_data ],
-            markers : markers,
-            dates : dates,
-            envision_hide : hide,
-            main_metric : main_metric
-        };
-
-        var all_metrics = {};
-        $.each(data_sources, function(i, DS) {
-            if (DS.getData().length === 0) return;
-            all_metrics = $.extend(all_metrics, DS.getMetrics());
-        });
-
-        $.each(data_sources, function(i, DS) {
-            var ds_data = DS.getData();
-            for (var metric in all_metrics) {
-                if (ds_data && ds_data[metric]) {
-                    var full_data =  
-                        fillHistory(dates[0], [ds_data.id, ds_data[metric]]);
-                    options.data[metric] = full_data;
-                }
-            }
-        });
-
-        options.trackFormatter = function(o) {
-            var data = o.series.data, index = data[o.index][0] - firstMonth, value;
-
-            value = dates[1][o.index] + ":<br>";
-
-            var i = 0;
-            for (var metric in all_metrics) {
-                value += options.data[metric][1][o.index] + " " + metric + ", ";
-                if (++i % 3 === 0)
-                    value += "<br>";
-            }
-
-            return value;
-        };
-
-        // Create the TimeSeries
-        var vis = new envision.templates.Envision_Report(options); 
+        
+        for (var i=0; i<projects.length; i++) {
+            full_data[i] = (projects_data[projects[i]]);
+        }
+                
+        config = Report.getConfig();
+        var options = Viz.getEnvisionOptions(div_id, full_data, null,
+                config.summary_hide, projects);
+        new envision.templates.Envision_Report(options);
     }
 })();
