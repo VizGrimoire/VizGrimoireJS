@@ -431,13 +431,25 @@ var Viz = {};
             var value =  data[0].data[i][1];
             if (value>max) max = value;            
         }
+        
+        // TODO: Hack to have vars visible in track/tickFormatter
+        (function() {var x = [data, ticks];})();
 
         graph = Flotr.draw(container, data, {
             radar : {
                 show : true
             },
             mouse : {
-                track : true
+                track : true,
+                trackFormatter : function(o) {
+                    var value = "";
+                    for (var i=0; i<data.length; i++) {
+                        value += data[i].label + " ";
+                        value += data[i].data[o.index][1] + " ";
+                        value += ticks[o.index][1] + "<br>";
+                    }
+                    return value;
+                }
             },
             grid : {
                 circular : true,
