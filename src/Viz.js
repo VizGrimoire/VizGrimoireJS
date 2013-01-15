@@ -366,8 +366,8 @@ var Viz = {};
             mouse : {
                 track : true,
                 trackFormatter : function(o) {
-                    var value = data.date[o.index] + ": ";
-                    value += o.series.legend + " ";
+                    var value = full_data[0].date[o.index] + ": ";
+                    value += o.series.label + " ";
                     value += o.series.data[o.index][1] + " " + metric1 + ",";
                     value += o.series.data[o.index][2] + " " + metric2;
                     return value;
@@ -375,14 +375,14 @@ var Viz = {};
             },
             xaxis : {
                 tickFormatter : function(o) {
-                    return data.date[parseInt(o, 10) - data.id[0]];
+                    return full_data[0].date[parseInt(o, 10) - full_data[0].id[0]];
                 }
             }
         };
 
         if (DS.getName() === "its")
             $.extend(config.bubbles, {
-                baseRadius : 1.5
+                baseRadius : 1.0
             });
 
         // Flotr.draw(container, [ {legend:"Test", data:bdata} ], config);
