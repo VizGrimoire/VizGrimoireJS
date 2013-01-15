@@ -81,14 +81,17 @@ var Viz = {};
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
+        var drawn = false;
 
         $.each(Report.getDataSources(), function(index, DS) {
+            if (drawn) return false;
             var list_metrics = DS.getMetrics();
             $.each(list_metrics, function(metric, value) {
                 if (value.column === metric_id) {
                     DS.displayBasicMetricHTML(value.column, divid,
                             config_metric);
-                    return;
+                    drawn = true;
+                    return false;
                 }
             });
         });

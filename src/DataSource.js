@@ -107,8 +107,10 @@ function DataSource(name, basic_metrics) {
     this.displayBasicHTMLMix = function(div_target, config, title) {
         var full_data = [];
         var projects = [];
+        var ds_name = this.getName();
+
         $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof SCM) {
+           if (ds.getName() === ds_name) {
                full_data.push(ds.getData());
                projects.push(ds.getProject());
            } 
@@ -126,8 +128,18 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displayBasicMetricHTML = function(metric_id, div_target, config) {
-        Viz.displayBasicMetricHTML(this.basic_metrics[metric_id], this.getData(),
-                div_target, config);
+        var projects = [];
+        var full_data = [];
+        var ds_name = this.getName();
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds.getName() === ds_name) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+
+        Viz.displayBasicMetricHTML(this.basic_metrics[metric_id], full_data,
+                div_target, config, projects);
     };
     
     this.displayBasic = function() {
