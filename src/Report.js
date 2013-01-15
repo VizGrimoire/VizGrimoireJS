@@ -409,13 +409,17 @@ var Report = {};
         }
         
         var already_shown = [];
+        var metric_already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getData().length === 0) return;
             
             $.each(DS.getMetrics(), function(i, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
-                if ($("#"+div_flotr2).length > 0)
+                if ($("#"+div_flotr2).length > 0 &&
+                        $.inArray(metric.column, metric_already_shown) === -1) {
                     DS.displayBasicMetricHTML(i,div_flotr2, config_metric);
+                    metric_already_shown.push(metric.column);
+                }
                 // Getting data real time
                 var div_flotr2_rt = metric.divid+"-flotr2-rt";
                 if ($("#"+div_flotr2_rt).length > 0) {
