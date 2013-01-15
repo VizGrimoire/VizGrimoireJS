@@ -700,6 +700,7 @@ var Viz = {};
             if (pos != -1) {
                 new_history[1][i] = hist_partial[1][pos];
             } else {
+                // TODO: id or date should not be 0
                 new_history[1][i] = 0;
             }
         }
@@ -793,6 +794,7 @@ var Viz = {};
         };
         
         for (var metric in basic_metrics) {
+            if (data[0][metric] === undefined) continue;
             options.data[metric] = [];
             // Monoproject
             if (data.length === 1) {
@@ -818,6 +820,7 @@ var Viz = {};
             
             var i = 0;
             for ( var id in basic_metrics) {
+                if (options.data[id] === undefined) continue;
                 // Single project
                 if (options.data[id][0] instanceof Array) { 
                     value += options.data[id][1][index] + " " + id + ", ";
@@ -982,12 +985,14 @@ var Viz = {};
     function displayEvoSummary(div_id) {        
         var projects_data = {};
         var full_data = [];
-        var projects = [];
-        
+        var projects = [];        
         var dates = [[],[]];
+        var  all_metrics = Report.getAllMetrics();
+
         
         $.each(Report.getDataSources(), function (index, ds) {
             var data = ds.getData();
+            if (data.length === 0) return;
             if (dates[0].length === 0) dates = [data.id, data.date];
             dates = fillDates(dates, [data.id, data.date]);
         });
@@ -999,7 +1004,10 @@ var Viz = {};
            }
            var data = ds.getData();
            var new_data = {};
+           new_data.id = dates[0];
+           new_data.date = dates[1];
            $.each(data, function (metric, values) {
+               if (all_metrics[metric] === undefined) return;
                new_data[metric] = 
                    fillHistory(dates[0], [data.id, data[metric]])[1];
            });           
