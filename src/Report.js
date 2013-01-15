@@ -117,12 +117,11 @@ var Report = {};
         return projects_list;
     };
     
-
     function getMetricDS(metric_id) {
-        var ds = null;
+        var ds = [];
         $.each(Report.getDataSources(), function(i, DS) {
             if (DS.getMetrics()[metric_id]) {
-                ds = DS;
+                ds.push(DS);
             }
         });
         return ds;

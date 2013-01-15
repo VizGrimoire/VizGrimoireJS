@@ -456,19 +456,29 @@ var Viz = {};
 
     function displayRadar(div_id, metrics) {
         var data = [], ticks = [];
+        var radar_data = [];
+        var projects = [];
 
         for ( var i = 0; i < metrics.length; i++) {
             var DS = Report.getMetricDS(metrics[i]);
-            data.push([ i, parseInt(DS.getGlobalData()[metrics[i]], 10) ]);
-            ticks.push([ i, DS.getMetrics()[metrics[i]].name ]);
+            for (var j=0; j<DS.length; j++) {
+                if (!data[j]) {
+                    data[j] = [];
+                    projects[j] = DS[j].getProject();
+                }
+                data[j].push([ i, parseInt(DS[j].getGlobalData()[metrics[i]], 10) ]);
+            }
+            ticks.push([ i, DS[0].getMetrics()[metrics[i]].name ]);
         }
 
-        var s1 = {
-            label : Report.getProjectData().project_name,
-            data : data
-        };
+        for (var j=0; j<data.length; j++) {            
+            radar_data.push({
+                label : projects[j],
+                data : data[j]
+            });
+        }
 
-        displayRadarChart(div_id, ticks, [ s1 ]);
+        displayRadarChart(div_id, ticks, radar_data);
     }
 
     function displayRadarCommunity(div_id) {
