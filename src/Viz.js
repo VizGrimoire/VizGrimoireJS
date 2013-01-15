@@ -964,33 +964,18 @@ var Viz = {};
         $("#" + div_id).html(html);
     }
 
-    function fillHistory(hist_complete_id, hist_partial) {
-
-        // [ids, values]
-        var new_history = [ [], [] ];
-        for ( var i = 0; i < hist_complete_id.length; i++) {
-            pos = hist_partial[0].indexOf(hist_complete_id[i]);
-            new_history[0][i] = hist_complete_id[i];
-            if (pos != -1) {
-                new_history[1][i] = hist_partial[1][pos];
-            } else {
-                new_history[1][i] = 0;
-            }
-        }
-        return new_history;
-    }
-
     function displayEvoSummary(div_id) {
-
         var container = document.getElementById(div_id);
         var full_history_id = [], dates = [];
-        var data_sources = Report.getDataSources();
+        var data_sources = Report.getDataSources();        
+        // [ids, values] Complete timeline for all the data
+        var dates = [[],[]];
 
         $.each(data_sources, function(i, DS) {
-            if (DS.getData().id &&
-                    DS.getData().id.length > full_history_id.length) {
-                full_history_id = DS.getData().id;
-                dates = DS.getData().date;                
+            var ds_data = DS.getData();
+            if (ds_data.id) {
+                if (dates[0].length === 0) dates = [ds_data.id, ds_data.date];
+                dates = fillDates(dates, [ds_data.id, ds_data.date]);                
             }
         });
 
@@ -1014,8 +999,8 @@ var Viz = {};
             selection : {
                 data : {
                     x : {
-                        min : full_history_id[0],
-                        max : full_history_id[full_history_id.length - 1]
+                        min : dates[0][0],
+                        max : dates[0][dates[0].length - 1]
                     }
                 }
             }
@@ -1032,7 +1017,7 @@ var Viz = {};
 
         var hide = Report.getConfig().summary_hide;
         options.data = {
-            summary : [ full_history_id, main_matric_data ],
+            summary : [ dates[0], main_matric_data ],
             markers : markers,
             dates : dates,
             envision_hide : hide,
@@ -1047,10 +1032,11 @@ var Viz = {};
 
         $.each(data_sources, function(i, DS) {
             var ds_data = DS.getData();
-            for (var id in all_metrics) {
-                if (ds_data && ds_data[id]) {
-                    options.data[id] = fillHistory(full_history_id, [ ds_data.id,
-                            ds_data[id] ]);
+            for (var metric in all_metrics) {
+                if (ds_data && ds_data[metric]) {
+                    var full_data =  
+                        fillHistory(dates[0], [ds_data.id, ds_data[metric]]);
+                    options.data[metric] = full_data;
                 }
             }
         });
@@ -1058,11 +1044,11 @@ var Viz = {};
         options.trackFormatter = function(o) {
             var data = o.series.data, index = data[o.index][0] - firstMonth, value;
 
-            value = dates[index] + ":<br>";
+            value = dates[1][o.index] + ":<br>";
 
             var i = 0;
-            for ( var id in all_metrics) {
-                value += options.data[id][1][index] + " " + id + ", ";
+            for (var metric in all_metrics) {
+                value += options.data[metric][1][o.index] + " " + metric + ", ";
                 if (++i % 3 === 0)
                     value += "<br>";
             }
