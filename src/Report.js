@@ -329,8 +329,8 @@ var Report = {};
                     $.each($links, function(index, value){
                       if (value.href.indexOf("jasmine")>-1)
                         value.href += "?data_dir=../" + Report.getDataDir();
-                      else 
-                        value.href += "?data_dir=" + Report.getDataDir();
+                      //else 
+                      //  value.href += "?data_dir=" + Report.getDataDir();
                     });
                 });                
             }
