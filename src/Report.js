@@ -326,12 +326,12 @@ var Report = {};
                 $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
                     var $links = $("#navigation a");
-                    $.each($links, function(index, value){
-                      if (value.href.indexOf("jasmine")>-1)
-                        value.href += "?data_dir=../" + Report.getDataDir();
+                    //$.each($links, function(index, value){
+                    //  if (value.href.indexOf("jasmine")>-1)
+                    //    value.href += "?data_dir=../" + Report.getDataDir();
                       //else 
                       //  value.href += "?data_dir=" + Report.getDataDir();
-                    });
+                    //});
                 });                
             }
         },
