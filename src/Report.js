@@ -31,7 +31,7 @@ var Report = {};
     var data_dir = "data/json";
     var default_data_dir = "data/json";
     var default_html_dir = "";
-    var projects_dir = [];
+    var projects_dirs = [default_data_dir];
     var projects_data = {};
     var project_file = data_dir + "/project-info-milestone0.json",
         config_file = data_dir + "/viz_cfg.json",
@@ -109,6 +109,15 @@ var Report = {};
         return projects_data;
     }
     
+    Report.getProjectsDirs = function () {
+        return projects_dirs;
+    };
+    
+    Report.setProjectsDirs = function (dirs) {
+        projects_dirs = dirs;
+    };
+
+    
     Report.getProjectsList = function () {
         var projects_list = [];
         for (key in getProjectsData()) {
@@ -135,8 +144,8 @@ var Report = {};
         data_load_file(project_file, function(data, self) {project_data = data;});
         data_load_file(config_file, function(data, self) {config = data;});
         data_load_file(markers_file, function(data, self) {markers = data;});        
-        for (var i=0;  i<projects_dir.length; i++) {
-            var data_dir = projects_dir[i];
+        for (var i=0;  i<projects_dirs.length; i++) {
+            var data_dir = projects_dirs[i];
             var prj_file = data_dir + "/project-info-milestone0.json";
             data_load_file(prj_file, function(data, dir) {
                 projects_data[data.project_name] = dir;
@@ -178,7 +187,7 @@ var Report = {};
         
         var projects_loaded = 0;        
         for (var key in projects_data) {projects_loaded++;}       
-        if (projects_loaded < projects_dir.length ) return false;
+        if (projects_loaded < projects_dirs.length ) return false;
         
         var data_sources = Report.getDataSources();        
         $.each(data_sources, function(index, DS) {
@@ -254,15 +263,10 @@ var Report = {};
         } else {
             $('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
         }
-    }    
-           
-    function getReportDirs() {
+    }
+
+    function checkDynamicConfig() {
         var data_sources = [];
-        var dirs = {
-            data: default_data_dir,
-            html: default_html_dir,
-            data_sources: data_sources            
-        };
         
         function getDataDirs(dirs_config) {
             var full_params = dirs_config.split ("&");
@@ -271,40 +275,25 @@ var Report = {};
             });
             for (var i=0; i< dirs_param.length; i++) {                
                 var data_dir = dirs_param[i].split("=")[1];
-                dirs.data_sources.push(data_dir);
-                // TODO: With different projects ... mix or don't show any?
-                if (i>0) dirs.data = '';
-                else dirs.data = data_dir; 
+                data_sources.push(data_dir);
+                if (i === 0) Report.setDataDir(data_dir);
             }             
         }
         
-        var querystr = window.location.search.substr(1);        
-        if (querystr) getDataDirs(querystr);
-        else if ($("#report-config").length > 0) {
-            var data = $("#report-config").data('global-data-dir');
-            var html = $("#report-config").data('global-html-dir');
-            var ds_data_dirs = $("#report-config").data('ds-data-dirs');
-            if (ds_data_dirs) getDataDirs(ds_data_dirs);
-            else data_sources.push(default_data_dir);
-            if (data) dirs.data = data;
-            if (html) dirs.html = html;
-        } else {
-            data_sources.push(default_data_dir);
+        var querystr = window.location.search.substr(1);
+        // Config in GET URL
+        if (querystr) {           
+            getDataDirs(querystr);
+            Report.setProjectsDirs(data_sources);
         }
-        
-        projects_dir = dirs.data_sources;
-
-        return dirs;
     }
     
     function createDataSources() {
-        var dirs = getReportDirs();
+        checkDynamicConfig();
         
-        // TODO: Move global config to a better method name
-        Report.setHtmlDir(dirs.html);
-        Report.setDataDir(dirs.data);
-        
-        for (var i=0; i<dirs.data_sources.length;i++) {
+        var projects_dirs = Report.getProjectsDirs(); 
+                
+        for (var i=0; i<projects_dirs.length;i++) {
             var its = new ITS();
             Report.registerDataSource(its);
             var mls = new MLS();        
@@ -312,9 +301,9 @@ var Report = {};
             var scm = new SCM();
             Report.registerDataSource(scm);
         
-            its.setDataDir(dirs.data_sources[i]);
-            mls.setDataDir(dirs.data_sources[i]);
-            scm.setDataDir(dirs.data_sources[i]);            
+            its.setDataDir(projects_dirs[i]);
+            mls.setDataDir(projects_dirs[i]);
+            scm.setDataDir(projects_dirs[i]);            
         }
         
         return true;
@@ -340,11 +329,6 @@ var Report = {};
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                     displayProjectData();
-                    var $links = $("#header a");
-                    $.each($links, function(index, value){
-                      value.href += "?data_dir=" + Report.getDataDir();
-                    });
-
                 });
             }
         },
@@ -564,8 +548,20 @@ var Report = {};
         });
         
     }
+    
+    Report.setConfig = function (data) {
+        if (data) {
+            if (data['global-html-dir'])
+                Report.setHtmlDir(data['global-html-dir']);
+            if (data['global-data-dir'])
+                Report.setDataDir(data['global-data-dir']);
+            if (data['projects-data-dirs'])
+                Report.setProjectsDirs(data['projects-data-dirs']);
+        }
+    };
+           
 
-    function report(config) {
+    function report() {
         configDataSources();
         convertBasicDivs();        
         convertFlotr2(config);        
@@ -581,7 +577,12 @@ var Report = {};
 Report.data_ready(function() {
     Report.report();
 });
+
 $(document).ready(function() {
-    Report.createDataSources();
-    Report.data_load();
+    $.getJSON('config.json', function(data) {
+        Report.setConfig(data);
+    }).always(function (data) {
+        Report.createDataSources();
+        Report.data_load();
+    });
 });

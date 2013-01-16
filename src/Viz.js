@@ -515,7 +515,7 @@ var Viz = {};
     // Each metric can have several top: metric.period
     // For example: "committers.all":{"commits":[5310, ...],"name":["Brion
     // Vibber",..]}
-    function displayTop(div, data_source, top_file, basic_metrics, all, graph) {
+    function displayTop(div, data_source, all, graph) {
         var top_file = data_source.getTopDataFile();
         var basic_metrics = data_source.getMetrics();
         var project = data_source.getProject();

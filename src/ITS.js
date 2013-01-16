@@ -81,7 +81,7 @@ function ITS() {
     this.getMetrics = function() {return basic_metrics;};
     
     this.getMainMetric = function() {
-        return "closed";
+        return "opened";
     };
     
     this.displayData = function() {
