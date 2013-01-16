@@ -700,7 +700,6 @@ var Viz = {};
             if (pos != -1) {
                 new_history[1][i] = hist_partial[1][pos];
             } else {
-                // TODO: id or date should not be 0
                 new_history[1][i] = 0;
             }
         }
@@ -812,28 +811,31 @@ var Viz = {};
                 else options.data[metric].push({label:"", data:full_data});
             }
         }
-
+        
         options.trackFormatter = function(o) {
             var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;
 
             value = dates[1][index] + ":<br>";
             
             var i = 0;
-            for ( var id in basic_metrics) {
-                if (options.data[id] === undefined) continue;
+            for (var metric in basic_metrics) {
+                if (options.data[metric] === undefined) continue;
+                if ($.inArray(metric,options.data.envision_hide) > -1) continue;
+                
                 // Single project
-                if (options.data[id][0] instanceof Array) { 
-                    value += options.data[id][1][index] + " " + id + ", ";
+                if (options.data[metric][0] instanceof Array) { 
+                    value += options.data[metric][1][index] + " " + metric + ", ";
                     if (++i % 3 === 0)
                         value += "<br>";
                 } 
                 // Multiproject
                 else {
-                    for (var j=0;j<options.data[id].length; j++) {
-                        var project = options.data[id][j].label;
-                        var pdata = options.data[id][j].data;
-                        value += project + " " + pdata[1][index] + " " + id + ", ";
-                        if (++i % 2 === 0)
+                    var num_projects = options.data[metric].length; 
+                    for (var j=0;j<num_projects; j++) {
+                        var project = options.data[main_metric][j].label;
+                        var pdata = options.data[metric][j].data;
+                        value += project + " " + pdata[1][index] + " " + metric + ", ";
+                        if (++i % num_projects === 0)
                             value += "<br>";
                     }
                 }                    
