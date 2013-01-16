@@ -735,7 +735,7 @@ var Viz = {};
         if (ds) {
             basic_metrics = ds.getMetrics();
             main_metric = ds.getMainMetric();
-            summary_data = DS.getData()[main_metric];
+            summary_data = ds.getData()[main_metric];
         } else {
             basic_metrics = Report.getAllMetrics();
             $.each(Report.getDataSources(), function(i, DS) {

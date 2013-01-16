@@ -264,9 +264,8 @@ var Report = {};
             data_sources: data_sources            
         };
         
-        var querystr = window.location.search.substr(1);        
-        if (querystr) {
-            var full_params = querystr.split ("&");
+        function getDataDirs(dirs_config) {
+            var full_params = dirs_config.split ("&");
             var dirs_param = $.grep(full_params,function(item, index) {
                 return (item.indexOf("data_dir=") === 0);
             });
@@ -276,12 +275,17 @@ var Report = {};
                 // TODO: With different projects ... mix or don't show any?
                 if (i>0) dirs.data = '';
                 else dirs.data = data_dir; 
-            } 
-        }                
+            }             
+        }
+        
+        var querystr = window.location.search.substr(1);        
+        if (querystr) getDataDirs(querystr);
         else if ($("#report-config").length > 0) {
             var data = $("#report-config").data('global-data-dir');
             var html = $("#report-config").data('global-html-dir');
-            if (data) dirs.data_sources.push(data);
+            var ds_data_dirs = $("#report-config").data('ds-data-dirs');
+            if (ds_data_dirs) getDataDirs(ds_data_dirs);
+            else data_sources.push(default_data_dir);
             if (data) dirs.data = data;
             if (html) dirs.html = html;
         } else {
