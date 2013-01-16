@@ -26,6 +26,9 @@
 function DataSource(name, basic_metrics) {
     
     this.top_data_file = this.data_dir + '/'+this.name+'-top-milestone0.json';
+    this.getTopDataFile = function() {
+        return this.top_data_file;
+    };
     
     this.basic_metrics = basic_metrics;
     this.getMetrics = function() {
@@ -157,7 +160,7 @@ function DataSource(name, basic_metrics) {
     this.displayTop = function(div, all, graph) {
         if (all === undefined)
             all = true;
-        Viz.displayTop(div, this.top_data_file, this.basic_metrics, all,graph);
+        Viz.displayTop(div, this, all, graph);
     };
 
     this.basicEvo = function(history) {

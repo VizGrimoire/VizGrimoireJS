@@ -97,14 +97,14 @@ var Viz = {};
         });
     }
 
-    function displayTopMetric(div_id, metric, metric_period, history, graph) {
+    function displayTopMetric(div_id, project, metric, metric_period, history, graph) {
         var top_metric_id = metric.column;
         var metric_id = metric.action;
         var doer = findMetricDoer(history, metric_id);
         var div_graph = '';
         var new_div = '';
         new_div += "<div class='info-pill'>";
-        new_div += "<h1>Top " + top_metric_id + " " + metric_period + " </h1>";
+        new_div += "<h1>" + project +" Top " + top_metric_id + " " + metric_period + " </h1>";
         if (graph) {
             div_graph = "top-" + graph + "-" + metric_id + "-" + metric_period;
             new_div += "<div id='" + div_graph
@@ -384,8 +384,6 @@ var Viz = {};
             $.extend(config.bubbles, {
                 baseRadius : 1.0
             });
-
-        // Flotr.draw(container, [ {legend:"Test", data:bdata} ], config);
         Flotr.draw(container, bdata, config);
     }
 
@@ -517,7 +515,11 @@ var Viz = {};
     // Each metric can have several top: metric.period
     // For example: "committers.all":{"commits":[5310, ...],"name":["Brion
     // Vibber",..]}
-    function displayTop(div, top_file, basic_metrics, all, graph) {
+    function displayTop(div, data_source, top_file, basic_metrics, all, graph) {
+        var top_file = data_source.getTopDataFile();
+        var basic_metrics = data_source.getMetrics();
+        var project = data_source.getProject();
+            
         if (all === undefined)
             all = true;
         $.getJSON(top_file, function(history) {
@@ -526,10 +528,10 @@ var Viz = {};
                 var data = key.split(".");
                 var top_metric = data[0];
                 var top_period = data[1];
-                for ( var id in basic_metrics) {
+                for (var id in basic_metrics) {
                     var metric = basic_metrics[id];
                     if (metric.column == top_metric) {
-                        displayTopMetric(div, metric, top_period, history[key],
+                        displayTopMetric(div, project, metric, top_period, history[key],
                                 graph);
                         if (!all) return false;
                         break;
@@ -610,6 +612,7 @@ var Viz = {};
                 colors : gconfig.colors,
                 grid: {verticalLines:false, horizontalLines:false},
                 mouse : {
+                    container: $("#all-envision-legend"),
                     track : true,
                     trackY : false,
                     position : 'ne'
@@ -989,8 +992,7 @@ var Viz = {};
         var full_data = [];
         var projects = [];        
         var dates = [[],[]];
-        var  all_metrics = Report.getAllMetrics();
-
+        var all_metrics = Report.getAllMetrics();
         
         $.each(Report.getDataSources(), function (index, ds) {
             var data = ds.getData();
