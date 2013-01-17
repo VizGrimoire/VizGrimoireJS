@@ -347,8 +347,9 @@ var Report = {};
                             DS.displayData(new_div);
                         });
                         $("#"+new_div+" #project_name").text(prj_name);
-                        $("#"+new_div+" .project_info")
-                            .append(' <a href="VizGrimoireJS/report/index.html?data_dir=../../'+prj_data.dir+'">Report</a>');
+                        if (projects_dirs.length>1)
+                            $("#"+new_div+" .project_info")
+                                .append(' <a href="VizGrimoireJS/report/index.html?data_dir=../../'+prj_data.dir+'">Report</a>');
                         
                         $("#"+new_div+" #project_url")
                             .attr("href", prj_data.url);
