@@ -61,6 +61,12 @@ function MLS() {
     this.getMetrics = function() {return basic_metrics;};
     
     this.displayData = function() {
+        var str = this.global_data.url;
+        if (!str || str.length === 0) {
+            $('.mls_info').hide();
+            return;
+        }
+
         if (this.global_data.type)
             $('#mls_type').text(this.global_data.type);
         if (this.global_data.url && this.global_data.url !== ".") {

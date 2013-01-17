@@ -227,27 +227,6 @@ var Report = {};
         $(".report_date").text(data.date);
         $(".project_name").text(data.project_name);
         $("#project_url").attr("href", data.project_url);
-//        $('#scm_type').text(data.scm_type);
-//        $('#scm_url').attr("href", data.scm_url);
-//        $('#scm_name').text(data.scm_name);
-//        $('#its_type').text(data.its_type);
-//        $('#its_url').attr("href", data.its_url);
-//        $('#its_name').text(data.its_name);
-//        $('#mls_type').text(data.mls_type);
-//        $('#mls_url').attr("href", data.mls_url);
-//        $('#mls_name').text(data.mls_name);
-        var str = data.scm_url;
-        if (!str || str.length === 0) {
-            $('.source_info').hide();
-        }
-        str = data.its_url;
-        if (!str || str.length === 0) {
-            $('.tickets_info').hide();
-        }
-        str = data.mls_url;
-        if (!str || str.length === 0) {
-            $('.mls_info').hide();
-        }
         str = data.blog_url;
         if (str && str.length > 0) {
             $('#blogEntry').html(

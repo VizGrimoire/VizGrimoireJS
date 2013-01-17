@@ -85,6 +85,11 @@ function ITS() {
     };
     
     this.displayData = function() {
+        var str = this.global_data.url;
+        if (!str || str.length === 0) {
+            $('.tickets_info').hide();
+            return;
+        }
         $('#its_type').text(this.global_data.type);
         var url = this.global_data.url;
         if (this.global_data.type === "allura")
