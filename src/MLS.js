@@ -61,6 +61,15 @@ function MLS() {
     this.getMetrics = function() {return basic_metrics;};
     
     this.displayData = function() {
+        if (this.global_data.type)
+            $('#mls_type').text(this.global_data.type);
+        if (this.global_data.url && this.global_data.url !== ".") {
+            $('#mls_url').attr("href", this.global_data.url);
+            $('#mls_name').text("MLS " + this.global_data.type);
+        } else {
+            $('#mls_url').attr("href", Report.getProjectData().mls_url);
+            $('#mls_name').text(Report.getProjectData().mls_name);            
+        }
         $("#mlsFirst").text(this.global_data.first_date);
         $("#mlsLast").text(this.global_data.last_date);
         $("#mlsMessages").text(this.global_data.sent);

@@ -85,6 +85,12 @@ function ITS() {
     };
     
     this.displayData = function() {
+        $('#its_type').text(this.global_data.type);
+        var url = this.global_data.url;
+        if (this.global_data.type === "allura")
+            url = url.replace("rest/","");
+        $('#its_url').attr("href", url);
+        $('#its_name').text("Tickets " + this.global_data.type);
         $("#itsFirst").text(this.global_data.first_date);
         $("#itsLast").text(this.global_data.last_date);
         $("#itsTickets").text(this.global_data.tickets);

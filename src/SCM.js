@@ -84,6 +84,12 @@ function SCM() {
     };
     
     this.displayData = function() {
+        $('#scm_type').text(this.global_data.type);
+        var url = this.global_data.url;
+        if (this.global_data.type === "git")
+            url = url.replace("git://","http://");
+        $('#scm_url').attr("href", url);
+        $('#scm_name').text("SCM " + this.global_data.type);        
         $("#scmFirst").text(this.global_data.first_date);
         $("#scmLast").text(this.global_data.last_date);
         $("#scmCommits").text(this.global_data.commits);
