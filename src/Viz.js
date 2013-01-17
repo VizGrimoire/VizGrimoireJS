@@ -116,6 +116,10 @@ var Viz = {};
         // new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
         new_div += "<tr><th></th><th>" + metric_id + "</th></tr>";
         if (history[metric_id] === undefined) return;
+        if (!(history[metric_id] instanceof Array)) {
+            history[metric_id] = [history[metric_id]];
+            history[doer] = [history[doer]];
+        }
         for ( var i = 0; i < history[metric_id].length; i++) {
             var metric_value = history[metric_id][i];
             var doer_value = history[doer][i];
