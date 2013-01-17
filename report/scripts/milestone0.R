@@ -223,10 +223,13 @@ evol_info_data <- function() {
 	data4 <- query(q)
 	q <- paste("SELECT count(*) as actions from actions")
 	data5 <- query(q)
+	q <- paste("select url,type from repositories")
+	data6 <- query(q)
 	agg_data = merge(data1, data2)
 	agg_data = merge(agg_data, data3)
 	agg_data = merge(agg_data, data4)
 	agg_data = merge(agg_data, data5)
+	agg_data = merge(agg_data, data6)
 	return (agg_data)
 }
 

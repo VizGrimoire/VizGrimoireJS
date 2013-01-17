@@ -157,7 +157,7 @@ issues_monthly <- completeZeroMonthly(issues_monthly)
 
 createJSON (issues_monthly, "../data/json/its-milestone0.json")
 
-## Get some general stats from the database
+## Get some general stats from the database and url info
 ##
 q <- paste ("SELECT count(*) as tickets,
 			 count(distinct(submitted_by)) as openers,
@@ -175,11 +175,14 @@ q <- paste ("SELECT count(distinct(issue_id)) as changed FROM changes")
 data4 <- query(q)
 q <- paste ("SELECT count(distinct(issue_id)) as closed FROM changes WHERE", closed_condition)
 data5 <- query(q)
+q <- paste ("SELECT url,name as type FROM trackers t JOIN supported_trackers s ON t.type = s.id")
+data6 <- query(q)
 agg_data = merge(data, data1)
 agg_data = merge(agg_data, data2)
 agg_data = merge(agg_data, data3)
 agg_data = merge(agg_data, data4)
 agg_data = merge(agg_data, data5)
+agg_data = merge(agg_data, data6)
 createJSON (agg_data, "../data/json/its-info-milestone0.json")
 
 # Top
