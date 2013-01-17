@@ -83,23 +83,25 @@ function SCM() {
         return "commits";
     };
     
-    this.displayData = function() {
+    this.displayData = function(divid) {
+        var div_id = "#" + divid;
+
         var str = this.global_data.url;
         if (!str || str.length === 0) {
-            $('.source_info').hide();
+            $(div_id + ' .source_info').hide();
             return;
         }
-        $('#scm_type').text(this.global_data.type);
+        $(div_id + ' #scm_type').text(this.global_data.type);
         var url = this.global_data.url;
         if (this.global_data.type === "git")
             url = url.replace("git://","http://");
-        $('#scm_url').attr("href", url);
-        $('#scm_name').text("SCM " + this.global_data.type);        
-        $("#scmFirst").text(this.global_data.first_date);
-        $("#scmLast").text(this.global_data.last_date);
-        $("#scmCommits").text(this.global_data.commits);
-        $("#scmAuthors").text(this.global_data.authors);
-        $("#scmCommitters").text(this.global_data.committers);
+        $(div_id + ' #scm_url').attr("href", url);
+        $(div_id + ' #scm_name').text("SCM " + this.global_data.type);        
+        $(div_id + ' #scmFirst').text(this.global_data.first_date);
+        $(div_id + ' #scmLast').text(this.global_data.last_date);
+        $(div_id + ' #scmCommits').text(this.global_data.commits);
+        $(div_id + ' #scmAuthors').text(this.global_data.authors);
+        $(div_id + ' #scmCommitters').text(this.global_data.committers);
     };
     
     this.displayBasicHTMLMix = function(div_target, config) {

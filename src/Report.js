@@ -60,7 +60,7 @@ var Report = {};
     Report.getBasicDivs = function() {
         return basic_divs;
     }; 
-    Report.displayProjectData = displayProjectData;
+    Report.displayReportData = displayReportData;
     Report.report = report;
     Report.getDataSources = function() {
         // return data_sources.slice(0,3);
@@ -148,7 +148,7 @@ var Report = {};
             var data_dir = projects_dirs[i];
             var prj_file = data_dir + "/project-info-milestone0.json";
             data_load_file(prj_file, function(data, dir) {
-                projects_data[data.project_name] = dir;
+                projects_data[data.project_name] = {dir:dir,url:data.project_url};
             }, data_dir);
         }
         data_load_metrics();
@@ -221,12 +221,11 @@ var Report = {};
         return all;
     }
 
-    function displayProjectData() {
+    function displayReportData() {
         data = project_data;
         document.title = data.project_name + ' Report by Bitergia';
         $(".report_date").text(data.date);
-        $(".project_name").text(data.project_name);
-        $("#project_url").attr("href", data.project_url);
+        $(".report_name").text(data.project_name);
         str = data.blog_url;
         if (str && str.length > 0) {
             $('#blogEntry').html(
@@ -307,7 +306,7 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
-                    displayProjectData();
+                    displayReportData();
                 });
             }
         },
@@ -321,11 +320,28 @@ var Report = {};
         // Reference card with info from all data sources
         "refcard": {
             convert: function() {
-                $.get(html_dir+"refcard.html", function(refcard) {
+                $.when($.get(html_dir+"refcard.html"), 
+                        $.get(html_dir+"project-card.html"))
+                .done (function(res1, res2) {
+                    refcard = res1[0];
+                    projcard = res2[0];
+
                     $("#refcard").html(refcard);
-                    $.each(data_sources, function(i, DS) {
-                        DS.displayData();
-                        displayProjectData();
+                    displayReportData();
+                    $.each(getProjectsData(), function(prj_name, prj_data) {
+                        var new_div = "card_"+prj_name.replace(".","");
+                        $("#refcard #projects_info").append(projcard);
+                        $("#refcard #projects_info #new_card")
+                            .attr("id", new_div);
+                        $.each(data_sources, function(i, DS) {
+                            if (DS.getProject() !== prj_name) return;
+                            DS.displayData(new_div);
+                        });
+                        $("#"+new_div+" #project_name").text(prj_name);
+                        
+                        $("#"+new_div+" #project_url")
+                            .attr("href", prj_data.url);
+
                     });
                 });
             }
@@ -518,8 +534,8 @@ var Report = {};
     function configDataSources() {
         
         $.each(Report.getDataSources(), function (index, ds) {
-            $.each(projects_data, function (name, dir) {
-                if (dir === ds.getDataDir()) {
+            $.each(projects_data, function (name, project) {
+                if (project.dir === ds.getDataDir()) {
                     ds.setProject(name);
                     return false;
                 }
@@ -549,7 +565,6 @@ var Report = {};
         convertBubbles();        
         convertDemographics();        
         convertSelectors();
-        displayProjectData();
     }
 })();
 

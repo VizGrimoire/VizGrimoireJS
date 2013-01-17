@@ -60,26 +60,28 @@ function MLS() {
     };
     this.getMetrics = function() {return basic_metrics;};
     
-    this.displayData = function() {
+    this.displayData = function(divid) {
+        var div_id = "#" + divid;
+
         var str = this.global_data.url;
         if (!str || str.length === 0) {
-            $('.mls_info').hide();
+            $(div_id + ' .mls_info').hide();
             return;
         }
 
         if (this.global_data.type)
-            $('#mls_type').text(this.global_data.type);
+            $(div_id + ' #mls_type').text(this.global_data.type);
         if (this.global_data.url && this.global_data.url !== ".") {
-            $('#mls_url').attr("href", this.global_data.url);
-            $('#mls_name').text("MLS " + this.global_data.type);
+            $(div_id + ' #mls_url').attr("href", this.global_data.url);
+            $(div_id + ' #mls_name').text("MLS " + this.global_data.type);
         } else {
-            $('#mls_url').attr("href", Report.getProjectData().mls_url);
-            $('#mls_name').text(Report.getProjectData().mls_name);            
+            $(div_id + ' #mls_url').attr("href", Report.getProjectData().mls_url);
+            $(div_id + ' #mls_name').text(Report.getProjectData().mls_name);            
         }
-        $("#mlsFirst").text(this.global_data.first_date);
-        $("#mlsLast").text(this.global_data.last_date);
-        $("#mlsMessages").text(this.global_data.sent);
-        $("#mlsSenders").text(this.global_data.senders);
+        $(div_id + ' #mlsFirst').text(this.global_data.first_date);
+        $(div_id + ' #mlsLast').text(this.global_data.last_date);
+        $(div_id + ' #mlsMessages').text(this.global_data.sent);
+        $(div_id + ' #mlsSenders').text(this.global_data.senders);
     };
     
     

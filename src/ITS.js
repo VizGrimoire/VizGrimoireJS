@@ -84,13 +84,14 @@ function ITS() {
         return "opened";
     };
     
-    this.displayData = function() {
+    this.displayData = function(divid) {
+        var div_id = "#" + divid;
         var str = this.global_data.url;
         if (!str || str.length === 0) {
-            $('.tickets_info').hide();
+            $(div_id + ' .tickets_info').hide();
             return;
         }
-        $('#its_type').text(this.global_data.type);
+        $(div_id + ' #its_type').text(this.global_data.type);
         var url = this.global_data.url;
         if (this.global_data.type === "allura")
             url = url.replace("rest/","");
@@ -98,12 +99,12 @@ function ITS() {
             url = url.replace("api.","");
             url = url.replace("repos/","");
         }
-        $('#its_url').attr("href", url);
-        $('#its_name').text("Tickets " + this.global_data.type);
-        $("#itsFirst").text(this.global_data.first_date);
-        $("#itsLast").text(this.global_data.last_date);
-        $("#itsTickets").text(this.global_data.tickets);
-        $("#itsOpeners").text(this.global_data.openers);
+        $(div_id + ' #its_url').attr("href", url);
+        $(div_id + ' #its_name').text("Tickets " + this.global_data.type);
+        $(div_id + ' #itsFirst').text(this.global_data.first_date);
+        $(div_id + ' #itsLast').text(this.global_data.last_date);
+        $(div_id + ' #itsTickets').text(this.global_data.tickets);
+        $(div_id + ' #itsOpeners').text(this.global_data.openers);
     };
     
     this.displayBasicHTMLMix = function(div_target, config) {
