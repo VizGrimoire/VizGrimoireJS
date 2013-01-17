@@ -151,7 +151,6 @@ var Report = {};
                 if (data.project_name === undefined) {
                     data.project_name = dir.replace("data/json","")
                         .replace(/\.\.\//g,"");
-                    // alert(data.project_name);
                 }
                 projects_data[data.project_name] = {dir:dir,url:data.project_url};
             }, data_dir);
@@ -339,7 +338,7 @@ var Report = {};
                     $("#refcard").html(refcard);
                     displayReportData();
                     $.each(getProjectsData(), function(prj_name, prj_data) {
-                        var new_div = "card_"+prj_name.replace(".","");
+                        var new_div = "card_"+prj_name.replace(".","").replace(" ","");
                         $("#refcard #projects_info").append(projcard);
                         $("#refcard #projects_info #new_card")
                             .attr("id", new_div);
