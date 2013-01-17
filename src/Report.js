@@ -292,13 +292,12 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
-                    var $links = $("#navigation a");
-                    //$.each($links, function(index, value){
-                    //  if (value.href.indexOf("jasmine")>-1)
-                    //    value.href += "?data_dir=../" + Report.getDataDir();
-                      //else 
-                      //  value.href += "?data_dir=" + Report.getDataDir();
-                    //});
+                    if (window.location.search.substr(1)) { 
+                        var $links = $("#navigation a");
+                        $.each($links, function(index, value){
+                            value.href += "?"+window.location.search.substr(1);
+                        });
+                    }
                 });                
             }
         },
@@ -307,6 +306,12 @@ var Report = {};
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                     displayReportData();
+                    if (window.location.search.substr(1)) {
+                        var $links = $("#header a");
+                        $.each($links, function(index, value){
+                            value.href += "?"+window.location.search.substr(1);
+                        });
+                    }
                 });
             }
         },
@@ -338,6 +343,8 @@ var Report = {};
                             DS.displayData(new_div);
                         });
                         $("#"+new_div+" #project_name").text(prj_name);
+                        $("#"+new_div+" .project_info")
+                            .append(' <a href="VizGrimoireJS/report/index.html?data_dir=../../'+prj_data.dir+'">Report</a>');
                         
                         $("#"+new_div+" #project_url")
                             .attr("href", prj_data.url);
