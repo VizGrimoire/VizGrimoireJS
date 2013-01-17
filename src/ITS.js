@@ -89,6 +89,10 @@ function ITS() {
         var url = this.global_data.url;
         if (this.global_data.type === "allura")
             url = url.replace("rest/","");
+        else if (this.global_data.type === "github") {
+            url = url.replace("api.","");
+            url = url.replace("repos/","");
+        }
         $('#its_url').attr("href", url);
         $('#its_name').text("Tickets " + this.global_data.type);
         $("#itsFirst").text(this.global_data.first_date);
