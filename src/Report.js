@@ -148,6 +148,7 @@ var Report = {};
             var data_dir = projects_dirs[i];
             var prj_file = data_dir + "/project-info-milestone0.json";
             data_load_file(prj_file, function(data, dir) {
+                if (data.project_name === undefined) data.project_name = "";
                 projects_data[data.project_name] = {dir:dir,url:data.project_url};
             }, data_dir);
         }
@@ -538,8 +539,7 @@ var Report = {};
         });
     }
     
-    function configDataSources() {
-        
+    function configDataSources() {        
         $.each(Report.getDataSources(), function (index, ds) {
             $.each(projects_data, function (name, project) {
                 if (project.dir === ds.getDataDir()) {

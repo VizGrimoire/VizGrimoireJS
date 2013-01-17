@@ -104,7 +104,9 @@ var Viz = {};
         var div_graph = '';
         var new_div = '';
         new_div += "<div class='info-pill'>";
-        new_div += "<h1>" + project +" Top " + top_metric_id + " " + metric_period + " </h1>";
+        new_div += "<h1>";
+        if (project) new_div += project +" ";
+        new_div += "Top " + top_metric_id + " " + metric_period + " </h1>";
         if (graph) {
             div_graph = "top-" + graph + "-" + metric_id + "-" + metric_period;
             new_div += "<div id='" + div_graph
