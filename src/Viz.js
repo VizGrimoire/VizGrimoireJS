@@ -433,10 +433,18 @@ var Viz = {};
     function displayRadarChart(div_id, ticks, data) {
         var container = document.getElementById(div_id);
         var max = $("#" + div_id).data('max');
+        var border=0.2;
         
-        for (var i=0; i<data[0].data.length; i++) {
-            var value =  data[0].data[i][1];
-            if (value>max) max = value;            
+        if (!(max)) max = 0;
+        
+        for (var j=0; j<data.length; j++) {
+            for (var i=0; i<data[j].data.length; i++) {
+                var value =  data[j].data[i][1];
+                if (value>max) {
+                    max = value;
+                    max = parseInt(max * (1+border));
+                }
+            }
         }
         
         // TODO: Hack to have vars visible in track/tickFormatter
