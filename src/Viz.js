@@ -647,6 +647,13 @@ var Viz = {};
                 show : true,
                 lineWidth : 2
             };
+        else if (gconfig.gtype === "lines")
+            graph.config['lines'] = {
+                lineWidth : 2,
+                show : true,
+                fill : false,
+                fillOpacity : 0.5
+            };            
         else
             graph.config['lite-lines'] = {
                 lineWidth : 2,

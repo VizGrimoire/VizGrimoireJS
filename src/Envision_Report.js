@@ -35,9 +35,14 @@
                 viz[metric] = Viz.getEnvisionDefaultsGraph
                     ('report-' + DS.getName() + '-' + metric, config);
                 viz[metric].config.subtitle = metric;
-                if (DS.getMainMetric() == metric) 
-                    viz[metric].config['lite-lines'].fill = true;
-            }            
+                if (DS.getMainMetric() == metric)
+                    if (viz[metric].config['lite-lines'])
+                        viz[metric].config['lite-lines'].fill = true;
+                    if (viz[metric].config['lines']) { 
+                        viz[metric].config['lines'].fill = true;
+                        viz[metric].config['lines'].stacked = true;
+                    }
+            } 
         });
     }
 
