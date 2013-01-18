@@ -25,17 +25,18 @@
 
     var V = envision, global_data = {};
 
-    function getDefaultsMetrics(ds, viz, metrics, default_config) {
+    function getDefaultsMetrics(DS, viz, metrics, default_config) {
         $.each(metrics, function(metric, value) {
             config = default_config;
             if (value.envision)
                 config = Viz.mergeConfig(default_config,
                         value.envision);
             if ($.inArray(metric, global_data.envision_hide) === -1) {
-                // TODO ds[0] hack
                 viz[metric] = Viz.getEnvisionDefaultsGraph
-                    ('report-' + ds[0] + '-' + metric, config);
+                    ('report-' + DS.getName() + '-' + metric, config);
                 viz[metric].config.subtitle = metric;
+                if (DS.getMainMetric() == metric) 
+                    viz[metric].config['lite-lines'].fill = true;
             }            
         });
     }
@@ -58,13 +59,13 @@
         if (!ds) {
             $.each(data_sources, function(i, DS) {
                 metrics = DS.getMetrics();
-                getDefaultsMetrics([ DS.getName() ], viz, metrics, default_config);
+                getDefaultsMetrics(DS, viz, metrics, default_config);
             });
         } else {
             $.each(data_sources, function(i, DS) {
                 if ($.inArray(DS.getName(), ds) > -1) {
                     metrics = DS.getMetrics();
-                    getDefaultsMetrics([ DS.getName() ], viz, metrics, default_config);
+                    getDefaultsMetrics(DS, viz, metrics, default_config);
                 }
             });
         }

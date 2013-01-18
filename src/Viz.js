@@ -649,9 +649,9 @@ var Viz = {};
             };
         else
             graph.config['lite-lines'] = {
-                lineWidth : 1,
+                lineWidth : 2,
                 show : true,
-                fill : true,
+                fill : false,
                 fillOpacity : 0.5
             };
 
