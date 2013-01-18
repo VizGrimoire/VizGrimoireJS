@@ -830,7 +830,13 @@ var Viz = {};
         }
         
         options.trackFormatter = function(o) {
-            var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;
+            var sdata = o.series.data, index = sdata[o.index][0] - firstMonth, value;            
+            var project_metrics = {};
+            var projects = Report.getProjectsList();
+            for (var j=0;j<projects.length; j++) {
+                project_metrics[projects[j]] = {};
+            }
+            
 
             value = dates[1][index] + ":<br>";
             
@@ -839,23 +845,40 @@ var Viz = {};
                 if (options.data[metric] === undefined) continue;
                 if ($.inArray(metric,options.data.envision_hide) > -1) continue;
                 
-                // Single project
-                if (options.data[metric][0] instanceof Array) { 
+                if (projects.length === 1) {
+                // if (options.data[metric][0] instanceof Array) { 
                     value += options.data[metric][1][index] + " " + metric + ", ";
                     if (++i % 3 === 0)
                         value += "<br>";
                 } 
-                // Multiproject
                 else {
-                    var num_projects = options.data[metric].length; 
-                    for (var j=0;j<num_projects; j++) {
-                        var project = options.data[main_metric][j].label;
+                    for (var j=0;j<projects.length; j++) {
+                        var project_name = options.data[main_metric][j].label;
+                        var project = project_name;
                         var pdata = options.data[metric][j].data;
+                        project_metrics[project_name][metric] = pdata[1][index];
                         value += project + " " + pdata[1][index] + " " + metric + ", ";
-                        if (++i % num_projects === 0)
+                        if (++i % projects.length === 0)
                             value += "<br>";
                     }
                 }                    
+            }
+            if (projects.length > 1) {
+                value  = "<table><tr><td align='right'>"+dates[1][index];
+                value += "</td></tr><tr>";
+                $.each(project_metrics[projects[0]], function(metric, mvalue) {
+                    value += "<td>"+metric+"</td>";
+                });
+                value += "</tr>";
+                $.each(project_metrics, function(project, metrics) {
+                    value += "<tr><td>"+project+"</td>";
+                    $.each(metrics, function(metric, mvalue) {
+                        value += "<td>" + mvalue + "</td>";
+                    });
+                    value += "</tr>";   
+                });
+                value += "</table>";
+
             }
 
             return value;
