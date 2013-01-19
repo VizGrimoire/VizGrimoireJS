@@ -30,7 +30,6 @@ function SCM() {
             'name' : "Commits",
             'desc' : "Evolution of the number of commits (aggregating branches)",
             'envision' : {
-                gtype : 'lines', // testing 
                 y_labels : true,
                 show_markers : true
             }

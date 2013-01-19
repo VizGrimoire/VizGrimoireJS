@@ -40,7 +40,6 @@ var Viz = {};
     Viz.displayRadarCommunity = displayRadarCommunity;
     Viz.displayTreeMap = displayTreeMap;
     Viz.drawMetric = drawMetric;
-    Viz.getEnvisionDefaultsGraph = getEnvisionDefaultsGraph;
     Viz.getEnvisionOptions = getEnvisionOptions;
     Viz.checkBasicConfig = checkBasicConfig;
     Viz.mergeConfig = mergeConfig;
@@ -162,8 +161,8 @@ var Viz = {};
             lines_data[j] = [];
             for ( var i = 0; i < data[j][column].length; i++) {
                 lines_data[j][i] = [ data[j].id[i], parseInt(data[j][column][i], 10) ];
-            }           
-            if (projects) 
+            }
+            if (projects)
                 lines_data[j] = {label:projects[j], 
                     data:fillHistoryLines(full_history_id, lines_data[j])};
             else
@@ -175,6 +174,7 @@ var Viz = {};
         
         var config = {
             title : title,
+            // lines: {stacked:true, fill:true, fillOpacity: 1, fillBorder:true},
             xaxis : {
                 minorTickFreq : 4,
                 tickFormatter : function(x) {
@@ -608,77 +608,6 @@ var Viz = {};
         });
     }
 
-    function getDefaultsMarkers(option, markers, dates) {
-        var mark = "";
-        if (!markers || markers.length === 0) return mark;
-        for ( var i = 0; i < markers.date.length; i++) {
-            if (markers.date[i] == dates[option.index]) {
-                mark = markers.marks[i];
-            }
-        }
-        return mark;
-    }
-
-    function getEnvisionDefaultsGraph(name, gconfig) {
-        var graph = {
-            name : name,
-            config : {
-                colors : gconfig.colors,
-                grid: {verticalLines:false, horizontalLines:false},
-                mouse : {
-                    container: $("#all-envision-legend"),
-                    track : true,
-                    trackY : false,
-                    position : 'ne'
-                },
-                yaxis : {
-                    autoscale : true
-                },
-                legend : {
-                    backgroundColor : '#FFFFFF', // A light blue background
-                    // color
-                    backgroundOpacity : 0
-                }
-            }
-        };
-
-        if (gconfig.gtype === "whiskers")
-            graph.config.whiskers = {
-                show : true,
-                lineWidth : 2
-            };
-        else if (gconfig.gtype === "lines")
-            graph.config['lines'] = {
-                lineWidth : 2,
-                show : true,
-                fill : false,
-                fillOpacity : 0.5
-            };            
-        else
-            graph.config['lite-lines'] = {
-                lineWidth : 2,
-                show : true,
-                fill : false,
-                fillOpacity : 0.5
-            };
-
-        if (gconfig.y_labels)
-            graph.config.yaxis = {
-                showLabels : true
-            };
-
-        if (gconfig.show_markers)
-            graph.config.markers = {
-                show : true,
-                position : 'ct',
-                labelFormatter : function(o) {
-                    return getDefaultsMarkers(o, gconfig.markers, gconfig.dates);
-                }
-            };
-        
-        return graph;
-    }
-    
     function fillDates (dates_orig, more_dates) {
         // [ids, values]
         var new_dates = [[],[]];
@@ -872,7 +801,7 @@ var Viz = {};
             }
             if (projects.length > 1) {
                 value  = "<table><tr><td align='right'>"+dates[1][index];
-                value += "</td></tr><tr>";
+                value += "</td></tr><tr><td></td>";
                 $.each(project_metrics[projects[0]], function(metric, mvalue) {
                     value += "<td>"+metric+"</td>";
                 });

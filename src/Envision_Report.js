@@ -25,6 +25,72 @@
 
     var V = envision, global_data = {};
 
+    function getDefaultsMarkers(option, markers, dates) {
+        var mark = "";
+        if (!markers || markers.length === 0) return mark;
+        for ( var i = 0; i < markers.date.length; i++) {
+            if (markers.date[i] == dates[option.index]) {
+                mark = markers.marks[i];
+            }
+        }
+        return mark;
+    }
+
+    function getEnvisionDefaultsGraph(name, gconfig) {
+        var graph = {
+            name : name,
+            config : {
+                colors : gconfig.colors,
+                grid: {verticalLines:false, horizontalLines:false},
+                mouse : {
+                    // container: $("#all-envision-legend"),
+                    track : true,
+                    trackY : false,
+                    position : 'ne'
+                },
+                yaxis : {
+                    min : 0,
+                    autoscale : true
+                },
+                legend : {
+                    backgroundColor : '#FFFFFF', // A light blue background
+                    // color
+                    backgroundOpacity : 0
+                }
+            }
+        };
+
+        if (gconfig.gtype === "whiskers")
+            graph.config.whiskers = {
+                show : true,
+                lineWidth : 2
+            };
+        else
+            graph.config['lite-lines'] = {
+                lineWidth : 2,
+                show : true,
+                fill : false,
+                fillOpacity : 0.5
+            };
+
+        if (gconfig.y_labels)
+            graph.config.yaxis = {
+                showLabels : true,
+                min : 0
+            };
+
+        if (gconfig.show_markers)
+            graph.config.markers = {
+                show : true,
+                position : 'ct',
+                labelFormatter : function(o) {
+                    return getDefaultsMarkers(o, gconfig.markers, gconfig.dates);
+                }
+            };
+        return graph;
+    }
+
+
     function getDefaultsMetrics(DS, viz, metrics, default_config) {
         $.each(metrics, function(metric, value) {
             config = default_config;
@@ -32,23 +98,29 @@
                 config = Viz.mergeConfig(default_config,
                         value.envision);
             if ($.inArray(metric, global_data.envision_hide) === -1) {
-                viz[metric] = Viz.getEnvisionDefaultsGraph
+                viz[metric] = getEnvisionDefaultsGraph
                     ('report-' + DS.getName() + '-' + metric, config);
                 viz[metric].config.subtitle = metric;
-                if (DS.getMainMetric() == metric)
-                    if (viz[metric].config['lite-lines'])
-                        viz[metric].config['lite-lines'].fill = true;
-                    if (viz[metric].config['lines']) { 
-                        viz[metric].config['lines'].fill = true;
-                        viz[metric].config['lines'].stacked = true;
-                    }
+                if (DS.getMainMetric() == metric) {
+                    viz[metric].config['lite-lines'] = {show:false};
+                    viz[metric].config['lines'] = {
+                            lineWidth : 1,
+                            show : true,
+                            stacked: true,
+                            fill : true,
+                            fillOpacity : 1
+                    };
+                }
             } 
         });
     }
 
     function getDefaults(ds) {
-        var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
+        //var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
+        //        '#9440ED' ];
+        var defaults_colors = [ '#ffa500', '#00A8F0', '#C0D800', '#ffff00', '#00ff00', '#4DA74D',
                 '#9440ED' ];
+        
         var default_config = {
             colors : defaults_colors,
             dates : global_data.dates,
@@ -76,7 +148,7 @@
         }
 
         config = default_config;
-        viz.summary = Viz.getEnvisionDefaultsGraph('report-summary', config);
+        viz.summary = getEnvisionDefaultsGraph('report-summary', config);
         viz.summary.config.xaxis = {
             noTickets : 10,
             showLabels : true
