@@ -137,6 +137,8 @@ function SCM() {
                projects.push(ds.getProject());
            } 
         });
+        // TODO: Fill history values before
+        // Viz.addRelativeValues(full_data,"commits");
         this.envisionEvo(divid, full_data, projects);
     };
 

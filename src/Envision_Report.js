@@ -90,7 +90,6 @@
         return graph;
     }
 
-
     function getDefaultsMetrics(DS, viz, metrics, default_config) {
         $.each(metrics, function(metric, value) {
             config = default_config;
@@ -102,6 +101,9 @@
                     ('report-' + DS.getName() + '-' + metric, config);
                 viz[metric].config.subtitle = metric;
                 if (DS.getMainMetric() == metric) {
+                    // Create graph also for relative data
+                    viz[metric+"_relative"] = getEnvisionDefaultsGraph
+                        ('report-' + DS.getName() + '-' + metric+"_relative", config);                    
                     viz[metric].config['lite-lines'] = {show:false};
                     viz[metric].config['lines'] = {
                             lineWidth : 1,
@@ -120,7 +122,7 @@
         //        '#9440ED' ];
         var defaults_colors = [ '#ffa500', '#00A8F0', '#C0D800', '#ffff00', '#00ff00', '#4DA74D',
                 '#9440ED' ];
-        
+
         var default_config = {
             colors : defaults_colors,
             dates : global_data.dates,
@@ -224,8 +226,11 @@
                     defaults[metric].data = data[metric];
                 }
                 // Multi project
-                else          
+                else {
                     defaults[metric].data = data[metric];
+                    if (data[metric+"_relative"])
+                        defaults[metric].data = data[metric+"_relative"];
+                }
             }
         });
 

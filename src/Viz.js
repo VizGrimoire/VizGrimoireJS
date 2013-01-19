@@ -748,6 +748,8 @@ var Viz = {};
         for (var metric in basic_metrics) {
             if (data[0][metric] === undefined) continue;
             options.data[metric] = [];
+            if (data[0][metric+"_relative"] !== undefined)
+                options.data[metric+"_relative"] = [];
             // Monoproject
             if (data.length === 1) {
                 options.data[metric] = 
@@ -758,9 +760,16 @@ var Viz = {};
             for (var i = 0; i < data.length; i++) {
                 var full_data =  
                     fillHistory(dates[0], [data[i].id, data[i][metric]]);
-                if (metric === main_metric)
+                if (metric === main_metric) {
                     options.data[metric].push(
                             {label:projects[i], data:full_data});
+                    if (data[i][metric+"_relative"] === undefined) continue;
+                    full_data =
+                        fillHistory(dates[0],
+                                [data[i].id, data[i][metric+"_relative"]]);
+                    options.data[metric+"_relative"].push(
+                            {label:projects[i], data:full_data});
+                }
                 else options.data[metric].push({label:"", data:full_data});
             }
         }
@@ -960,6 +969,29 @@ var Viz = {};
         $("#" + div_id).html(html);
     }
 
+    Viz.addRelativeValues = function (full_data, metric) {
+        var added_values = [];
+        for (var i = 0; i<full_data[0].id.length;i++) {
+            for (var j=0; j<full_data.length; j++) {
+                if (added_values[i] === undefined)
+                    added_values[i] = 0;
+                added_values[i] += full_data[j][metric][i];
+            }
+        }
+        for (var i = 0; i<full_data[0].id.length;i++) {
+            for (var j=0; j<full_data.length; j++) {
+                if (full_data[j][metric+"_relative"] == undefined)
+                    full_data[j][metric+"_relative"] = [];
+                if (added_values[i] === 0)
+                    full_data[j][metric+"_relative"][i] = 0;
+                else {
+                    var rel_val = full_data[j][metric][i]/added_values[i]*100;
+                    full_data[j][metric+"_relative"][i] = rel_val;
+                }
+            }
+        }
+    }
+
     function displayEvoSummary(div_id) {        
         var projects_data = {};
         var full_data = [];
@@ -994,6 +1026,8 @@ var Viz = {};
         for (var i=0; i<projects.length; i++) {
             full_data[i] = (projects_data[projects[i]]);
         }
+
+        Viz.addRelativeValues(full_data,"commits");
                 
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, full_data, null,
