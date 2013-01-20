@@ -350,14 +350,14 @@ var Viz = {};
         dates = [full_data[0].id, full_data[0].date];
         
         for (var i=0; i<full_data.length; i++) {
-            dates = fillDates(dates, [full_data[i].id, full_data[i].date]);
+            dates = Viz.fillDates(dates, [full_data[i].id, full_data[i].date]);
         }
 
         for ( var j = 0; j < full_data.length; j++) {
             var serie = [];
             var data = full_data[j];
-            var data1 = fillHistory(dates[0], [data.id, data[metric1]]);
-            var data2 = fillHistory(dates[0], [data.id, data[metric2]]);
+            var data1 = Viz.fillHistory(dates[0], [data.id, data[metric1]]);
+            var data2 = Viz.fillHistory(dates[0], [data.id, data[metric2]]);
             for ( var i = 0; i < dates[0].length; i++) {
                 serie.push( [ dates[0][i], data1[1][i], data2[1][i] ]);
             }
@@ -608,12 +608,15 @@ var Viz = {};
         });
     }
 
-    function fillDates (dates_orig, more_dates) {
+    Viz.fillDates = function (dates_orig, more_dates) {
+        
+        if (dates_orig[0].length === 0) return more_dates;
+
         // [ids, values]
         var new_dates = [[],[]];
         
         // Insert older dates
-        if (dates_orig[0][0]>= more_dates[0][0]) {
+        if (dates_orig[0][0]> more_dates[0][0]) {
             for (var i=0; i< more_dates[0].length; i++) {
                 new_dates[0][i] = more_dates[0][i];
                 new_dates[1][i] = more_dates[1][i];
@@ -630,21 +633,22 @@ var Viz = {};
         }
         
         // Push newer dates
-        if (dates_orig[0][dates_orig-1]<= more_dates[0][more_dates-1]) {
-            for (var i=0; i< more_dates.length; i++) {
+        if (dates_orig[0][dates_orig[0].length-1] < 
+                more_dates[0][more_dates[0].length-1]) {
+            for (var i=0; i< more_dates[0].length; i++) {
                 pos = new_dates[0].indexOf(more_dates[0][i]);
                 if (pos === -1) {
-                    new_dates[0].push(more_dates[i][0]);
-                    new_dates[1].push(more_dates[i][1]);
+                    new_dates[0].push(more_dates[0][i]);
+                    new_dates[1].push(more_dates[1][i]);
                 }
             }
         }
         
         return new_dates;
 
-    }
+    };
     
-    function fillHistory(hist_complete_id, hist_partial) {
+    Viz.fillHistory = function (hist_complete_id, hist_partial) {
         // [ids, values]
         var new_history = [ [], [] ];
         for ( var i = 0; i < hist_complete_id.length; i++) {
@@ -657,7 +661,7 @@ var Viz = {};
             }
         }
         return new_history;
-    }
+    };
     
     // Envision and Flotr2 formats are different.
     function fillHistoryLines(hist_complete_id, hist_partial) {        
@@ -673,7 +677,7 @@ var Viz = {};
             old_history[1].push(hist_partial[i][1]);
         }
         
-        new_history = fillHistory(hist_complete_id, old_history);
+        new_history = Viz.fillHistory(hist_complete_id, old_history);
         
         for ( var i = 0; i < hist_complete_id.length; i++) {
             lines_history.push([new_history[0][i],new_history[1][i]]);
@@ -708,7 +712,7 @@ var Viz = {};
         dates = [data[0].id, data[0].date];
         
         for (var i=0; i<data.length; i++) {
-            dates = fillDates(dates, [data[i].id, data[i].date]);
+            dates = Viz.fillDates(dates, [data[i].id, data[i].date]);
         }
         
         var firstMonth = dates[0][0], 
@@ -738,7 +742,7 @@ var Viz = {};
         };        
         
         options.data = {
-            summary : fillHistory(dates[0], [data[0].id, summary_data]),
+            summary : Viz.fillHistory(dates[0], [data[0].id, summary_data]),
             markers : markers,
             dates : dates[1],
             envision_hide : hide,
@@ -753,19 +757,19 @@ var Viz = {};
             // Monoproject
             if (data.length === 1) {
                 options.data[metric] = 
-                    fillHistory(dates[0], [data[0].id, data[0][metric]]);
+                    Viz.fillHistory(dates[0], [data[0].id, data[0][metric]]);
                 continue;
             }
             // Multiproject
             for (var i = 0; i < data.length; i++) {
                 var full_data =  
-                    fillHistory(dates[0], [data[i].id, data[i][metric]]);
+                    Viz.fillHistory(dates[0], [data[i].id, data[i][metric]]);
                 if (metric === main_metric) {
                     options.data[metric].push(
                             {label:projects[i], data:full_data});
                     if (data[i][metric+"_relative"] === undefined) continue;
                     full_data =
-                        fillHistory(dates[0],
+                        Viz.fillHistory(dates[0],
                                 [data[i].id, data[i][metric+"_relative"]]);
                     options.data[metric+"_relative"].push(
                             {label:projects[i], data:full_data});
@@ -1002,8 +1006,7 @@ var Viz = {};
         $.each(Report.getDataSources(), function (index, ds) {
             var data = ds.getData();
             if (data.length === 0) return;
-            if (dates[0].length === 0) dates = [data.id, data.date];
-            dates = fillDates(dates, [data.id, data.date]);
+            dates = Viz.fillDates(dates, [data.id, data.date]);
         });
                 
         $.each(Report.getDataSources(), function (index, ds) {
@@ -1018,7 +1021,7 @@ var Viz = {};
            $.each(data, function (metric, values) {
                if (all_metrics[metric] === undefined) return;
                new_data[metric] = 
-                   fillHistory(dates[0], [data.id, data[metric]])[1];
+                   Viz.fillHistory(dates[0], [data.id, data[metric]])[1];
            });           
            $.extend(projects_data[ds.getProject()], new_data);
         });

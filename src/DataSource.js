@@ -174,18 +174,45 @@ function DataSource(name, basic_metrics) {
         }
     };
     
+    
     this.displayEvo = function(divid) {
         var full_data = [];
         var projects = [];
-        var self = this;
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds.getName() === self.getName()) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        // TODO: Fill history values before
-        // Viz.addRelativeValues(full_data,"commits");
+        
+        function fillData(self) {
+            var dates = [[],[]];
+            
+            $.each(Report.getDataSources(), function (index, ds) {
+                if (ds.getName() === self.getName()) {
+                    var ds_data = ds.getData();
+                    if (ds_data.length === 0) return;
+                    dates = Viz.fillDates(dates, [ds_data.id, ds_data.date]);
+                }
+            });
+                    
+            $.each(Report.getDataSources(), function (index, ds) {
+               if (ds.getName() === self.getName()) {
+                   var ds_data = ds.getData();
+                   var new_data = {};
+                   $.each(ds_data, function (metric, values) {
+                       if (ds.getMetrics()[metric] === undefined) return;
+                       new_data[metric] = 
+                           Viz.fillHistory(dates[0], [ds_data.id, ds_data[metric]])[1];
+                   });
+                   new_data.id = dates[0];
+                   new_data.date = dates[1];
+                   full_data.push(new_data);
+                   projects.push(ds.getProject());
+               } 
+            });        
+        }
+        
+        if (Report.getProjectsDirs().length > 1) {
+            fillData(this);
+        } else 
+            full_data = this.getData();
+        
+        Viz.addRelativeValues(full_data,"commits");
         this.envisionEvo(divid, full_data, projects);
     };    
 }
