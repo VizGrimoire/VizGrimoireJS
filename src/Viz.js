@@ -996,7 +996,7 @@ var Viz = {};
         }
     };
 
-    function displayEvoSummary(div_id) {        
+    function displayEvoSummary(div_id, relative) {        
         var projects_data = {};
         var full_data = [];
         var projects = [];        
@@ -1030,7 +1030,10 @@ var Viz = {};
             full_data[i] = (projects_data[projects[i]]);
         }
 
-        Viz.addRelativeValues(full_data,"commits");
+        if (relative)
+            // TODO: Improve main metric selection
+            Viz.addRelativeValues
+                (full_data,Report.getDataSources()[0].getMainMetric());
                 
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, full_data, null,

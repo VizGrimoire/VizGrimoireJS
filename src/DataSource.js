@@ -175,7 +175,7 @@ function DataSource(name, basic_metrics) {
     };
     
     
-    this.displayEvo = function(divid) {
+    this.displayEvo = function(divid, relative) {
         var full_data = [];
         var projects = [];
         
@@ -209,7 +209,8 @@ function DataSource(name, basic_metrics) {
         
         if (Report.getProjectsDirs().length > 1) {
             fillData(this);
-            Viz.addRelativeValues(full_data, this.getMainMetric());
+            if (relative)
+                Viz.addRelativeValues(full_data, this.getMainMetric());
         } else 
             full_data = this.getData();
                 

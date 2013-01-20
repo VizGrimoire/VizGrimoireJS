@@ -465,7 +465,10 @@ var Report = {};
                         if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
                             DS.displayEvo(DS.getName() + "-envision"+"-lists");
                 } else if ($.inArray(DS.getName(), already_shown) === -1) {
-                    DS.displayEvo(div_envision); 
+                    var relative = $('#'+div_envision).data('relative');
+                    relative ? 
+                            DS.displayEvo(div_envision, true) : 
+                            DS.displayEvo(div_envision); 
                     already_shown.push(DS.getName());
                 }
                 already_shown.push(DS.getName());
