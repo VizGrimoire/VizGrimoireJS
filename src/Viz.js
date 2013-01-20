@@ -990,7 +990,7 @@ var Viz = {};
                 }
             }
         }
-    }
+    };
 
     function displayEvoSummary(div_id) {        
         var projects_data = {};

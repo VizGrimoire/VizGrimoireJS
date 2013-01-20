@@ -173,4 +173,19 @@ function DataSource(name, basic_metrics) {
                         true, metric.name);
         }
     };
+    
+    this.displayEvo = function(divid) {
+        var full_data = [];
+        var projects = [];
+        var self = this;
+        $.each(Report.getDataSources(), function (index, ds) {
+           if (ds.getName() === self.getName()) {
+               full_data.push(ds.getData());
+               projects.push(ds.getProject());
+           } 
+        });
+        // TODO: Fill history values before
+        // Viz.addRelativeValues(full_data,"commits");
+        this.envisionEvo(divid, full_data, projects);
+    };    
 }

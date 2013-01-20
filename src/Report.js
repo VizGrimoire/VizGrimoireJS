@@ -456,23 +456,19 @@ var Report = {};
             if (DS.getData().length === 0) return;
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0) {
-                if (DS instanceof MLS && 
-                        $.inArray(MLS, already_shown) === -1) {
+                if ($.inArray(DS.getName(), already_shown) !== -1)
+                    return; 
+                if (DS instanceof MLS) {
                     // DS.displayEvoAggregated(div_envision);
                     DS.displayEvoAggregatedMix(div_envision);
                     if (Report.getProjectsList().length === 1)
                         if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
                             DS.displayEvo(DS.getName() + "-envision"+"-lists");
-                    already_shown.push(MLS);
-                } else if (DS instanceof SCM && 
-                        $.inArray(SCM, already_shown) === -1) {
-                    DS.displayEvoMix(div_envision); 
-                    already_shown.push(SCM);
-                } else if (DS instanceof ITS && 
-                        $.inArray(ITS, already_shown) === -1) {
-                    DS.displayEvoMix(div_envision); 
-                    already_shown.push(ITS);
+                } else if ($.inArray(DS.getName(), already_shown) === -1) {
+                    DS.displayEvo(div_envision); 
+                    already_shown.push(DS.getName());
                 }
+                already_shown.push(DS.getName());
             }
         });
     }

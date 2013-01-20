@@ -127,26 +127,7 @@ function SCM() {
     this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "commits", "committers");
     };
-    
-    this.displayEvoMix = function(divid) {
-        var full_data = [];
-        var projects = [];
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof SCM) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        // TODO: Fill history values before
-        // Viz.addRelativeValues(full_data,"commits");
-        this.envisionEvo(divid, full_data, projects);
-    };
-
-    
-    this.displayEvo = function(divid) {
-        this.envisionEvo(divid, this.getData());
-    };
-    
+        
     this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, history, this,

@@ -131,22 +131,6 @@ function ITS() {
         Viz.displayBubbles(divid, "opened", "openers");
     };
     
-    this.displayEvoMix = function(divid) {
-        var full_data = [];
-        var projects = [];
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof ITS) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        this.envisionEvo(divid, full_data, projects);
-    };
-    
-    this.displayEvo = function(id) {
-        this.envisionEvo(id, this.getData());
-    };
-    
     this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, history, this,
