@@ -209,7 +209,7 @@ function DataSource(name, basic_metrics) {
         
         if (Report.getProjectsDirs().length > 1) {
             fillData(this);
-            Viz.addRelativeValues(full_data,"commits");
+            Viz.addRelativeValues(full_data, this.getMainMetric());
         } else 
             full_data = this.getData();
                 
