@@ -209,10 +209,10 @@ function DataSource(name, basic_metrics) {
         
         if (Report.getProjectsDirs().length > 1) {
             fillData(this);
+            Viz.addRelativeValues(full_data,"commits");
         } else 
             full_data = this.getData();
-        
-        Viz.addRelativeValues(full_data,"commits");
+                
         this.envisionEvo(divid, full_data, projects);
     };    
 }
