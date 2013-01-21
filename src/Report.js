@@ -33,6 +33,7 @@ var Report = {};
     var default_html_dir = "";
     var projects_dirs = [default_data_dir];
     var projects_data = {};
+    var projects_datasources = {};
     var project_file = data_dir + "/project-info-milestone0.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
@@ -126,6 +127,10 @@ var Report = {};
         return projects_list;
     };
     
+    Report.getProjectsDataSources = function () {
+      return projects_datasources;
+    };
+    
     function getMetricDS(metric_id) {
         var ds = [];
         $.each(Report.getDataSources(), function(i, DS) {
@@ -190,7 +195,7 @@ var Report = {};
             return false;
         
         var projects_loaded = 0;        
-        for (var key in projects_data) {projects_loaded++;}       
+        for (var key in projects_data) {projects_loaded++;}
         if (projects_loaded < projects_dirs.length ) return false;
         
         var data_sources = Report.getDataSources();        
@@ -274,8 +279,9 @@ var Report = {};
         checkDynamicConfig();
         
         var projects_dirs = Report.getProjectsDirs(); 
-                
-        for (var i=0; i<projects_dirs.length;i++) {
+
+        $.each(projects_dirs, function (i, project) {
+            // TODO: Only DS with data should exist
             var its = new ITS();
             Report.registerDataSource(its);
             var mls = new MLS();        
@@ -283,10 +289,10 @@ var Report = {};
             var scm = new SCM();
             Report.registerDataSource(scm);
         
-            its.setDataDir(projects_dirs[i]);
-            mls.setDataDir(projects_dirs[i]);
-            scm.setDataDir(projects_dirs[i]);            
-        }
+            its.setDataDir(project);
+            mls.setDataDir(project);
+            scm.setDataDir(project);   
+        });
         
         return true;
     }
@@ -535,11 +541,15 @@ var Report = {};
         });
     }
     
-    function configDataSources() {        
+    function configDataSources() {
+        var prjs_dss = Report.getProjectsDataSources();
         $.each(Report.getDataSources(), function (index, ds) {
+            if (ds.getData() instanceof Array) return;
             $.each(projects_data, function (name, project) {
-                if (project.dir === ds.getDataDir()) {
+                if (project.dir === ds.getDataDir()) {                    
+                    if (prjs_dss[name] === undefined) prjs_dss[name] = [];
                     ds.setProject(name);
+                    prjs_dss[name].push(ds);
                     return false;
                 }
             });            

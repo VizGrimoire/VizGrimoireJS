@@ -219,10 +219,6 @@
             if ($.inArray(metric, data.envision_hide) === -1) {
                 // One project
                 if (data[metric][0] instanceof Array){
-//                    var label = metric;
-//                    if (data.list_label) label = metric + " " + data.list_label;
-//                    defaults[metric].data = 
-//                        [{label : label, data : data[metric]}];
                     defaults[metric].data = data[metric];
                 }
                 // Multi project

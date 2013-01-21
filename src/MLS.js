@@ -425,14 +425,15 @@ function MLS() {
     this.displayEvoList = function(list_label, id, mls_file) {
         var self = this;
         $.getJSON(mls_file, function(history) {
-            self.envisionEvo(list_label, id, history);
+            // TODO: Support multiproject          
+            self.envisionEvoList(list_label, id, history);
         });
     };
 
-    this.envisionEvo = function (list_label, div_id, history, projects) {
+    this.envisionEvoList = function (list_label, div_id, history) {
         var config = Report.getConfig();
-        var options = Viz.getEnvisionOptions(div_id, history, this,
-                config.mls_hide, projects);
+        var options = Viz.getEnvisionOptionsMin(div_id, history,  
+                config.mls_hide);
         options.data.list_label = displayMLSListName(list_label);
         new envision.templates.Envision_Report(options, [ this ]);
     };

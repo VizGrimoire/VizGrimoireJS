@@ -170,61 +170,17 @@ function DataSource(name, basic_metrics) {
     
     this.envisionEvo = function(div_id, history, projects) {
         config = Report.getConfig();
-        var options = Viz.getEnvisionOptions(div_id, history, this,
-                config.scm_hide, projects);
+        var options = Viz.getEnvisionOptions(div_id, history, this.getName(),
+                config.scm_hide);
         new envision.templates.Envision_Report(options, [ this ]);
     };
     
     this.displayEvo = function(divid, relative) {
-        var full_data = [];
-        var projects = [];
-        var projects_full_data = {};
-
-        $.each(Report.getProjectsList(), function(index, project) {
-            projects_full_data[project] = [];
-        });
+        var projects_full_data = Report.getProjectsDataSources();
         
-        function fillData(self) {
-            var dates = [[],[]];
-            
-            $.each(Report.getDataSources(), function (index, ds) {
-                if (ds.getName() === self.getName()) {
-                    var ds_data = ds.getData();
-                    if (ds_data.length === 0) return;
-                    dates = Viz.fillDates(dates, [ds_data.id, ds_data.date]);
-                }
-            });
-                    
-            $.each(Report.getDataSources(), function (index, ds) {
-               if (ds.getName() === self.getName()) {
-                   var ds_data = ds.getData();
-                   if (ds_data instanceof Array) return;
-                   var new_data = {};
-                   $.each(ds_data, function (metric, values) {
-                       if (ds.getMetrics()[metric] === undefined) return;
-                       new_data[metric] = 
-                           Viz.fillHistory(dates[0], [ds_data.id, ds_data[metric]])[1];
-                   });
-                   new_data.id = dates[0];
-                   new_data.date = dates[1];
-                   // TODO: Data and projects should be joined
-                   full_data.push(new_data);
-                   projects.push(ds.getProject());
-                   projects_full_data[ds.getProject()].push(new_data);
-               } 
-            });        
-        }
-        
-        if (Report.getProjectsDirs().length > 1) {
-            fillData(this);
-            if (relative)
-                Viz.addRelativeValues(full_data, this.getMainMetric());
-        } else 
-            full_data = this.getData();
-        
-        if (this instanceof MLS)
-            this.envisionEvo("Aggregated",divid, full_data, projects);
+        if (relative && false)
+            Viz.addRelativeValues(full_data, this.getMainMetric());
         else        
-            this.envisionEvo(divid, full_data, projects);
+            this.envisionEvo(divid, projects_full_data);
     };    
 }
