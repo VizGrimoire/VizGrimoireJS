@@ -107,7 +107,7 @@ function DataSource(name, basic_metrics) {
         this.project = project;
     };
     
-    this.displayBasicHTMLMix = function(div_target, config, title) {
+    this.displayBasicHTML = function(div_target, config, title) {
         var full_data = [];
         var projects = [];
         var ds_name = this.getName();
@@ -118,18 +118,10 @@ function DataSource(name, basic_metrics) {
                projects.push(ds.getProject());
            } 
         });
-        Viz.displayBasicHTML(full_data, div_target, title, 
+        Viz.displayBasicHTML(full_data, div_target, this.getTitle(), 
                 this.basic_metrics, this.name+'_hide', config, projects);
     };
-
         
-    // Create HTML code to show the metrics
-    this.displayBasicHTML = function(div_target, config) {
-        var title = "";
-        Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config);
-    };
-
     this.displayBasicMetricHTML = function(metric_id, div_target, config) {
         var projects = [];
         var full_data = [];
@@ -213,7 +205,10 @@ function DataSource(name, basic_metrics) {
                 Viz.addRelativeValues(full_data, this.getMainMetric());
         } else 
             full_data = this.getData();
-                
-        this.envisionEvo(divid, full_data, projects);
+        
+        if (this instanceof MLS)
+            this.envisionEvo("Aggregated",divid, full_data, projects);
+        else        
+            this.envisionEvo(divid, full_data, projects);
     };    
 }

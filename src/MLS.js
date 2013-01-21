@@ -51,6 +51,7 @@ function MLS() {
     }; 
     
     this.setDataDir = function(dataDir) {
+        this.data_dir = dataDir;
         this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
         MLS.prototype.setDataDir.call(this, dataDir);
     };
@@ -175,20 +176,8 @@ function MLS() {
 
     };
     
-    this.displayBasicHTMLMix = function(div_target, config) {
-        var full_data = [];
-        var projects = [];
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof MLS) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        var title = "Mailing Lists Mix";
-        Viz.displayBasicHTML(full_data, div_target, title, 
-                this.basic_metrics, this.name+'_hide', config, projects);
-    };
-
+    this.getTitle = function() {return "Mailing Lists";};
+    
     // TODO: use cache to store mls_file and check it!
     function displayBasicList(div_id, l, mls_file, config_metric) {
         var config = Viz.checkBasicConfig(config_metric);
@@ -223,24 +212,8 @@ function MLS() {
     function getMLSId() {
         return getReportId() + "_mls_lists";
     }
-
-    this.displayEvoAggregated = function (divid) {
-        this.envisionEvo("Aggregated", divid, this.getData());
-    };
     
-    this.displayEvoAggregatedMix = function (divid) {
-        var full_data = [];
-        var projects = [];
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof MLS) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        this.envisionEvo("Aggregated", divid, full_data, projects);
-    };
-    
-    this.displayEvo = function (id) {
+    this.displayEvoListsMain = function (id) {
         if (localStorage) {
             if (localStorage.length && localStorage.getItem(getMLSId())) {
                 lists = JSON.parse(localStorage.getItem(getMLSId()));

@@ -75,13 +75,15 @@ function SCM() {
                 gtype : 'whiskers'
             }
         }
-    };           
+    };
     
     this.getMetrics = function() {return basic_metrics;};
     
     this.getMainMetric = function() {
         return "commits";
     };
+    
+    this.getTitle = function() {return "Change sets (commits to source code)";};
     
     this.displayData = function(divid) {
         var div_id = "#" + divid;
@@ -103,27 +105,7 @@ function SCM() {
         $(div_id + ' #scmAuthors').text(this.global_data.authors);
         $(div_id + ' #scmCommitters').text(this.global_data.committers);
     };
-    
-    this.displayBasicHTMLMix = function(div_target, config) {
-        var full_data = [];
-        var projects = [];
-        $.each(Report.getDataSources(), function (index, ds) {
-           if (ds instanceof SCM) {
-               full_data.push(ds.getData());
-               projects.push(ds.getProject());
-           } 
-        });
-        var title = "Change sets Mix (commits to source code)";
-        Viz.displayBasicHTML(full_data, div_target, title, 
-                this.basic_metrics, this.name+'_hide', config, projects);
-    };
-    
-    this.displayBasicHTML = function(div_target, config) {
-        var title = "Change sets (commits to source code)";
-        Viz.displayBasicHTML(this.getData(), div_target, title, 
-                this.basic_metrics, this.name+'_hide', config, [this.getProject()]);
-    };
-    
+
     this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "commits", "committers");
     };
