@@ -509,14 +509,14 @@ var Viz = {};
     }
 
     function displayRadarCommunity(div_id) {
-        var metrics = [ 'committers', 'authors', 'openers', 'closers',
-                'changers', 'senders' ];
+        var metrics = [ 'committers', 'authors', 'avg_commits_author', 'avg_authors_month',
+                'avg_committers_month', 'avg_files_author' ];
         displayRadar(div_id, metrics);
     }
 
     function displayRadarActivity(div_id) {
-        var metrics = [ 'commits', 'files', 'opened', 'closed', 'changed',
-                'sent' ];
+        var metrics = [ 'commits', 'files', 'actions', 'branches', 'avg_commits_month',
+                'avg_files_month' ];
         displayRadar(div_id, metrics);
     }
     
