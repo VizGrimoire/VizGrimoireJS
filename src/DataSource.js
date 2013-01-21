@@ -196,6 +196,7 @@ function DataSource(name, basic_metrics) {
                    });
                    new_data.id = dates[0];
                    new_data.date = dates[1];
+                   // TODO: Data and projects should be joined
                    full_data.push(new_data);
                    projects.push(ds.getProject());
                } 
