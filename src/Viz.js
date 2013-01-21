@@ -762,6 +762,7 @@ var Viz = {};
             }
             // Multiproject
             for (var i = 0; i < data.length; i++) {
+                if (data[i][metric] === undefined) continue; 
                 var full_data =  
                     Viz.fillHistory(dates[0], [data[i].id, data[i][metric]]);
                 if (metric === main_metric) {
@@ -790,12 +791,19 @@ var Viz = {};
             value = dates[1][index] + ":<br>";
             
             var i = 0;
+
+            // Miss data from one project metrics
+            var missdata = false;
+
             for (var metric in basic_metrics) {
                 if (options.data[metric] === undefined) continue;
                 if ($.inArray(metric,options.data.envision_hide) > -1) continue;
                 
-                if (projects.length === 1) {
-                // if (options.data[metric][0] instanceof Array) { 
+                
+                options.data[metric][0] instanceof Array ? 
+                        monoproject = true : monoproject = false; 
+                
+                if (projects.length === 1 || missdata) {   
                     value += options.data[metric][1][index] + " " + metric + ", ";
                     if (++i % 3 === 0)
                         value += "<br>";
@@ -803,16 +811,17 @@ var Viz = {};
                 else {
                     for (var j=0;j<projects.length; j++) {
                         var project_name = options.data[main_metric][j].label;
-                        var project = project_name;
-                        var pdata = options.data[metric][j].data;
-                        project_metrics[project_name][metric] = pdata[1][index];
-                        value += project + " " + pdata[1][index] + " " + metric + ", ";
-                        if (++i % projects.length === 0)
-                            value += "<br>";
+                        var value = "n/a";
+                        if (options.data[metric][j] !== undefined) {
+                            var pdata = options.data[metric][j].data;
+                            value = pdata[1][index];
+                        }
+                        project_metrics[project_name][metric] = value;
                     }
                 }                    
             }
-            if (projects.length > 1) {
+            
+            if (projects.length > 1 && !missdata) {
                 value  = "<table><tr><td align='right'>"+dates[1][index];
                 value += "</td></tr><tr><td></td>";
                 $.each(project_metrics[projects[0]], function(metric, mvalue) {
@@ -1015,6 +1024,7 @@ var Viz = {};
                projects_data[ds.getProject()] = {};
            }
            var data = ds.getData();
+           if (data instanceof Array) return;
            var new_data = {};
            new_data.id = dates[0];
            new_data.date = dates[1];

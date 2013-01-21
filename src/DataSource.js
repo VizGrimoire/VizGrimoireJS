@@ -114,6 +114,7 @@ function DataSource(name, basic_metrics) {
 
         $.each(Report.getDataSources(), function (index, ds) {
            if (ds.getName() === ds_name) {
+               if (ds.getData() instanceof Array) return;
                full_data.push(ds.getData());
                projects.push(ds.getProject());
            } 
@@ -128,6 +129,7 @@ function DataSource(name, basic_metrics) {
         var ds_name = this.getName();
         $.each(Report.getDataSources(), function (index, ds) {
            if (ds.getName() === ds_name) {
+               if (ds.getData() instanceof Array) return;
                full_data.push(ds.getData());
                projects.push(ds.getProject());
            } 
@@ -185,6 +187,7 @@ function DataSource(name, basic_metrics) {
             $.each(Report.getDataSources(), function (index, ds) {
                if (ds.getName() === self.getName()) {
                    var ds_data = ds.getData();
+                   if (ds_data instanceof Array) return;
                    var new_data = {};
                    $.each(ds_data, function (metric, values) {
                        if (ds.getMetrics()[metric] === undefined) return;
