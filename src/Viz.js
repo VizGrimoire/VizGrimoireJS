@@ -983,6 +983,9 @@ var Viz = {};
     }
 
     Viz.addRelativeValues = function (full_data, metric) {
+
+        if (full_data[0][metric] === undefined) return;
+
         var added_values = [];
         for (var i = 0; i<full_data[0].id.length;i++) {
             for (var j=0; j<full_data.length; j++) {
@@ -992,6 +995,7 @@ var Viz = {};
             }
         }
         for (var i = 0; i<full_data[0].id.length;i++) {
+            if (full_data[0][metric] === undefined) continue;
             for (var j=0; j<full_data.length; j++) {
                 if (full_data[j][metric+"_relative"] == undefined)
                     full_data[j][metric+"_relative"] = [];
@@ -1011,6 +1015,11 @@ var Viz = {};
         var projects = [];        
         var dates = [[],[]];
         var all_metrics = Report.getAllMetrics();
+        var projects_full_data = {};
+
+        $.each(Report.getProjectsList(), function(index, project) {
+            projects_full_data[project] = [];
+        });
         
         $.each(Report.getDataSources(), function (index, ds) {
             var data = ds.getData();
@@ -1032,7 +1041,8 @@ var Viz = {};
                if (all_metrics[metric] === undefined) return;
                new_data[metric] = 
                    Viz.fillHistory(dates[0], [data.id, data[metric]])[1];
-           });           
+           });
+           projects_full_data[ds.getProject()].push(new_data);
            $.extend(projects_data[ds.getProject()], new_data);
         });
         
@@ -1042,8 +1052,12 @@ var Viz = {};
 
         if (relative)
             // TODO: Improve main metric selection
-            Viz.addRelativeValues
-                (full_data,Report.getDataSources()[0].getMainMetric());
+            $.each(Report.getDataSources(), function (id, ds) {
+                if (full_data[0][ds.getMainMetric()] !== undefined) {
+                    main_metric = ds.getMainMetric();
+                }
+            });
+            Viz.addRelativeValues(full_data, main_metric);
                 
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, full_data, null,

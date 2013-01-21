@@ -109,13 +109,6 @@ function SCM() {
     this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "commits", "committers");
     };
-        
-    this.envisionEvo = function(div_id, history, projects) {
-        config = Report.getConfig();
-        var options = Viz.getEnvisionOptions(div_id, history, this,
-                config.scm_hide, projects);
-        new envision.templates.Envision_Report(options, [ this ]);
-    }; 
 }
 var aux = new SCM();
 SCM.prototype = new DataSource("scm", aux.getMetrics());

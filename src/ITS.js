@@ -106,20 +106,12 @@ function ITS() {
         $(div_id + ' #itsTickets').text(this.global_data.tickets);
         $(div_id + ' #itsOpeners').text(this.global_data.openers);
     };
-    
+
     this.getTitle = function() {return "Tickets";};
 
     this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "opened", "openers");
     };
-    
-    this.envisionEvo = function(div_id, history, projects) {
-        config = Report.getConfig();
-        var options = Viz.getEnvisionOptions(div_id, history, this,
-                config.its_hide, projects);
-        new envision.templates.Envision_Report(options, [ this ]);
-    };
-
     
 }
 var aux = new ITS();

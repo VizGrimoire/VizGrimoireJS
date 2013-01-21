@@ -442,15 +442,16 @@ var Report = {};
     }
     
     function convertEnvision() {
-        if ($("#all-envision").length > 0)
-            Viz.displayEvoSummary('all-envision');
-        
+        if ($("#all-envision").length > 0) {
+            var relative = $('#all-envision').data('relative');
+            Viz.displayEvoSummary('all-envision', relative);
+        }
         var already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getData().length === 0) return;
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0) {
-                var relative = $('#'+div_envision).data('relative');
+
                 if ($.inArray(DS.getName(), already_shown) !== -1)
                     return; 
                 if (DS instanceof MLS) {

@@ -168,10 +168,21 @@ function DataSource(name, basic_metrics) {
         }
     };
     
+    this.envisionEvo = function(div_id, history, projects) {
+        config = Report.getConfig();
+        var options = Viz.getEnvisionOptions(div_id, history, this,
+                config.scm_hide, projects);
+        new envision.templates.Envision_Report(options, [ this ]);
+    };
     
     this.displayEvo = function(divid, relative) {
         var full_data = [];
         var projects = [];
+        var projects_full_data = {};
+
+        $.each(Report.getProjectsList(), function(index, project) {
+            projects_full_data[project] = [];
+        });
         
         function fillData(self) {
             var dates = [[],[]];
@@ -199,6 +210,7 @@ function DataSource(name, basic_metrics) {
                    // TODO: Data and projects should be joined
                    full_data.push(new_data);
                    projects.push(ds.getProject());
+                   projects_full_data[ds.getProject()].push(new_data);
                } 
             });        
         }
