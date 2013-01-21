@@ -1050,7 +1050,7 @@ var Viz = {};
             full_data[i] = (projects_data[projects[i]]);
         }
 
-        if (relative)
+        if (relative) {
             // TODO: Improve main metric selection
             $.each(Report.getDataSources(), function (id, ds) {
                 if (full_data[0][ds.getMainMetric()] !== undefined) {
@@ -1058,6 +1058,7 @@ var Viz = {};
                 }
             });
             Viz.addRelativeValues(full_data, main_metric);
+        }
                 
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, full_data, null,
