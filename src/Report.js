@@ -161,6 +161,7 @@ var Report = {};
             }, data_dir);
         }
         data_load_metrics();
+        data_load_extra();
     }
 
     function data_load_file(file, fn_data_set, self) {
@@ -189,6 +190,12 @@ var Report = {};
         });
     }
     
+    function data_load_extra() {
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getPeopleDataFile(), DS.setPeopleData, DS);
+        });
+    }
+
     function check_data_loaded() {
         var check = true;
         if (project_data === null || config === null || markers === null) 
@@ -202,6 +209,7 @@ var Report = {};
         $.each(data_sources, function(index, DS) {
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
+            if (DS.getPeopleData() === null) {check = false; return false;}
             // TODO: Demographics just for SCM yet!
             if (DS instanceof SCM) {
                 if (DS.getDemographicsData() === null) {check = false; return false;} 

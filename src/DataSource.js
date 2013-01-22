@@ -98,6 +98,20 @@ function DataSource(name, basic_metrics) {
     this.getName = function() {
         return this.name;
     };
+
+    this.people_data_file = this.data_dir + '/'+this.name+'-people.json';
+    this.getPeopleDataFile = function() {
+        return this.people_data_file;
+    };
+
+    this.people = null;
+    this.getPeopleData = function() {
+        return this.people;
+    };
+    this.setPeopleData = function(people, self) {
+        if (self === undefined) self = this;
+        self.people = people;
+    };
     
     this.project = null;
     this.getProject = function() {
