@@ -482,6 +482,15 @@ var Report = {};
             }
         });
     }
+
+    function convertIdentity() {
+        $.each(Report.getDataSources(), function(index, DS) {
+            var divid = DS.getName()+"-people";
+            if ($("#"+divid).length > 0) {
+                Identity.showList(divid, DS);
+            }
+        });
+    }
     
     function convertTop() {
         $.each(Report.getDataSources(), function(index, DS) {
@@ -586,6 +595,8 @@ var Report = {};
         convertBubbles();        
         convertDemographics();        
         convertSelectors();
+        // TODO: Create a new class for Identity?
+        convertIdentity();
     }
 })();
 

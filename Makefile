@@ -30,7 +30,8 @@ vizgrimoire.core.js: \
     src/Viz.js \
     src/ITS.js \
     src/MLS.js \
-    src/SCM.js
+    src/SCM.js \
+    src/Identity.js
     
 vizgrimoire.deps.css: \
     src/envision.min.css \
@@ -60,5 +61,3 @@ vizgrimoire%css: Makefile
 	
 clean:
 	rm -f vizgrimoire*.js vizgrimoire*.css
-
-
