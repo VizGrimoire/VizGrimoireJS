@@ -168,19 +168,20 @@ function DataSource(name, basic_metrics) {
         }
     };
     
-    this.envisionEvo = function(div_id, history, projects) {
+    this.envisionEvo = function(div_id, history, relative) {
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, history, this.getName(),
-                config.scm_hide);
+                Report.getConfig()[this.getName()+"_hide"]);
+        
+        if (relative)
+            Viz.addRelativeValues(options.data, this.getMainMetric());
+        
         new envision.templates.Envision_Report(options, [ this ]);
     };
     
     this.displayEvo = function(divid, relative) {
         var projects_full_data = Report.getProjectsDataSources();
         
-        if (relative && false)
-            Viz.addRelativeValues(full_data, this.getMainMetric());
-        else        
-            this.envisionEvo(divid, projects_full_data);
+        this.envisionEvo(divid, projects_full_data, relative);
     };    
 }

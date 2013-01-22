@@ -457,9 +457,9 @@ var Report = {};
             if (DS.getData().length === 0) return;
             var div_envision = DS.getName() + "-envision";
             if ($("#" + div_envision).length > 0) {
-
                 if ($.inArray(DS.getName(), already_shown) !== -1)
-                    return; 
+                    return;
+                var relative = $('#'+div_envision).data('relative');
                 if (DS instanceof MLS) {
                     DS.displayEvo(div_envision, relative);
                     // DS.displayEvoAggregated(div_envision);

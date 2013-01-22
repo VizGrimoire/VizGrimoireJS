@@ -1016,50 +1016,50 @@ var Viz = {};
         $("#" + div_id).html(html);
     }
 
-    Viz.addRelativeValues = function (full_data, metric) {
-
-        if (full_data[0][metric] === undefined) return;
-
+    Viz.addRelativeValues = function (metrics_data, metric) {        
+        if (metrics_data[metric] === undefined) return;
+        metrics_data[metric+"_relative"] = [];
         var added_values = [];
-        for (var i = 0; i<full_data[0].id.length;i++) {
-            for (var j=0; j<full_data.length; j++) {
+        
+        $.each(metrics_data[metric], function(index, pdata) {
+            var metric_values = pdata.data[1];
+            for (var i = 0; i<metric_values.length;i++) {
                 if (added_values[i] === undefined)
                     added_values[i] = 0;
-                added_values[i] += full_data[j][metric][i];
+                added_values[i] += metric_values[i];
             }
-        }
-        for (var i = 0; i<full_data[0].id.length;i++) {
-            if (full_data[0][metric] === undefined) continue;
-            for (var j=0; j<full_data.length; j++) {
-                if (full_data[j][metric+"_relative"] == undefined)
-                    full_data[j][metric+"_relative"] = [];
-                if (added_values[i] === 0)
-                    full_data[j][metric+"_relative"][i] = 0;
+        });
+        
+        $.each(metrics_data[metric], function(index, pdata) {
+            var val_relative = [];
+            for (var i = 0; i<pdata.data[0].length;i++) {
+                if (added_values[i] === 0) val_relative[i] = 0;
                 else {
-                    var rel_val = full_data[j][metric][i]/added_values[i]*100;
-                    full_data[j][metric+"_relative"][i] = rel_val;
+                    var rel_val = pdata.data[1][i]/added_values[i]*100;
+                    val_relative[i] = rel_val;
                 }
             }
-        }
+            metrics_data[metric+"_relative"].push({
+                label: pdata.label,
+                data: [pdata.data[0],val_relative],
+            });
+        });        
     };
 
-    function displayEvoSummary(div_id, relative) {        
-        var full_data = [];
-
-        if (relative && false) {
-            // TODO: Improve main metric selection
-            $.each(Report.getDataSources(), function (id, ds) {
-                if (full_data[0][ds.getMainMetric()] !== undefined) {
-                    main_metric = ds.getMainMetric();
-                }
-            });
-            Viz.addRelativeValues(full_data, main_metric);
-        }
-                
-        var config = Report.getConfig();
+    function displayEvoSummary(div_id, relative) {
         var projects_full_data = Report.getProjectsDataSources();
+        var config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, projects_full_data, null,
                 config.summary_hide);
+        if (relative) {
+            // TODO: Improve main metric selection. Report.getMainMetric()
+            $.each(projects_full_data, function(project, data) {
+                $.each(data, function(index, DS) {
+                    main_metric = DS.getMainMetric();
+                });
+            });
+            Viz.addRelativeValues(options.data, main_metric);
+        }                
         new envision.templates.Envision_Report(options);
     }
 })();
