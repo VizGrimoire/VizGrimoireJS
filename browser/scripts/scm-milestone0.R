@@ -103,3 +103,7 @@ agg_data[is.na(agg_data)] <- 0
 createJSON (agg_data, "../data/json/scm-milestone0.json")
 createJSON (info_data, "../data/json/scm-info-milestone0.json")
 createJSON (top_committers_data, "../data/json/scm-top-milestone0.json")
+
+people_list = people()
+createJSON (people_list, "../data/json/scm-people.json")
+

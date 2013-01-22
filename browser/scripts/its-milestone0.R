@@ -212,5 +212,10 @@ top_closers_data[['closers.last month']]<-top_closers(31)
 
 createJSON (top_closers_data, "../data/json/its-top-milestone0.json")
 
+# People List for working in unique identites
+q <- paste ("select id,name,email,user_id from people")
+people_list <- query(q)
+createJSON (people_list, "../data/json/its-people.json")
+
 # Disconnect from DB
 dbDisconnect(con)

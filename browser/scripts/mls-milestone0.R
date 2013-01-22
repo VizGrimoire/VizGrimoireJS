@@ -255,5 +255,10 @@ top_senders_data[['senders.last month']]<-top_senders(31)
 
 createJSON (top_senders_data, "../data/json/mls-top-milestone0.json")
 
+# People list
+q <- paste ("select email_address, name, username from people")
+people <- query(q)
+createJSON (people, "../data/json/mls-people.json")
+
 # Disconnect from DB
 dbDisconnect(con)

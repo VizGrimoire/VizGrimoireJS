@@ -279,4 +279,8 @@ top_files_modified <- function() {
 	return (data)	
 }
 
-
+people <- function() {
+    q <- paste ("select id,name,email from people")
+    people_list <- query(q)
+    return (people_list);
+}
