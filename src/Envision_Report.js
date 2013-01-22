@@ -53,10 +53,10 @@
                     autoscale : true
                 },
                 legend : {
-                    backgroundColor : '#FFFFFF', // A light blue background
-                    // color
+                    show: false,
+                    backgroundColor : '#FFFFFF',
                     backgroundOpacity : 0
-                }
+                },
             }
         };
 
@@ -103,7 +103,7 @@
                 if (DS.getMainMetric() == metric) {
                     // Create graph also for relative data
                     viz[metric+"_relative"] = getEnvisionDefaultsGraph
-                        ('report-' + DS.getName() + '-' + metric+"_relative", config);                    
+                        ('report-' + DS.getName() + '-' + metric+"_relative", config);
                     viz[metric].config['lite-lines'] = {show:false};
                     viz[metric].config['lines'] = {
                             lineWidth : 1,
@@ -216,23 +216,20 @@
         });
 
         $.each(metrics, function(metric, value) {
-            if ($.inArray(metric, data.envision_hide) === -1) {
-                // One project
-                if (data[metric][0] instanceof Array){
-                    defaults[metric].data = data[metric];
-                }
-                // Multi project
-                else {
-                    defaults[metric].data = data[metric];
-                    if (data[metric+"_relative"])
-                        defaults[metric].data = data[metric+"_relative"];
-                }
-            }
+            if ($.inArray(metric, data.envision_hide) !== -1) return;
+            defaults[metric].data = data[metric];
+            // The legend is different if the metric is not in all projects
+            if (defaults[metric].data.length < 
+                    Report.getProjectsList().length)
+                defaults[metric].config.legend.show = true;
+            if (data[metric+"_relative"])
+                defaults[metric].data = data[metric+"_relative"];
         });
 
         defaults.summary.data = data.summary;
 
-        // SHOW LEGEND
+        // SHOW MOUSE LEGEND AND LEGEND
+        defaults[main_metric].config.legend.show = true;
         defaults[main_metric].config.mouse.trackFormatter = options.trackFormatter;
         if (options.xTickFormatter) {
             defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;

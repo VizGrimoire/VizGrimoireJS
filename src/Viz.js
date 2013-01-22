@@ -761,7 +761,6 @@ var Viz = {};
                 return false;
             }
         });
-
         
         // [ids, values] Complete timeline for all the data
         var dates = [[],[]];
@@ -828,7 +827,8 @@ var Viz = {};
                         options.data[metric+"_relative"].push(
                                 {label:project, data:full_data});
                     } else {
-                        options.data[metric].push({label:"", data:full_data});
+                        //options.data[metric].push({label:"", data:full_data});
+                        options.data[metric].push({label:project, data:full_data});
                     }
                 });
             });
@@ -848,27 +848,31 @@ var Viz = {};
                 if (options.data[metric] === undefined) continue;
                 if ($.inArray(metric,options.data.envision_hide) > -1) continue;                                                
                 for (var j=0;j<projects.length; j++) {
-                    var project_name = options.data[main_metric][j].label;
-                    var value = "n/a";
-                    if (options.data[metric][j] !== undefined) {
-                        var pdata = options.data[metric][j].data;
-                        value = pdata[1][index];
-                    }
+                    if (options.data[metric][j] === undefined) continue;
+                    var project_name = options.data[metric][j].label;
+                    var pdata = options.data[metric][j].data;
+                    value = pdata[1][index];
                     project_metrics[project_name][metric] = value;
                 }                                    
             }
             
             value  = "<table><tr><td align='right'>"+dates[1][index];
             value += "</td></tr><tr><td></td>";
-            $.each(project_metrics[projects[0]], function(metric, mvalue) {
+            for (var metric in basic_metrics) {
+                if ($.inArray(metric,options.data.envision_hide) > -1) 
+                    continue;
                 value += "<td>"+metric+"</td>";
-            });
+            }
             value += "</tr>";
             $.each(project_metrics, function(project, metrics) {
                 value += "<tr><td>"+project+"</td>";
-                $.each(metrics, function(metric, mvalue) {
+                for (var metric in basic_metrics) {
+                    if ($.inArray(metric,options.data.envision_hide) > -1) 
+                        continue;                                                
+                    mvalue = project_metrics[project][metric];
+                    if (mvalue === undefined) mvalue = "n/a";
                     value += "<td>" + mvalue + "</td>";
-                });
+                }
                 value += "</tr>";   
             });
             value += "</table>";
