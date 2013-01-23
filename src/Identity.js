@@ -27,14 +27,15 @@ var Identity = {};
     
     Identity.showList = function(divid, ds) {
         var people = ds.getPeopleData();
-        var list ="<ul>";
+        var list ='<ol id="'+ds.getName()+'_selectable" class="selectable">';
         
         for (var i=0; i<people.id.length; i++) {
-            list += "<li>";
-            list += people.id[i] +" " + people.name[i];
-            list += "</li>";            
+            list += '<li class="ui-widget-content ui-selectee">';
+            list += people.id[i] +' ' + people.name[i];
+            list += '</li>';            
         }
-        list += "</ul>";
-        $("#"+divid).append(list);
+        list += '</ol>';
+        $('#'+divid).append(list);
+        $('#'+ds.getName()+'_selectable').selectable();
     };
 })();
