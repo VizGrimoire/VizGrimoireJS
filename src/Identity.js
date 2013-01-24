@@ -63,7 +63,7 @@ var Identity = {};
         else {
             var people = ds.getPeopleData();
             list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
-            for (var i=0; i<people.id.length && i<5; i++) {
+            for (var i=0; i<people.id.length; i++) {
                 list += '<li class="ui-widget-content ui-selectee">';
                 list += people.id[i] +' ' + people.name[i];
                 list += '</li>';            
