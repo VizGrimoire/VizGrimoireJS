@@ -36,8 +36,11 @@ var Identity = {};
             start: function(e, info) {
                 info.item.siblings(".ui-selected").appendTo(info.item);
             },
-            stop: function(e, info) {
+            stop: function(e, info) {                  
                 info.item.after(info.item.find("li"));
+                if (info.item.prev().find("ul").length === 0)
+                    info.item.prev().append("<ul></ul>");            
+                info.item.prev().find("ul").append(info.item);                
             }
         }).selectable()
         .find('li')
@@ -47,9 +50,10 @@ var Identity = {};
     Identity.showList = function(list_divid, ds) {
         var list ="";
         if (ds === undefined) {
-            list ='<ol id='+unique_list+' class="sortable">';
-            list += '<li>1</li></ol>';
-            sortSelList(list_divid, list, unique_list);
+            list ='<ol id='+unique_list+' class="sortable" style="padding: 5px; background: #eee;"></ol>';
+            // sortSelList(list_divid, list, unique_list);
+            $('#'+list_divid).append(list);
+            $('#'+unique_list).sortable().selectable();
         }
         else {
             var people = ds.getPeopleData();
