@@ -37,13 +37,16 @@ var Identity = {};
                 info.item.siblings(".ui-selected").appendTo(info.item);
             },
             stop: function(e, info) {
-                // Multi-item d&d
-                info.item.after(info.item.find("li"));
-                if (info.item[0].parentNode.id !== unique_list) return;
+                if (info.item[0].parentNode.id !== unique_list) {
+                    // Multi-item d&d
+                    info.item.after(info.item.find("li"));
+                    return;
+                }
                 // Group identifiers under person
                 if (info.item.prev().find("ul").length === 0)
                     info.item.prev().append("<ul></ul>");            
-                info.item.prev().find("ul").append(info.item);                
+                info.item.prev().find("ul").append(info.item);
+                info.item.after(info.item.find("li"));                
             }
         }).selectable()
         .find('li')
