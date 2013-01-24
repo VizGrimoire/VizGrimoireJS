@@ -36,8 +36,11 @@ var Identity = {};
             start: function(e, info) {
                 info.item.siblings(".ui-selected").appendTo(info.item);
             },
-            stop: function(e, info) {                  
+            stop: function(e, info) {
+                // Multi-item d&d
                 info.item.after(info.item.find("li"));
+                if (info.item[0].parentNode.id !== unique_list) return;
+                // Group identifiers under person
                 if (info.item.prev().find("ul").length === 0)
                     info.item.prev().append("<ul></ul>");            
                 info.item.prev().find("ul").append(info.item);                
@@ -53,12 +56,14 @@ var Identity = {};
             list ='<ol id='+unique_list+' class="sortable" style="padding: 5px; background: #eee;"></ol>';
             // sortSelList(list_divid, list, unique_list);
             $('#'+list_divid).append(list);
-            $('#'+unique_list).sortable().selectable();
+            $('#'+unique_list)
+                .sortable()
+                .selectable();
         }
         else {
             var people = ds.getPeopleData();
             list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
-            for (var i=0; i<people.id.length; i++) {
+            for (var i=0; i<people.id.length && i<5; i++) {
                 list += '<li class="ui-widget-content ui-selectee">';
                 list += people.id[i] +' ' + people.name[i];
                 list += '</li>';            
