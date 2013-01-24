@@ -1,4 +1,13 @@
-.selectable .ui-selecting { background: #FECA40; }
+.selectable .ui-selecting { background: #FFA500; }
 .selectable .ui-selected { background: #F39814; color: white; }
-.selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-.selectable li { margin: 3px; padding: 0.4em; height: 25px; }
+.selectable { list-style-type: none; margin: 0; padding: 0; width: 95%; }
+.selectable li { margin: 3px; padding: 0.1em; height: 10px; }
+
+.sortable .ui-selecting { background: #FFA500; }
+.sortable .ui-selected { background: #F39814; color: white; }
+.sortable { list-style-type: none; margin: 0; padding: 0; width: 95%; }
+.sortable li { margin: 3px; padding: 0.2em; height: 10px; position:relative;}
+.sortable li .handle { background: #ffa500; position: absolute; left: 0; top: 0; bottom: 0; padding:1px; }
+
+
+

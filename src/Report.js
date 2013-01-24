@@ -490,6 +490,8 @@ var Report = {};
                 Identity.showList(divid, DS);
             }
         });
+        if ($("#unique-people").length > 0)
+            Identity.showList("unique-people");
     }
     
     function convertTop() {

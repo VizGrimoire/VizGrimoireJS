@@ -24,18 +24,43 @@
 var Identity = {};
 
 (function() {
+    var unique_list = "unique-sortable";
     
-    Identity.showList = function(divid, ds) {
-        var people = ds.getPeopleData();
-        var list ='<ol id="'+ds.getName()+'_selectable" class="selectable">';
-        
-        for (var i=0; i<people.id.length; i++) {
-            list += '<li class="ui-widget-content ui-selectee">';
-            list += people.id[i] +' ' + people.name[i];
-            list += '</li>';            
+    function sortSelList(list_divid, list, name) {
+        var connect = "";
+        list_divid === unique_list ? connect ="" : connect = unique_list;
+        $('#'+list_divid).append(list);
+        $('#'+name).sortable({
+            handle: ".handle",
+            connectWith: "#"+connect,
+            start: function(e, info) {
+                info.item.siblings(".ui-selected").appendTo(info.item);
+            },
+            stop: function(e, info) {
+                info.item.after(info.item.find("li"));
+            }
+        }).selectable()
+        .find('li')
+            .prepend( "<div class='handle'></div>" );        
+    }
+    
+    Identity.showList = function(list_divid, ds) {
+        var list ="";
+        if (ds === undefined) {
+            list ='<ol id='+unique_list+' class="sortable">';
+            list += '<li>1</li></ol>';
+            sortSelList(list_divid, list, unique_list);
         }
-        list += '</ol>';
-        $('#'+divid).append(list);
-        $('#'+ds.getName()+'_selectable').selectable();
+        else {
+            var people = ds.getPeopleData();
+            list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
+            for (var i=0; i<people.id.length; i++) {
+                list += '<li class="ui-widget-content ui-selectee">';
+                list += people.id[i] +' ' + people.name[i];
+                list += '</li>';            
+            }
+            list += '</ol>';
+            sortSelList(list_divid, list, ds.getName()+"-sortable");
+        }
     };
 })();
