@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" type="text/css" id="theme-ui" href="../js/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" id="theme-custom" href="../custom.css" />
+        <script type="text/javascript" src="../VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+</head>
+<body>
+    <style>
+        ul {border:1px solid Black;width:200px;height:200px;display:inline-block;vertical-align:top}
+        li {background-color:Azure;border-bottom:1px dotted Gray}   
+        li.selected {background-color:GoldenRod}
+    </style>
+    <h1>Click items to select them</h1>
+    <ul>
+        <li>One</li>
+        <li>Two<li>
+        <li>Three</li>
+    </ul><ul>
+        <li>Four</li>
+        <li>Five<li>
+        <li>Six</li>
+    </ul>
+    <script>
+    $("li").click(function() {
+        $(this).toggleClass("selected");
+    });
+    $("ul").sortable({
+        connectWith: "ul",
+        start: function(e, info) {
+            info.item.siblings(".selected").appendTo(info.item);
+        },
+        stop: function(e, info) {
+            info.item.after(info.item.find("li"))
+        }
+    });
+    </script>
+</body>
+</html>

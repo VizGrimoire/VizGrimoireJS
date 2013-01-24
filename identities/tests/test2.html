@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <link rel="stylesheet" type="text/css" id="theme-ui" href="../js/jquery-ui.css" />
+        <link rel="stylesheet" type="text/css" id="theme-custom" href="../custom.css" />
+        <script type="text/javascript" src="../VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+        <script type="text/javascript" src="../js/jquery-ui.min.js"></script>
+</head>
+<body>
+
+<style>
+  ul { width: 300px; list-style: none; margin: 0; padding: 0; }
+  li { background: white; position:relative;margin: 1em 0; padding: 1em; border: 2px solid gray; list-style: none; padding-left: 42px; }
+  li .handle { background: #f8f8f8; position: absolute; left: 0; top: 0; bottom: 0; padding:8px; }
+  .ui-selecting { background: #eee; }
+  .ui-selecting .handle { background: #ddd; }
+  .ui-selected { background: #def; }
+  .ui-selected .handle { background: #cde; }
+</style>
+
+</head>
+<body>
+<div style="float:left;margin:10px">
+<ul id="list">
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+</div>
+
+<div  style="float:left;margin:10px">
+<ul id="uPeople">
+  <li>Item 1</li>
+  <li>Item 2</li>
+</ul>
+</div>
+
+<script>
+$( "#uPeople" ).sortable();
+$( "#list" )
+.sortable({ handle: ".handle", connectWith: "#uPeople",
+    start: function(e, info) {
+        info.item.siblings(".ui-selected").appendTo(info.item);
+    },
+    beforeStop: function(e, info) {
+        var t = info.item;
+    },
+    stop: function(e, info) {
+        info.item.after(info.item.find("li"));
+        if (info.item.prev().find("ul").length === 0)
+            info.item.prev().append("<ul></ul>");            
+        info.item.prev().find("ul").append(info.item);
+        // info.item.remove();        
+    }
+})
+.selectable()
+  .find( "li" )
+    .prepend( "<div class='handle'><span class='ui-icon ui-icon-carat-2-n-s'></span></div>" );
+</script>
+
+</body>
+</html>
