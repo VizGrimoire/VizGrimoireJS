@@ -27,9 +27,8 @@ var Identity = {};
     var unique_list = "unique-sortable";
     
     function sortSelList(list_divid, list, name) {
-        var connect = "";
+        var connect = "";        
         list_divid === unique_list ? connect ="" : connect = unique_list;
-        $('#'+list_divid).append(list);
         $('#'+name).sortable({
             handle: ".handle",
             connectWith: "#"+connect,
@@ -37,27 +36,42 @@ var Identity = {};
                 info.item.siblings(".ui-selected").appendTo(info.item);
             },
             stop: function(e, info) {
-                if (info.item[0].parentNode.id !== unique_list) {
-                    // Multi-item d&d
-                    info.item.after(info.item.find("li"));
-                    return;
-                }
-                // Group identifiers under person
-                if (info.item.prev().find("ul").length === 0)
-                    info.item.prev().append("<ul></ul>");            
-                info.item.prev().find("ul").append(info.item);
-                info.item.after(info.item.find("li"));                
-            }
+                if (info.item.parent()[0].id === unique_list)
+                    info.item.find('.handle').remove();
+                    info.item.parent().append(info.item.find("li"));
+                    info.item.parent().find("li")
+                        .addClass("mjs-nestedSortable-leaf");
+            }            
         }).selectable()
         .find('li')
             .prepend( "<div class='handle'></div>" );        
     }
+
+    Identity.showListNested = function(list_divid, ds) {
+        list ='<ol id='+unique_list+' class="nested_sortable" '; 
+        list += 'style="padding: 5px; background: #eee;"></ol>';
+        $('#'+list_divid).append(list);
+        $('#'+unique_list).nestedSortable({
+            forcePlaceholderSize: true,
+            handle: 'div',
+            helper: 'clone',
+            items: 'li',
+            tolerance: 'pointer',
+            toleranceElement: '> div',
+            maxLevels: 2,
+            isTree: true,
+            expandOnHover: 700,
+            startCollapsed: true
+        });
+        $('.disclose').on('click', function() {
+            $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+        });
+    };
     
     Identity.showList = function(list_divid, ds) {
         var list ="";
         if (ds === undefined) {
             list ='<ol id='+unique_list+' class="sortable" style="padding: 5px; background: #eee;"></ol>';
-            // sortSelList(list_divid, list, unique_list);
             $('#'+list_divid).append(list);
             $('#'+unique_list)
                 .sortable()
@@ -67,11 +81,14 @@ var Identity = {};
             var people = ds.getPeopleData();
             list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
             for (var i=0; i<people.id.length; i++) {
-                list += '<li class="ui-widget-content ui-selectee">';
+                list += '<li id="'+people.id[i]+'" ';
+                list += 'class="ui-widget-content ui-selectee">';
+                list += '<div><span class="disclose"><span></span></span>';
                 list += people.id[i] +' ' + people.name[i];
-                list += '</li>';            
+                list += '</div></li>';
             }
             list += '</ol>';
+            $('#'+list_divid).append(list);
             sortSelList(list_divid, list, ds.getName()+"-sortable");
         }
     };

@@ -491,7 +491,7 @@ var Report = {};
             }
         });
         if ($("#unique-people").length > 0)
-            Identity.showList("unique-people");
+            Identity.showListNested("unique-people");
     }
     
     function convertTop() {
