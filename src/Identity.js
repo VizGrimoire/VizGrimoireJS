@@ -64,32 +64,46 @@ var Identity = {};
             startCollapsed: true
         });
         $('.disclose').on('click', function() {
-            $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed').toggleClass('mjs-nestedSortable-expanded');
+            $(this).closest('li').toggleClass('mjs-nestedSortable-collapsed')
+                .toggleClass('mjs-nestedSortable-expanded');
         });
     };
+
+    function showFilter (ds, filter_data) {
+        $('#'+ds.getName()+'filter').autocomplete({
+            source: filter_data,
+            select: function( event, ui ) {
+                $("#"+ds.getName()+"filter").val('');
+                $("#"+ds.getName()+"_people_"+ui.item.value).addClass('ui-selected');
+                return false;
+            }
+        });            
+    }
     
     Identity.showList = function(list_divid, ds) {
         var list ="";
-        if (ds === undefined) {
-            list ='<ol id='+unique_list+' class="sortable" style="padding: 5px; background: #eee;"></ol>';
-            $('#'+list_divid).append(list);
-            $('#'+unique_list)
-                .sortable()
-                .selectable();
-        }
-        else {
-            var people = ds.getPeopleData();
-            list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
-            for (var i=0; i<people.id.length; i++) {
-                list += '<li id="'+people.id[i]+'" ';
-                list += 'class="ui-widget-content ui-selectee">';
-                list += '<div><span class="disclose"><span></span></span>';
-                list += people.id[i] +' ' + people.name[i];
-                list += '</div></li>';
+        var people = ds.getPeopleData();
+        var filter_data = [];            
+        list ='<ol id="'+ds.getName()+'-sortable" class="sortable">';            
+        for (var i=0; i<people.id.length; i++) {
+            var value = people.id[i];
+            if (typeof value === "string") {
+                value = value.replace("@", "_at_").replace(".","_");
             }
-            list += '</ol>';
-            $('#'+list_divid).append(list);
-            sortSelList(list_divid, list, ds.getName()+"-sortable");
+            filter_data.push({value:value, label:people.name[i]});
+            
+            list += '<li id="'+ds.getName()+'_people_'+value+'" ';
+            list += 'class="ui-widget-content ui-selectee">';
+            list += '<div><span class="disclose"><span></span></span>';
+            list += people.id[i] +' ' + people.name[i];
+            list += '</div></li>';
         }
+        list += '</ol>';
+        
+        $('#'+list_divid).append("<input id='"+ds.getName()+"filter'>");
+        showFilter(ds, filter_data);
+        
+        $('#'+list_divid).append(list);
+        sortSelList(list_divid, list, ds.getName()+"-sortable");
     };
 })();
