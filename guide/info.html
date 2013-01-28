@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta name="keywords"
+    content="bitergia, floss, software metrics, oss, reports, free software, software analysis, methodology" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, maximum-scale=1.0">
+<meta name="description" content="Bitergia Methodology Guide" />
+<link rel="stylesheet" type="text/css" id="theme-viz"
+    href="VizGrimoireJS/vizgrimoire.css" />
+<title>Bitergia Methodology Guide</title>
+</head>
+
+<body>
+    <div id="wrapper" style="width:750px;">
+        Methodology Info for Bitergia report<br><br>
+        <a href="#basic">Basic</a> | <a href="#data-sources">Data Sources</a> | 
+        <a href="#studies">Studies</a> | <a href="#viz">Viz</a>
+        <form>
+            <div id="basic" style="margin:20px;border:1px solid grey;">
+                <strong>Basic Info</strong><br>
+                Project Name: <input type="text"><br> 
+                Date of analysis: <input type="text"><br>
+                Author: <input type="text"><br>
+                Directory:<input type="text"><br> 
+                Ticket number: <input type="text"><br>
+            </div>
+            <div id="data-sources" style="margin:20px;border:1px solid grey;">
+                <strong>Data Sources</strong><br>
+                Retrieved Data Sources:<br> 
+                <input type="checkbox" name="ds" value="scm">SCM
+                <div style="margin:20px">
+                    CVSAnalY version:<input type="text" name="cvsanaly_ver"><br>
+                    CVSAnalY command:<input type="text" name="cvsanaly_cmd"><br>
+                    CVSAnalY steps:<textarea name="cvsanaly_details"></textarea><br>
+                    CVSAnalY database:<input type="text" name="cvsanaly_db"><br>
+                    <input type="checkbox" name="dquality-scm" 
+                        value="uidentities">Unique identities
+                    <input type="checkbox" name="dquality-scm" 
+                        value="bots">Bots
+                    <br>                    
+                </div>
+                <div>
+                    <input type="checkbox" name="ds" value="its">ITS
+                </div>
+                <div>
+                    <input type="checkbox" name="ds" value="mls">MLS
+                </div>
+            </div>
+
+            <div id="studies" style="margin:20px;border:1px solid grey;">
+                <strong>Studies Performed</strong><br>
+                <input type="checkbox" name="analysis" value="basic">Basic
+                <div style="margin:20px">
+                VizGrimoire version:<input type="text" name="study_basic_ver"><br>
+                VizGrimoire command:<input type="text" name="study_basic_cmd"><br>
+                VizGrimoire steps:<textarea name="study_basic_details"></textarea><br>
+                </div> 
+                <input type="checkbox" name="analysis" value="companies">Companies
+                <input type="checkbox" name="analysis" value="demographics">Demographics
+                <input type="checkbox" name="analysis" value="modules">Modules 
+                <input type="checkbox" name="analysis" value="regeneratiom">Regeneration
+                <input type="checkbox" name="ds" value="mls">MLS
+            </div>
+            <div id="viz" style="margin:20px;border:1px solid grey;">
+                <strong>Viz</strong>
+                <div style="margin:20px">
+                VizGrimoire version:<input type="text" name="viz_ver"><br>
+                VizGrimoire config:<textarea name="viz_cfg"></textarea><br>
+                VizGrimoire URL:<input type="text" name="viz_url"><br>
+                </div>
+            </div>                
+
+        </form>
+    </div>
+</body>
+</html>
+
