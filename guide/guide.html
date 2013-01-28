@@ -9,7 +9,9 @@
 <meta name="viewport" content="width=device-width, maximum-scale=1.0">
 <meta name="description" content="Bitergia Methodology Guide" />
 <link rel="stylesheet" type="text/css" id="theme-viz"
-    href="VizGrimoireJS/vizgrimoire.css" />
+    href="VizGrimoireJS/vizgrimoire.css" />    
+<script type="text/javascript" src="../src/jquery-1.7.1.min.js"></script>    
+<script type="text/javascript" src="guide.js"></script>    
 <title>Bitergia Methodology Guide</title>
 </head>
 
@@ -31,24 +33,18 @@
             </div>
             <div id="data-sources" style="margin:20px;border:1px solid grey;">
                 <strong>Data Sources</strong> <a href="#nav">^</a><br>
-                Retrieved Data Sources:<br> 
-                <input type="checkbox" name="ds" value="scm">SCM
-                <div style="margin:20px">
-                    CVSAnalY version:<input type="text" name="cvsanaly_ver"><br>
-                    CVSAnalY command:<input type="text" name="cvsanaly_cmd"><br>
-                    CVSAnalY steps:<textarea name="cvsanaly_details"></textarea><br>
-                    CVSAnalY database:<input type="text" name="cvsanaly_db"><br>
-                    <input type="checkbox" name="dquality-scm" 
-                        value="uidentities">Unique identities
-                    <input type="checkbox" name="dquality-scm" 
-                        value="bots">Bots
-                    <br>                    
+                Retrieved Data Sources:<br>
+                <div id="scm-check"> 
+                    <input type="checkbox" onClick="Guide.displayDS(this)" 
+                    name="ds" value="scm">SCM
                 </div>
-                <div>
-                    <input type="checkbox" name="ds" value="its">ITS
+                <div id="its-check">
+                    <input type="checkbox" onClick="Guide.displayDS(this)"
+                    name="ds" value="its">ITS
                 </div>
-                <div>
-                    <input type="checkbox" name="ds" value="mls">MLS
+                <div id="mls-check">
+                    <input type="checkbox" onClick="Guide.displayDS(this)"
+                    name="ds" value="mls">MLS
                 </div>
             </div>
 
@@ -64,7 +60,6 @@
                 <input type="checkbox" name="analysis" value="demographics">Demographics
                 <input type="checkbox" name="analysis" value="modules">Modules 
                 <input type="checkbox" name="analysis" value="regeneratiom">Regeneration
-                <input type="checkbox" name="ds" value="mls">MLS
             </div>
             <div id="viz" style="margin:20px;border:1px solid grey;">
                 <strong>Viz</strong> <a href="#nav">^</a>
