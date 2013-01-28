@@ -41,6 +41,7 @@ var Identity = {};
                     info.item.parent().append(info.item.find("li"));
                     info.item.parent().find("li")
                         .addClass("mjs-nestedSortable-leaf");
+                // TODO remove from data source filtering data
             }            
         }).selectable()
         .find('li')
