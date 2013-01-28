@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html>
 <head>
 <meta name="keywords"
@@ -50,16 +49,26 @@
 
             <div id="studies" style="margin:20px;border:1px solid grey;">
                 <strong>Studies Performed</strong> <a href="#nav">^</a><br>
-                <input type="checkbox" name="analysis" value="basic">Basic
-                <div style="margin:20px">
-                VizGrimoire version:<input type="text" name="study_basic_ver"><br>
-                VizGrimoire command:<input type="text" name="study_basic_cmd"><br>
-                VizGrimoire steps:<textarea name="study_basic_details"></textarea><br>
-                </div> 
-                <input type="checkbox" name="analysis" value="companies">Companies
-                <input type="checkbox" name="analysis" value="demographics">Demographics
-                <input type="checkbox" name="analysis" value="modules">Modules 
-                <input type="checkbox" name="analysis" value="regeneratiom">Regeneration
+                <div id="basic-study-check">
+                    <input type="checkbox" onClick="Guide.displayStudy(this)">
+                    Basic
+                </div>
+                <div id="companies-study-check">
+                    <input type="checkbox" onClick="Guide.displayStudy(this)">
+                    Companies                   
+                </div>
+                <div id="demographics-study-check">
+                    <input type="checkbox" onClick="Guide.displayStudy(this)"> 
+                    Demographics
+                </div>
+                <div id="modules-study-check">
+                    <input type="checkbox" onClick="Guide.displayStudy(this)"> 
+                    Modules
+                </div>
+                <div id="regeneration-study-check"> 
+                    <input type="checkbox" onClick="Guide.displayStudy(this)"> 
+                    Regeneration
+                </div>
             </div>
             <div id="viz" style="margin:20px;border:1px solid grey;">
                 <strong>Viz</strong> <a href="#nav">^</a>
@@ -74,4 +83,3 @@
     </div>
 </body>
 </html>
-

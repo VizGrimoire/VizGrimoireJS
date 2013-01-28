@@ -25,6 +25,16 @@ var Guide = {};
 
 (function() {
     
+    function getFormStudy(name) {
+        var html = '';
+        html += '<div id ="'+name+'_study" style="margin:20px">';
+        html += 'VizGrimoire version:<input type="text" name="study_basic_ver"><br>';
+        html += 'VizGrimoire command:<input type="text" name="study_basic_cmd"><br>';
+        html += 'VizGrimoire steps:<textarea name="study_basic_details"></textarea><br>';
+        html += '</div>';
+        return html;
+    }
+    
     function getFormDS(ds, tool) {
         var html = '';
         html += '<div id="'+ds+'_info" style="margin:5px">';
@@ -39,8 +49,15 @@ var Guide = {};
         html += '<br>';                    
         html += '</div>';
         return html;
-    } 
+    }
     
+    Guide.displayStudy = function(el_study) {
+        var name = el_study.parentElement.id.split("-")[0];
+        if (el_study.checked)
+            $('#'+el_study.parentElement.id).append(getFormStudy(name));
+        else $('#'+name+'_study').remove();        
+    };
+
     Guide.displayDS = function(el_ds) {
         var tool = "";
         if (el_ds.value === "scm") {
