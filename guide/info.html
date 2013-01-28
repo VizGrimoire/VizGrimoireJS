@@ -16,11 +16,13 @@
 <body>
     <div id="wrapper" style="width:750px;">
         Methodology Info for Bitergia report<br><br>
+        <div id="nav">
         <a href="#basic">Basic</a> | <a href="#data-sources">Data Sources</a> | 
         <a href="#studies">Studies</a> | <a href="#viz">Viz</a>
+        </div>
         <form>
             <div id="basic" style="margin:20px;border:1px solid grey;">
-                <strong>Basic Info</strong><br>
+                <strong>Basic Info</strong> <a href="#nav">^</a><br>
                 Project Name: <input type="text"><br> 
                 Date of analysis: <input type="text"><br>
                 Author: <input type="text"><br>
@@ -28,7 +30,7 @@
                 Ticket number: <input type="text"><br>
             </div>
             <div id="data-sources" style="margin:20px;border:1px solid grey;">
-                <strong>Data Sources</strong><br>
+                <strong>Data Sources</strong> <a href="#nav">^</a><br>
                 Retrieved Data Sources:<br> 
                 <input type="checkbox" name="ds" value="scm">SCM
                 <div style="margin:20px">
@@ -51,7 +53,7 @@
             </div>
 
             <div id="studies" style="margin:20px;border:1px solid grey;">
-                <strong>Studies Performed</strong><br>
+                <strong>Studies Performed</strong> <a href="#nav">^</a><br>
                 <input type="checkbox" name="analysis" value="basic">Basic
                 <div style="margin:20px">
                 VizGrimoire version:<input type="text" name="study_basic_ver"><br>
@@ -65,7 +67,7 @@
                 <input type="checkbox" name="ds" value="mls">MLS
             </div>
             <div id="viz" style="margin:20px;border:1px solid grey;">
-                <strong>Viz</strong>
+                <strong>Viz</strong> <a href="#nav">^</a>
                 <div style="margin:20px">
                 VizGrimoire version:<input type="text" name="viz_ver"><br>
                 VizGrimoire config:<textarea name="viz_cfg"></textarea><br>
