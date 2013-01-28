@@ -27,7 +27,7 @@ var Guide = {};
     
     function getFormStudy(name) {
         var html = '';
-        html += '<div id ="'+name+'_study" style="margin:20px">';
+        html += '<div id ="'+name+'_study" style="margin:5px">';
         html += 'VizGrimoire version:<input type="text" name="study_basic_ver"><br>';
         html += 'VizGrimoire command:<input type="text" name="study_basic_cmd"><br>';
         html += 'VizGrimoire steps:<textarea name="study_basic_details"></textarea><br>';
