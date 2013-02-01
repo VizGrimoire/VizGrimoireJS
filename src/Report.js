@@ -352,7 +352,8 @@ var Report = {};
                     $("#refcard").html(refcard);
                     displayReportData();
                     $.each(getProjectsData(), function(prj_name, prj_data) {
-                        var new_div = "card_"+prj_name.replace(".","").replace(" ","");
+                        var prj_name_clean = prj_name.replace(".","").replace(/\//g,"_");
+                        var new_div = "card_"+prj_name_clean.replace(" ","");
                         $("#refcard #projects_info").append(projcard);
                         $("#refcard #projects_info #new_card")
                             .attr("id", new_div);
