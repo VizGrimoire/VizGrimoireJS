@@ -1,6 +1,6 @@
 #
 # Usage:
-#  R --no-restore --no-save --args dbschema user passwd [enddate [startdate] ] < its-analysis.R > script.out
+#  R --no-restore --no-save --args dbschema user passwd its [enddate [startdate] ] < its-analysis.R > script.out
 
 # Get arguments from the command line
 #
@@ -11,7 +11,21 @@
 #      (in fact, first day after the period)
 #  - startdate: starting date of the period to analyze. Format: YYYY-MM-DD
 #
+# # Authors :
+#       Jesus Gonzalez Barahona <jgb@bitergia.com>
+#       Alvaro del Castillo San Felix <acs@bitergia.com>
+#
 # Note: this script works with bicho databases obtained from Bugzilla
+completeZeroMonthly <- function (data) {
+
+  firstmonth = as.integer(data$id[1])
+  lastmonth = as.integer(data$id[nrow(data)])
+  months = data.frame('id'=c(firstmonth:lastmonth))
+  completedata <- merge (data, months, all=TRUE)
+  completedata[is.na(completedata)] <- 0
+  return (completedata)
+}
+
 
 # Get command line args, and produce variables for the script
 args <- commandArgs(trailingOnly = TRUE)
@@ -21,8 +35,15 @@ database <- args[1]
 user <- args[2]
 password <- args[3]
 
+# bugzilla, allura.
 if (length(args) > 3) {
-   enddate <- args[4]
+	its <- args[4]
+} else {
+	its <- 'bugzilla'
+}
+
+if (length(args) > 4) {
+   enddate <- args[5]
 } else {
    enddate <- "2100-01-01"
 }
@@ -31,8 +52,8 @@ endyear <- enddatesplit[[1]][1]
 endmonth <- enddatesplit[[1]][2]
 enddate <- paste (c("'", enddate, "'"), collapse='')
 
-if (length(args) > 4) {
-   startdate <- args[5]
+if (length(args) > 5) {
+   startdate <- args[6]
 } else {
    startdate <- "1900-01-01"
 }
@@ -57,6 +78,7 @@ library(RMySQL)
 #
 mychannel <- dbConnect(MySQL(), user=user, password=password, host="localhost", db=database)
 query <- function(...) dbGetQuery(mychannel, ...)
+dbGetQuery(mychannel, "SET NAMES 'utf8'")
 
 # To install RColorBrewer
 # $sudo R
@@ -66,250 +88,134 @@ library(RColorBrewer)
 
 source("swscopio.R")
 
+closed_condition <- "new_value='RESOLVED' OR new_value='CLOSED'"
+
+if (its == 'allura') closed_condition <- "new_value='CLOSED'"
+if (its == 'github') closed_condition <- "field='closed'"
+
 # Closed tickets: time ticket was open, first closed, time-to-first-close
-q <- "SELECT issue_id, issue,
-     	submitted_on as time_open,
+q <- paste("SELECT issue_id, issue,
+        submitted_on as time_open,
         time_closed,
-	time_closed_last,
-	TIMESTAMPDIFF (DAY, submitted_on, ch.time_closed) AS ttofix
+    time_closed_last,
+    TIMESTAMPDIFF (DAY, submitted_on, ch.time_closed) AS ttofix
       FROM issues, (
          SELECT
            issue_id,
            MIN(changed_on) AS time_closed,
            MAX(changed_on) as time_closed_last
          FROM changes
-         WHERE (new_value='RESOLVED' OR new_value='CLOSED')
+         WHERE ",closed_condition,"
          GROUP BY issue_id) ch
-      WHERE issues.id = ch.issue_id"
+      WHERE issues.id = ch.issue_id")
 res_issues_closed <- query(q)
 
-# Closed tickets per week (using first closing date)
-q <- "SELECT YEAR (time_closed) * 52 + WEEK (time_closed) AS yearweek,
-        DATE_FORMAT(time_closed, '%Y %V') AS year_week,
-	YEAR (time_closed) AS year,
-        WEEK (time_closed) AS week,
-        COUNT(*) as closed
-      FROM (
-         SELECT issue_id, MIN(changed_on) time_closed
-         FROM changes 
-         WHERE new_value='RESOLVED' OR new_value='CLOSED' 
-         GROUP BY issue_id) ch 
-      GROUP BY yearweek"
-res_issues_w_closed <- query(q)
 
-# Closed tickets per week (using last closing date)
-q <- "SELECT YEAR (time_closed) * 52 + WEEK (time_closed) AS yearweek,
-        DATE_FORMAT(time_closed, '%Y %V') AS year_week,
-	YEAR (time_closed) AS year,
-        WEEK (time_closed) AS week,
-        COUNT(*) as closed_last
-      FROM (
-         SELECT issue_id, MAX(changed_on) time_closed
-         FROM changes 
-         WHERE new_value='RESOLVED' OR new_value='CLOSED' 
-         GROUP BY issue_id) ch 
-      GROUP BY yearweek"
-res_issues_w_closed_last <- query(q)
-
-# New tickets per week
-q <- "SELECT YEAR (submitted_on) * 52 + WEEK (submitted_on) AS yearweek,
-        DATE_FORMAT(submitted_on, '%Y %V') AS year_week,
-	YEAR (submitted_on) AS year,
-        WEEK (submitted_on) AS week,
-        COUNT(*) AS open
-      FROM issues
-      GROUP BY yearweek"
-res_issues_w_open <- query(q)
-
-# Tickets open and closed (first close) per week
-issues_open_closed_week <- mergeWeekly (res_issues_w_open, res_issues_w_closed)
-plotTimeSerieWeekN (issues_open_closed_week, c("open", "closed"),
-                    "its-open-closed-week", c("Tickets open", "closed"))
-
-# Tickets open and closed (last close) per week
-issues_open_closed_last_week <- mergeWeekly (res_issues_w_open,
-			     		     res_issues_w_closed_last)
-plotTimeSerieWeekN (issues_open_closed_last_week, c("open", "closed_last"),
-                    "its-open-closed-last-week", c("Tickets open", "closed"))
-
-# Tickets closed (first and last close) per week
-issues_closed_week <- mergeWeekly (res_issues_w_closed,
-			     		     res_issues_w_closed_last)
-plotTimeSerieWeekN (issues_closed_week, c("closed", "closed_last"),
-                    "its-closed-week",
-		    c("Tickets closed first", "last"))
-
-# Note use display.brewer.pal(...) to check colors
-# example: display.brewer.pal(9, "Greens")
-
-blues = brewer.pal(5,'Blues')
-reds = brewer.pal(5,'Reds')
-greens = brewer.pal(5,'Greens')
-
-
-## TIME TO FIX
-
-threshold = 30
-all_closed <- res_issues_closed$ttofix
-quick_closed <- res_issues_closed$ttofix[res_issues_closed$ttofix <= threshold]
-slow_closed <- res_issues_closed$ttofix[res_issues_closed$ttofix > threshold]
-
-# Distribution of time to fix (first close)
-pdf('its-distrib_time_to_fix.pdf', height=3.5, width=5)
-hist(all_closed, prob= T, breaks='FD', col=blues[3],
-     xlab = 'Time to fix (days)', main = 'Time to fix bugs')
-lines(density(all_closed), col=reds[3], lwd = 2)
-dev.off()
-
-# Distribution of time to fix (last close)
-pdf('its-distrib_time_to_fix_last.pdf', height=3.5, width=5)
-hist(all_closed, prob= T, breaks='FD', col=blues[3],
-     xlab = 'Time to fix (days)', main = 'Time to fix bugs')
-lines(density(all_closed), col=reds[3], lwd = 2)
-dev.off()
-
-# Distribution of time to fix (first close), quickly fixed bugs
-pdf('its-distrib_time_to_fix_quick.pdf', height=3.5, width=5)
-hist(quick_closed, prob= T, breaks='FD', col=blues[3],
-     xlab = 'Time to fix (days)', main = 'Quickly fixed')
-lines(density(quick_closed), col=reds[3], lwd = 2)
-dev.off()
-
-# Distribution of time to fix (first close), slowly fixed bugs
-pdf('its-distrib_time_to_fix_slow.pdf', height=3.5, width=5)
-hist(slow_closed, prob= T, breaks='FD', col=blues[3],
-     xlab = 'Time to fix (days)', main = 'Slowly fixed')
-lines(density(slow_closed), col=reds[3], lwd = 2)
-dev.off()
-
-
-pdf('its-boxplot_time_to_fix.pdf', height=3.5, width=5)
-boxplot(res_issues_closed$ttofix, col = greens[2],
-        main = "Time to fix bugs", ylab = "days", xlab = "Time to fix bugs")
-
-# Mark top 3 outliers
-top3 = rev(sort(res_issues_closed$ttofix))[1:3]
-print(top3)
-
-text(rep(1,3), y = top3,
-     label = paste(top3, 'days'), pos = 4)
-dev.off()
-
-
-
+# Opened and openers
 q <- paste ("SELECT year(submitted_on) * 12 + month(submitted_on) AS id,
                year(submitted_on) AS year,
                month(submitted_on) AS month,
 	       DATE_FORMAT (submitted_on, '%b %Y') as date,
-               count(submitted_by) AS open,
+               count(submitted_by) AS opened,
                count(distinct(submitted_by)) AS openers
              FROM issues
 	     GROUP BY year,month
 	     ORDER BY year,month")
 open_monthly <- query(q)
 
-
-# Closed tickets using changes
+# Closed and closers
 q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
                year(changed_on) as year,
                month(changed_on) as month,
-	           DATE_FORMAT (changed_on, '%b %Y') as date,
+               DATE_FORMAT (changed_on, '%b %Y') as date,
                count(issue_id) AS closed,
                count(distinct(changed_by)) AS closers
              FROM changes
-             WHERE new_value='RESOLVED' OR new_value='CLOSED' 
+             WHERE ",closed_condition," 
              GROUP BY year,month
-  	     ORDER BY year,month")
+         ORDER BY year,month")
 closed_monthly <- query(q)
 
-# OLD CLOSED QUERY USING DELTA_TS. Not correct.
-# q <- paste ("SELECT year(delta_ts) * 12 + month(delta_ts) AS id,
-#                year(delta_ts) AS year,
-#                month(delta_ts) AS month,
-# 	       DATE_FORMAT (delta_ts, '%b %Y') as date,
-#                count(*) AS closed
-# 	     FROM issues_ext_bugzilla, issues
-#          WHERE issues.id = issues_ext_bugzilla.issue_id
-#          AND delta_ts is not NULL
-#          AND (status='RESOLVED' OR status='VERIFIED')
-#          GROUP BY year,month
-#   	     ORDER BY year,month")
-# closed_monthly <- query(q)
-
+# Changed and changers 
 q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
                year(changed_on) as year,
                month(changed_on) as month,
-	       DATE_FORMAT (changed_on, '%b %Y') as date,
+           DATE_FORMAT (changed_on, '%b %Y') as date,
                count(changed_by) AS changed,
                count(distinct(changed_by)) AS changers
              FROM changes
              GROUP BY year,month
-  	     ORDER BY year,month")
+         ORDER BY year,month")
 changed_monthly <- query(q)
 
-issues_monthly <- merge (open_monthly, closed_monthly)
-issues_monthly <- merge (issues_monthly, changed_monthly)
 
-createJSON (issues_monthly, "../data/json/its-timeserie.json")
+issues_monthly <- merge (open_monthly, closed_monthly, all = TRUE)
+issues_monthly <- merge (issues_monthly, changed_monthly, all = TRUE)
+issues_monthly[is.na(issues_monthly)] <- 0
 
+issues_monthly <- completeZeroMonthly(issues_monthly)
 
+createJSON (issues_monthly, "../data/json/its-evolutionary-info.json")
 
-# Retrieve information about closed issues
-res_issues_closed = dbGetQuery(con, "select DATEDIFF(delta_ts,submitted_on) as ttofix 
-                               FROM issues, issues_ext_bugzilla 
-                               WHERE issues.id = issues_ext_bugzilla.issue_id
-                               AND status='RESOLVED';")
+## Get some general stats from the database and url info
+##
+q <- paste ("SELECT count(*) as tickets,
+			 count(distinct(submitted_by)) as openers,
+			 DATE_FORMAT (min(submitted_on), '%Y-%m-%d') as first_date,
+			 DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
+			 FROM issues")
+data <- query(q)
+q <- paste ("SELECT count(distinct(changed_by)) as closers FROM changes WHERE ", closed_condition)
+data1 <- query(q)
+q <- paste ("SELECT count(distinct(changed_by)) as changers FROM changes")
+data2 <- query(q)
+q <- paste ("SELECT count(*) as opened FROM issues")
+data3 <- query(q)
+q <- paste ("SELECT count(distinct(issue_id)) as changed FROM changes")
+data4 <- query(q)
+q <- paste ("SELECT count(distinct(issue_id)) as closed FROM changes WHERE", closed_condition)
+data5 <- query(q)
+q <- paste ("SELECT url,name as type FROM trackers t JOIN supported_trackers s ON t.type = s.id")
+data6 <- query(q)
+agg_data = merge(data, data1)
+agg_data = merge(agg_data, data2)
+agg_data = merge(agg_data, data3)
+agg_data = merge(agg_data, data4)
+agg_data = merge(agg_data, data5)
+agg_data = merge(agg_data, data6)
+createJSON (agg_data, "../data/json/its-static-info.json")
 
-res_issues_w_closed=dbGetQuery(con, "SELECT DATE_FORMAT(delta_ts, '%Y%V') 
-                                AS yearweek, COUNT(*) as nissues 
-                                FROM issues, issues_ext_bugzilla 
-                                WHERE issues.id = issues_ext_bugzilla.issue_id 
-                                AND status='RESOLVED' 
-                                GROUP BY yearweek;")
+# Top
+top_closers <- function(days = 0) {
+	if (days == 0 ) {
+		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
+					FROM changes c JOIN people p ON c.changed_by = p.id 
+					WHERE ", closed_condition, " 
+					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")	
+	} else {
+        q <- paste("SELECT @maxdate:=max(changed_on) from changes limit 1;")
+        data <- query(q)
+		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
+					FROM changes c JOIN people p ON c.changed_by = p.id 
+					WHERE ", closed_condition, " 
+					AND c.id in (select id from changes where DATEDIFF(@maxdate,changed_on)<",days,") 
+					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")		
+	}
+	data <- query(q)
+	return (data)	
+}
+# Top closers
+top_closers_data <- list()
+top_closers_data[['closers.']]<-top_closers()
+top_closers_data[['closers.last year']]<-top_closers(365)
+top_closers_data[['closers.last month']]<-top_closers(31)
 
-res_issues_w_open = dbGetQuery(con, "SELECT DATE_FORMAT(submitted_on, '%Y%V') 
-                                    AS yearweek, COUNT(*) AS nissues 
-                                    FROM issues GROUP BY yearweek")
+createJSON (top_closers_data, "../data/json/its-top.json")
+
+# People List for working in unique identites
+q <- paste ("select id,name,email,user_id from people")
+people_list <- query(q)
+createJSON (people_list, "../data/json/its-people.json")
 
 # Disconnect from DB
 dbDisconnect(con)
-
-# Note use display.brewer.pal(...) to check colors
-# example: display.brewer.pal(9, "Greens")
-
-blues = brewer.pal(5,'Blues')
-reds = brewer.pal(5,'Reds')
-greens = brewer.pal(5,'Greens')
-
-
-## TIME TO FIX
-
-pdf('its-distrib_time_to_fix.pdf', height=3.5, width=5)
-hist(res_issues_closed$ttofix, prob= T, breaks='FD', col=blues[3],
-     xlab = 'Time to fix (days)', main = 'Time to fix bugs (kdevelop)')
-lines(density(res_issues_closed$ttofix), col=reds[3], lwd = 2)
-dev.off()
-
-pdf('its-boxplot_time_to_fix.pdf', height=3.5, width=5)
-boxplot(res_issues_closed$ttofix, col = greens[2],
-        main = "Time to fix bugs", ylab = "days", xlab = "Kdevelop")
-
-# Mark top 3 outliers
-top3 = rev(sort(res_issues_closed$ttofix))[1:3]
-print(top3)
-
-text(rep(1,3), y = top3,
-     label = paste(top3, 'days'), pos = 4)
-dev.off()
-
-
-## Evolution of open vs closed bugs
-
-pdf('its-evolution-open-closed.pdf', height=3.5, width=5)
-plot(res_issues_w_closed$nissues, type="l", xlab="Weeks", ylab="bugs", 
-     main="Open  and closed bugs", col=greens[3])
-# trick: some weeks of closed bugs are empty so we have less row in that var
-lines(res_issues_w_open$nissues, type="l", col=reds[3])
-legend(1, 600, c("Closed","Open"),  
-       col=c(greens[3],reds[3]), lty=1:1)
-dev.off()

@@ -108,7 +108,7 @@ analAggregated <- function () {
 	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
 	mls_monthly[is.na(mls_monthly)] <- 0
-	createJSON (mls_monthly, paste("../data/json/mls-milestone0.json"))	
+	createJSON (mls_monthly, paste("../data/json/mls-evolutionary.json"))	
 }
 
 analList <- function (listname) {
@@ -175,9 +175,9 @@ analList <- function (listname) {
 	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
     mls_monthly[is.na(mls_monthly)] <- 0
-	createJSON (mls_monthly, paste("../data/json/mls-",listname_file,"-milestone0.json",sep=''))
-	# createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-milestone0.json",sep=''))
-	createJSON (emails_monthly, paste("../data/json/mls-",listname_file,"-emails-milestone0.json",sep=''))
+	createJSON (mls_monthly, paste("../data/json/mls-",listname_file,"-evolutionary.json",sep=''))
+	# createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-evolutionary.json",sep=''))
+	createJSON (emails_monthly, paste("../data/json/mls-",listname_file,"-emails-evolutionary.json",sep=''))
 
     ## Get some general stats from the database
     ##
@@ -189,7 +189,7 @@ analList <- function (listname) {
 	         JOIN messages_people on (messages_people.message_id = messages.message_ID)
              WHERE ",field,"='",listname,"'",sep='')
     data <- query(q)
-    createJSON (data, paste("../data/json/mls-",listname_file,"-info-milestone0.json",sep=''))
+    createJSON (data, paste("../data/json/mls-",listname_file,"-static.json",sep=''))
 }
 
 top_senders <- function(days = 0) {
@@ -221,10 +221,10 @@ if (is.na(mailing_lists$mailing_list)) {
     mailing_lists_files <- query(q) 
     mailing_lists_files$mailing_list = gsub("/","_",mailing_lists$mailing_list)
     # print (mailing_lists)
-    createJSON (mailing_lists_files, "../data/json/mls-lists-milestone0.json")
+    createJSON (mailing_lists_files, "../data/json/mls-lists-evolutionary.json")
 } else {
     print (mailing_lists)
-    createJSON (mailing_lists, "../data/json/mls-lists-milestone0.json")
+    createJSON (mailing_lists, "../data/json/mls-lists-evolutionary.json")
 }
 
 # Aggregated data
@@ -240,7 +240,7 @@ repo_info <- query(q)
 agg_data = merge(num_msg,num_ppl)
 agg_data = merge(agg_data, repo_info)
 
-createJSON (agg_data, paste("../data/json/mls-info-milestone0.json",sep=''))
+createJSON (agg_data, paste("../data/json/mls-static.json",sep=''))
 
 for (mlist in mailing_lists$mailing_list) {
     analList(mlist)
@@ -253,7 +253,7 @@ top_senders_data[['senders.']]<-top_senders()
 top_senders_data[['senders.last year']]<-top_senders(365)
 top_senders_data[['senders.last month']]<-top_senders(31)
 
-createJSON (top_senders_data, "../data/json/mls-top-milestone0.json")
+createJSON (top_senders_data, "../data/json/mls-top.json")
 
 # People list
 q <- paste ("select email_address as id, email_address, name, username from people")
