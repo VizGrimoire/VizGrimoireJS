@@ -380,10 +380,10 @@ var Report = {};
         
         var querystr = window.location.search.substr(1);
         // Config in GET URL
-        if (querystr && querystr.indexOf("data_dir")>0) {
+        if (querystr && querystr.indexOf("data_dir")>=0) {
             getDataDirs(querystr);
             if (data_sources.length>0)
-            Report.setProjectsDirs(data_sources);
+                Report.setProjectsDirs(data_sources);
         }
     }
     

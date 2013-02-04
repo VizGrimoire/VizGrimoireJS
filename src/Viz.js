@@ -479,6 +479,8 @@ var Viz = {};
         dates = [full_data[0].id, full_data[0].date];
         
         for (var i=0; i<full_data.length; i++) {
+            // if empty data return
+            if (full_data[i] instanceof Array) return;
             dates = Viz.fillDates(dates, [full_data[i].id, full_data[i].date]);
         }
 

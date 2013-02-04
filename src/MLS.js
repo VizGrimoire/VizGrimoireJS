@@ -333,6 +333,8 @@ function MLS() {
         var lists = res1.mailing_list;
         var user_lists = [];
 
+        if (lists === undefined) return;
+
         if (localStorage) {
             if (localStorage.length
                     && localStorage.getItem(getMLSId())) {
