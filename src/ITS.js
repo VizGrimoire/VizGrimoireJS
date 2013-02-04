@@ -88,7 +88,7 @@ function ITS() {
         var div_id = "#" + divid;
         var str = this.global_data.url;
         if (!str || str.length === 0) {
-            $(div_id + ' .tickets_info').hide();
+            $(div_id + ' .its-info').hide();
             return;
         }
         $(div_id + ' #its_type').text(this.global_data.type);
@@ -101,10 +101,17 @@ function ITS() {
         }
         $(div_id + ' #its_url').attr("href", url);
         $(div_id + ' #its_name').text("Tickets " + this.global_data.type);
-        $(div_id + ' #itsFirst').text(this.global_data.first_date);
-        $(div_id + ' #itsLast').text(this.global_data.last_date);
-        $(div_id + ' #itsTickets').text(this.global_data.tickets);
-        $(div_id + ' #itsOpeners').text(this.global_data.openers);
+
+        var company = this.getCompanyQuery();
+        var data = this.getGlobalData();
+        if (company) {
+            data = this.getCompaniesGlobalData()[company];
+        }
+
+        $(div_id + ' #itsFirst').text(data.first_date);
+        $(div_id + ' #itsLast').text(data.last_date);
+        $(div_id + ' #itsTickets').text(data.tickets);
+        $(div_id + ' #itsOpeners').text(data.openers);
     };
 
     this.getTitle = function() {return "Tickets";};

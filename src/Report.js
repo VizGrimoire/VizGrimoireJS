@@ -37,6 +37,7 @@ var Report = {};
     var project_file = data_dir + "/project-info-milestone0.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
+    var check_companies = false;
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
@@ -160,8 +161,10 @@ var Report = {};
                 projects_data[data.project_name] = {dir:dir,url:data.project_url};
             }, data_dir);
         }
+        data_load_companies();
         data_load_metrics();
-        data_load_extra();
+        data_load_people();
+        data_load_tops('authors_rev');
     }
 
     function data_load_file(file, fn_data_set, self) {
@@ -171,6 +174,82 @@ var Report = {};
         }).fail(function() {
             fn_data_set([], self);
             end_data_load();
+        });
+    }
+
+    function data_load_companies() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getCompaniesDataFile(), DS.setCompaniesData, DS);
+        });
+    }
+
+    function data_load_tops(metric) {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            // TODO: Support for SCM only in Webkit
+            if (DS.getName() !== "scm") {
+                DS.setGlobalTopData([], DS);
+                return;
+            }
+            var file_static = DS.getDataDir() + "/"+ DS.getName()+"-top-"+metric;
+            var file_all = file_static + ".json";
+            var file_2006 = file_static + "_2006.json";
+            var file_2009 = file_static + "_2009.json";
+            var file_2012 = file_static + "_2012.json";
+            $.when($.getJSON(file_all),
+                    $.getJSON(file_2006),
+                    $.getJSON(file_2009),
+                    $.getJSON(file_2012)
+                ).done(function(history, hist2006, hist2009, hist2012) {
+                    DS.addGlobalTopData(history[0], DS, metric, "all");
+                    DS.addGlobalTopData(hist2006[0], DS, metric, "2006");
+                    DS.addGlobalTopData(hist2009[0], DS, metric, "2009");
+                    DS.addGlobalTopData(hist2012[0], DS, metric, "2012");
+                    end_data_load();
+            }).fail(function() {
+                DS.setGlobalTopData([], DS);
+                end_data_load();
+            });
+        });
+    }
+
+    function data_load_companies_metrics() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            var companies = DS.getCompaniesData();
+            $.each(companies, function(i, company) {
+                var file = DS.getDataDir()+"/"+company+"-";
+                file_evo = file + DS.getName()+"-evolutionary-info.json";
+                $.when($.getJSON(file_evo)).done(function(history) {
+                    DS.addCompanyMetricsData(company, history, DS);
+                    end_data_load();
+                });
+                file_static = file + DS.getName()+"-static-info.json";
+                $.when($.getJSON(file_static)).done(function(history) {
+                    DS.addCompanyGlobalData(company, history, DS);
+                    end_data_load();
+                });
+                file_static = file + DS.getName()+"-top-authors_rev";
+                var file_all = file_static + ".json";
+                var file_2006 = file_static + "_2006.json";
+                var file_2009 = file_static + "_2009.json";
+                var file_2012 = file_static + "_2012.json";
+                $.when($.getJSON(file_all),
+                        $.getJSON(file_2006),
+                        $.getJSON(file_2009),
+                        $.getJSON(file_2012)
+                    ).done(function(history, hist2006, hist2009, hist2012) {
+                        DS.addCompanyTopData(company, history[0], DS, "all");
+                        DS.addCompanyTopData(company, hist2006[0], DS, "2006");
+                        DS.addCompanyTopData(company, hist2009[0], DS, "2009");
+                        DS.addCompanyTopData(company, hist2012[0], DS, "2012");
+                        end_data_load();
+                }).fail(function() {
+                    DS.setCompanyTopData([], self);
+                    end_data_load();
+                });
+            });
         });
     }
 
@@ -190,7 +269,7 @@ var Report = {};
         });
     }
     
-    function data_load_extra() {
+    function data_load_people() {
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getPeopleDataFile(), DS.setPeopleData, DS);
         });
@@ -210,6 +289,30 @@ var Report = {};
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getPeopleData() === null) {check = false; return false;}
+            if (DS.getCompaniesData() === null) {check = false; return false;}
+            if (DS.getGlobalTopData() === null) {check = false; return false;}
+            else {
+                if (DS.getCompaniesData().length>0 && !check_companies) {
+                    check_companies = true;
+                    data_load_companies_metrics();
+                    check = false; return false;
+                }
+            }
+            if (check_companies && DS.getCompaniesData().length>0) {
+                var companies_loaded = 0;
+                for (var key in DS.getCompaniesMetricsData()) {companies_loaded++;}
+                if (companies_loaded !== DS.getCompaniesData().length)
+                    {check = false; return false;}
+                companies_loaded = 0;
+                for (var key in DS.getCompaniesGlobalData()) {companies_loaded++;}
+                if (companies_loaded !== DS.getCompaniesData().length)
+                    {check = false; return false;}
+                if (DS.getCompaniesTopData() === null) {check = false; return false;}
+                companies_loaded = 0;
+                for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
+                if (companies_loaded !== DS.getCompaniesData().length)
+                    {check = false; return false;}
+            }
             // TODO: Demographics just for SCM yet!
             if (DS instanceof SCM) {
                 if (DS.getDemographicsData() === null) {check = false; return false;} 
@@ -277,8 +380,9 @@ var Report = {};
         
         var querystr = window.location.search.substr(1);
         // Config in GET URL
-        if (querystr) {           
+        if (querystr && querystr.indexOf("data_dir")>0) {
             getDataDirs(querystr);
+            if (data_sources.length>0)
             Report.setProjectsDirs(data_sources);
         }
     }
@@ -310,7 +414,8 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"navigation.html", function(navigation) {
                     $("#navigation").html(navigation);
-                    if (window.location.search.substr(1)) { 
+                    var querystr = window.location.search.substr(1);
+                    if (querystr && querystr.indexOf("data_dir")!==-1) {
                         var $links = $("#navigation a");
                         $.each($links, function(index, value){
                             value.href += "?"+window.location.search.substr(1);
@@ -324,7 +429,8 @@ var Report = {};
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                     displayReportData();
-                    if (window.location.search.substr(1)) {
+                    var querystr = window.location.search.substr(1);
+                    if (querystr && querystr.indexOf("data_dir")!==-1) {
                         var $links = $("#header a");
                         $.each($links, function(index, value){
                             value.href += "?"+window.location.search.substr(1);
@@ -352,13 +458,15 @@ var Report = {};
                     $("#refcard").html(refcard);
                     displayReportData();
                     $.each(getProjectsData(), function(prj_name, prj_data) {
-                        var prj_name_clean = prj_name.replace(".","").replace(/\//g,"_");
-                        var new_div = "card_"+prj_name_clean.replace(" ","");
+                        var new_div = "card-"+prj_name.replace(".","").replace(" ","");
                         $("#refcard #projects_info").append(projcard);
                         $("#refcard #projects_info #new_card")
                             .attr("id", new_div);
                         $.each(data_sources, function(i, DS) {
-                            if (DS.getProject() !== prj_name) return;
+                            if (DS.getProject() !== prj_name) {
+                                $("#" + new_div + ' .'+DS.getName()+'-info').hide();
+                                return;
+                            }
                             DS.displayData(new_div);
                         });
                         $("#"+new_div+" #project_name").text(prj_name);
@@ -403,6 +511,32 @@ var Report = {};
             }
         }
     };
+
+    // TODO: Move more company div's here from flotr2?
+    function convertCompanies() {
+        $.each(Report.getDataSources(), function(index, DS) {
+            var divid = DS.getName()+"-companies-summary";
+            if ($("#"+divid).length > 0) {
+                DS.displayCompaniesSummary(divid, this);
+            }
+        });
+
+        var company = null;
+        var querystr = window.location.search.substr(1);
+        if (querystr  &&
+                querystr.split("&")[0].split("=")[0] === "company")
+            company = querystr.split("&")[0].split("=")[1];
+
+        if (company === null) return;
+
+        $.each(Report.getDataSources(), function(index, DS) {
+            if (DS.getName() !== "scm") return;
+            var divid = DS.getName()+"-refcard-company";
+            if ($("#"+divid).length > 0) {
+                DS.displayCompanySummary(divid, company, this);
+            }
+        });
+    }
     
     function convertFlotr2(config) {        
         // General config for metrics viz
@@ -422,7 +556,6 @@ var Report = {};
         var metric_already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getData().length === 0) return;
-            
             $.each(DS.getMetrics(), function(i, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
                 if ($("#"+div_flotr2).length > 0 &&
@@ -453,9 +586,102 @@ var Report = {};
                             (DS.getName() + "-flotr2"+"-lists", config_metric);
                 }
             }
-        });        
+
+            // Multiparam
+            var div_param = DS.getName()+"-flotr2-metrics";
+            var divs = $("."+div_param);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    config.show_legend = false;
+                    if ($(this).data('legend'))
+                        config_metric.show_legend = true;
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";
+                    DS.displayBasicMetrics(metrics.split(","),div.id,
+                            config_metric);
+                });
+            }
+
+            // Companies
+            var div_companies = DS.getName()+"-flotr2-companies";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var limit = $(this).data('limit');
+                    var order_by = $(this).data('order-by');
+                    var stacked = false;
+                    if ($(this).data('stacked')) stacked = true;
+                    config_metric.lines = {stacked : stacked};
+                    div.id = metric+"-flotr2-companies";
+                    DS.displayBasicMetricCompanies(metric,div.id,
+                            config_metric, limit, order_by);
+                });
+            }
+            var div_companies = DS.getName()+"-flotr2-companies-static";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var order_by = $(this).data('order-by');
+                    var limit = $(this).data('limit');
+                    var show_others = $(this).data('show-others');
+                    config_metric.graph = $(this).data('graph');
+                    div.id = metric+"-flotr2-companies-static";
+                    DS.displayBasicMetricCompaniesStatic(metric,div.id,
+                            config_metric, limit, order_by, show_others);
+                });
+            }
+            var company = null;
+            var querystr = window.location.search.substr(1);
+            if (querystr  &&
+                    querystr.split("&")[0].split("=")[0] === "company")
+                company = querystr.split("&")[0].split("=")[1];
+            var div_company = DS.getName()+"-flotr2-metrics-company";
+            var divs = $("."+div_company);
+            if (divs.length > 0 && company) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    config.show_legend = false;
+                    if ($(this).data('legend')) config_metric.show_legend = true;
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company";
+                    DS.displayBasicMetricsCompany(company, metrics.split(","),
+                            div.id, config_metric);
+                });
+            }
+
+            var div_nav = DS.getName()+"-flotr2-companies-nav";
+            if ($("#"+div_nav).length > 0) {
+                var metric = $("#"+div_nav).data('sort-metric');
+                DS.displayCompaniesNav(div_nav, metric);
+            }
+            var divs_comp_list = DS.getName()+"-flotr2-companies-list";
+            var divs = $("."+divs_comp_list);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    var sort_metric = $(this).data('sort-metric');
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-companies-list";
+                    DS.displayCompaniesList(metrics.split(","),div.id,
+                            config_metric, sort_metric);
+                });
+            }
+
+            var div_companies = DS.getName()+"-flotr2-top-company";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var period = $(this).data('period');
+                    var titles = $(this).data('titles');
+                    div.id = metric+"-"+period+"-flotr2-top-company";
+                    div.className = "";
+                    DS.displayTopCompany(company,div.id,metric,period,titles);
+                });
+            }
+        });
     }
-    
+
     function convertEnvision() {
         if ($("#all-envision").length > 0) {
             var relative = $('#all-envision').data('relative');
@@ -513,6 +739,18 @@ var Report = {};
                     DS.displayTop(DS.getName()+'-top-'+ chart, show_all, chart);
                 }
             });
+            
+            var div_tops = DS.getName()+"-global-top-metric";
+            var divs = $("."+div_tops);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var period = $(this).data('period');
+                    div.id = metric.replace("_","-")+"-"+period+"-global-metric";
+                    div.className = "";
+                    DS.displayTopGlobal(div.id, metric, period);
+                });
+            }
         });
     }
     
@@ -591,20 +829,22 @@ var Report = {};
 
     function report() {
         configDataSources();
-        convertBasicDivs();        
-        convertFlotr2(config);        
-        convertTop();        
-        convertEnvision();        
+        convertBasicDivs();
         convertBubbles();        
-        convertDemographics();        
-        convertSelectors();
+        convertCompanies();
+        convertDemographics();
+        convertEnvision();
+        convertFlotr2(config);
         // TODO: Create a new class for Identity?
         convertIdentity();
+        convertSelectors();
+        convertTop();
     }
 })();
 
 Report.data_ready(function() {
     Report.report();
+    $("body").css("cursor", "auto");
 });
 
 $(document).ready(function() {
@@ -613,5 +853,6 @@ $(document).ready(function() {
     }).always(function (data) {
         Report.createDataSources();
         Report.data_load();
+        $("body").css("cursor", "progress");
     });
 });

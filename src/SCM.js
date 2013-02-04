@@ -54,6 +54,36 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
+        'authors_rev' : {
+            'divid' : "scm-authors-rev",
+            'column' : "authors_rev",
+            'name' : "Authors",
+            'desc' : "Unique authors making changes reviewed to the source code",
+            'action' : "commits_rev",
+            'envision' : {
+                gtype : 'whiskers'
+            }
+        },
+        'commits_rev' : {
+            'divid' : "scm-commits-rev",
+            'column' : "commits_rev",
+            'name' : "Commits Reviewed",
+            'desc' : "Evolution of the number of commits reviewed (aggregating branches)",
+            'envision' : {
+                y_labels : true,
+                show_markers : true
+            }
+        },
+        'reviewers' : {
+            'divid' : "scm-reviewers",
+            'column' : "reviewers",
+            'name' : "Reviewers",
+            'desc' : "Unique reviewers making reviews to the source code changes",
+            'action' : "commits-rev",
+            'envision' : {
+                gtype : 'whiskers'
+            }
+        },
         'branches' : {
             'divid' : "scm-branches",
             'column' : "branches",
@@ -90,7 +120,7 @@ function SCM() {
 
         var str = this.global_data.url;
         if (!str || str.length === 0) {
-            $(div_id + ' .source_info').hide();
+            $(div_id + ' .scm-info').hide();
             return;
         }
         $(div_id + ' #scm_type').text(this.global_data.type);
@@ -98,12 +128,19 @@ function SCM() {
         if (this.global_data.type === "git")
             url = url.replace("git://","http://");
         $(div_id + ' #scm_url').attr("href", url);
-        $(div_id + ' #scm_name').text("SCM " + this.global_data.type);        
-        $(div_id + ' #scmFirst').text(this.global_data.first_date);
-        $(div_id + ' #scmLast').text(this.global_data.last_date);
-        $(div_id + ' #scmCommits').text(this.global_data.commits);
-        $(div_id + ' #scmAuthors').text(this.global_data.authors);
-        $(div_id + ' #scmCommitters').text(this.global_data.committers);
+        $(div_id + ' #scm_name').text(this.global_data.type);
+
+        var company = this.getCompanyQuery();
+        var data = this.getGlobalData();
+        if (company) {
+            data = this.getCompaniesGlobalData()[company];
+        }
+        $(div_id + ' #scmFirst').text(data.first_date);
+        $(div_id + ' #scmLast').text(data.last_date);
+        $(div_id + ' #scmCommits').text(data.commits);
+        $(div_id + ' #scmAuthors').text(data.authors);
+        $(div_id + ' #scmReviewers').text(data.reviewers);
+        $(div_id + ' #scmCommitters').text(data.committers);
     };
 
     this.displayBubbles = function(divid) {

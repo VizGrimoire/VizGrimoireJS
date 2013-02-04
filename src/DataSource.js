@@ -25,7 +25,7 @@
 
 function DataSource(name, basic_metrics) {
     
-    this.top_data_file = this.data_dir + '/'+this.name+'-top-milestone0.json';
+    this.top_data_file = this.data_dir + '/'+this.name+'-top.json';
     this.getTopDataFile = function() {
         return this.top_data_file;
     };
@@ -35,7 +35,7 @@ function DataSource(name, basic_metrics) {
         return this.basic_metrics;
     };
     
-    this.data_file = this.data_dir + '/'+this.name+'-milestone0.json';
+    this.data_file = this.data_dir + '/'+this.name+'-evolutionary.json';
     this.getDataFile = function() {
         return this.data_file;
     };
@@ -73,14 +73,14 @@ function DataSource(name, basic_metrics) {
     };
     this.setDataDir = function(dataDir) {
         this.data_dir = dataDir;
-        this.data_file = dataDir + '/'+this.name+'-milestone0.json';
+        this.data_file = dataDir + '/'+this.name+'-evolutionary.json';
         this.demographics_file = dataDir + '/'+this.name+'-demographics-2012.json';
-        this.global_data_file = dataDir + '/'+this.name+'-info-milestone0.json';
-        this.top_data_file = dataDir + '/'+this.name+'-top-milestone0.json';
+        this.global_data_file = dataDir + '/'+this.name+'-static.json';
+        this.top_data_file = dataDir + '/'+this.name+'-top.json';
     };
     
 
-    this.global_data_file = this.data_dir + '/'+this.name+'-info-milestone0.json';
+    this.global_data_file = this.data_dir + '/'+this.name+'-static.json';
     this.getGlobalDataFile = function() {
         return this.global_data_file;
     };
@@ -94,6 +94,24 @@ function DataSource(name, basic_metrics) {
         self.global_data = data;
     };
     
+    this.global_top_data = null;
+    this.getGlobalTopData = function() {
+        return this.global_top_data;
+    };
+    this.setGlobalTopData = function(data, self) {
+        if (self === undefined) self = this;
+        self.global_top_data = data;
+    };
+    this.addGlobalTopData = function(data, self, metric, period) {
+        if (period === undefined) period = "all";
+        if (self === undefined) self = this;
+        if (self.global_top_data === null)
+            self.global_top_data = {};
+        if (self.global_top_data[metric] === undefined)
+            self.global_top_data[metric] = {};
+        self.global_top_data[metric][period] = data;
+    };
+
     this.name = name;    
     this.getName = function() {
         return this.name;
@@ -121,6 +139,65 @@ function DataSource(name, basic_metrics) {
         this.project = project;
     };
     
+    this.companies_data_file = this.data_dir+'/'+ this.name +'-companies.json';
+    this.getCompaniesDataFile = function() {
+        return this.companies_data_file;
+    };
+
+    this.companies = null;
+    this.getCompaniesData = function() {
+        return this.companies;
+    };
+    this.setCompaniesData = function(companies, self) {
+        if (self === undefined) self = this;
+        self.companies = companies;
+    };
+
+    this.companies_metrics_data = {};
+    this.addCompanyMetricsData = function(company, data, self) {
+        if (self === undefined) self = this;
+        self.companies_metrics_data[company] = data;
+    };
+    this.getCompaniesMetricsData = function() {
+        return this.companies_metrics_data;
+    };
+
+    this.companies_global_data = {};
+    this.addCompanyGlobalData = function(company, data, self) {
+        if (self === undefined) self = this;
+        self.companies_global_data[company] = data;
+    };
+    this.getCompaniesGlobalData = function() {
+        return this.companies_global_data;
+    };
+
+    this.companies_top_data = {};
+    this.addCompanyTopData = function(company, data, self, period) {
+        if (period === undefined) period = "all";
+        if (self === undefined) self = this;
+        if (self.companies_top_data[company] === undefined)
+            self.companies_top_data[company] = {};
+        self.companies_top_data[company][period] = data;
+    };
+    this.getCompaniesTopData = function() {
+        return this.companies_top_data;
+    };
+    this.setCompaniesTopData = function(data, self) {
+        if (self === undefined) self = this;
+        self.companies_top_data = data;
+    };
+
+    // TODO: Move this login to Report
+    this.getCompanyQuery = function () {
+        var company = null;
+        var querystr = window.location.search.substr(1);
+        if (querystr  &&
+                querystr.split("&")[0].split("=")[0] === "company")
+            company = querystr.split("&")[0].split("=")[1];
+        return company;
+    };
+
+    // TODO: data and projects should be in the same dictionary
     this.displayBasicHTML = function(div_target, config, title) {
         var full_data = [];
         var projects = [];
@@ -136,7 +213,64 @@ function DataSource(name, basic_metrics) {
         Viz.displayBasicHTML(full_data, div_target, this.getTitle(), 
                 this.basic_metrics, this.name+'_hide', config, projects);
     };
+
+    this.displayBasicMetricCompanies = function(metric_id,
+            div_target, config, limit, order_by) {
+        if (order_by === undefined) order_by = metric_id;
+        var companies_data = this.getCompaniesMetricsData();
+        if (limit) {
+            var sorted_companies = this.sortCompanies(order_by);
+            var companies_data_limit = {};
+            for (var i=0; i<limit; i++) {
+                var company = sorted_companies[i];
+                companies_data_limit[company] = companies_data[company];
+            }
+            companies_data = companies_data_limit;
+        }
+        Viz.displayBasicMetricCompaniesHTML(metric_id, companies_data,
+                div_target, config, limit);
+    };
+
+    this.displayBasicMetricCompaniesStatic = function (metric_id,
+            div_target, config, limit, order_by, show_others) {
+        if (order_by === undefined) order_by = metric_id;
+        var companies_data = this.getCompaniesGlobalData();
+        if (limit) {
+            var sorted_companies = this.sortCompanies(order_by);
+            var companies_data_limit = {};
+            for (var i=0; i<limit; i++) {
+                var company = sorted_companies[i];
+                companies_data_limit[company] = companies_data[company];
+            }
+
+            // Add a final companies_data for the sum of other values
+            if (show_others) {
+                var others = 0;
+                for (var i=limit; i<sorted_companies.length; i++) {
+                    var company = sorted_companies[i];
+                    others += companies_data[company][metric_id];
+                }
+                companies_data_limit.others = {};
+                companies_data_limit.others[metric_id] = others;
+            }
+            companies_data = companies_data_limit;
+        }
         
+        Viz.displayBasicMetricCompaniesStatic(metric_id, companies_data,
+            div_target, config, limit);
+    };
+
+    this.displayBasicMetricsCompany = function (
+            company, metrics, div_id, config) {
+        Viz.displayBasicMetricsCompany(company, metrics,
+                this.getCompaniesMetricsData()[company], div_id, config);
+    };
+
+    this.displayBasicMetrics = function(metric_ids, div_target, config) {
+        Viz.displayBasicMetricsHTML(metric_ids, this.getData(),
+                div_target, config);
+    };
+
     this.displayBasicMetricHTML = function(metric_id, div_target, config) {
         var projects = [];
         var full_data = [];
@@ -157,10 +291,111 @@ function DataSource(name, basic_metrics) {
         this.basicEvo(this.getData());
     };
 
+    this.sortCompanies = function(metric_id) {
+        if (metric_id === undefined) metric_id = "commits";
+        var metric = [];
+        var sorted_companies = [];
+        var companies = this.getCompaniesGlobalData();
+        if (companies[this.getCompaniesData()[0]][metric_id] === undefined)
+            metric_id = "commits";
+        $.each(companies, function(company, data) {
+           metric.push(data[metric_id]);
+        });
+        metric.sort(function(a, b) {return b - a;});
+        $.each(metric, function(id, value) {
+            $.each(companies, function(company, data) {
+                if (data[metric_id] === value) {
+                    sorted_companies.push(company);
+                    return false;
+                }
+             });
+        });
+        return sorted_companies;
+    };
+
+    // TODO: We need the sort metric
+    this.displayCompaniesNav = function (div_nav, sort_metric) {
+        var nav = "<span id='nav'></span>";
+        var sorted_companies = this.sortCompanies(sort_metric);
+        $.each(sorted_companies, function(id, company) {
+            nav += "<a href='#"+company+"-nav'>"+company + "</a> ";
+        });
+        $("#"+div_nav).append(nav);
+    };
+
+    this.displayCompaniesList = function (metrics,div_id, config_metric, sort_metric) {
+        var list = "";
+        var companies_data = this.getCompaniesMetricsData();
+        var sorted_companies = this.sortCompanies(sort_metric);
+
+        // Preserve order when float right
+        metrics.reverse();
+
+        $.each(sorted_companies, function(id, company) {
+            list += "<div id='"+company+"-nav' style='height:120px;'>";
+            list += "<div style='float:left;'>";
+            list += "<a href='company.html?company="+company+"'>";
+            list += "<strong>"+company+"</strong> +info</a>";
+            list += "<br><a href='#nav'>^</a>";
+            list += "</div>";
+            $.each(metrics, function(id, metric) {
+                list += "<div id='"+company+"-"+metric+"'";
+                list +=" style='float:right;height:100px;width:40%'></div>";
+            });
+            list += "</div>";
+        });
+        $("#"+div_id).append(list);
+        // Draw the graphs
+        $.each(sorted_companies, function(id, company) {
+            var data = companies_data[company];
+            $.each(metrics, function(id, metric) {
+                var div_id = company+"-"+metric;
+                var companies = {};
+                companies[company] = data;
+                var title = metric;
+                Viz.displayMetricCompaniesLines(div_id, metric, companies, title);
+            });
+        });
+    };
+
+    this.displayCompanySummary = function(divid, company, ds) {
+        var html = "<h1>"+company+"</h1>";
+        var id_label = {
+                commits_rev:'Total commits',
+                authors_rev:'Total authors',
+                first_date:'Initial activity',
+                last_date:'Last activity',
+                files_rev:'Total files',
+                actions_rev:'Total files actions',
+                avg_commits_month_rev:'Commits per month',
+                avg_files_month_rev:'Files per month',
+                avg_commits_author_rev:'Commits per author',
+                avg_authors_month_rev:'Authors per month',
+                avg_reviewers_month:'Reviewers per moth',
+                avg_files_author_rev:'Files per author'
+        };
+        $.each(ds.getCompaniesGlobalData()[company],function(id,value) {
+            html += id_label[id] + ": " + value + "<br>";
+        });
+        $("#"+divid).append(html);
+    };
+
+    this.displayCompaniesSummary = function(divid, ds) {
+        var html = "";
+        var data = ds.getGlobalData();
+
+        html += "Total companies: " + data.companies +"<br>";
+        html += "Companies in 2006: " + data.companies_2006+"<br>";
+        html += "Companies in 2009: " + data.companies_2009+"<br>";
+        html += "Companies in 2012: " + data.companies_2012+"<br>";
+
+        $("#"+divid).append(html);
+    };
+
     this.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, this, file);
     };
-        
+
     this.displayTimeToFix = function(div_id, json_file, column, labels, title) {
         Viz.displayTimeToFix(div_id, json_file, column, labels, title);
     };
@@ -169,6 +404,14 @@ function DataSource(name, basic_metrics) {
         if (all === undefined)
             all = true;
         Viz.displayTop(div, this, all, graph);
+    };
+
+    this.displayTopCompany = function(company, div, metric, period, titles) {
+        Viz.displayTopCompany(company, div, this, metric, period, titles);
+    };
+
+    this.displayTopGlobal = function(div, metric, period) {
+        Viz.displayTopGlobal(div, this, metric, period);
     };
 
     this.basicEvo = function(history) {

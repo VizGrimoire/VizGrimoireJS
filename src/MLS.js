@@ -41,18 +41,18 @@ function MLS() {
         }
     };
         
-    this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
+    this.data_lists_file = this.data_dir + '/mls-lists.json';
     this.getListsFile = function() {return this.data_lists_file;};
     this.data_lists = null;
     this.getListsData = function() {return this.data_lists;};
     this.setListsData = function(lists, self) {
         if (self === undefined) self = this;
         self.data_lists = lists;
-    }; 
-    
+    };
+
     this.setDataDir = function(dataDir) {
         this.data_dir = dataDir;
-        this.data_lists_file = this.data_dir + '/mls-lists-milestone0.json';
+        this.data_lists_file = this.data_dir + '/mls-lists.json';
         MLS.prototype.setDataDir.call(this, dataDir);
     };
 
@@ -60,7 +60,7 @@ function MLS() {
         return "sent";
     };
     this.getMetrics = function() {return basic_metrics;};
-    
+
     this.displayData = function(divid) {
         var div_id = "#" + divid;
 
@@ -79,13 +79,19 @@ function MLS() {
             $(div_id + ' #mls_url').attr("href", Report.getProjectData().mls_url);
             $(div_id + ' #mls_name').text(Report.getProjectData().mls_name);            
         }
-        $(div_id + ' #mlsFirst').text(this.global_data.first_date);
-        $(div_id + ' #mlsLast').text(this.global_data.last_date);
-        $(div_id + ' #mlsMessages').text(this.global_data.sent);
-        $(div_id + ' #mlsSenders').text(this.global_data.senders);
+
+        var company = this.getCompanyQuery();
+        var data = this.getGlobalData();
+        if (company) {
+            data = this.getCompaniesGlobalData()[company];
+        }
+
+        $(div_id + ' #mlsFirst').text(data.first_date);
+        $(div_id + ' #mlsLast').text(data.last_date);
+        $(div_id + ' #mlsMessages').text(data.sent);
+        $(div_id + ' #mlsSenders').text(data.senders);
     };
-    
-    
+
     this.displayBubbles = function(divid) {
         Viz.displayBubbles(divid, "sent", "senders");
     };
@@ -141,7 +147,7 @@ function MLS() {
             var l = lists[i];
             file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
-            file_messages += "-milestone0.json";
+            file_messages += "-evolutionary.json";
             displayBasicList(div_id, l, file_messages);
         }
     };
@@ -170,7 +176,7 @@ function MLS() {
                     continue;
             file_messages = this.getDataDir()+ "/mls-";
             file_messages += l;
-            file_messages += "-milestone0.json";
+            file_messages += "-evolutionary.json";
             displayBasicList(div_id, l, file_messages, config_metric);
         }
 
@@ -417,7 +423,7 @@ function MLS() {
 
             file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
-            file_messages += "-milestone0.json";
+            file_messages += "-evolutionary.json";
             this.displayEvoList(displayMLSListName(l), id, file_messages);
         }
     };

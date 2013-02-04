@@ -217,6 +217,7 @@
 
         $.each(metrics, function(metric, value) {
             if ($.inArray(metric, data.envision_hide) !== -1) return;
+            if (data[metric] === undefined) return;
             defaults[metric].data = data[metric];
             // The legend is different if the metric is not in all projects
             if (defaults[metric].data.length < 
@@ -242,6 +243,7 @@
         // ENVISION COMPONENTS
         var components = {};
         $.each(metrics, function(metric, value) {
+            if (data[metric] === undefined) return;
             if ($.inArray(metric, data.envision_hide) === -1) {
                 components[metric] = new V.Component(defaults[metric]);
             }

@@ -162,7 +162,7 @@ describe( "VizGrimoireJS library", function () {
                     Report.getBasicDivs()["gridster"].convert(); 
                     var grids = document.getElementsByClassName
                         ('gs_w').length;
-                    expect(grids).toEqual(15);
+                    expect(grids).toEqual(18);
                 });        
             });
             it("html treemap should be displayed", function () {               

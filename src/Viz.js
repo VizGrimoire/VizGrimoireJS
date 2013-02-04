@@ -29,13 +29,20 @@ var Viz = {};
     var bitergiaColor = "#ffa500";
 
     Viz.displayTop = displayTop;
+    Viz.displayTopCompany = displayTopCompany;
+    Viz.displayTopGlobal = displayTopGlobal;
     Viz.displayBasicHTML = displayBasicHTML;
     Viz.displayBasicMetricHTML = displayBasicMetricHTML;
+    Viz.displayBasicMetricCompaniesHTML = displayBasicMetricCompaniesHTML;
+    Viz.displayBasicMetricCompaniesStatic = displayBasicMetricCompaniesStatic;
+    Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
+    Viz.displayBasicMetricsHTML = displayBasicMetricsHTML;
     Viz.displayBasicLinesFile = displayBasicLinesFile;
     Viz.displayBasicLines = displayBasicLines;
     Viz.displayBubbles = displayBubbles;
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
+    Viz.displayMetricCompaniesLines = displayMetricCompaniesLines;
     Viz.displayRadarActivity = displayRadarActivity;
     Viz.displayRadarCommunity = displayRadarCommunity;
     Viz.displayTreeMap = displayTreeMap;
@@ -96,24 +103,11 @@ var Viz = {};
         });
     }
 
-    function displayTopMetric(div_id, project, metric, metric_period, history, graph) {
-        var top_metric_id = metric.column;
-        var metric_id = metric.action;
+    function displayTopMetricTable(history, metric_id) {
+        var table = "<table><tbody>";
         var doer = findMetricDoer(history, metric_id);
-        var div_graph = '';
-        var new_div = '';
-        new_div += "<div class='info-pill'>";
-        new_div += "<h1>";
-        if (project) new_div += project +" ";
-        new_div += "Top " + top_metric_id + " " + metric_period + " </h1>";
-        if (graph) {
-            div_graph = "top-" + graph + "-" + metric_id + "-" + metric_period;
-            new_div += "<div id='" + div_graph
-                    + "' class='graph' style='float:right'></div>";
-        }
-        new_div += "<table><tbody>";
         // new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
-        new_div += "<tr><th></th><th>" + metric_id + "</th></tr>";
+        table += "<tr><th></th><th>" + metric_id + "</th></tr>";
         if (history[metric_id] === undefined) return;
         if (!(history[metric_id] instanceof Array)) {
             history[metric_id] = [history[metric_id]];
@@ -122,10 +116,42 @@ var Viz = {};
         for ( var i = 0; i < history[metric_id].length; i++) {
             var metric_value = history[metric_id][i];
             var doer_value = history[doer][i];
-            new_div += "<tr><td>" + hideEmail(doer_value) + "</td><td>"
+            table += "<tr><td>" + hideEmail(doer_value) + "</td><td>"
                     + metric_value + "</td></tr>";
         }
-        new_div += "</tbody></table>";
+        table += "</tbody></table>";
+
+        return table;
+    }
+
+    function displayTopMetric
+        (div_id, project, metric, metric_period, history, graph, titles) {
+
+        var metric_id = metric.action;
+        var table = displayTopMetricTable(history, metric_id);
+        var doer = findMetricDoer(history, metric_id);
+
+        if (table === undefined) return;
+        if (titles === false) {
+            var div = $("#" + div_id);
+            div.append(table);
+            return;
+        }
+
+        var top_metric_id = metric.column;
+        var div_graph = '';
+        var new_div = '';
+        new_div += "<div class='info-pill'>";
+        new_div += "<h1>";
+        // if (project) new_div += project +" ";
+        new_div += "Top " + top_metric_id + " " + metric_period + " </h1>";
+        if (graph) {
+            div_graph = "top-" + graph + "-" + metric_id + "-" + metric_period;
+            new_div += "<div id='" + div_graph
+                    + "' class='graph' style='float:right'></div>";
+        }
+
+        new_div += table;
         new_div += "</div>";
 
         var div = $("#" + div_id);
@@ -141,6 +167,7 @@ var Viz = {};
         });
     }
 
+    // Lines from different Data Sources
     function displayBasicLines(div_id, history, column, labels, title, projects) {
         var lines_data = [];
         var data = [];
@@ -159,9 +186,11 @@ var Viz = {};
 
         for ( var j = 0; j < data.length; j++) {
             lines_data[j] = [];
+            if (data[j][column] === undefined) continue;
             for ( var i = 0; i < data[j][column].length; i++) {
                 lines_data[j][i] = [ data[j].id[i], parseInt(data[j][column][i], 10) ];
             }
+            // TODO: projects should be included in data not in a different array
             if (projects)
                 lines_data[j] = {label:projects[j], 
                     data:fillHistoryLines(full_history_id, lines_data[j])};
@@ -173,8 +202,6 @@ var Viz = {};
         (function() {var x = lines_data;})();
         
         var config = {
-            title : title,
-            // lines: {stacked:true, fill:true, fillOpacity: 1, fillBorder:true},
             xaxis : {
                 minorTickFreq : 4,
                 tickFormatter : function(x) {
@@ -212,6 +239,8 @@ var Viz = {};
             }
         };
 
+        config.title = title;
+
         if (!labels || labels === 0) {
             config.xaxis.showLabels = false;
             config.yaxis.showLabels = false;
@@ -221,7 +250,97 @@ var Viz = {};
         graph = Flotr.draw(container, lines_data, config);
     }
 
-    function displayBasicChart(divid, labels, data, graph, rotate, fixColor) {
+    function displayMetricsLines(div_id, metrics, history, title, config) {
+        var lines_data = [];
+
+        $.each(metrics, function(id, metric) {
+            var mdata = [[],[]];
+            $.each(history[metric], function (i, value) {
+                mdata[i] = [history.id[i], history[metric][i]];
+            });
+            lines_data.push({label:metric, data:mdata});
+        });
+        displayDSLines(div_id, history, lines_data, title, config);
+    };
+
+    function displayMetricCompaniesLines(div_id, metric, companies, title, config) {
+        var lines_data = [];
+        var history = {};
+
+        $.each(companies, function(company, data) {
+            var cdata = [[], []];
+            for (var i=0; i<data.id.length; i++ ) {
+                cdata[i] = [data.id[i], data[metric][i]];
+            }
+            lines_data.push({label:company, data:cdata});
+            history = data;
+        });
+        displayDSLines(div_id, history, lines_data, title, config);
+    };
+
+    // Lines from the same Data Source
+    // TODO: Probably we should also fill history
+    function displayDSLines(div_id, history, lines_data, title, config_metric) {
+        var container = document.getElementById(div_id);
+
+        var config = {
+            title : title,
+            legend: {
+              show: false,
+            },
+            xaxis : {
+                minorTickFreq : 4,
+                tickFormatter : function(x) {
+                    var index = null;
+                    for ( var i = 0; i < history.id.length; i++) {
+                        if (parseInt(x)===history.id[i]) {
+                            index = i; break;}
+                    }
+                    return history.date[index];
+                }
+            },
+            yaxis : {
+                minorTickFreq : 1000,
+                tickFormatter : function(y) {
+                    return parseInt(y, 10) + "";
+                }
+            },
+
+            grid : {
+                show : false
+            },
+            mouse : {
+                track : true,
+                trackY : false,
+                trackFormatter : function(o) {
+                    var label = history.date[parseInt(o.index, 10)] + "<br>";
+
+                    for (var i=0; i<lines_data.length; i++) {
+                        if (lines_data.length > 1)
+                            label += lines_data[i].label +":";
+                        label += lines_data[i].data[o.index][1]+"<br>";
+                    }
+                    return label;
+                }
+            }
+        };
+
+        if (config_metric) {
+            if (!config_metric.show_title) config.title = '';
+            if (config_metric.show_legend) config.legend.show = true;
+            if (config_metric.lines && config_metric.lines.stacked)
+                config.lines =
+                    {stacked:true, fill:true, fillOpacity: 1, fillBorder:true, lineWidth:0.01};
+            if (! config_metric.show_labels) {
+                config.xaxis.showLabels = false;
+                config.yaxis.showLabels = false;
+            }
+        }
+        graph = Flotr.draw(container, lines_data, config);
+    }
+
+    function displayBasicChart
+        (divid, labels, data, graph, title, config_metric, rotate, fixColor) {
 
         var horizontal = false;
         if (rotate)
@@ -247,6 +366,7 @@ var Viz = {};
         }
 
         var config = {
+            title : title,
             grid : {
                 verticalLines : false,
                 horizontalLines : false,
@@ -279,6 +399,11 @@ var Viz = {};
             }
         };
 
+        if (config_metric) {
+            if (!config_metric.show_title) config.title = '';
+            if (config_metric.show_legend) config.legend.show = true;
+        }
+
         if (graph === "bars") {
             config.bars = {
                 show : true, 
@@ -288,23 +413,27 @@ var Viz = {};
                 config.bars.color = fixColor;
                 config.bars.fillColor = fixColor;
             }
+
+            if (config_metric && config_metric.show_legend !== false)
+                config.legend = {show:true, position: 'ne'};
             
             // TODO: Color management should be defined
-            var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
-                                    '#9440ED' ];
-            config.colors = defaults_colors,
+            //var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
+            //                        '#9440ED' ];
+            // config.colors = defaults_colors,
             config.grid.horizontalLines = true;
             config.yaxis = {
                 showLabels : true, min:0
             };
-            config.xaxis = {
-                    showLabels : true, min:0
-            };
+//            config.xaxis = {
+//                    showLabels : true, min:0
+//            };
         }
-        if (graph === "pie")
-            config.pie = {
-                show : true
-            };
+        if (graph === "pie") {
+            config.pie = {show : true};
+            config.mouse.position = 'ne';
+        }
+
 
         graph = Flotr.draw(container, chart_data, config);
     }
@@ -413,6 +542,7 @@ var Viz = {};
         // var data = ds.getDemographicsData();
         var quarter_data = [];
         var labels = [], i;
+        var config = {show_legend:false};
 
         for (i = 0; i < data.persons.age.length; i++) {
             var age = data.persons.age[i];
@@ -427,7 +557,8 @@ var Viz = {};
         }
 
         if (data)
-            displayBasicChart(divid, labels, quarter_data, "bars", true, bitergiaColor);
+            displayBasicChart(divid, labels, quarter_data,
+                    "bars", "", config, true, bitergiaColor);
     }
 
     function displayRadarChart(div_id, ticks, data) {
@@ -529,7 +660,7 @@ var Viz = {};
     // Each metric can have several top: metric.period
     // For example: "committers.all":{"commits":[5310, ...],"name":["Brion
     // Vibber",..]}
-    function displayTop(div, data_source, all, graph) {
+    function displayTop(div, data_source, all, graph, titles) {
         var top_file = data_source.getTopDataFile();
         var basic_metrics = data_source.getMetrics();
         var project = data_source.getProject();
@@ -553,6 +684,22 @@ var Viz = {};
                 }
             });
         });
+    }
+
+    function displayTopCompany(company, div, data_source, metric_id, period, titles) {
+        var project = data_source.getProject();
+        var metric = data_source.getMetrics()[metric_id];
+        var graph = null;
+        data = data_source.getCompaniesTopData()[company][period];
+        displayTopMetric(div, project, metric, period, data, graph, titles);
+    }
+
+    function displayTopGlobal(div, data_source, metric_id, period, titles) {
+        var project = data_source.getProject();
+        var metric = data_source.getMetrics()[metric_id];
+        var graph = null;
+        data = data_source.getGlobalTopData()[metric_id][period];
+        displayTopMetric(div, project, metric, period, data, graph, titles);
     }
     
     // D3
@@ -690,6 +837,7 @@ var Viz = {};
         var firstMonth = history.id[0],
                 container = document.getElementById(div_id), options;
         var markers = Report.getMarkers();
+        var basic_metrics = Report.getAllMetrics();
 
         options = {
             container : container,
@@ -728,16 +876,17 @@ var Viz = {};
         options.trackFormatter = function(o) {
             var sdata = o.series.data, index = sdata[o.index][0] - firstMonth;            
 
-            var value = dates[1][index] + ":<br>";
+            var value = history.date[index] + ":<br>";
 
-            for (var metric in history) {
-                value = history[metric][index] + metric + " ,";
+            for (var metric in basic_metrics) {
+                if (history[metric] === undefined) continue;
+                value += history[metric][index] + " " + metric + " , ";
             }
             return value;
         };
 
         return options;
-    }
+    };
     
     function getEnvisionOptions(div_id, projects_data, ds_name, hide) {
 
@@ -859,6 +1008,7 @@ var Viz = {};
             value  = "<table><tr><td align='right'>"+dates[1][index];
             value += "</td></tr><tr><td></td>";
             for (var metric in basic_metrics) {
+                if (options.data[metric] === undefined) continue;
                 if ($.inArray(metric,options.data.envision_hide) > -1) 
                     continue;
                 value += "<td>"+metric+"</td>";
@@ -867,8 +1017,9 @@ var Viz = {};
             $.each(project_metrics, function(project, metrics) {
                 value += "<tr><td>"+project+"</td>";
                 for (var metric in basic_metrics) {
+                    if (options.data[metric] === undefined) continue;
                     if ($.inArray(metric,options.data.envision_hide) > -1) 
-                        continue;                                                
+                        continue;
                     mvalue = project_metrics[project][metric];
                     if (mvalue === undefined) mvalue = "n/a";
                     value += "<td>" + mvalue + "</td>";
@@ -903,10 +1054,49 @@ var Viz = {};
         $("#" + div_target).append(new_div);
         for ( var id in basic_metrics) {
             var metric = basic_metrics[id];
+            if (data[0][metric.column] === undefined) continue;
             if ($.inArray(metric.column, Report.getConfig()[hide]) > -1)
                 continue;
             displayBasicMetricHTML(metric, data, div_target, config, projs);
         }
+    }
+
+    function displayBasicMetricsHTML(metrics, data, div_target, config) {
+        config = checkBasicConfig(config);
+        var title = metrics.join(",");
+        if (!config.show_title) title = '';
+        displayMetricsLines(div_target, metrics, data, title, config);
+    }
+
+    function displayBasicMetricsCompany (company, metrics, data, div_id, config) {
+        config = checkBasicConfig(config);
+        var title = company;
+        displayMetricsLines(div_id, metrics, data, title, config);
+    }
+
+    function displayBasicMetricCompaniesHTML(metric, data,
+            div_target, config) {
+        config = checkBasicConfig(config);
+        config.show_legend = true;
+        var title = metric;
+        displayMetricCompaniesLines(div_target, metric, data, title, config);
+    }
+
+    function displayBasicMetricCompaniesStatic(metric, data,
+            div_id, config) {
+        config = checkBasicConfig(config);
+        var title = metric;
+        var metric_data = [];
+        var labels = [];
+
+        var graph = 'bars';
+        if (config.graph) graph = config.graph;
+
+        $.each(data, function(company,data) {
+           labels.push(company);
+           metric_data.push(data[metric]);
+        });
+        displayBasicChart(div_id, labels, metric_data, graph, title, config);
     }
 
     function displayBasicMetricHTML(metric, data, div_target, config, projs) {
