@@ -221,10 +221,10 @@ if (is.na(mailing_lists$mailing_list)) {
     mailing_lists_files <- query(q) 
     mailing_lists_files$mailing_list = gsub("/","_",mailing_lists$mailing_list)
     # print (mailing_lists)
-    createJSON (mailing_lists_files, "../data/json/mls-lists-evolutionary.json")
+    createJSON (mailing_lists_files, "../data/json/mls-lists.json")
 } else {
     print (mailing_lists)
-    createJSON (mailing_lists, "../data/json/mls-lists-evolutionary.json")
+    createJSON (mailing_lists, "../data/json/mls-lists.json")
 }
 
 # Aggregated data

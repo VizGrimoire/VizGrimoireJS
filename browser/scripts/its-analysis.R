@@ -155,7 +155,7 @@ issues_monthly[is.na(issues_monthly)] <- 0
 
 issues_monthly <- completeZeroMonthly(issues_monthly)
 
-createJSON (issues_monthly, "../data/json/its-evolutionary-info.json")
+createJSON (issues_monthly, "../data/json/its-evolutionary.json")
 
 ## Get some general stats from the database and url info
 ##
@@ -183,7 +183,7 @@ agg_data = merge(agg_data, data3)
 agg_data = merge(agg_data, data4)
 agg_data = merge(agg_data, data5)
 agg_data = merge(agg_data, data6)
-createJSON (agg_data, "../data/json/its-static-info.json")
+createJSON (agg_data, "../data/json/its-static.json")
 
 # Top
 top_closers <- function(days = 0) {
