@@ -34,7 +34,7 @@ var Report = {};
     var projects_dirs = [default_data_dir];
     var projects_data = {};
     var projects_datasources = {};
-    var project_file = data_dir + "/project-info-milestone0.json",
+    var project_file = data_dir + "/project-info.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
     var check_companies = false;
@@ -82,7 +82,7 @@ var Report = {};
 
     Report.setDataDir = function(dataDir) {
         data_dir = dataDir;
-        project_file = dataDir + "/project-info-milestone0.json", 
+        project_file = dataDir + "/project-info.json", 
         config_file = dataDir + "/viz_cfg.json", 
         markers_file = dataDir + "/markers.json";
     };
@@ -152,7 +152,7 @@ var Report = {};
         data_load_file(markers_file, function(data, self) {markers = data;});        
         for (var i=0;  i<projects_dirs.length; i++) {
             var data_dir = projects_dirs[i];
-            var prj_file = data_dir + "/project-info-milestone0.json";
+            var prj_file = data_dir + "/project-info.json";
             data_load_file(prj_file, function(data, dir) {
                 if (data.project_name === undefined) {
                     data.project_name = dir.replace("data/json","")
