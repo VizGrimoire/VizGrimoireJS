@@ -332,7 +332,7 @@ function DataSource(name, basic_metrics) {
         metrics.reverse();
 
         $.each(sorted_companies, function(id, company) {
-            list += "<div id='"+company+"-nav' style='height:120px;'>";
+            list += "<div class='companies-list' id='"+company+"-nav'>";
             list += "<div style='float:left;'>";
             list += "<a href='company.html?company="+company+"'>";
             list += "<strong>"+company+"</strong> +info</a>";
@@ -340,7 +340,7 @@ function DataSource(name, basic_metrics) {
             list += "</div>";
             $.each(metrics, function(id, metric) {
                 list += "<div id='"+company+"-"+metric+"'";
-                list +=" style='float:right;height:100px;width:40%'></div>";
+                list +=" class='companies-list-item'></div>";
             });
             list += "</div>";
         });

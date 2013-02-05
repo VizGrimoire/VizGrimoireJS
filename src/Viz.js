@@ -1112,7 +1112,7 @@ var Viz = {};
         new_div = '<div id="flotr2_' + metric.column
                 + '" class="info-pill m0-box-div">';
         new_div += '<h1>' + metric.name + '</h1>';
-        new_div += '<div style="height:100px" id="' + metric.divid;
+        new_div += '<div class="basic-metric-html" id="' + metric.divid;
         new_div += '"></div>';
         if (config.show_desc === true)
             new_div += '<p>' + metric.desc + '</p>';

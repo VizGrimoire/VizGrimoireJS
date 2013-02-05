@@ -329,7 +329,9 @@ h3 {
   text-indent: 2px;
 }
 
-/* Shared CSS Style in all Envision Bitergia Reports */
+.basic-metric-html {height:100px;}
+
+.companies-list {height:120px;}/* Shared CSS Style in all Envision Bitergia Reports */
 
 .envision-component-container {
     width: 325px;

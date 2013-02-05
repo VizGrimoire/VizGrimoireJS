@@ -265,3 +265,8 @@ h3 {
   text-indent: 2px;
 }
 
+.basic-metric-html {height:100px;}
+
+.companies-list {height:120px;}
+
+.companies-list-item {float:right;height:100px;width:40%;}
