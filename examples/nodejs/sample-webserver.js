@@ -1,4 +1,5 @@
 var http = require('http');
+var querystring = require('querystring');
 var url = require('url');
 
 var mysql = require('mysql');
@@ -45,6 +46,9 @@ http.createServer(
 		function(req, res) {
 			var total_changes;
 			var url_parts = url.parse(req.url, true);
+			var query = url_parts.path;
+			console.log('Getting: ' + query + ' from ' + 
+			        req.connection.remoteAddress);
 			var query = url_parts.query;
 			if (query.callback) {
 				res.writeHead(200, {
