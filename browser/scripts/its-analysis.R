@@ -88,7 +88,7 @@ library(RColorBrewer)
 
 source("swscopio.R")
 
-closed_condition <- "new_value='RESOLVED' OR new_value='CLOSED'"
+closed_condition <- "(new_value='RESOLVED' OR new_value='CLOSED')"
 
 if (its == 'allura') closed_condition <- "new_value='CLOSED'"
 if (its == 'github') closed_condition <- "field='closed'"
