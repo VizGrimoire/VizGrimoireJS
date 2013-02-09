@@ -71,6 +71,7 @@ data_committers = evol_committers()
 # Authors per month
 data_authors = evol_authors()
 
+data_companies = companies_evolution()
 
 #Files per month
 data_files = evol_files()
@@ -102,6 +103,7 @@ top_files_modified_data = top_files_modified()
 
 agg_data = merge(data_commits, data_committers, all = TRUE)
 agg_data = merge(agg_data, data_authors, all = TRUE)
+agg_data = merge(agg_data, data_companies, all = TRUE)
 agg_data = merge(agg_data, data_files, all = TRUE)
 agg_data = merge(agg_data, data_branches, all = TRUE)
 agg_data = merge(agg_data, data_repositories, all = TRUE)

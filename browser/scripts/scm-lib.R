@@ -644,3 +644,32 @@ company_top_authors_year <- function(company_name, year){
 	return (top_authors_year_rev)
 	
 }
+
+companies_evolution <- function(){
+#unique number of active companies per month and its evolution
+	
+	q <- paste("select m.id as id,
+					m.year as year,
+					m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date,
+					IFNULL(pm.companies, 0) as num_companies
+					from   months m
+					left join(
+					select year(s.date) as year,
+					month(s.date) as month,
+					count(distinct(pc.company_id)) as companies
+					from   scmlog s,
+					people_companies pc
+					where  s.author_id = pc.people_id
+					group by year(s.date),
+					month(s.date)
+					order by year(s.date),
+					month(s.date)) as pm
+					on (  
+					m.year = pm.year and
+					m.month = pm.month)
+					order by m.id;")
+	
+	num_companies<- query(q)
+	print (num_companies)
+}
