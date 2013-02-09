@@ -113,3 +113,46 @@ companies  <- companies_name()
 companies <- companies$name
 createJSON(companies, "../data/json/companies.json")
 
+for (company in companies){
+	company_name = paste(c("'", company, "'"), collapse='')
+	company_aux = paste(c("", company, ""), collapse='')
+	print (company_name)
+	
+	print ("commits") 
+	commits <- company_commits(company_name)
+	createJSON(agg_data, paste(c("../data/json/",company_aux,"-scm-evolutionary.json"), collapse=''))
+	
+	## print ("lines")
+	## lines <-company_lines(company_name)
+	## print ("files")
+	## files <- company_files(company_name)
+	## print ("people")
+	## authors <- company_authors(company_name)
+	## 
+	## 
+	## agg_data = merge(commits_rev, lines_rev, all = TRUE)
+	## agg_data = merge(agg_data, files_rev, all = TRUE)
+	## agg_data = merge(agg_data, reviewers, all = TRUE)
+	## agg_data = merge(agg_data, authors_rev, all = TRUE)
+	## 
+	## createJSON(agg_data, paste(c("../data/json/",company_aux,"-scm-evolutionary-info.json"), collapse=''))
+	## 
+	## print ("static info")
+	## static_info <- evol_info_data_company_rev(company_name)
+	## createJSON(static_info, paste(c("../data/json/",company_aux,"-scm-static-info.json"), collapse=''))
+	## 
+	## print ("top authors")
+	## top_authors <- company_top_authors(company_name)
+	## createJSON(top_authors, paste(c("../data/json/",company_aux,"-scm-top-authors.json"), collapse=''))
+	## top_authors_rev <- company_top_authors_rev(company_name)
+	## createJSON(top_authors_rev, paste(c("../data/json/",company_aux,"-scm-top-authors_rev.json"), collapse=''))
+	## top_reviewers <- company_top_reviewers(company_name)
+	## createJSON(top_reviewers, paste(c("../data/json/",company_aux,"-scm-top-reviewers.json"), collapse=''))
+	## top_authors_rev_2006 <- company_top_authors_year_rev(company_name, 2006) 
+	## createJSON(top_authors_rev_2006, paste(c("../data/json/",company_aux,"-scm-top-authors_rev_2006.json"), collapse=''))
+	## top_authors_rev_2009 <- company_top_authors_year_rev(company_name, 2009)
+	## createJSON(top_authors_rev_2009, paste(c("../data/json/",company_aux,"-scm-top-authors_rev_2009.json"), collapse=''))
+	## top_authors_rev_2012 <- company_top_authors_year_rev(company_name, 2012)
+	## createJSON(top_authors_rev_2012, paste(c("../data/json/",company_aux,"-scm-top-authors_rev_2012.json"), collapse=''))	
+}
+
