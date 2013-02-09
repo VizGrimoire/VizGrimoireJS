@@ -290,3 +290,16 @@ people <- function() {
     people_list <- query(q)
     return (people_list);
 }
+
+companies_name <- function() {
+	q <- paste ("select c.name 
+					from companies c,
+					people_companies pc,
+					scmlog s
+					where c.id = pc.company_id and
+					pc.people_id = s.author_id
+					group by c.name
+					order by count(distinct(s.id)) desc;")
+	companies_list <- query(q)
+	return (companies_list)
+}
