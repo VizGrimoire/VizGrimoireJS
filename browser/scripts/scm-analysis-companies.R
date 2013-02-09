@@ -119,23 +119,15 @@ for (company in companies){
 	print (company_name)
 	
 	print ("commits") 
-	commits <- company_commits(company_name)
+	commits <- company_commits(company_name)	
+	print ("lines")
+	lines <-company_lines(company_name)
+	print ("files")
+	files <- company_files(company_name)
+	print ("people")
+	authors <- company_authors(company_name)
 	createJSON(agg_data, paste(c("../data/json/",company_aux,"-scm-evolutionary.json"), collapse=''))
-	
-	## print ("lines")
-	## lines <-company_lines(company_name)
-	## print ("files")
-	## files <- company_files(company_name)
-	## print ("people")
-	## authors <- company_authors(company_name)
-	## 
-	## 
-	## agg_data = merge(commits_rev, lines_rev, all = TRUE)
-	## agg_data = merge(agg_data, files_rev, all = TRUE)
-	## agg_data = merge(agg_data, reviewers, all = TRUE)
-	## agg_data = merge(agg_data, authors_rev, all = TRUE)
-	## 
-	## createJSON(agg_data, paste(c("../data/json/",company_aux,"-scm-evolutionary-info.json"), collapse=''))
+	 
 	## 
 	## print ("static info")
 	## static_info <- evol_info_data_company_rev(company_name)
