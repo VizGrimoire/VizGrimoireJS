@@ -220,6 +220,8 @@ function DataSource(name, basic_metrics) {
         var companies_data = this.getCompaniesMetricsData();
         if (limit) {
             var sorted_companies = this.sortCompanies(order_by);
+            if (limit > sorted_companies.length) 
+                limit = sorted_companies.length; 
             var companies_data_limit = {};
             for (var i=0; i<limit; i++) {
                 var company = sorted_companies[i];
@@ -237,6 +239,8 @@ function DataSource(name, basic_metrics) {
         var companies_data = this.getCompaniesGlobalData();
         if (limit) {
             var sorted_companies = this.sortCompanies(order_by);
+            if (limit > sorted_companies.length) 
+                limit = sorted_companies.length; 
             var companies_data_limit = {};
             for (var i=0; i<limit; i++) {
                 var company = sorted_companies[i];
