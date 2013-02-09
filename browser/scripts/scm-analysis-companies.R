@@ -126,6 +126,11 @@ for (company in companies){
 	files <- company_files(company_name)
 	print ("people")
 	authors <- company_authors(company_name)
+		
+	agg_data = merge(commits, lines, all = TRUE)
+	agg_data = merge(agg_data, files, all = TRUE)
+	agg_data = merge(agg_data, authors, all = TRUE)	
+	
 	createJSON(agg_data, paste(c("../data/json/",company_aux,"-scm-evolutionary.json"), collapse=''))
 	 
 	 
