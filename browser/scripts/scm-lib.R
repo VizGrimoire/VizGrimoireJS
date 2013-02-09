@@ -574,3 +574,45 @@ evol_info_data_company <- function(company_name) {
 	agg_data = merge(agg_data, data11)
 	return (agg_data)
 }
+
+company_top_authors <- function(company_name) {
+	
+	q <- paste ("select p.name  as author,
+					count(distinct(s.id)) as commits                         
+					from people p,
+					scmlog s,
+					people_companies pc,
+					companies c
+					where  p.id = s.author_id and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name, "
+					group by p.id
+					order by count(distinct(s.id)) desc
+					limit 10;")
+	
+	top_authors <- query(q)
+	return (top_authors)
+}
+
+company_top_authors_year <- function(company_name, year){
+	
+	q <- paste ("select p.name as author,
+					count(distinct(s.id)) as commits
+					from people p,
+					scmlog s,
+					people_companies pc,
+					companies c
+					where  p.id = s.author_id and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name, " and
+					year(s.date)=",year,"
+					group by p.id
+					order by count(distinct(s.id)) desc
+					limit 10;")
+	print (q)
+	top_authors_year_rev <- query(q)
+	return (top_authors_year_rev)
+	
+}
