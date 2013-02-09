@@ -276,6 +276,34 @@ top_committers <- function(days = 0) {
 	return (data)	
 }
 
+top_authors <- function() {
+	q <- paste("select p.name as author, 
+				count(distinct(s.id)) as commits
+				from people p,
+				scmlog s
+				where  s.author_id = p.id
+				group by p.id
+				order by count(distinct(s.id)) desc
+				limit 10;")
+	data_top_authors = query(q)
+	return (data_top_authors)	
+}
+
+top_authors_year <- function(year) {
+	q <- paste("select p.name as author,
+				count(distinct(s.id)) as commits
+				from people p,
+				scmlog s
+				where  s.author_id = p.id and
+				year(s.date)=",year," 
+				group by p.id
+				order by count(distinct(s.id)) desc
+				limit 10;")	
+	data_top_authors = query(q)
+	return (data_top_authors)	
+}
+
+
 top_files_modified <- function() {
 	q <- paste("select file_name, count(commit_id) as modifications 
 				from action_files a join files f on a.file_id = f.id 

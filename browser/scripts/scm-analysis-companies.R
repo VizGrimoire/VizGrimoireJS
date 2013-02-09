@@ -90,6 +90,13 @@ top_committers_data[['committers.']]<-top_committers()
 top_committers_data[['committers.last year']]<-top_committers(365)
 top_committers_data[['committers.last month']]<-top_committers(31)
 
+# Top authors
+top_authors_data <- top_authors()
+top_authors_data_2006 <- top_authors_year(2006)
+top_authors_data_2009 <- top_authors_year(2009)
+top_authors_data_2012 <- top_authors_year(2012)
+
+
 # Top files
 top_files_modified_data = top_files_modified()
 
@@ -106,6 +113,14 @@ createJSON (top_committers_data, "../data/json/scm-top.json")
 
 people_list = people()
 createJSON (people_list, "../data/json/scm-people.json")
+
+# TODO: Have a unique file, scm-top.json already exists, with all metrics
+createJSON (top_authors_data, "../data/json/scm-top-authors.json")
+createJSON (top_authors_data_2006, "../data/json/scm-top-authors_2006.json")
+createJSON (top_authors_data_2009, "../data/json/scm-top-authors_2009.json")
+createJSON (top_authors_data_2012, "../data/json/scm-top-authors_2012.json")
+
+
 
 #Companies
 
