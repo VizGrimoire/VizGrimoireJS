@@ -358,7 +358,7 @@ company_commits <- function(company_name){
 					companies c
 					where  s.author_id = pc.people_id and
 					pc.company_id = c.id and
-					c.name =", company_name, " and
+					c.name =", company_name, "
 					group by year(s.date),
 					month(s.date)
 					order by year(s.date),
