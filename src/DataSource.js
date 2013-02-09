@@ -414,8 +414,8 @@ function DataSource(name, basic_metrics) {
         Viz.displayTopCompany(company, div, this, metric, period, titles);
     };
 
-    this.displayTopGlobal = function(div, metric, period) {
-        Viz.displayTopGlobal(div, this, metric, period);
+    this.displayTopGlobal = function(div, metric, period, titles) {
+        Viz.displayTopGlobal(div, this, metric, period, titles);
     };
 
     this.basicEvo = function(history) {

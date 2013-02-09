@@ -185,6 +185,7 @@ var Report = {};
         });
     }
 
+    // TODO: It is better to have all the tops in the same file
     function data_load_tops(metric) {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
@@ -747,9 +748,9 @@ var Report = {};
                 $.each(divs, function(id, div) {
                     var metric = $(this).data('metric');
                     var period = $(this).data('period');
+                    var titles = $(this).data('titles');
                     div.id = metric.replace("_","-")+"-"+period+"-global-metric";
-                    div.className = "";
-                    DS.displayTopGlobal(div.id, metric, period);
+                    DS.displayTopGlobal(div.id, metric, period, titles);
                 });
             }
         });
