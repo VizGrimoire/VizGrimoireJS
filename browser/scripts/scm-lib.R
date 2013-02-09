@@ -475,3 +475,102 @@ company_lines <- function(company_name) {
 	print (lines_added_removed)
 	return (lines_added_removed)
 }
+
+evol_info_data_company <- function(company_name) {
+	
+	# Get some general stats from the database
+	##
+	q <- paste("SELECT count(distinct(s.id)) as commits, 
+					count(distinct(s.author_id)) as authors,
+					DATE_FORMAT (min(s.date), '%Y-%m-%d') as first_date,
+					DATE_FORMAT (max(s.date), '%Y-%m-%d') as last_date
+					FROM scmlog s,
+					people_companies pc,
+					companies c
+					where s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data1 <- query(q)
+	q <- paste("SELECT count(distinct(file_id)) as files
+					from actions a,
+					scmlog s,
+					people_companies pc,
+					companies c
+					where a.commit_id = s.id and
+					s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data3 <- query(q)
+	q <- paste("SELECT count(*) as actions 
+					from actions a, 
+					scmlog s,
+					people_companies pc,
+					companies c
+					where s.id = a.commit_id and 
+					s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data5 <- query(q)
+	q <- paste("select count(distinct(s.id))/timestampdiff(month,min(s.date),max(s.date)) as avg_commits_month
+					from scmlog s,
+					people_companies pc,
+					companies c
+					where s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	
+	data7 <- query(q)
+	q <- paste("select count(distinct(a.file_id))/timestampdiff(month,min(s.date),max(s.date)) as avg_files_month
+					from scmlog s, 
+					actions a,
+					people_companies pc,
+					companies c
+					where a.commit_id=s.id and 
+					s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data8 <- query(q)
+	q <- paste("select count(distinct(s.id))/count(distinct(i.udev)) as avg_commits_author
+					from scmlog s, 
+					identities i,
+					people_companies pc,
+					companies c
+					where i.udev=s.author_id and
+					s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data9 <- query(q)
+	q <- paste("select count(distinct(s.author_id))/timestampdiff(month,min(s.date),max(s.date)) as avg_authors_month
+					from scmlog s,
+					people_companies pc,
+					companies c
+					where s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data10 <- query(q)
+	q <- paste("select count(distinct(a.file_id))/count(distinct(s.author_id)) as avg_files_author
+					from scmlog s, 
+					actions a,
+					people_companies pc,
+					companies c
+					where a.commit_id=s.id and
+					s.author_id is not null and
+					s.author_id = pc.people_id and
+					pc.company_id = c.id and
+					c.name =", company_name)
+	data11 <- query(q)
+	agg_data = merge(data1, data3)
+	agg_data = merge(agg_data, data5)
+	agg_data = merge(agg_data, data7)
+	agg_data = merge(agg_data, data8)
+	agg_data = merge(agg_data, data9)
+	agg_data = merge(agg_data, data10)
+	agg_data = merge(agg_data, data11)
+	return (agg_data)
+}
