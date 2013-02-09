@@ -164,7 +164,8 @@ var Report = {};
         data_load_companies();
         data_load_metrics();
         data_load_people();
-        data_load_tops('authors_rev');
+        // data_load_tops('authors_rev');
+        data_load_tops('authors');
     }
 
     function data_load_file(file, fn_data_set, self) {
@@ -220,17 +221,17 @@ var Report = {};
             var companies = DS.getCompaniesData();
             $.each(companies, function(i, company) {
                 var file = DS.getDataDir()+"/"+company+"-";
-                file_evo = file + DS.getName()+"-evolutionary-info.json";
+                file_evo = file + DS.getName()+"-evolutionary.json";
                 $.when($.getJSON(file_evo)).done(function(history) {
                     DS.addCompanyMetricsData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-static-info.json";
+                file_static = file + DS.getName()+"-static.json";
                 $.when($.getJSON(file_static)).done(function(history) {
                     DS.addCompanyGlobalData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-top-authors_rev";
+                file_static = file + DS.getName()+"-top-authors";
                 var file_all = file_static + ".json";
                 var file_2006 = file_static + "_2006.json";
                 var file_2009 = file_static + "_2009.json";
@@ -246,7 +247,7 @@ var Report = {};
                         DS.addCompanyTopData(company, hist2012[0], DS, "2012");
                         end_data_load();
                 }).fail(function() {
-                    DS.setCompanyTopData([], self);
+                    DS.setCompaniesTopData([], self);
                     end_data_load();
                 });
             });

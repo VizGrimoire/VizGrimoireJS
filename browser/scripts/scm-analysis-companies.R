@@ -111,7 +111,7 @@ createJSON (people_list, "../data/json/scm-people.json")
 
 companies  <- companies_name()
 companies <- companies$name
-createJSON(companies, "../data/json/companies.json")
+createJSON(companies, "../data/json/scm-companies.json")
 
 for (company in companies){
 	company_name = paste(c("'", company, "'"), collapse='')
