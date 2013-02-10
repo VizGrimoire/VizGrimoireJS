@@ -243,6 +243,22 @@ evol_info_data <- function() {
     q <- paste("select count(distinct(a.file_id))/count(distinct(s.author_id)) 
 				as avg_files_author from scmlog s, actions a where a.commit_id=s.id")
     data12 <- query(q)
+	agg_data = merge(data1, data2)
+	agg_data = merge(agg_data, data3)
+	agg_data = merge(agg_data, data4)
+	agg_data = merge(agg_data, data5)
+	agg_data = merge(agg_data, data6)
+	agg_data = merge(agg_data, data7)
+	agg_data = merge(agg_data, data8)
+	agg_data = merge(agg_data, data9)
+	agg_data = merge(agg_data, data10)
+	agg_data = merge(agg_data, data11)
+	agg_data = merge(agg_data, data12)
+	
+	return (agg_data)
+}
+
+evol_info_data_companies <- function() {
 	
 	q <- paste ("select count(*) as companies from companies")
 	data13 <- query(q)	
@@ -276,22 +292,8 @@ evol_info_data <- function() {
 					pc.company_id = c.id and
 					year(s.date) = 2012")
 	data16 <- query(q)
-	
-	
-	
-	agg_data = merge(data1, data2)
-	agg_data = merge(agg_data, data3)
-	agg_data = merge(agg_data, data4)
-	agg_data = merge(agg_data, data5)
-	agg_data = merge(agg_data, data6)
-    agg_data = merge(agg_data, data7)
-    agg_data = merge(agg_data, data8)
-    agg_data = merge(agg_data, data9)
-    agg_data = merge(agg_data, data10)
-    agg_data = merge(agg_data, data11)
-    agg_data = merge(agg_data, data12)
-	agg_data = merge(agg_data, data13)
-	agg_data = merge(agg_data, data14)
+		
+	agg_data = merge(data13, data14)
 	agg_data = merge(agg_data, data15)
 	agg_data = merge(agg_data, data16)
 	return (agg_data)
