@@ -251,6 +251,8 @@ evol_info_data <- function() {
 					people_companies pc,
 					companies c
 					where s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					year(s.date) = 2006")
 	data14 <- query(q)
@@ -259,6 +261,8 @@ evol_info_data <- function() {
 					people_companies pc,
 					companies c
 					where s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					year(s.date) = 2009")
 	data15 <- query(q)
@@ -267,6 +271,8 @@ evol_info_data <- function() {
 					people_companies pc,
 					companies c
 					where s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					year(s.date) = 2012")
 	data16 <- query(q)
@@ -366,43 +372,6 @@ companies_name <- function() {
 	return (companies_list)
 }
 
-company_commits <- function(company_name){
-	
-	
-	print (company_name)
-	q <- paste("select m.id as id,
-					m.year as year,
-					m.month as month,
-					DATE_FORMAT(m.date, '%b %Y') as date,
-					IFNULL(pm.commits, 0) as commits
-					from   months m
-					left join(
-					select year(s.date) as year,
-					month(s.date) as month,
-					count(distinct(s.id)) as commits
-					from   scmlog s,
-					people_companies pc,
-					companies c
-					where  s.author_id = pc.people_id and
-					pc.company_id = c.id and
-					c.name =", company_name, " and
-					s.author_id is not null and
-					s.date>=pc.init and 
-					s.date<=pc.end
-					group by year(s.date),
-					month(s.date)
-					order by year(s.date),
-					month(s.date)) as pm
-					on (
-					m.year = pm.year and
-					m.month = pm.month)
-					order by m.id;")
-	
-	company_c <- query(q)
-	print (company_c)
-	return (company_c)
-}
-
 company_commits <- function(company_name){		
 	print (company_name)
 	q <- paste("select m.id as id,
@@ -419,6 +388,8 @@ company_commits <- function(company_name){
 					people_companies pc,
 					companies c
 					where  s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, "
 					group by year(s.date),
@@ -453,6 +424,8 @@ company_files <- function(company_name) {
 					companies c
 					where  a.commit_id = s.id and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, "
 					group by year(s.date),
@@ -486,6 +459,8 @@ company_authors <- function(company_name) {
 					people_companies pc,
 					companies c
 					where  s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, "
 					group by year(s.date),
@@ -522,6 +497,8 @@ company_lines <- function(company_name) {
 					companies c
 					where  cl.commit_id = s.id and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, "
 					group by year(s.date),
@@ -542,7 +519,7 @@ evol_info_data_company <- function(company_name) {
 	
 	# Get some general stats from the database
 	##
-	q <- paste("SELECT count(distinct(s.id)) as commits, 
+	q <- paste("SELECT count(s.id) as commits, 
 					count(distinct(s.author_id)) as authors,
 					DATE_FORMAT (min(s.date), '%Y-%m-%d') as first_date,
 					DATE_FORMAT (max(s.date), '%Y-%m-%d') as last_date
@@ -550,6 +527,8 @@ evol_info_data_company <- function(company_name) {
 					people_companies pc,
 					companies c
 					where s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data1 <- query(q)
@@ -559,7 +538,8 @@ evol_info_data_company <- function(company_name) {
 					people_companies pc,
 					companies c
 					where a.commit_id = s.id and
-					s.author_id is not null and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					s.author_id = pc.people_id and
 					pc.company_id = c.id and
 					c.name =", company_name)
@@ -569,18 +549,21 @@ evol_info_data_company <- function(company_name) {
 					scmlog s,
 					people_companies pc,
 					companies c
-					where s.id = a.commit_id and 
-					s.author_id is not null and
+					where s.id = a.commit_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					s.author_id = pc.people_id and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data5 <- query(q)
-	q <- paste("select count(distinct(s.id))/timestampdiff(month,min(s.date),max(s.date)) as avg_commits_month
+	q <- paste("select count(s.id)/timestampdiff(month,min(s.date),max(s.date)) as avg_commits_month
 					from scmlog s,
 					people_companies pc,
 					companies c
-					where s.author_id is not null and
+					where
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	
@@ -590,20 +573,22 @@ evol_info_data_company <- function(company_name) {
 					actions a,
 					people_companies pc,
 					companies c
-					where a.commit_id=s.id and 
-					s.author_id is not null and
+					where a.commit_id=s.id and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data8 <- query(q)
-	q <- paste("select count(distinct(s.id))/count(distinct(i.udev)) as avg_commits_author
+	q <- paste("select count(distinct(s.id))/count(distinct(s.author_id)) as avg_commits_author
 					from scmlog s, 
 					identities i,
 					people_companies pc,
 					companies c
-					where i.udev=s.author_id and
-					s.author_id is not null and
+					where
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data9 <- query(q)
@@ -613,6 +598,8 @@ evol_info_data_company <- function(company_name) {
 					companies c
 					where s.author_id is not null and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data10 <- query(q)
@@ -624,6 +611,8 @@ evol_info_data_company <- function(company_name) {
 					where a.commit_id=s.id and
 					s.author_id is not null and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name)
 	data11 <- query(q)
@@ -647,6 +636,8 @@ company_top_authors <- function(company_name) {
 					companies c
 					where  p.id = s.author_id and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, "
 					group by p.id
@@ -667,6 +658,8 @@ company_top_authors_year <- function(company_name, year){
 					companies c
 					where  p.id = s.author_id and
 					s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end and
 					pc.company_id = c.id and
 					c.name =", company_name, " and
 					year(s.date)=",year,"
@@ -694,7 +687,9 @@ companies_evolution <- function(){
 					count(distinct(pc.company_id)) as companies
 					from   scmlog s,
 					people_companies pc
-					where  s.author_id = pc.people_id
+					where  s.author_id = pc.people_id and
+					s.date>=pc.init and 
+					s.date<=pc.end
 					group by year(s.date),
 					month(s.date)
 					order by year(s.date),
