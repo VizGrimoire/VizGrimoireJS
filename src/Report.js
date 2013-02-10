@@ -164,7 +164,8 @@ var Report = {};
         data_load_companies();
         data_load_metrics();
         data_load_people();
-        data_load_tops('authors_rev');
+        // data_load_tops('authors_rev');
+        data_load_tops('authors');
     }
 
     function data_load_file(file, fn_data_set, self) {
@@ -184,6 +185,7 @@ var Report = {};
         });
     }
 
+    // TODO: It is better to have all the tops in the same file
     function data_load_tops(metric) {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
@@ -220,17 +222,17 @@ var Report = {};
             var companies = DS.getCompaniesData();
             $.each(companies, function(i, company) {
                 var file = DS.getDataDir()+"/"+company+"-";
-                file_evo = file + DS.getName()+"-evolutionary-info.json";
+                file_evo = file + DS.getName()+"-evolutionary.json";
                 $.when($.getJSON(file_evo)).done(function(history) {
                     DS.addCompanyMetricsData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-static-info.json";
+                file_static = file + DS.getName()+"-static.json";
                 $.when($.getJSON(file_static)).done(function(history) {
                     DS.addCompanyGlobalData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-top-authors_rev";
+                file_static = file + DS.getName()+"-top-authors";
                 var file_all = file_static + ".json";
                 var file_2006 = file_static + "_2006.json";
                 var file_2009 = file_static + "_2009.json";
@@ -246,7 +248,7 @@ var Report = {};
                         DS.addCompanyTopData(company, hist2012[0], DS, "2012");
                         end_data_load();
                 }).fail(function() {
-                    DS.setCompanyTopData([], self);
+                    DS.setCompaniesTopData([], self);
                     end_data_load();
                 });
             });
@@ -746,9 +748,9 @@ var Report = {};
                 $.each(divs, function(id, div) {
                     var metric = $(this).data('metric');
                     var period = $(this).data('period');
+                    var titles = $(this).data('titles');
                     div.id = metric.replace("_","-")+"-"+period+"-global-metric";
-                    div.className = "";
-                    DS.displayTopGlobal(div.id, metric, period);
+                    DS.displayTopGlobal(div.id, metric, period, titles);
                 });
             }
         });

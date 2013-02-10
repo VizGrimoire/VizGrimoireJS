@@ -331,7 +331,9 @@ h3 {
 
 .basic-metric-html {height:100px;}
 
-.companies-list {height:120px;}/* Shared CSS Style in all Envision Bitergia Reports */
+.companies-list {height:120px;}
+
+.companies-list-item {float:right;height:100px;width:40%;}/* Shared CSS Style in all Envision Bitergia Reports */
 
 .envision-component-container {
     width: 325px;

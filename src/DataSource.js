@@ -220,6 +220,8 @@ function DataSource(name, basic_metrics) {
         var companies_data = this.getCompaniesMetricsData();
         if (limit) {
             var sorted_companies = this.sortCompanies(order_by);
+            if (limit > sorted_companies.length) 
+                limit = sorted_companies.length; 
             var companies_data_limit = {};
             for (var i=0; i<limit; i++) {
                 var company = sorted_companies[i];
@@ -237,6 +239,8 @@ function DataSource(name, basic_metrics) {
         var companies_data = this.getCompaniesGlobalData();
         if (limit) {
             var sorted_companies = this.sortCompanies(order_by);
+            if (limit > sorted_companies.length) 
+                limit = sorted_companies.length; 
             var companies_data_limit = {};
             for (var i=0; i<limit; i++) {
                 var company = sorted_companies[i];
@@ -361,18 +365,18 @@ function DataSource(name, basic_metrics) {
     this.displayCompanySummary = function(divid, company, ds) {
         var html = "<h1>"+company+"</h1>";
         var id_label = {
-                commits_rev:'Total commits',
-                authors_rev:'Total authors',
+                commits:'Total commits',
+                authors:'Total authors',
                 first_date:'Initial activity',
                 last_date:'Last activity',
-                files_rev:'Total files',
-                actions_rev:'Total files actions',
-                avg_commits_month_rev:'Commits per month',
-                avg_files_month_rev:'Files per month',
-                avg_commits_author_rev:'Commits per author',
-                avg_authors_month_rev:'Authors per month',
+                files:'Total files',
+                actions:'Total files actions',
+                avg_commits_month:'Commits per month',
+                avg_files_month:'Files per month',
+                avg_commits_author:'Commits per author',
+                avg_authors_month:'Authors per month',
                 avg_reviewers_month:'Reviewers per moth',
-                avg_files_author_rev:'Files per author'
+                avg_files_author:'Files per author'
         };
         $.each(ds.getCompaniesGlobalData()[company],function(id,value) {
             html += id_label[id] + ": " + value + "<br>";
@@ -410,8 +414,8 @@ function DataSource(name, basic_metrics) {
         Viz.displayTopCompany(company, div, this, metric, period, titles);
     };
 
-    this.displayTopGlobal = function(div, metric, period) {
-        Viz.displayTopGlobal(div, this, metric, period);
+    this.displayTopGlobal = function(div, metric, period, titles) {
+        Viz.displayTopGlobal(div, this, metric, period, titles);
     };
 
     this.basicEvo = function(history) {
