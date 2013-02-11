@@ -77,6 +77,7 @@ function DataSource(name, basic_metrics) {
         this.demographics_file = dataDir + '/'+this.name+'-demographics-2012.json';
         this.global_data_file = dataDir + '/'+this.name+'-static.json';
         this.top_data_file = dataDir + '/'+this.name+'-top.json';
+        this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
     };
     
 
