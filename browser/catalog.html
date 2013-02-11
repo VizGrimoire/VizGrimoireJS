@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, maximum-scale=1.0">
+    <meta name="description" content="Bitergia Catalog" />
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css" />
+    <link rel="stylesheet" type="text/css" href="notes.css" />
+    <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+    <title>Bitergia Catalog</title>
+    <style type="text/css">
+    </style>
+  </head>
+
+  <body>
+    <div id="wrapper">
+        <div>
+            <h1>Bitergia Catalog</h1>
+        </div>
+        
+        <div>  
+            <h2>Basic Vizs: Evolution</h2>
+            <div id="info-pill" style="margin:10px">
+                <div style="width:350px;height:100px" 
+                  class="scm-flotr2-metrics" data-metrics="commits,files" 
+                  data-legend="true"></div>
+                  <div>
+                    Multimetrics flotr2 evolution with show legend control per data source.
+                  </div>
+                  <div id="scm-commits-flotr2" style="width:350px;height:120px;"></div>
+                  <div>
+                    One metric flotr2 evolution per data source.
+                  </div>
+                  <div id="scm-time-bubbles" class="bubbles" style="width:500px;height:200px;"></div>
+                  <div>
+                    Bubbles per data source for easy 3d graphs.
+                  </div>              
+            </div>
+            <h2>Basic Vizs: Static</h2>
+            <div id="info-pill" style="margin:10px">
+                <div>
+                <div id="radar-activity" class='radar' style="float:left;width:250px;height:210px"></div>
+                <div id="radar-community" class='radar' style="float:left;width:250px;height:210px"></div>
+                <div style="clear:both"></div>
+                </div>
+                <div>Radar for activity in all data sources and for community activity</div>
+                <div id="treemap" class="treemap" data-file='flare1.json' style="width:500px;height:200px;"></div>
+                <div>Treemap for static several dimensions vizs</div>
+            </div>
+        </div>
+
+        <div>  
+            <h2>Composed Vizs</h2>
+            <div id="info-pill" style="height: 600px;">
+                <div id="all-envision" style="float:left"></div>
+                All Metrics evolution including all Data Sources. In "data/json/viz_cfg.json"
+                some metrics could be hidden.
+            </div>            
+        </div>
+        
+        <div>  
+            <h2>Other contents</h2>
+            <div id="scm-top" style="float:left"></div>
+            <div id="scm-top-pie" data-show_all="false"></div>            
+            Tops per Data Source, with additional graphs and with lists for time period support. 
+        </div>
+        
+        <div>  
+            <h2>Reports</h2>
+            <div>  
+                <h3>Companies</h3>                
+            </div>
+            
+            <div>  
+                <h3>Demographics</h3>
+            </div>
+            
+        </div>
+        
+        
+        
+        
+    </div>
+    
+    <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/d3-treemap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/DataSource.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>          
+  </body>
+</html>
