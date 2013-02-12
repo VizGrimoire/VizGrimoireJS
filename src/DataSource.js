@@ -78,6 +78,7 @@ function DataSource(name, basic_metrics) {
         this.global_data_file = dataDir + '/'+this.name+'-static.json';
         this.top_data_file = dataDir + '/'+this.name+'-top.json';
         this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
+        this.repositories_data_file = dataDir+'/'+ this.name +'-repos.json';
     };
     
 
@@ -140,6 +141,7 @@ function DataSource(name, basic_metrics) {
         this.project = project;
     };
     
+    // Companies data
     this.companies_data_file = this.data_dir+'/'+ this.name +'-companies.json';
     this.getCompaniesDataFile = function() {
         return this.companies_data_file;
@@ -186,6 +188,40 @@ function DataSource(name, basic_metrics) {
     this.setCompaniesTopData = function(data, self) {
         if (self === undefined) self = this;
         self.companies_top_data = data;
+    };
+
+    // Repositories data
+    this.repositories_data_file = 
+        this.data_dir+'/'+ this.name +'-repos.json';
+    this.getRepositoriesDataFile = function() {
+        return this.repositories_data_file;
+    };
+
+    this.repositories = null;
+    this.getRepositoriesData = function() {
+        return this.repositories;
+    };
+    this.setRepositoriesData = function(repositories, self) {
+        if (self === undefined) self = this;
+        self.repositories = repositories;
+    };
+
+    this.repositories_metrics_data = {};
+    this.addRepositoryMetricsData = function(repository, data, self) {
+        if (self === undefined) self = this;
+        self.repositories_metrics_data[repository] = data;
+    };
+    this.getRepositoriesMetricsData = function() {
+        return this.repositories_metrics_data;
+    };
+
+    this.repositories_global_data = {};
+    this.addRepositoryGlobalData = function(repository, data, self) {
+        if (self === undefined) self = this;
+        self.repositories_global_data[repository] = data;
+    };
+    this.getRepositoriesGlobalData = function() {
+        return this.repositories_global_data;
     };
 
     // TODO: Move this login to Report
@@ -236,34 +272,56 @@ function DataSource(name, basic_metrics) {
 
     this.displayBasicMetricCompaniesStatic = function (metric_id,
             div_target, config, limit, order_by, show_others) {
+        
+        this.displayBasicMetricReportStatic ("companies",metric_id,
+                div_target, config, limit, order_by, show_others);
+    };
+    
+    this.displayBasicMetricReposStatic = function (metric_id,
+            div_target, config, limit, order_by, show_others) {
+        
+        this.displayBasicMetricReportStatic ("repos", metric_id,
+                div_target, config, limit, order_by, show_others);
+    };
+    
+    this.displayBasicMetricReportStatic = function (report, metric_id,
+            div_target, config, limit, order_by, show_others) {
         if (order_by === undefined) order_by = metric_id;
-        var companies_data = this.getCompaniesGlobalData();
+        var data = null;
+        if (report=="companies")
+            data = this.getCompaniesGlobalData();
+        else if (report=="repos")
+            data = this.getRepositoriesGlobalData();
+        else return;
         if (limit) {
-            var sorted_companies = this.sortCompanies(order_by);
-            if (limit > sorted_companies.length) 
-                limit = sorted_companies.length; 
-            var companies_data_limit = {};
+            var sorted = null;
+            if (report=="companies")
+                sorted = this.sortCompanies(order_by);
+            else if (report=="repos")
+                sorted = this.getRepositoriesData();
+            if (limit > sorted.length) limit = sorted.length; 
+            var data_limit = {};
             for (var i=0; i<limit; i++) {
-                var company = sorted_companies[i];
-                companies_data_limit[company] = companies_data[company];
+                var item = sorted[i];
+                data_limit[item] = data[item];
             }
 
             // Add a final companies_data for the sum of other values
             if (show_others) {
                 var others = 0;
-                for (var i=limit; i<sorted_companies.length; i++) {
-                    var company = sorted_companies[i];
-                    others += companies_data[company][metric_id];
+                for (var i=limit; i<sorted.length; i++) {
+                    var item = sorted[i];
+                    others += data[item][metric_id];
                 }
-                companies_data_limit.others = {};
-                companies_data_limit.others[metric_id] = others;
+                data_limit.others = {};
+                data_limit.others[metric_id] = others;
             }
-            companies_data = companies_data_limit;
+            data = data_limit;
         }
         
-        Viz.displayBasicMetricCompaniesStatic(metric_id, companies_data,
+        Viz.displayBasicMetricReportStatic(metric_id, data,
             div_target, config, limit);
-    };
+    };    
 
     this.displayBasicMetricsCompany = function (
             company, metrics, div_id, config) {
@@ -396,6 +454,15 @@ function DataSource(name, basic_metrics) {
 
         $("#"+divid).append(html);
     };
+    
+    
+    this.displayRepositoriesSummary = function(divid, ds) {
+        var html = "";
+        var data = ds.getGlobalData();
+        html += "Total repositories: " + data.repositories +"<br>";
+        $("#"+divid).append(html);
+    };
+    
 
     this.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, this, file);

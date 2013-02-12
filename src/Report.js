@@ -37,7 +37,7 @@ var Report = {};
     var project_file = data_dir + "/project-info.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
-    var check_companies = false;
+    var check_companies = false, check_repositories = false;
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
@@ -162,6 +162,7 @@ var Report = {};
             }, data_dir);
         }
         data_load_companies();
+        data_load_repositories();
         data_load_metrics();
         data_load_people();
         // data_load_tops('authors_rev');
@@ -184,6 +185,14 @@ var Report = {};
             data_load_file(DS.getCompaniesDataFile(), DS.setCompaniesData, DS);
         });
     }
+    
+    function data_load_repositories() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getRepositoriesDataFile(), DS.setRepositoriesData, DS);
+        });
+    }
+
 
     // TODO: It is better to have all the tops in the same file
     function data_load_tops(metric) {
@@ -254,6 +263,27 @@ var Report = {};
             });
         });
     }
+    
+    function data_load_repositories_metrics() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            var repositories = DS.getRepositoriesData();
+            $.each(repositories, function(i, repository) {
+                var file = DS.getDataDir()+"/"+repository+"-";
+                file_evo = file + DS.getName()+"-evolutionary.json";
+                $.when($.getJSON(file_evo)).done(function(history) {
+                    DS.addRepositoryMetricsData(repository, history, DS);
+                    end_data_load();
+                });
+                file_static = file + DS.getName()+"-static.json";
+                $.when($.getJSON(file_static)).done(function(history) {
+                    DS.addRepositoryGlobalData(repository, history, DS);
+                    end_data_load();
+                });
+            });
+        });
+    }
+
 
     function data_load_metrics() {
         var data_sources = Report.getDataSources();
@@ -276,7 +306,8 @@ var Report = {};
             data_load_file(DS.getPeopleDataFile(), DS.setPeopleData, DS);
         });
     }
-
+    
+    // TODO: Make more modular. Move companies and repositories code and tops!
     function check_data_loaded() {
         var check = true;
         if (project_data === null || config === null || markers === null) 
@@ -291,8 +322,9 @@ var Report = {};
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getPeopleData() === null) {check = false; return false;}
-            if (DS.getCompaniesData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
+            // Companies data loading
+            if (DS.getCompaniesData() === null) {check = false; return false;}
             else {
                 if (DS.getCompaniesData().length>0 && !check_companies) {
                     check_companies = true;
@@ -313,6 +345,25 @@ var Report = {};
                 companies_loaded = 0;
                 for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
                 if (companies_loaded !== DS.getCompaniesData().length)
+                    {check = false; return false;}
+            }
+            // Repositories data loading
+            if (DS.getRepositoriesData() === null) {check = false; return false;}
+            else {
+                if (DS.getRepositoriesData().length>0 && !check_repositories) {
+                    check_repositories = true;
+                    data_load_repositories_metrics();
+                    check = false; return false;
+                }
+            }
+            if (check_repositories && DS.getRepositoriesData().length>0) {
+                var repositories_loaded = 0;
+                for (var key in DS.getRepositoriesMetricsData()) {repositories_loaded++;}
+                if (repositories_loaded !== DS.getRepositoriesData().length)
+                    {check = false; return false;}
+                repositories_loaded = 0;
+                for (var key in DS.getRepositoriesGlobalData()) {repositories_loaded++;}
+                if (repositories_loaded !== DS.getRepositoriesData().length)
                     {check = false; return false;}
             }
             // TODO: Demographics just for SCM yet!
@@ -539,6 +590,52 @@ var Report = {};
             }
         });
     }
+    
+    function convertRepositories() {
+        var config_metric = {};                
+        config_metric.show_desc = false;
+        config_metric.show_title = false;
+        config_metric.show_labels = true;
+
+        $.each(Report.getDataSources(), function(index, DS) {
+            var divid = DS.getName()+"-repositories-summary";
+            if ($("#"+divid).length > 0) {
+                DS.displayRepositoriesSummary(divid, this);
+            }
+            
+            var div_repos = DS.getName()+"-flotr2-repos-static";
+            var divs = $("."+div_repos);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var limit = $(this).data('limit');
+                    var show_others = $(this).data('show-others');
+                    config_metric.graph = $(this).data('graph');
+                    div.id = metric+"-flotr2-repos-static";
+                    DS.displayBasicMetricReposStatic(metric,div.id,
+                            config_metric, limit, null, show_others);
+                });
+            }
+            
+        });
+
+//        var company = null;
+//        var querystr = window.location.search.substr(1);
+//        if (querystr  &&
+//                querystr.split("&")[0].split("=")[0] === "company")
+//            company = querystr.split("&")[0].split("=")[1];
+//
+//        if (company === null) return;
+//
+//        $.each(Report.getDataSources(), function(index, DS) {
+//            if (DS.getName() !== "scm") return;
+//            var divid = DS.getName()+"-refcard-company";
+//            if ($("#"+divid).length > 0) {
+//                DS.displayCompanySummary(divid, company, this);
+//            }
+//        });
+    }
+
     
     function convertFlotr2(config) {        
         // General config for metrics viz
@@ -839,6 +936,7 @@ var Report = {};
         convertFlotr2(config);
         // TODO: Create a new class for Identity?
         convertIdentity();
+        convertRepositories();
         convertSelectors();
         convertTop();
     }

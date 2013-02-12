@@ -34,7 +34,7 @@ var Viz = {};
     Viz.displayBasicHTML = displayBasicHTML;
     Viz.displayBasicMetricHTML = displayBasicMetricHTML;
     Viz.displayBasicMetricCompaniesHTML = displayBasicMetricCompaniesHTML;
-    Viz.displayBasicMetricCompaniesStatic = displayBasicMetricCompaniesStatic;
+    Viz.displayBasicMetricReportStatic = displayBasicMetricReportStatic;
     Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
     Viz.displayBasicMetricsHTML = displayBasicMetricsHTML;
     Viz.displayBasicLinesFile = displayBasicLinesFile;
@@ -1084,7 +1084,7 @@ var Viz = {};
         displayMetricCompaniesLines(div_target, metric, data, title, config);
     }
 
-    function displayBasicMetricCompaniesStatic(metric, data,
+    function displayBasicMetricReportStatic(metric, data,
             div_id, config) {
         config = checkBasicConfig(config);
         var title = metric;
@@ -1094,8 +1094,8 @@ var Viz = {};
         var graph = 'bars';
         if (config.graph) graph = config.graph;
 
-        $.each(data, function(company,data) {
-           labels.push(company);
+        $.each(data, function(item,data) {
+           labels.push(item);
            metric_data.push(data[metric]);
         });
         displayBasicChart(div_id, labels, metric_data, graph, title, config);
