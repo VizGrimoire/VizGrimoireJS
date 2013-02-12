@@ -360,6 +360,12 @@ people <- function() {
     return (people_list);
 }
 
+repos_name <- function() {
+	q <- paste ("select name from repositories order by name;")
+	repos_list <- query(q)
+	return (repos_list)
+}
+
 companies_name <- function() {
 	q <- paste ("select c.name 
 					from companies c,

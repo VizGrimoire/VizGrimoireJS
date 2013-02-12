@@ -176,3 +176,8 @@ if (reports == 'companies') {
 	}
 }
 
+if (reports == 'repositories') {
+	repos  <- repos_name()
+	repos <- repos$name
+	createJSON(repos, "../data/json/scm-repos.json")
+}
