@@ -709,3 +709,160 @@ companies_evolution <- function(){
 	num_companies<- query(q)
 	print (num_companies)
 }
+
+
+repo_commits <- function(repo_name){		
+	q <- paste("SELECT m.id as id, m.year as year, m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date, 
+					IFNULL(pm.commits, 0) as commits
+				FROM months m
+				LEFT JOIN (
+					SELECT year(s.date) as year, month(s.date) as month,
+					COUNT(distinct(s.id)) as commits
+					FROM scmlog s, repositories r
+					WHERE r.name =", repo_name, " AND r.id = s.repository_id
+					GROUP BY YEAR(s.date), MONTH(s.date)
+					ORDER BY YEAR(s.date),
+					MONTH(s.date)) 
+				AS pm
+				ON (m.year = pm.year and m.month = pm.month)
+				ORDER BY m.id;")
+	
+	data <- query(q)
+	print (data)
+	return (data)
+}
+
+repo_files <- function(repo_name) {		
+	q <- paste("SELECT m.id as id, m.year as year, m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date, 
+					IFNULL(pm.files, 0) as files
+				FROM months m
+				LEFT JOIN (
+					SELECT year(s.date) as year, month(s.date) as month,
+					COUNT(distinct(a.file_id)) as files
+					FROM scmlog s, actions a, repositories r
+					WHERE r.name =", repo_name, " AND r.id = s.repository_id
+					AND a.commit_id = s.id
+					GROUP BY YEAR(s.date), MONTH(s.date)
+					ORDER BY YEAR(s.date),
+					MONTH(s.date)) 
+				AS pm
+				ON (m.year = pm.year and m.month = pm.month)
+				ORDER BY m.id;")
+	
+	data <- query(q)
+	print (data)
+	return (data)
+}
+
+# Unique identities not included
+repo_authors <- function(repo_name) {
+	q <- paste("SELECT m.id as id, m.year as year, m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date, 
+					IFNULL(pm.authors, 0) as authors
+				FROM months m
+				LEFT JOIN (
+					SELECT year(s.date) as year, month(s.date) as month,
+					COUNT(distinct(p.id)) as authors
+					FROM scmlog s, people p, repositories r
+					WHERE r.name =", repo_name, " AND r.id = s.repository_id
+					AND p.id = s.author_id
+					GROUP BY YEAR(s.date), MONTH(s.date)
+					ORDER BY YEAR(s.date),
+					MONTH(s.date)) 
+				AS pm
+				ON (m.year = pm.year and m.month = pm.month)
+				ORDER BY m.id;")
+	
+	data <- query(q)
+	print (data)
+	return (data)
+}
+
+repo_lines <- function(repo_name) {
+	q <- paste("SELECT m.id as id, m.year as year, m.month as month,
+					DATE_FORMAT(m.date, '%b %Y') as date, 
+					IFNULL(pm.added_lines, 0) as added_lines,
+					IFNULL(pm.removed_lines, 0) as removed_lines
+				FROM months m
+				LEFT JOIN (
+					SELECT year(s.date) as year, month(s.date) as month,
+					SUM(cl.added) as added_lines,
+					SUM(cl.removed) as removed_lines
+					FROM scmlog s, commits_lines cl, repositories r
+					WHERE r.name =", repo_name, " AND r.id = s.repository_id
+					AND cl.commit_id = s.id
+					GROUP BY YEAR(s.date), MONTH(s.date)
+					ORDER BY YEAR(s.date),
+					MONTH(s.date)) 
+				AS pm
+				ON (m.year = pm.year and m.month = pm.month)
+				ORDER BY m.id;")
+	
+	data <- query(q)
+	print (data)
+	return (data)		
+}
+
+evol_info_data_repo <- function(repo_name) {
+	
+	# Get some general stats from the database
+	##
+	q <- paste("SELECT count(s.id) as commits, 
+					count(distinct(s.author_id)) as authors,
+					DATE_FORMAT (min(s.date), '%Y-%m-%d') as first_date,
+					DATE_FORMAT (max(s.date), '%Y-%m-%d') as last_date
+					FROM scmlog s, repositories r
+					WHERE r.id = s.repository_id AND
+					r.name =", repo_name)
+	data1 <- query(q)
+	q <- paste("SELECT count(distinct(file_id)) as files, count(*) as actions
+					FROM actions a, scmlog s, repositories r
+					WHERE a.commit_id = s.id AND
+					r.id = s.repository_id AND
+					r.name =", repo_name)
+	data2 <- query(q)
+	q <- paste("select count(s.id)/timestampdiff(month,min(s.date),max(s.date)) 
+					as avg_commits_month
+					FROM scmlog s, repositories r
+					WHERE r.id = s.repository_id AND
+					r.name =", repo_name)
+	data3 <- query(q)
+	q <- paste("select count(distinct(a.file_id))/timestampdiff(month,min(s.date),max(s.date)) 
+					as avg_files_month
+					FROM scmlog s, actions a, repositories r
+					WHERE a.commit_id=s.id AND
+					r.id = s.repository_id AND
+					r.name =", repo_name)
+	data4 <- query(q)
+	q <- paste("select count(distinct(s.id))/count(distinct(s.author_id)) 
+					AS avg_commits_author
+					FROM scmlog s, repositories r
+					WHERE r.id = s.repository_id AND
+					r.name =", repo_name)
+	data5 <- query(q)
+	print(data5)
+	q <- paste("select count(distinct(s.author_id))/timestampdiff(month,min(s.date),max(s.date)) 
+					AS avg_authors_month
+					FROM scmlog s, repositories r
+					WHERE r.id = s.repository_id AND
+					r.name =", repo_name)
+	data6 <- query(q)
+	print (data6)
+	q <- paste("select count(distinct(a.file_id))/count(distinct(s.author_id)) 
+					AS avg_files_author
+					FROM scmlog s, actions a, repositories r
+					WHERE a.commit_id=s.id AND
+					r.id = s.repository_id AND
+					r.name =", repo_name)
+	data7 <- query(q)
+	print (data7)
+	agg_data = merge(data1, data2)
+	agg_data = merge(agg_data, data3)
+	agg_data = merge(agg_data, data4)
+	agg_data = merge(agg_data, data5)
+	agg_data = merge(agg_data, data6)
+	agg_data = merge(agg_data, data7)
+	return (agg_data)
+}
