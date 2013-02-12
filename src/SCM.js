@@ -124,7 +124,12 @@ function SCM() {
             return;
         }
         $(div_id + ' #scm_type').text(this.global_data.type);
-        var url = this.global_data.url;
+        var url = '';
+        if (this.global_data.repositories === 1) {
+            url = this.global_data.url;
+        } else {
+            url = Report.getProjectData().scm_url;
+        }
         if (this.global_data.type === "git")
             url = url.replace("git://","http://");
         $(div_id + ' #scm_url').attr("href", url);

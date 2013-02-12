@@ -69,11 +69,18 @@ function MLS() {
             $(div_id + ' .mls_info').hide();
             return;
         }
+        
+        var url = '';
+        if (this.global_data.repositories === 1) {
+            url = this.global_data.url;
+        } else {
+            url = Report.getProjectData().mls_url;
+        }
 
         if (this.global_data.type)
             $(div_id + ' #mls_type').text(this.global_data.type);
         if (this.global_data.url && this.global_data.url !== ".") {
-            $(div_id + ' #mls_url').attr("href", this.global_data.url);
+            $(div_id + ' #mls_url').attr("href", url);
             $(div_id + ' #mls_name').text("MLS " + this.global_data.type);
         } else {
             $(div_id + ' #mls_url').attr("href", Report.getProjectData().mls_url);

@@ -92,7 +92,12 @@ function ITS() {
             return;
         }
         $(div_id + ' #its_type').text(this.global_data.type);
-        var url = this.global_data.url;
+        var url = '';
+        if (this.global_data.repositories === 1) {
+            url = this.global_data.url;
+        } else {
+            url = Report.getProjectData().its_url;
+        }
         if (this.global_data.type === "allura")
             url = url.replace("rest/","");
         else if (this.global_data.type === "github") {

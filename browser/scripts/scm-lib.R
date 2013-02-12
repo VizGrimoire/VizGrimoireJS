@@ -205,7 +205,6 @@ evol_repositories <- function(granularity) {
 }
 
 evol_info_data <- function() {
-
 	# Get some general stats from the database
 	##
 	q <- paste("SELECT count(id) as commits, 
@@ -223,7 +222,7 @@ evol_info_data <- function() {
 	data4 <- query(q)
 	q <- paste("SELECT count(*) as actions from actions")
 	data5 <- query(q)
-	q <- paste("select uri as url,type from repositories")
+	q <- paste("select uri as url,type from repositories limit 1")
 	data6 <- query(q)
     q <- paste("select count(distinct(s.id))/timestampdiff(month,min(s.date),max(s.date)) 
 				as avg_commits_month from scmlog s")
@@ -253,7 +252,7 @@ evol_info_data <- function() {
 	agg_data = merge(agg_data, data9)
 	agg_data = merge(agg_data, data10)
 	agg_data = merge(agg_data, data11)
-	agg_data = merge(agg_data, data12)
+	agg_data = merge(agg_data, data12)	
 	
 	return (agg_data)
 }
