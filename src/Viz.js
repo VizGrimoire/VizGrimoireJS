@@ -906,7 +906,7 @@ var Viz = {};
         
         $.each(Report.getDataSources(), function(i, DS) {
             main_metric = DS.getMainMetric();
-            if ((ds_name === "undefined" && DS.getName() === "scm") ||
+            if ((ds_name === null && DS.getName() === "scm") ||
                 (ds_name && DS.getName() == ds_name)) {
                 summary_data = [DS.getData().id, DS.getData()[main_metric]];
                 return false;
