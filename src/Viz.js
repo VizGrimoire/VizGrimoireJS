@@ -1088,7 +1088,7 @@ var Viz = {};
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;
-        displayMetricCompaniesLines(div_target, metric, data, title, config);
+        displayMetricSubReportLines(div_target, metric, data, title, config);
     }
 
     function displayBasicMetricSubReportStatic(metric, data,
