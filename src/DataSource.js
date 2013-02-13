@@ -514,7 +514,7 @@ function DataSource(name, basic_metrics) {
     this.displayReposSummary = function(divid, ds) {
         var html = "";
         var data = ds.getGlobalData();
-        html += "Total repositories: " + data.repos +"<br>";
+        html += "Total repositories: " + data.repositories +"<br>";
         $("#"+divid).append(html);
     };
     
