@@ -328,6 +328,11 @@ function DataSource(name, basic_metrics) {
         Viz.displayBasicMetricsCompany(company, metrics,
                 this.getCompaniesMetricsData()[company], div_id, config);
     };
+    
+    this.displayBasicMetricsRepo = function (repo, metrics, div_id, config) {
+        Viz.displayBasicMetricsRepo(repo, metrics,
+                this.getReposMetricsData()[repo], div_id, config);
+    };
 
     this.displayBasicMetrics = function(metric_ids, div_target, config) {
         Viz.displayBasicMetricsHTML(metric_ids, this.getData(),
@@ -428,8 +433,11 @@ function DataSource(name, basic_metrics) {
             list += "<div style='float:left;'>";
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
-            else if (report === "repos")
-                list += "<a href='repository.html?repository="+item+"'>";
+            else if (report === "repos") {
+                list += "<a href='repository.html?repository="+item;
+                list += "&data_dir=" + Report.getDataDir();
+                list += "'>";
+            }
             list += "<strong>"+item+"</strong> +info</a>";
             list += "<br><a href='#nav'>^</a>";
             list += "</div>";
@@ -452,24 +460,39 @@ function DataSource(name, basic_metrics) {
             });
         });
     };
-
+    
     this.displayCompanySummary = function(divid, company, ds) {
-        var html = "<h1>"+company+"</h1>";
+        this.displaySubReportSummary("companies",divid, company, ds);
+    };
+    
+    this.displayRepoSummary = function(divid, repo, ds) {
+        this.displaySubReportSummary("repositories",divid, repo, ds);
+    };
+
+    this.displaySubReportSummary = function(report, divid, item, ds) {
+        var html = "<h1>"+item+"</h1>";
         var id_label = {
-                commits:'Total commits',
-                authors:'Total authors',
-                first_date:'Initial activity',
-                last_date:'Last activity',
-                files:'Total files',
-                actions:'Total files actions',
-                avg_commits_month:'Commits per month',
-                avg_files_month:'Files per month',
-                avg_commits_author:'Commits per author',
-                avg_authors_month:'Authors per month',
-                avg_reviewers_month:'Reviewers per moth',
-                avg_files_author:'Files per author'
+            commits:'Total commits',
+            authors:'Total authors',
+            first_date:'Initial activity',
+            last_date:'Last activity',
+            files:'Total files',
+            actions:'Total files actions',
+            avg_commits_month:'Commits per month',
+            avg_files_month:'Files per month',
+            avg_commits_author:'Commits per author',
+            avg_authors_month:'Authors per month',
+            avg_reviewers_month:'Reviewers per moth',
+            avg_files_author:'Files per author',
         };
-        $.each(ds.getCompaniesGlobalData()[company],function(id,value) {
+        var global_data = null;
+        if (report === "companies")
+            global_data = ds.getCompaniesGlobalData();
+        else if (report === "repositories")
+            global_data = ds.getReposGlobalData();
+        else return;
+        
+        $.each(global_data[item],function(id,value) {
             html += id_label[id] + ": " + value + "<br>";
         });
         $("#"+divid).append(html);

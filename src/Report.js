@@ -596,6 +596,12 @@ var Report = {};
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
+        
+        var repo = null;
+        var querystr = window.location.search.substr(1);
+        if (querystr  &&
+                querystr.split("&")[0].split("=")[0] === "repository")
+            repo = querystr.split("&")[0].split("=")[1];
 
         $.each(Report.getDataSources(), function(index, DS) {
             var divid = DS.getName()+"-repos-summary";
@@ -632,23 +638,27 @@ var Report = {};
                             config_metric);
                 });
             }
+            if (repo !== null) {
+                if (DS.getName() !== "scm") return;
+                var divid = DS.getName()+"-refcard-repo";
+                if ($("#"+divid).length > 0) {
+                    DS.displayRepoSummary(divid, repo, this);
+                }
+                
+                var div_repo = DS.getName()+"-flotr2-metrics-repo";
+                var divs = $("."+div_repo);
+                if (divs.length) {
+                    $.each(divs, function(id, div) {
+                        var metrics = $(this).data('metrics');
+                        config.show_legend = false;
+                        if ($(this).data('legend')) config_metric.show_legend = true;
+                        div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-repo";
+                        DS.displayBasicMetricsRepo(repo, metrics.split(","),
+                                div.id, config_metric);
+                    });
+                }                
+            }
         });
-
-//        var company = null;
-//        var querystr = window.location.search.substr(1);
-//        if (querystr  &&
-//                querystr.split("&")[0].split("=")[0] === "company")
-//            company = querystr.split("&")[0].split("=")[1];
-//
-//        if (company === null) return;
-//
-//        $.each(Report.getDataSources(), function(index, DS) {
-//            if (DS.getName() !== "scm") return;
-//            var divid = DS.getName()+"-refcard-company";
-//            if ($("#"+divid).length > 0) {
-//                DS.displayCompanySummary(divid, company, this);
-//            }
-//        });
     }
 
     
