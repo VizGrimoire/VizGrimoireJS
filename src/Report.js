@@ -37,7 +37,7 @@ var Report = {};
     var project_file = data_dir + "/project-info.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
-    var check_companies = false, check_repositories = false;
+    var check_companies = false, check_repos = false;
 
     // Public API
     Report.check_data_loaded = check_data_loaded;
@@ -162,7 +162,7 @@ var Report = {};
             }, data_dir);
         }
         data_load_companies();
-        data_load_repositories();
+        data_load_repos();
         data_load_metrics();
         data_load_people();
         // data_load_tops('authors_rev');
@@ -186,10 +186,10 @@ var Report = {};
         });
     }
     
-    function data_load_repositories() {
+    function data_load_repos() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getRepositoriesDataFile(), DS.setRepositoriesData, DS);
+            data_load_file(DS.getReposDataFile(), DS.setReposData, DS);
         });
     }
 
@@ -264,20 +264,20 @@ var Report = {};
         });
     }
     
-    function data_load_repositories_metrics() {
+    function data_load_repos_metrics() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
-            var repositories = DS.getRepositoriesData();
-            $.each(repositories, function(i, repository) {
-                var file = DS.getDataDir()+"/"+repository+"-";
+            var repos = DS.getReposData();
+            $.each(repos, function(i, repo) {
+                var file = DS.getDataDir()+"/"+repo+"-";
                 file_evo = file + DS.getName()+"-evolutionary.json";
                 $.when($.getJSON(file_evo)).done(function(history) {
-                    DS.addRepositoryMetricsData(repository, history, DS);
+                    DS.addRepoMetricsData(repo, history, DS);
                     end_data_load();
                 });
                 file_static = file + DS.getName()+"-static.json";
                 $.when($.getJSON(file_static)).done(function(history) {
-                    DS.addRepositoryGlobalData(repository, history, DS);
+                    DS.addRepoGlobalData(repo, history, DS);
                     end_data_load();
                 });
             });
@@ -307,7 +307,7 @@ var Report = {};
         });
     }
     
-    // TODO: Make more modular. Move companies and repositories code and tops!
+    // TODO: Make more modular. Move companies and repos code and tops!
     function check_data_loaded() {
         var check = true;
         if (project_data === null || config === null || markers === null) 
@@ -347,23 +347,23 @@ var Report = {};
                 if (companies_loaded !== DS.getCompaniesData().length)
                     {check = false; return false;}
             }
-            // Repositories data loading
-            if (DS.getRepositoriesData() === null) {check = false; return false;}
+            // Repos data loading
+            if (DS.getReposData() === null) {check = false; return false;}
             else {
-                if (DS.getRepositoriesData().length>0 && !check_repositories) {
-                    check_repositories = true;
-                    data_load_repositories_metrics();
+                if (DS.getReposData().length>0 && !check_repos) {
+                    check_repos = true;
+                    data_load_repos_metrics();
                     check = false; return false;
                 }
             }
-            if (check_repositories && DS.getRepositoriesData().length>0) {
-                var repositories_loaded = 0;
-                for (var key in DS.getRepositoriesMetricsData()) {repositories_loaded++;}
-                if (repositories_loaded !== DS.getRepositoriesData().length)
+            if (check_repos && DS.getReposData().length>0) {
+                var repos_loaded = 0;
+                for (var key in DS.getReposMetricsData()) {repos_loaded++;}
+                if (repos_loaded !== DS.getReposData().length)
                     {check = false; return false;}
-                repositories_loaded = 0;
-                for (var key in DS.getRepositoriesGlobalData()) {repositories_loaded++;}
-                if (repositories_loaded !== DS.getRepositoriesData().length)
+                repos_loaded = 0;
+                for (var key in DS.getReposGlobalData()) {repos_loaded++;}
+                if (repos_loaded !== DS.getReposData().length)
                     {check = false; return false;}
             }
             // TODO: Demographics just for SCM yet!
@@ -591,16 +591,16 @@ var Report = {};
         });
     }
     
-    function convertRepositories() {
+    function convertRepos() {
         var config_metric = {};                
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
 
         $.each(Report.getDataSources(), function(index, DS) {
-            var divid = DS.getName()+"-repositories-summary";
+            var divid = DS.getName()+"-repos-summary";
             if ($("#"+divid).length > 0) {
-                DS.displayRepositoriesSummary(divid, this);
+                DS.displayReposSummary(divid, this);
             }
             
             var div_repos = DS.getName()+"-flotr2-repos-static";
@@ -617,6 +617,21 @@ var Report = {};
                 });
             }
             
+            var div_nav = DS.getName()+"-flotr2-repos-nav";
+            if ($("#"+div_nav).length > 0) {
+                DS.displayReposNav(div_nav);
+            }
+            
+            var divs_comp_list = DS.getName()+"-flotr2-repos-list";
+            var divs = $("."+divs_comp_list);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-repos-list";
+                    DS.displayReposList(metrics.split(","),div.id, 
+                            config_metric);
+                });
+            }
         });
 
 //        var company = null;
@@ -936,7 +951,7 @@ var Report = {};
         convertFlotr2(config);
         // TODO: Create a new class for Identity?
         convertIdentity();
-        convertRepositories();
+        convertRepos();
         convertSelectors();
         convertTop();
     }

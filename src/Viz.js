@@ -34,7 +34,7 @@ var Viz = {};
     Viz.displayBasicHTML = displayBasicHTML;
     Viz.displayBasicMetricHTML = displayBasicMetricHTML;
     Viz.displayBasicMetricCompaniesHTML = displayBasicMetricCompaniesHTML;
-    Viz.displayBasicMetricReportStatic = displayBasicMetricReportStatic;
+    Viz.displayBasicMetricSubReportStatic = displayBasicMetricSubReportStatic;
     Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
     Viz.displayBasicMetricsHTML = displayBasicMetricsHTML;
     Viz.displayBasicLinesFile = displayBasicLinesFile;
@@ -42,7 +42,7 @@ var Viz = {};
     Viz.displayBubbles = displayBubbles;
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
-    Viz.displayMetricCompaniesLines = displayMetricCompaniesLines;
+    Viz.displayMetricSubReportLines = displayMetricSubReportLines;
     Viz.displayRadarActivity = displayRadarActivity;
     Viz.displayRadarCommunity = displayRadarCommunity;
     Viz.displayTreeMap = displayTreeMap;
@@ -263,16 +263,16 @@ var Viz = {};
         displayDSLines(div_id, history, lines_data, title, config);
     };
 
-    function displayMetricCompaniesLines(div_id, metric, companies, title, config) {
+    function displayMetricSubReportLines(div_id, metric, items, title, config) {
         var lines_data = [];
         var history = {};
 
-        $.each(companies, function(company, data) {
+        $.each(items, function(item, data) {
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
                 cdata[i] = [data.id[i], data[metric][i]];
             }
-            lines_data.push({label:company, data:cdata});
+            lines_data.push({label:item, data:cdata});
             history = data;
         });
         displayDSLines(div_id, history, lines_data, title, config);
@@ -1084,7 +1084,7 @@ var Viz = {};
         displayMetricCompaniesLines(div_target, metric, data, title, config);
     }
 
-    function displayBasicMetricReportStatic(metric, data,
+    function displayBasicMetricSubReportStatic(metric, data,
             div_id, config) {
         config = checkBasicConfig(config);
         var title = metric;

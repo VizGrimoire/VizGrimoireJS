@@ -78,7 +78,7 @@ function DataSource(name, basic_metrics) {
         this.global_data_file = dataDir + '/'+this.name+'-static.json';
         this.top_data_file = dataDir + '/'+this.name+'-top.json';
         this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
-        this.repositories_data_file = dataDir+'/'+ this.name +'-repos.json';
+        this.repos_data_file = dataDir+'/'+ this.name +'-repos.json';
     };
     
 
@@ -190,38 +190,38 @@ function DataSource(name, basic_metrics) {
         self.companies_top_data = data;
     };
 
-    // Repositories data
-    this.repositories_data_file = 
+    // Repos data
+    this.repos_data_file = 
         this.data_dir+'/'+ this.name +'-repos.json';
-    this.getRepositoriesDataFile = function() {
-        return this.repositories_data_file;
+    this.getReposDataFile = function() {
+        return this.repos_data_file;
     };
 
-    this.repositories = null;
-    this.getRepositoriesData = function() {
-        return this.repositories;
+    this.repos = null;
+    this.getReposData = function() {
+        return this.repos;
     };
-    this.setRepositoriesData = function(repositories, self) {
+    this.setReposData = function(repos, self) {
         if (self === undefined) self = this;
-        self.repositories = repositories;
+        self.repos = repos;
     };
 
-    this.repositories_metrics_data = {};
-    this.addRepositoryMetricsData = function(repository, data, self) {
+    this.repos_metrics_data = {};
+    this.addRepoMetricsData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repositories_metrics_data[repository] = data;
+        self.repos_metrics_data[repo] = data;
     };
-    this.getRepositoriesMetricsData = function() {
-        return this.repositories_metrics_data;
+    this.getReposMetricsData = function() {
+        return this.repos_metrics_data;
     };
 
-    this.repositories_global_data = {};
-    this.addRepositoryGlobalData = function(repository, data, self) {
+    this.repos_global_data = {};
+    this.addRepoGlobalData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repositories_global_data[repository] = data;
+        self.repos_global_data[repo] = data;
     };
-    this.getRepositoriesGlobalData = function() {
-        return this.repositories_global_data;
+    this.getReposGlobalData = function() {
+        return this.repos_global_data;
     };
 
     // TODO: Move this login to Report
@@ -273,32 +273,32 @@ function DataSource(name, basic_metrics) {
     this.displayBasicMetricCompaniesStatic = function (metric_id,
             div_target, config, limit, order_by, show_others) {
         
-        this.displayBasicMetricReportStatic ("companies",metric_id,
+        this.displayBasicMetricSubReportStatic ("companies",metric_id,
                 div_target, config, limit, order_by, show_others);
     };
     
     this.displayBasicMetricReposStatic = function (metric_id,
             div_target, config, limit, order_by, show_others) {
         
-        this.displayBasicMetricReportStatic ("repos", metric_id,
+        this.displayBasicMetricSubReportStatic ("repos", metric_id,
                 div_target, config, limit, order_by, show_others);
     };
     
-    this.displayBasicMetricReportStatic = function (report, metric_id,
+    this.displayBasicMetricSubReportStatic = function (report, metric_id,
             div_target, config, limit, order_by, show_others) {
         if (order_by === undefined) order_by = metric_id;
         var data = null;
         if (report=="companies")
             data = this.getCompaniesGlobalData();
         else if (report=="repos")
-            data = this.getRepositoriesGlobalData();
+            data = this.getReposGlobalData();
         else return;
         if (limit) {
             var sorted = null;
             if (report=="companies")
                 sorted = this.sortCompanies(order_by);
             else if (report=="repos")
-                sorted = this.getRepositoriesData();
+                sorted = this.getReposData();
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
@@ -319,7 +319,7 @@ function DataSource(name, basic_metrics) {
             data = data_limit;
         }
         
-        Viz.displayBasicMetricReportStatic(metric_id, data,
+        Viz.displayBasicMetricSubReportStatic(metric_id, data,
             div_target, config, limit);
     };    
 
@@ -376,7 +376,6 @@ function DataSource(name, basic_metrics) {
         return sorted_companies;
     };
 
-    // TODO: We need the sort metric
     this.displayCompaniesNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
         var sorted_companies = this.sortCompanies(sort_metric);
@@ -385,38 +384,71 @@ function DataSource(name, basic_metrics) {
         });
         $("#"+div_nav).append(nav);
     };
+    
+    this.displayReposNav = function (div_nav) {
+        var nav = "<span id='nav'></span>";
+        $.each(this.getReposData(), function(id, repo) {
+            nav += "<a href='#"+repo+"-nav'>"+repo + "</a> ";
+        });
+        $("#"+div_nav).append(nav);
+    };
 
-    this.displayCompaniesList = function (metrics,div_id, config_metric, sort_metric) {
+
+    this.displayCompaniesList = function (metrics,div_id, 
+            config_metric, sort_metric) {
+        this.displaySubReportList("companies",metrics,div_id, 
+                config_metric, sort_metric);
+    };
+    
+    this.displayReposList = function (metrics,div_id, 
+            config_metric, sort_metric) {
+        this.displaySubReportList("repos",metrics,div_id, 
+                config_metric, sort_metric);
+    };
+    
+    this.displaySubReportList = function (report, metrics,div_id, 
+            config_metric, sort_metric) {
         var list = "";
-        var companies_data = this.getCompaniesMetricsData();
-        var sorted_companies = this.sortCompanies(sort_metric);
+        var data = null, sorted = null;
+        if (report === "companies") {
+            data = this.getCompaniesMetricsData();
+            sorted = this.sortCompanies(sort_metric);
+        }
+        else if (report === "repos") {
+            data = this.getReposMetricsData();
+            sorted = this.getReposData();
+        } 
+        else return;
 
         // Preserve order when float right
         metrics.reverse();
 
-        $.each(sorted_companies, function(id, company) {
-            list += "<div class='companies-list' id='"+company+"-nav'>";
+        $.each(sorted, function(id, item) {
+            list += "<div class='subreport-list' id='"+item+"-nav'>";
             list += "<div style='float:left;'>";
-            list += "<a href='company.html?company="+company+"'>";
-            list += "<strong>"+company+"</strong> +info</a>";
+            if (report === "companies") 
+                list += "<a href='company.html?company="+item+"'>";
+            else if (report === "repos")
+                list += "<a href='repository.html?repository="+item+"'>";
+            list += "<strong>"+item+"</strong> +info</a>";
             list += "<br><a href='#nav'>^</a>";
             list += "</div>";
             $.each(metrics, function(id, metric) {
-                list += "<div id='"+company+"-"+metric+"'";
-                list +=" class='companies-list-item'></div>";
+                list += "<div id='"+item+"-"+metric+"'";
+                list +=" class='subreport-list-item'></div>";
             });
             list += "</div>";
         });
         $("#"+div_id).append(list);
         // Draw the graphs
-        $.each(sorted_companies, function(id, company) {
-            var data = companies_data[company];
+        $.each(sorted, function(id, item) {
+            var item_data = data[item];
             $.each(metrics, function(id, metric) {
-                var div_id = company+"-"+metric;
-                var companies = {};
-                companies[company] = data;
+                var div_id = item+"-"+metric;
+                var items = {};
+                items[item] = item_data;
                 var title = metric;
-                Viz.displayMetricCompaniesLines(div_id, metric, companies, title);
+                Viz.displayMetricSubReportLines(div_id, metric, items, title);
             });
         });
     };
@@ -456,10 +488,10 @@ function DataSource(name, basic_metrics) {
     };
     
     
-    this.displayRepositoriesSummary = function(divid, ds) {
+    this.displayReposSummary = function(divid, ds) {
         var html = "";
         var data = ds.getGlobalData();
-        html += "Total repositories: " + data.repositories +"<br>";
+        html += "Total repositories: " + data.repos +"<br>";
         $("#"+divid).append(html);
     };
     
