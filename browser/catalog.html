@@ -18,22 +18,46 @@
   <body>
     <div id="wrapper">
         <div>
-            <h1>Bitergia Catalog</h1>
+            <h1>BITERGIA'S BASIC CHARTS SUMMARY CATALOG</h1>
         </div>
-        
+        <div style=width:450px;height:120px">
+            <p> 
+                This web page is intended to be a catalog of charts, metrics and specific studies
+                that are available in the basic and open source Metrics Grimoire toolset and 
+                VizGrimoire visualization platform.
+            </p>
+            <p>
+                Technology is based on <a href="https://github.com/HumbleSoftware/Flotr2">flotr2</a> and 
+                <a href="https://github.com/HumbleSoftware/envisionjs">envision</a>. 
+            </p>
+        </div>
         <div>  
             <h2>Basic Vizs: Evolution</h2>
-            <div id="info-pill" style="margin:10px">
-                <div style="width:350px;height:100px" 
-                  class="scm-flotr2-metrics" data-metrics="commits,files" 
-                  data-legend="true"></div>
-                  <div>
-                    Multimetrics flotr2 evolution with show legend control per data source.
+            <div id="info-pill" style="margin:10px;width:700px;height:170px">
+                 <div style="width:700px;height:130px;">
+                    <div id="scm-commits-flotr2" style="width:350px;height:120px;float:left"></div>
+                    <div style="float:right;margin-top:20px;margin-left:15px;width:300px;heigth:120px">
+                         Timeseries chart that typically shows information about the evolution 
+                         of a specific metric. This type of charts are useful to understand how
+                         different aspects evolve over time. Although other parameters can be used
+                         the X-axis contains the evolution of time, while the Y-axis provides information
+                         about the value of the metric to be visualized.                          
+                    </div>
+                 </div>
+            </div>
+            
+            <div id="info-pill" style="margin:10px;width:700px;height:170px">
+                 <div style="width:700px;height:130px;">
+                    <div style="width:350px;height:100px;margin-right:15px;float:left" 
+                         class="scm-flotr2-metrics" data-metrics="commits,files" 
+                         data-legend="true"></div>
+                    <div style="float:right;margin-top:20px;margin-left:15px;width:300px;heigth:120px">
+                        As similarly visualized for the previous chart, that one can be extended
+                        to any number of potential metrics. 
+                    </div>
                   </div>
-                  <div id="scm-commits-flotr2" style="width:350px;height:120px;"></div>
-                  <div>
-                    One metric flotr2 evolution per data source.
-                  </div>
+            </div>
+
                   <div id="scm-time-bubbles" class="bubbles" style="width:500px;height:200px;"></div>
                   <div>
                     Bubbles per data source for easy 3d graphs.
