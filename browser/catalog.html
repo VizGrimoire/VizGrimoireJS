@@ -20,7 +20,7 @@
         <div>
             <h1>BITERGIA'S BASIC CHARTS SUMMARY CATALOG</h1>
         </div>
-        <div style=width:450px;height:120px">
+        <div style=width:450px;height:250px">
             <p> 
                 This web page is intended to be a catalog of charts, metrics and specific studies
                 that are available in the basic and open source Metrics Grimoire toolset and 
@@ -28,52 +28,82 @@
             </p>
             <p>
                 Technology is based on <a href="https://github.com/HumbleSoftware/Flotr2">flotr2</a> and 
-                <a href="https://github.com/HumbleSoftware/envisionjs">envision</a>. 
+                <a href="https://github.com/HumbleSoftware/envisionjs">envision</a>. Each of the charts
+                presented allow to have interaction with the dataset, providing information about
+                each of the dots.
+            </p>
+            <p>
+                Thanks to this technology, it is possible to create charts of almost any size, with
+                any type of granularity, having zoom on the dataset and even more, letting the user to 
+                specify her basic dashboard of metrics.
             </p>
         </div>
         <div>  
-            <h2>Basic Vizs: Evolution</h2>
             <div id="info-pill" style="margin:10px;width:700px;height:170px">
                  <div style="width:700px;height:130px;">
+                    <h2>Timeseries Chart</h2>
                     <div id="scm-commits-flotr2" style="width:350px;height:120px;float:left"></div>
                     <div style="float:right;margin-top:20px;margin-left:15px;width:300px;heigth:120px">
+                      <p>
                          Timeseries chart that typically shows information about the evolution 
                          of a specific metric. This type of charts are useful to understand how
                          different aspects evolve over time. Although other parameters can be used
                          the X-axis contains the evolution of time, while the Y-axis provides information
                          about the value of the metric to be visualized.                          
+                      </p>
                     </div>
                  </div>
             </div>
             
             <div id="info-pill" style="margin:10px;width:700px;height:170px">
                  <div style="width:700px;height:130px;">
+                    <h2>Multivariable Timeseries Chart</h2>
                     <div style="width:350px;height:100px;margin-right:15px;float:left" 
                          class="scm-flotr2-metrics" data-metrics="commits,files" 
                          data-legend="true"></div>
                     <div style="float:right;margin-top:20px;margin-left:15px;width:300px;heigth:120px">
+                      <p>
                         As similarly visualized for the previous chart, that one can be extended
-                        to any number of potential metrics. 
+                        to any number of potential metrics. Thus, it is possible to visualize as many
+                        metrics as requiered.
+                      </p>
                     </div>
                   </div>
             </div>
 
-                  <div id="scm-time-bubbles" class="bubbles" style="width:500px;height:200px;"></div>
-                  <div>
-                    Bubbles per data source for easy 3d graphs.
+            <div id="info-pill" style="margin:10px;width:700px;height:250px">
+               <div style="width:700px;height:130px;">
+                  <h2>Bubble Chart</h2>
+                  <div id="scm-time-bubbles" class="bubbles" style="width:500px;height:200px;float:left;"></div>
+                  <div style="float:right;margin-top:20px;margin-left:15px;width:180px;heigth:250px;">
+                    Bubbles charts adds another variable to previous charts. It is possible thanks
+                    to the possibility to play with the radius of the resultan circumference. Thus,
+                    besides the time and number of commits similar to previous examples, it is possible
+                    to add information about a third variable: number of committers that participated
+                    in a given month. 
                   </div>              
+               </div>
             </div>
-            <h2>Basic Vizs: Static</h2>
-            <div id="info-pill" style="margin:10px">
-                <div>
-                <div id="radar-activity" class='radar' style="float:left;width:250px;height:210px"></div>
-                <div id="radar-community" class='radar' style="float:left;width:250px;height:210px"></div>
-                <div style="clear:both"></div>
+            <div id="info-pill" style="margin:10px;width:700px;height:270px">
+                <h2>Radar Chart</h2>
+                <div style="float:left;">
+                    <div id="radar-activity" class='radar' style="float:left;width:250px;height:210px"></div>
+                    <div id="radar-community" class='radar' style="float:left;width:250px;height:210px"></div>
+                    <div style="clear:both"></div>
                 </div>
-                <div>Radar for activity in all data sources and for community activity</div>
+                <div style="float:right;margin-top:20px;margin-left:15px;width:180px;heigth:250px;">
+                   Radar charts allow to visualize static metrics in a quick glimpse. Those consist
+                   of six vertex. Each of them is a specific metric and that metric has a value.
+                   Based on the six values an area is painted, representing an easy way to compare
+                   attributes. Any kind of value can be represented. 
+                </div>
+            </div>
+
+          <div id="info-pill" style="margin:10px;width:700px;height:250px">
+                <h2>Treemap chart</h2>
+
                 <div id="treemap" class="treemap" data-file='flare1.json' style="width:500px;height:200px;"></div>
                 <div>Treemap for static several dimensions vizs</div>
-            </div>
         </div>
 
         <div>  
