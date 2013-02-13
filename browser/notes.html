@@ -106,7 +106,7 @@
       <a id="note:charts:summary:commits"><b>Commits per company (monthly)</b></a>
       <p>For each company, it shows the number of <a href="#note:analysis:commits">commits</a> per month  for authors 
       <a href="#note:analysis:affiliation">affiliated</a> to that company. Only the top ten companies, 
-        by total number of reviewed commits, are shown.</p>
+        by total number of commits, are shown.</p>
           </li>
           <li>
 	  <a id="note:charts:summary:authors"><b>Active authors per company (monthly)</b></a>
@@ -135,12 +135,45 @@
 	  <a id="note:tables:summary:authors"><b>Top authors (table)</b></a>
 	  <p>Top authors, ordered by number of reviewed commits for the specified period. Period is the whole history of the project, or the specified year. </p>
           </li>
-
+    </ul>
+          
+    <a id="note:charts:repositories"><h2>Information for all repositories</h2> 
+      <p>Charts offering an aggregated view of the data, organized by repository.</p>      
+       <ul>
+         <li>
+          <a id="note:charts:repositories:repositories"><b>Active repositories per month (evolution chart)</b></a>
+          <p>Information about the monthly evolution of the number of repositories.</p>
+      </li>          
+       
+        <li>
+      <a id="note:charts:repositories:commits"><b>Commits per repository (monthly)</b></a>
+      <p>For each repository, it shows the number of <a href="#note:analysis:commits">commits</a> per month  for authors 
+      in this repository. Only the top ten repositories, ordered by total number of commits, are shown.</p>
+          </li>
+          <li>
+      <a id="note:charts:repositories:authors"><b>Active authors per repository (monthly)</b></a>
+          <p>For each repository, it shows the number of active authors per month. We count active authors as those that 
+          committed at least one <a href="#note:analysis:commits">commit</a> per month, and assign them to repository.
+          Only the top ten companies, by total number of authors, are shown.</p>
+          </li>
           </ul>
-
+          
+      <a id="note:charts:repository"><h2>Information per repository</h2>
+          <p>Charts and tables that offer several metrics for a given repository.</p>
+        <ul>
+        <li>
+        <a id="note:charts:repository:commits"><b>Commits per month (evolution chart)</b></a>
+          <p>Monthly evolution of the number of commits in the corresponding repository.</p>
+        </li>
+        <li>
+        <a id="note:charts:repository:authors"><b>Authors per month (evolution chart)</b></a>
+          <p>Monthly evolution of the number of active authors of commits to the 
+            corresponding repository.</p>
+        </li>
+        </ul>
+                         
 	<a id="note:charts:companies"><h2>Information for all companies</h2> 
 	  <p>Charts offering an aggregated view of the data, organized by company.</p>
-
           <ul>
           <li>
           <a id="note:charts:companies:companies"><b>Active companies per month (evolution chart)</b></a>
