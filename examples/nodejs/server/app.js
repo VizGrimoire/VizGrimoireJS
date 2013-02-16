@@ -29,16 +29,16 @@ app.configure('development', function(){
 app.get('/', grimoire.index);
 app.get('/scm/authors', grimoire.authors);
 app.get('/scm/authors/:id', grimoire.authorsfindById);
-app.get('/scm/authors-evol', grimoire.authors_evol);
+app.get('/scm/authors_evol', grimoire.authors_evol);
 app.get('/scm/commits', grimoire.commits);
 app.get('/scm/commits/:id', grimoire.commitsfindById);
-app.get('/scm/commits-evol', grimoire.commits_evol);
+app.get('/scm/commits_evol', grimoire.commits_evol);
 app.get('/scm/companies', grimoire.companies);
 app.get('/scm/companies/:id', grimoire.companiesfindById);
 app.get('/scm/companies-evol', grimoire.companies_evol);
 app.get('/scm/repos', grimoire.repos);
 app.get('/scm/repos/:id', grimoire.reposfindById);
-app.get('/scm/repos-evol', grimoire.repos_evol);
+app.get('/scm/repos_evol', grimoire.repos_evol);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
