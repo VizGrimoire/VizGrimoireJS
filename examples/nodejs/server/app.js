@@ -26,27 +26,19 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-
-//app.get('/wines', wine.findAll);
-//app.get('/wines/:id', wine.findById);
-//app.post('/wines', wine.addWine);
-//app.put('/wines/:id', wine.updateWine);
-//app.delete('/wines/:id', wine.deleteWine);
-
 app.get('/', grimoire.index);
-app.get('/companies', grimoire.companies);
-app.get('/companies/:id', grimoire.companiesfindById);
-app.get('/commits', grimoire.commits);
-app.get('/commits/:date1:date2', grimoire.commitsByDate);
-//http://service/commits: total numer of commits
-//    http://service/commits/date1-date2 total commits for a date range
-//    http://service/commits-evol total commits evolution
-//    http://service/commits-evol/date1-date2 evol commits for a date range
-//    http://service/authors: list of authors
-//    http://service/authors/author_id/commits total commits
-//    http://service/authors/author_id/commits/date1-date2 total commits for a date range
-//    http://service/authors/author_id/commits-evol total commits evolution for an author
-//    http://service/authors/author_id/commits-evol/date1-date2 total commits evolution for a date range for an author
+app.get('/scm/authors', grimoire.authors);
+app.get('/scm/authors/:id', grimoire.authorsfindById);
+app.get('/scm/authors-evol', grimoire.authors_evol);
+app.get('/scm/commits', grimoire.commits);
+app.get('/scm/commits/:id', grimoire.commitsfindById);
+app.get('/scm/commits-evol', grimoire.commits_evol);
+app.get('/scm/companies', grimoire.companies);
+app.get('/scm/companies/:id', grimoire.companiesfindById);
+app.get('/scm/companies-evol', grimoire.companies_evol);
+app.get('/scm/repos', grimoire.repos);
+app.get('/scm/repos/:id', grimoire.reposfindById);
+app.get('/scm/repos-evol', grimoire.repos_evol);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
