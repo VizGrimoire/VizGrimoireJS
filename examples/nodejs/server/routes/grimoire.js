@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
-function toGrimoireJSON(rows) {
+function toGrimoireEvolJSON(rows) {
     var data = {id:[],date:[],commits:[]};
     for (var i =0; i<rows.length; i++) {
         data.id.push(rows[i].id);
@@ -23,6 +23,35 @@ function toGrimoireJSON(rows) {
     return data;
 }
 
+// One row with values
+function toGrimoireJSON(rows) {
+    return rows[0];
+}
+
+function sendSQLRes(sql_query, req, res, evol) {
+    var url_parts = url.parse(req.url, true);    
+    var query = url_parts.query;
+
+    connection.query(sql_query, function( err, rows, fields) {
+        // JSONP support for jQuery
+        if (query && query.callback) {
+            res.writeHead(200, {'Content-Type' : 'application/javascript'});
+            if (evol)
+                res.end(query.callback + '(' + 
+                    JSON.stringify(toGrimoireEvolJSON(rows)) + ')');
+            else
+                res.end(query.callback + '(' + 
+                        JSON.stringify(toGrimoireJSON(rows)) + ')');
+        }
+        else {
+            res.writeHead(200, {'Content-Type' : 'application/json'});
+            if (evol)
+                res.end(JSON.stringify(toGrimoireEvolJSON(rows)));
+            else
+                res.end(JSON.stringify(toGrimoireJSON(rows)));
+        }
+    });
+}
 
 // REST Methods
 exports.authors = function(req, res) {
@@ -36,16 +65,24 @@ exports.authors_evol = function(req, res) {
 };
 
 exports.commits = function(req, res) {
-    res.send("commits " + req.query.start + " " + req.query.end);
+    var evol = false;
+    var start = req.query.start;
+    var end = req.query.end;
+    var sql = "SELECT COUNT(id) AS commits FROM scmlog";
+    if (start || end) sql += " WHERE ";
+    if (start) sql += "date>'" + start +"'";
+    if (start && end) sql += " AND ";
+    if (end) sql += "date<'" + end + "'";
+    sendSQLRes(sql, req, res, evol);
 };
 exports.commitsfindById = function(req, res) {
-    res.send("company JSON by Id");
+    var evol = false;
+    var sql = "SELECT * FROM scmlog where id = " + req.params.id;
+    sendSQLRes(sql, req, res, evol);
 };
 exports.commits_evol = function(req, res) {
-    var url_parts = url.parse(req.url, true);    
-    var query = url_parts.query;
-
-    var commits_ts_sql = "" +
+    var evol = true;
+    var sql = "" +
         "SELECT m.id AS id, m.year AS year, m.month AS month, "+
         "DATE_FORMAT(m.date, '%b %Y') AS date, "+
         "IFNULL(cm.commits, 0) AS commits "+
@@ -59,18 +96,7 @@ exports.commits_evol = function(req, res) {
         ") AS cm "+
         "ON (m.year = cm.year AND m.month = cm.month);";
     
-    connection.query(commits_ts_sql, function( err, rows, fields) {
-        // JSONP support for jQuery
-        if (query && query.callback) {
-            res.writeHead(200, {'Content-Type' : 'application/javascript'});
-            res.end(query.callback + '(' + 
-                    JSON.stringify(toGrimoireJSON(rows)) + ')');
-        }
-        else {
-            res.writeHead(200, {'Content-Type' : 'application/json'});
-            res.end(JSON.stringify(toGrimoireJSON(rows)));
-        }
-    });
+    sendSQLRes(sql, req, res, evol);    
 };
 
 exports.companies = function(req, res) {
