@@ -174,12 +174,12 @@ exports.commits = function(req, res) {
 exports.commitsfindById = function(req, res) {
     var evol = false;
     var sql = "SELECT * FROM scmlog where id = " + req.params.id;
-    sendSQLRes(sql, req, res, evol);
+    sendSQLRes(req.params.db, sql, req, res, evol);
 };
 exports.commits_evol = function(req, res) {
     var evol = true;
     var sql = evolSCMSql("commits","id");
-    sendSQLRes(sql, req, res, evol);
+    sendSQLRes(req.params.db, sql, req, res, evol);
 };
 
 exports.companies = function(req, res) {

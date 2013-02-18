@@ -28,18 +28,18 @@ app.configure('development', function(){
 
 app.get('/', grimoire.index);
 app.get('/scm/dbs', grimoire.dbs);
-app.get('/scm/authors/:db', grimoire.authors);
-app.get('/scm/authors/:db/:id', grimoire.authorsfindById);
-app.get('/scm/authors_evol/:db', grimoire.authors_evol);
-app.get('/scm/commits/:db', grimoire.commits);
-app.get('/scm/commits/:db/:id', grimoire.commitsfindById);
-app.get('/scm/commits_evol/:db', grimoire.commits_evol);
-app.get('/scm/companies', grimoire.companies);
-app.get('/scm/companies/:id', grimoire.companiesfindById);
-app.get('/scm/companies-evol', grimoire.companies_evol);
-app.get('/scm/repos', grimoire.repos);
-app.get('/scm/repos/:id', grimoire.reposfindById);
-app.get('/scm/repos_evol', grimoire.repos_evol);
+app.get('/scm/:db/authors', grimoire.authors);
+app.get('/scm/:db/authors/:id', grimoire.authorsfindById);
+app.get('/scm/:db/authors_evol', grimoire.authors_evol);
+app.get('/scm/:db/commits', grimoire.commits);
+app.get('/scm/:db/commits/:id', grimoire.commitsfindById);
+app.get('/scm/:db/commits_evol', grimoire.commits_evol);
+app.get('/scm/:db/companies', grimoire.companies);
+app.get('/scm/:db/companies/:id', grimoire.companiesfindById);
+app.get('/scm/:db/companies_evol', grimoire.companies_evol);
+app.get('/scm/:db/repos', grimoire.repos);
+app.get('/scm/:db/repos/:id', grimoire.reposfindById);
+app.get('/scm/:db/repos_evol', grimoire.repos_evol);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
