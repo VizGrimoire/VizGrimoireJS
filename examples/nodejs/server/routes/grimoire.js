@@ -13,6 +13,10 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 
+// Pagination
+var items_page = 50;
+var max_items_page = 500;
+
 function toGrimoireEvolJSON(rows) {
     var data = {id:[],date:[],commits:[]};
     for (var i =0; i<rows.length; i++) {
@@ -25,7 +29,7 @@ function toGrimoireEvolJSON(rows) {
 
 // One row with values
 function toGrimoireJSON(rows) {
-    return rows[0];
+    return rows;
 }
 
 function sendSQLRes(sql_query, req, res, evol) {
@@ -68,11 +72,19 @@ exports.commits = function(req, res) {
     var evol = false;
     var start = req.query.start;
     var end = req.query.end;
-    var sql = "SELECT COUNT(id) AS commits FROM scmlog";
+    var offset = req.query.offset;
+    var limit = req.query.limit;
+    // var sql = "SELECT COUNT(id) AS commits FROM scmlog";
+    var sql = "SELECT * FROM scmlog";
     if (start || end) sql += " WHERE ";
     if (start) sql += "date>'" + start +"'";
     if (start && end) sql += " AND ";
     if (end) sql += "date<'" + end + "'";
+    if (!limit) limit = items_page;
+    if (limit>max_items_page) limit = max_items_page;
+    sql += " LIMIT " + limit;    
+    if (offset) sql += " OFFSET " + offset;
+    console.log(sql);
     sendSQLRes(sql, req, res, evol);
 };
 exports.commitsfindById = function(req, res) {
