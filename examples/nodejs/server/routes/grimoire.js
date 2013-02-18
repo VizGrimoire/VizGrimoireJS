@@ -18,19 +18,18 @@ var items_page = 50;
 var max_items_page = 500;
 
 function toGrimoireEvolJSON(rows) {
-    var data = {id:[],date:[],commits:[]};
+    var field = '';
+    if (rows[0].commits) field = 'commits';
+    if (rows[0].authors) field = 'authors';
+    var data = {id:[],date:[]};
+    data[field]=[];
     for (var i =0; i<rows.length; i++) {
         data.id.push(rows[i].id);
         data.date.push(rows[i].date);
-        data.commits.push(rows[i].commits);
+        data[field].push(rows[i][field]);
     }
     return data;
 }
-
-// One row with values
-function toGrimoireJSON(rows) {
-    return rows;
-} 
 
 function sendRes (req, res, rows, evol) {
     var url_parts = url.parse(req.url, true);    
@@ -43,14 +42,14 @@ function sendRes (req, res, rows, evol) {
                 JSON.stringify(toGrimoireEvolJSON(rows)) + ')');
         else
             res.end(query.callback + '(' + 
-                    JSON.stringify(toGrimoireJSON(rows)) + ')');
+                    JSON.stringify(rows) + ')');
     }
     else {
         res.writeHead(200, {'Content-Type' : 'application/json'});
         if (evol)
             res.end(JSON.stringify(toGrimoireEvolJSON(rows)));
         else
-            res.end(JSON.stringify(toGrimoireJSON(rows)));
+            res.end(JSON.stringify(rows));
     }
 }
 
@@ -60,15 +59,74 @@ function sendSQLRes(sql_query, req, res, evol) {
     });
 }
 
+function sqlPageFilter(start,end,limit,offset) {
+    var sql = '';
+    if (start || end) sql += " WHERE ";
+    if (start) sql += "date>'" + start +"'";
+    if (start && end) sql += " AND ";
+    if (end) sql += "date<'" + end + "'";
+    if (limit>max_items_page) limit = max_items_page;
+    sql += " LIMIT " + limit;    
+    if (offset) sql += " OFFSET " + offset;
+    return sql;    
+}
+
+function addPageFilterInfo(data,start,end,limit,offset) {
+    data.limit = limit;
+    data.offset = offset;
+    data.start = start;
+    data.end = end;    
+}
+
+function evolSCMSql(label, field) {    
+    var sql = "" +
+    "SELECT m.id AS id, m.year AS year, m.month AS month, "+
+    "DATE_FORMAT(m.date, '%b %Y') AS date, "+
+    "IFNULL(cm."+label+", 0) AS " + label + " " +
+    "FROM  months m "+
+    "LEFT JOIN ("+
+    " SELECT year(s.date) as year, month(s.date) as month, "+ 
+    "  COUNT(DISTINCT(s."+field+")) AS " + label + " "+
+    " FROM scmlog s "+
+    " GROUP BY YEAR(s.date), MONTH(s.date) "+
+    " ORDER BY YEAR(s.date), month(s.date)" +
+    ") AS cm "+
+    "ON (m.year = cm.year AND m.month = cm.month);";
+    console.log(sql);
+    return sql;
+}
+
+
 // REST Methods
 exports.authors = function(req, res) {
-    res.send("authors " + req.query.start + " " + req.query.end);
+    var evol = false;
+    var start = req.query.start;
+    var end = req.query.end;
+    var offset = req.query.offset;
+    if (!offset) offset = 0;
+    var limit = req.query.limit;
+    if (!limit) limit = items_page;
+    var sql = "SELECT * FROM people";
+    sql += sqlPageFilter(start,end,limit,offset);
+    console.log(sql);
+    connection.query(sql, function(err, rows, fields) {
+        var sql_total = "SELECT COUNT(id) AS total_authors FROM people";
+        connection.query(sql_total, function(err, rows1, fields) {
+            addPageFilterInfo(rows1[0],start,end,limit,offset);
+            rows.push(rows1[0]);
+            sendRes(req, res, rows, evol);
+        });
+    });
 };
 exports.authorsfindById = function(req, res) {
-    res.send("company JSON by Id");
+    var evol = false;
+    var sql = "SELECT * FROM people where id = " + req.params.id;
+    sendSQLRes(sql, req, res, evol);
 };
 exports.authors_evol = function(req, res) {
-    res.send("respond with a authors-evol in JSON");
+    var evol = true;
+    var sql = evolSCMSql("authors","author_id");     
+    sendSQLRes(sql, req, res, evol);
 };
 
 exports.commits = function(req, res) {
@@ -76,25 +134,16 @@ exports.commits = function(req, res) {
     var start = req.query.start;
     var end = req.query.end;
     var offset = req.query.offset;
-    var limit = req.query.limit;
-    var sql = "SELECT * FROM scmlog";
-    if (start || end) sql += " WHERE ";
-    if (start) sql += "date>'" + start +"'";
-    if (start && end) sql += " AND ";
-    if (end) sql += "date<'" + end + "'";
     if (!offset) offset = 0;
+    var limit = req.query.limit;
     if (!limit) limit = items_page;
-    if (limit>max_items_page) limit = max_items_page;
-    sql += " LIMIT " + limit;    
-    if (offset) sql += " OFFSET " + offset;
+    var sql = "SELECT * FROM scmlog";
+    sql += sqlPageFilter(start,end,limit,offset);
     console.log(sql);
     connection.query(sql, function(err, rows, fields) {
         var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
         connection.query(sql_total, function(err, rows1, fields) {
-            rows1[0].limit = limit;
-            rows1[0].offset = offset;
-            rows1[0].start = start;
-            rows1[0].end = end;
+            addPageFilterInfo(rows1[0],start,end,limit,offset);
             rows.push(rows1[0]);
             sendRes(req, res, rows, evol);
         });
@@ -107,21 +156,8 @@ exports.commitsfindById = function(req, res) {
 };
 exports.commits_evol = function(req, res) {
     var evol = true;
-    var sql = "" +
-        "SELECT m.id AS id, m.year AS year, m.month AS month, "+
-        "DATE_FORMAT(m.date, '%b %Y') AS date, "+
-        "IFNULL(cm.commits, 0) AS commits "+
-        "FROM  months m "+
-        "LEFT JOIN ("+
-        " SELECT year(s.date) as year, month(s.date) as month, "+ 
-        "  COUNT(DISTINCT(s.id)) AS commits "+
-        " FROM scmlog s "+
-        " GROUP BY YEAR(s.date), MONTH(s.date) "+
-        " ORDER BY YEAR(s.date), month(s.date)" +
-        ") AS cm "+
-        "ON (m.year = cm.year AND m.month = cm.month);";
-    
-    sendSQLRes(sql, req, res, evol);    
+    var sql = evolSCMSql("commits","id");
+    sendSQLRes(sql, req, res, evol);
 };
 
 exports.companies = function(req, res) {
