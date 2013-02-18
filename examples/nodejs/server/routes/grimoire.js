@@ -30,30 +30,33 @@ function toGrimoireEvolJSON(rows) {
 // One row with values
 function toGrimoireJSON(rows) {
     return rows;
-}
+} 
 
-function sendSQLRes(sql_query, req, res, evol) {
+function sendRes (req, res, rows, evol) {
     var url_parts = url.parse(req.url, true);    
     var query = url_parts.query;
 
-    connection.query(sql_query, function( err, rows, fields) {
-        // JSONP support for jQuery
-        if (query && query.callback) {
-            res.writeHead(200, {'Content-Type' : 'application/javascript'});
-            if (evol)
-                res.end(query.callback + '(' + 
-                    JSON.stringify(toGrimoireEvolJSON(rows)) + ')');
-            else
-                res.end(query.callback + '(' + 
-                        JSON.stringify(toGrimoireJSON(rows)) + ')');
-        }
-        else {
-            res.writeHead(200, {'Content-Type' : 'application/json'});
-            if (evol)
-                res.end(JSON.stringify(toGrimoireEvolJSON(rows)));
-            else
-                res.end(JSON.stringify(toGrimoireJSON(rows)));
-        }
+    if (query && query.callback) {
+        res.writeHead(200, {'Content-Type' : 'application/javascript'});
+        if (evol)
+            res.end(query.callback + '(' + 
+                JSON.stringify(toGrimoireEvolJSON(rows)) + ')');
+        else
+            res.end(query.callback + '(' + 
+                    JSON.stringify(toGrimoireJSON(rows)) + ')');
+    }
+    else {
+        res.writeHead(200, {'Content-Type' : 'application/json'});
+        if (evol)
+            res.end(JSON.stringify(toGrimoireEvolJSON(rows)));
+        else
+            res.end(JSON.stringify(toGrimoireJSON(rows)));
+    }
+}
+
+function sendSQLRes(sql_query, req, res, evol) {
+    connection.query(sql_query, function(err, rows, fields) {
+        sendRes(req, res, rows, evol);
     });
 }
 
@@ -74,18 +77,28 @@ exports.commits = function(req, res) {
     var end = req.query.end;
     var offset = req.query.offset;
     var limit = req.query.limit;
-    // var sql = "SELECT COUNT(id) AS commits FROM scmlog";
     var sql = "SELECT * FROM scmlog";
     if (start || end) sql += " WHERE ";
     if (start) sql += "date>'" + start +"'";
     if (start && end) sql += " AND ";
     if (end) sql += "date<'" + end + "'";
+    if (!offset) offset = 0;
     if (!limit) limit = items_page;
     if (limit>max_items_page) limit = max_items_page;
     sql += " LIMIT " + limit;    
     if (offset) sql += " OFFSET " + offset;
     console.log(sql);
-    sendSQLRes(sql, req, res, evol);
+    connection.query(sql, function(err, rows, fields) {
+        var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
+        connection.query(sql_total, function(err, rows1, fields) {
+            rows1[0].limit = limit;
+            rows1[0].offset = offset;
+            rows1[0].start = start;
+            rows1[0].end = end;
+            rows.push(rows1[0]);
+            sendRes(req, res, rows, evol);
+        });
+    });
 };
 exports.commitsfindById = function(req, res) {
     var evol = false;
