@@ -27,12 +27,13 @@ app.configure('development', function(){
 });
 
 app.get('/', grimoire.index);
-app.get('/scm/authors', grimoire.authors);
-app.get('/scm/authors/:id', grimoire.authorsfindById);
-app.get('/scm/authors_evol', grimoire.authors_evol);
-app.get('/scm/commits', grimoire.commits);
-app.get('/scm/commits/:id', grimoire.commitsfindById);
-app.get('/scm/commits_evol', grimoire.commits_evol);
+app.get('/scm/dbs', grimoire.dbs);
+app.get('/scm/authors/:db', grimoire.authors);
+app.get('/scm/authors/:db/:id', grimoire.authorsfindById);
+app.get('/scm/authors_evol/:db', grimoire.authors_evol);
+app.get('/scm/commits/:db', grimoire.commits);
+app.get('/scm/commits/:db/:id', grimoire.commitsfindById);
+app.get('/scm/commits_evol/:db', grimoire.commits_evol);
 app.get('/scm/companies', grimoire.companies);
 app.get('/scm/companies/:id', grimoire.companiesfindById);
 app.get('/scm/companies-evol', grimoire.companies_evol);

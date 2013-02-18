@@ -9,7 +9,7 @@ var mysql = require('mysql');
 var connection = mysql.createConnection({
     user : 'root',
     password : '',
-    database : 'acs_cvsanaly_webkit'
+    database : ''
 });
 connection.connect();
 
@@ -53,9 +53,16 @@ function sendRes (req, res, rows, evol) {
     }
 }
 
-function sendSQLRes(sql_query, req, res, evol) {
-    connection.query(sql_query, function(err, rows, fields) {
-        sendRes(req, res, rows, evol);
+function sendSQLRes(db, sql_query, req, res, evol) {
+    connection.query("USE "+db, function(err, usedb, fields) {
+        if (err) {
+            console.log("Can't connect to " + db);
+            res.send(err);
+            return;
+        }
+        connection.query(sql_query, function(err, rows, fields) {
+            sendRes(req, res, rows, evol);
+        });
     });
 }
 
@@ -99,6 +106,7 @@ function evolSCMSql(label, field) {
 
 // REST Methods
 exports.authors = function(req, res) {
+    var db = req.params.db;
     var evol = false;
     var start = req.query.start;
     var end = req.query.end;
@@ -109,27 +117,35 @@ exports.authors = function(req, res) {
     var sql = "SELECT * FROM people";
     sql += sqlPageFilter(start,end,limit,offset);
     console.log(sql);
-    connection.query(sql, function(err, rows, fields) {
-        var sql_total = "SELECT COUNT(id) AS total_authors FROM people";
-        connection.query(sql_total, function(err, rows1, fields) {
-            addPageFilterInfo(rows1[0],start,end,limit,offset);
-            rows.push(rows1[0]);
-            sendRes(req, res, rows, evol);
+    connection.query("USE "+db, function(err, usedb, fields) {
+        if (err) {
+            console.log("Can't connect to " + db);
+            res.send(err);
+            return;
+        }
+        connection.query(sql, function(err, rows, fields) {
+            var sql_total = "SELECT COUNT(id) AS total_authors FROM people";
+            connection.query(sql_total, function(err, rows1, fields) {
+                addPageFilterInfo(rows1[0],start,end,limit,offset);
+                rows.push(rows1[0]);
+                sendRes(req, res, rows, evol);
+            });
         });
     });
 };
 exports.authorsfindById = function(req, res) {
     var evol = false;
     var sql = "SELECT * FROM people where id = " + req.params.id;
-    sendSQLRes(sql, req, res, evol);
+    sendSQLRes(req.params.db, sql, req, res, evol);
 };
 exports.authors_evol = function(req, res) {
     var evol = true;
     var sql = evolSCMSql("authors","author_id");     
-    sendSQLRes(sql, req, res, evol);
+    sendSQLRes(req.params.db, sql, req, res, evol);
 };
 
 exports.commits = function(req, res) {
+    var db = req.params.db;
     var evol = false;
     var start = req.query.start;
     var end = req.query.end;
@@ -139,13 +155,19 @@ exports.commits = function(req, res) {
     if (!limit) limit = items_page;
     var sql = "SELECT * FROM scmlog";
     sql += sqlPageFilter(start,end,limit,offset);
-    console.log(sql);
-    connection.query(sql, function(err, rows, fields) {
-        var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
-        connection.query(sql_total, function(err, rows1, fields) {
-            addPageFilterInfo(rows1[0],start,end,limit,offset);
-            rows.push(rows1[0]);
-            sendRes(req, res, rows, evol);
+    connection.query("USE "+db, function(err, usedb, fields) {
+        if (err) {
+            console.log("Can't connect to " + db);
+            res.send(err);
+            return;
+        }
+        connection.query(sql, function(err, rows, fields) {
+            var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
+            connection.query(sql_total, function(err, rows1, fields) {
+                addPageFilterInfo(rows1[0],start,end,limit,offset);
+                rows.push(rows1[0]);
+                sendRes(req, res, rows, evol);
+            });
         });
     });
 };
@@ -168,6 +190,17 @@ exports.companiesfindById = function(req, res) {
 };
 exports.companies_evol = function(req, res) {
     res.send("respond with a companies-evol in JSON");
+};
+
+exports.dbs = function(req, res) {
+    var evol = false;
+    connection.query("SHOW DATABASES", function(err, rows, fields) {
+        var scmdbs = [];
+        for (var i=0; i<rows.length; i++) {
+            if (rows[i].Database.indexOf('cvsanaly')>-1) scmdbs.push(rows[i]);
+        }
+        sendRes(req, res, scmdbs, evol);
+    });
 };
 
 exports.repos = function(req, res) {
