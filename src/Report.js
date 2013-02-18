@@ -27,7 +27,7 @@ var Report = {};
 
     // Shared config
     var project_data = null, markers = null, config = null, 
-        data_callbacks = [], gridster = {}, data_sources = [], html_dir="";
+        gridster = {}, data_sources = [], html_dir="";
     var data_dir = "data/json";
     var default_data_dir = "data/json";
     var default_html_dir = "";
@@ -37,10 +37,9 @@ var Report = {};
     var project_file = data_dir + "/project-info.json",
         config_file = data_dir + "/viz_cfg.json",
         markers_file = data_dir + "/markers.json";
-    var check_companies = false, check_repos = false;
 
+    // TODO: Why is it public? Markup API!
     // Public API
-    Report.check_data_loaded = check_data_loaded;
     Report.convertBasicDivs = convertBasicDivs;
     Report.convertEnvision = convertEnvision;
     Report.convertFlotr2 = convertFlotr2;
@@ -49,8 +48,6 @@ var Report = {};
     Report.convertDemographics = convertDemographics;
     Report.convertSelectors = convertSelectors;
     Report.createDataSources = createDataSources;
-    Report.data_load = data_load;
-    Report.data_ready = data_ready;
     Report.getAllMetrics = getAllMetrics;
     Report.getMarkers = getMarkers;
     Report.getConfig = getConfig;
@@ -58,7 +55,7 @@ var Report = {};
     Report.getGridster = getGridster;
     Report.setGridster = setGridster;
     Report.getProjectData = getProjectData;
-    Report.getProjecstData = getProjectsData;
+    Report.getProjectsData = getProjectsData;
     Report.getBasicDivs = function() {
         return basic_divs;
     }; 
@@ -90,10 +87,25 @@ var Report = {};
     function getMarkers() {
         return markers;
     }
+    
+    Report.setMarkers = function (data) {
+        markers = data;
+    };    
+    Report.getMarkersFile = function () {
+        return markers_file;
+    };
 
     function getConfig() {
         return config;
     }
+    
+    Report.setConfig = function(cfg) {
+        config = cfg;
+    };
+    
+    Report.getConfigFile = function() {
+        return config_file;
+    };
 
     function getGridster() {
         return gridster;
@@ -107,6 +119,14 @@ var Report = {};
         return project_data;
     }
     
+    Report.setProjectData = function(data) {
+        project_data = data;
+    };
+    
+    Report.getProjectFile = function () {
+        return project_file;
+    };
+
     function getProjectsData() {
         return projects_data;
     }
@@ -142,249 +162,6 @@ var Report = {};
         return ds;
     }
 
-    function data_ready(callback) {
-        data_callbacks.push(callback);
-    }
-
-    function data_load() {
-        data_load_file(project_file, function(data, self) {project_data = data;});
-        data_load_file(config_file, function(data, self) {config = data;});
-        data_load_file(markers_file, function(data, self) {markers = data;});        
-        for (var i=0;  i<projects_dirs.length; i++) {
-            var data_dir = projects_dirs[i];
-            var prj_file = data_dir + "/project-info.json";
-            data_load_file(prj_file, function(data, dir) {
-                if (data.project_name === undefined) {
-                    data.project_name = dir.replace("data/json","")
-                        .replace(/\.\.\//g,"");
-                }
-                projects_data[data.project_name] = {dir:dir,url:data.project_url};
-            }, data_dir);
-        }
-        data_load_companies();
-        data_load_repos();
-        data_load_metrics();
-        data_load_people();
-        // data_load_tops('authors_rev');
-        data_load_tops('authors');
-    }
-
-    function data_load_file(file, fn_data_set, self) {
-        $.when($.getJSON(file)).done(function(history) {
-            fn_data_set(history, self);
-            end_data_load();
-        }).fail(function() {
-            fn_data_set([], self);
-            end_data_load();
-        });
-    }
-
-    function data_load_companies() {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getCompaniesDataFile(), DS.setCompaniesData, DS);
-        });
-    }
-    
-    function data_load_repos() {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getReposDataFile(), DS.setReposData, DS);
-        });
-    }
-
-
-    // TODO: It is better to have all the tops in the same file
-    function data_load_tops(metric) {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            // TODO: Support for SCM only in Webkit
-            if (DS.getName() !== "scm") {
-                DS.setGlobalTopData([], DS);
-                return;
-            }
-            var file_static = DS.getDataDir() + "/"+ DS.getName()+"-top-"+metric;
-            var file_all = file_static + ".json";
-            var file_2006 = file_static + "_2006.json";
-            var file_2009 = file_static + "_2009.json";
-            var file_2012 = file_static + "_2012.json";
-            $.when($.getJSON(file_all),
-                    $.getJSON(file_2006),
-                    $.getJSON(file_2009),
-                    $.getJSON(file_2012)
-                ).done(function(history, hist2006, hist2009, hist2012) {
-                    DS.addGlobalTopData(history[0], DS, metric, "all");
-                    DS.addGlobalTopData(hist2006[0], DS, metric, "2006");
-                    DS.addGlobalTopData(hist2009[0], DS, metric, "2009");
-                    DS.addGlobalTopData(hist2012[0], DS, metric, "2012");
-                    end_data_load();
-            }).fail(function() {
-                DS.setGlobalTopData([], DS);
-                end_data_load();
-            });
-        });
-    }
-
-    function data_load_companies_metrics() {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            var companies = DS.getCompaniesData();
-            $.each(companies, function(i, company) {
-                var file = DS.getDataDir()+"/"+company+"-";
-                file_evo = file + DS.getName()+"-evolutionary.json";
-                $.when($.getJSON(file_evo)).done(function(history) {
-                    DS.addCompanyMetricsData(company, history, DS);
-                    end_data_load();
-                });
-                file_static = file + DS.getName()+"-static.json";
-                $.when($.getJSON(file_static)).done(function(history) {
-                    DS.addCompanyGlobalData(company, history, DS);
-                    end_data_load();
-                });
-                file_static = file + DS.getName()+"-top-authors";
-                var file_all = file_static + ".json";
-                var file_2006 = file_static + "_2006.json";
-                var file_2009 = file_static + "_2009.json";
-                var file_2012 = file_static + "_2012.json";
-                $.when($.getJSON(file_all),
-                        $.getJSON(file_2006),
-                        $.getJSON(file_2009),
-                        $.getJSON(file_2012)
-                    ).done(function(history, hist2006, hist2009, hist2012) {
-                        DS.addCompanyTopData(company, history[0], DS, "all");
-                        DS.addCompanyTopData(company, hist2006[0], DS, "2006");
-                        DS.addCompanyTopData(company, hist2009[0], DS, "2009");
-                        DS.addCompanyTopData(company, hist2012[0], DS, "2012");
-                        end_data_load();
-                }).fail(function() {
-                    DS.setCompaniesTopData([], self);
-                    end_data_load();
-                });
-            });
-        });
-    }
-    
-    function data_load_repos_metrics() {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            var repos = DS.getReposData();
-            $.each(repos, function(i, repo) {
-                var file = DS.getDataDir()+"/"+repo+"-";
-                file_evo = file + DS.getName()+"-evolutionary.json";
-                $.when($.getJSON(file_evo)).done(function(history) {
-                    DS.addRepoMetricsData(repo, history, DS);
-                    end_data_load();
-                });
-                file_static = file + DS.getName()+"-static.json";
-                $.when($.getJSON(file_static)).done(function(history) {
-                    DS.addRepoGlobalData(repo, history, DS);
-                    end_data_load();
-                });
-            });
-        });
-    }
-
-
-    function data_load_metrics() {
-        var data_sources = Report.getDataSources();
-        $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getDataFile(), DS.setData, DS);
-            data_load_file(DS.getGlobalDataFile(), DS.setGlobalData, DS);
-            // TODO: Demographics just for SCM yet!
-            if (DS instanceof SCM) {
-                data_load_file(DS.getDemographicsFile(), DS.setDemographicsData, DS);
-            }
-            if (DS instanceof MLS) {
-                data_load_file(DS.getListsFile(), DS.setListsData, DS);
-            }
-
-        });
-    }
-    
-    function data_load_people() {
-        $.each(data_sources, function(i, DS) {
-            data_load_file(DS.getPeopleDataFile(), DS.setPeopleData, DS);
-        });
-    }
-    
-    // TODO: Make more modular. Move companies and repos code and tops!
-    function check_data_loaded() {
-        var check = true;
-        if (project_data === null || config === null || markers === null) 
-            return false;
-        
-        var projects_loaded = 0;        
-        for (var key in projects_data) {projects_loaded++;}
-        if (projects_loaded < projects_dirs.length ) return false;
-        
-        var data_sources = Report.getDataSources();        
-        $.each(data_sources, function(index, DS) {
-            if (DS.getData() === null) {check = false; return false;}
-            if (DS.getGlobalData() === null) {check = false; return false;}
-            if (DS.getPeopleData() === null) {check = false; return false;}
-            if (DS.getGlobalTopData() === null) {check = false; return false;}
-            // Companies data loading
-            if (DS.getCompaniesData() === null) {check = false; return false;}
-            else {
-                if (DS.getCompaniesData().length>0 && !check_companies) {
-                    check_companies = true;
-                    data_load_companies_metrics();
-                    check = false; return false;
-                }
-            }
-            if (check_companies && DS.getCompaniesData().length>0) {
-                var companies_loaded = 0;
-                for (var key in DS.getCompaniesMetricsData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-                companies_loaded = 0;
-                for (var key in DS.getCompaniesGlobalData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-                if (DS.getCompaniesTopData() === null) {check = false; return false;}
-                companies_loaded = 0;
-                for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-            }
-            // Repos data loading
-            if (DS.getReposData() === null) {check = false; return false;}
-            else {
-                if (DS.getReposData().length>0 && !check_repos) {
-                    check_repos = true;
-                    data_load_repos_metrics();
-                    check = false; return false;
-                }
-            }
-            if (check_repos && DS.getReposData().length>0) {
-                var repos_loaded = 0;
-                for (var key in DS.getReposMetricsData()) {repos_loaded++;}
-                if (repos_loaded !== DS.getReposData().length)
-                    {check = false; return false;}
-                repos_loaded = 0;
-                for (var key in DS.getReposGlobalData()) {repos_loaded++;}
-                if (repos_loaded !== DS.getReposData().length)
-                    {check = false; return false;}
-            }
-            // TODO: Demographics just for SCM yet!
-            if (DS instanceof SCM) {
-                if (DS.getDemographicsData() === null) {check = false; return false;} 
-            }
-            if (DS instanceof MLS) {
-                if (DS.getListsData() === null) {check = false; return false;}
-            }
-        });         
-        return check;
-    }
-
-    function end_data_load() {        
-        if (check_data_loaded()) {
-            // Invoke callbacks informing all data needed has been loaded
-            for ( var i = 0; i < data_callbacks.length; i++) {
-                data_callbacks[i]();
-            }
-        }
-    }
 
     function getAllMetrics() {
         var all = {};
@@ -939,7 +716,7 @@ var Report = {};
         
     }
     
-    Report.setConfig = function (data) {
+    Report.setReportConfig = function (data) {
         if (data) {
             if (data['global-html-dir'])
                 Report.setHtmlDir(data['global-html-dir']);
@@ -967,17 +744,17 @@ var Report = {};
     }
 })();
 
-Report.data_ready(function() {
+Loader.data_ready(function() {
     Report.report();
     $("body").css("cursor", "auto");
 });
 
 $(document).ready(function() {
     $.getJSON('config.json', function(data) {
-        Report.setConfig(data);
+        Report.setReportConfig(data);
     }).always(function (data) {
         Report.createDataSources();
-        Report.data_load();
+        Loader.data_load();
         $("body").css("cursor", "progress");
     });
 });
