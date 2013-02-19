@@ -199,6 +199,53 @@ var Loader = {};
         });
     }
     
+    function check_companies_loaded(DS) {
+        if (DS.getCompaniesData() === null) return false;
+        else {
+            if (DS.getCompaniesData().length>0 && !check_companies) {
+                check_companies = true;
+                data_load_companies_metrics();
+                return false;
+            }
+        }
+        if (check_companies && DS.getCompaniesData().length>0) {
+            var companies_loaded = 0;
+            for (var key in DS.getCompaniesMetricsData()) {companies_loaded++;}
+            if (companies_loaded !== DS.getCompaniesData().length) 
+                return false;                
+            companies_loaded = 0;
+            for (var key in DS.getCompaniesGlobalData()) {companies_loaded++;}
+            if (companies_loaded !== DS.getCompaniesData().length)
+                return false;
+            if (DS.getCompaniesTopData() === null) return false;
+            companies_loaded = 0;
+            for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
+            if (companies_loaded !== DS.getCompaniesData().length) 
+                return false;
+        }
+        return true;
+    }
+    
+    function check_repos_loaded(DS) {
+        if (DS.getReposData() === null) return false;
+        else {
+            if (DS.getReposData().length>0 && !check_repos) {
+                check_repos = true;
+                data_load_repos_metrics();
+                return false;
+            }
+        }
+        if (check_repos && DS.getReposData().length>0) {
+            var repos_loaded = 0;
+            for (var key in DS.getReposMetricsData()) {repos_loaded++;}
+            if (repos_loaded !== DS.getReposData().length) return false;
+            repos_loaded = 0;
+            for (var key in DS.getReposGlobalData()) {repos_loaded++;}
+            if (repos_loaded !== DS.getReposData().length) return false;
+        }
+        return true;
+    }
+    
     // TODO: Make more modular. Move companies and repos code and tops!
     function check_data_loaded() {
         var check = true;
@@ -218,49 +265,10 @@ var Loader = {};
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getPeopleData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
-            // Companies data loading
-            if (DS.getCompaniesData() === null) {check = false; return false;}
-            else {
-                if (DS.getCompaniesData().length>0 && !check_companies) {
-                    check_companies = true;
-                    data_load_companies_metrics();
-                    check = false; return false;
-                }
-            }
-            if (check_companies && DS.getCompaniesData().length>0) {
-                var companies_loaded = 0;
-                for (var key in DS.getCompaniesMetricsData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-                companies_loaded = 0;
-                for (var key in DS.getCompaniesGlobalData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-                if (DS.getCompaniesTopData() === null) {check = false; return false;}
-                companies_loaded = 0;
-                for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
-                if (companies_loaded !== DS.getCompaniesData().length)
-                    {check = false; return false;}
-            }
-            // Repos data loading
-            if (DS.getReposData() === null) {check = false; return false;}
-            else {
-                if (DS.getReposData().length>0 && !check_repos) {
-                    check_repos = true;
-                    data_load_repos_metrics();
-                    check = false; return false;
-                }
-            }
-            if (check_repos && DS.getReposData().length>0) {
-                var repos_loaded = 0;
-                for (var key in DS.getReposMetricsData()) {repos_loaded++;}
-                if (repos_loaded !== DS.getReposData().length)
-                    {check = false; return false;}
-                repos_loaded = 0;
-                for (var key in DS.getReposGlobalData()) {repos_loaded++;}
-                if (repos_loaded !== DS.getReposData().length)
-                    {check = false; return false;}
-            }
+            
+            if (!check_companies_loaded(DS)) {check = false; return false;}
+            if (!check_repos_loaded(DS)) {check = false; return false;}
+                   
             // TODO: Demographics just for SCM yet!
             if (DS instanceof SCM) {
                 if (DS.getDemographicsData() === null) {check = false; return false;} 
