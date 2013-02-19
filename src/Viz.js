@@ -1119,14 +1119,19 @@ var Viz = {};
         new_div = '<div id="flotr2_' + metric.column
                 + '" class="info-pill m0-box-div">';
         new_div += '<h1>' + metric.name + '</h1>';
-        new_div += '<div class="basic-metric-html" id="' + metric.divid;
+        if (config.realtime) {            
+            new_div += '<div class="basic-metric-html" id="' + metric.divid;
+            new_div += "_" + div_target;
+        }
+        else
+            new_div += '<div class="basic-metric-html" id="' + metric.divid;
         new_div += '"></div>';
         if (config.show_desc === true)
             new_div += '<p>' + metric.desc + '</p>';
         new_div += '</div>';
         $("#" + div_target).append(new_div);
         if (config.realtime)
-            displayBasicLinesFile(metric.divid, config.json_ds, 
+            displayBasicLinesFile(metric.divid+"_"+div_target, config.json_ds, 
                     metric.column, config.show_labels, title, projs);
         else
             displayBasicLines(metric.divid, data, metric.column,

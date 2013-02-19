@@ -466,13 +466,21 @@ var Report = {};
                 }
                 // Getting data real time
                 var div_flotr2_rt = metric.divid+"-flotr2-rt";
-                if ($("#"+div_flotr2_rt).length > 0) {
-                    config_metric.realtime = true;
-                    config_metric.json_ds = "http://localhost:1337/?callback=?";
-                    DS.displayBasicMetricHTML(i,div_flotr2_rt, config_metric);
+                var divs = $("."+div_flotr2_rt);
+                if (divs.length > 0) {
+                    $.each(divs, function(id, div) {
+                        config_metric.realtime = true;
+                        // config_metric.json_ds = "http://localhost:1337/?callback=?";
+                        var db = "acs_cvsanaly_allura_1049";
+                        db = $(this).data('db');
+                        div.id = db + "_" + div.className;
+                        config_metric.json_ds ="http://localhost:3000/scm/"+db+"/";
+                        config_metric.json_ds += metric.column+"_evol/?callback=?";
+                        DS.displayBasicMetricHTML(i,div.id, config_metric);
+                    });
                 }
             });
-            
+                        
             if ($("#"+DS.getName()+"-flotr2").length > 0) {
                 if ($.inArray(DS.getName(), already_shown) === -1) {
                     DS.displayBasicHTML(DS.getName()+'-flotr2', config_metric);
