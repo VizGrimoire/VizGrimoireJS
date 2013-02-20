@@ -3,19 +3,26 @@
  */
 
 var url = require('url');
-
-// Database connection
 var mysql = require('mysql');
-var connection = mysql.createConnection({
-    user : 'root',
-    password : '',
-    database : ''
-});
-connection.connect();
+
+// Connections
+var db_connections = {};
 
 // Pagination
 var items_page = 50;
 var max_items_page = 500;
+
+function getConnection(db) {
+	if (db_connections[db]) return db_connections[db]; 
+	var connection = mysql.createConnection({
+	    user : 'root',
+	    password : '',
+	    database : db
+	});
+	connection.connect();
+	db_connections[db] = connection;
+	return connection;
+}
 
 function toGrimoireEvolJSON(rows) {
     var field = '';
@@ -54,15 +61,10 @@ function sendRes (req, res, rows, evol) {
 }
 
 function sendSQLRes(db, sql_query, req, res, evol) {
-    connection.query("USE "+db, function(err, usedb, fields) {
-        if (err) {
-            console.log("Can't connect to " + db);
-            res.send(err);
-            return;
-        }
-        connection.query(sql_query, function(err, rows, fields) {
-            sendRes(req, res, rows, evol);
-        });
+	var connection = getConnection(db);  
+    connection.query(sql_query, function(err, rows, fields) {
+    	// console.log(JSON.stringify(toGrimoireEvolJSON(rows)));
+        sendRes(req, res, rows, evol);
     });
 }
 
@@ -99,7 +101,7 @@ function evolSCMSql(label, field) {
     " ORDER BY YEAR(s.date), month(s.date)" +
     ") AS cm "+
     "ON (m.year = cm.year AND m.month = cm.month);";
-    console.log(sql);
+    // console.log(sql);
     return sql;
 }
 
@@ -117,19 +119,14 @@ exports.authors = function(req, res) {
     var sql = "SELECT * FROM people";
     sql += sqlPageFilter(start,end,limit,offset);
     console.log(sql);
-    connection.query("USE "+db, function(err, usedb, fields) {
-        if (err) {
-            console.log("Can't connect to " + db);
-            res.send(err);
-            return;
-        }
-        connection.query(sql, function(err, rows, fields) {
-            var sql_total = "SELECT COUNT(id) AS total_authors FROM people";
-            connection.query(sql_total, function(err, rows1, fields) {
-                addPageFilterInfo(rows1[0],start,end,limit,offset);
-                rows.push(rows1[0]);
-                sendRes(req, res, rows, evol);
-            });
+
+    var connection = getConnection(db);
+    connection.query(sql, function(err, rows, fields) {
+        var sql_total = "SELECT COUNT(id) AS total_authors FROM people";
+        connection.query(sql_total, function(err, rows1, fields) {
+            addPageFilterInfo(rows1[0],start,end,limit,offset);
+            rows.push(rows1[0]);
+            sendRes(req, res, rows, evol);
         });
     });
 };
@@ -155,19 +152,13 @@ exports.commits = function(req, res) {
     if (!limit) limit = items_page;
     var sql = "SELECT * FROM scmlog";
     sql += sqlPageFilter(start,end,limit,offset);
-    connection.query("USE "+db, function(err, usedb, fields) {
-        if (err) {
-            console.log("Can't connect to " + db);
-            res.send(err);
-            return;
-        }
-        connection.query(sql, function(err, rows, fields) {
-            var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
-            connection.query(sql_total, function(err, rows1, fields) {
-                addPageFilterInfo(rows1[0],start,end,limit,offset);
-                rows.push(rows1[0]);
-                sendRes(req, res, rows, evol);
-            });
+    var connection = getConnection(db);
+    connection.query(sql, function(err, rows, fields) {
+        var sql_total = "SELECT COUNT(id) AS total_commits FROM scmlog";
+        connection.query(sql_total, function(err, rows1, fields) {
+            addPageFilterInfo(rows1[0],start,end,limit,offset);
+            rows.push(rows1[0]);
+            sendRes(req, res, rows, evol);
         });
     });
 };
@@ -194,6 +185,7 @@ exports.companies_evol = function(req, res) {
 
 exports.dbs = function(req, res) {
     var evol = false;
+    var connection = getConnection('');
     connection.query("SHOW DATABASES", function(err, rows, fields) {
         var scmdbs = [];
         for (var i=0; i<rows.length; i++) {
