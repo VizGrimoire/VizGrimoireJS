@@ -298,7 +298,7 @@ function DataSource(name, basic_metrics) {
             if (report=="companies")
                 sorted = this.sortCompanies(order_by);
             else if (report=="repos")
-                sorted = this.getReposData();
+                sorted = this.sortRepos(order_by);
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
@@ -357,28 +357,44 @@ function DataSource(name, basic_metrics) {
     
     this.displayBasic = function() {
         this.basicEvo(this.getData());
+    };    
+    
+    this.sortCompanies = function(metric_id) {
+    	return this.sortGlobal(metric_id, "companies");
+    };
+    
+    this.sortRepos = function(metric_id) {
+    	return this.sortGlobal(metric_id, "repos");
     };
 
-    this.sortCompanies = function(metric_id) {
+    this.sortGlobal = function (metric_id, kind) {
         if (metric_id === undefined) metric_id = "commits";
         var metric = [];
-        var sorted_companies = [];
-        var companies = this.getCompaniesGlobalData();
-        if (companies[this.getCompaniesData()[0]][metric_id] === undefined)
-            metric_id = "commits";
-        $.each(companies, function(company, data) {
+        var sorted = [];
+        var global = null;
+        if (kind === "companies") {
+        	global = this.getCompaniesGlobalData();
+            if (global[this.getCompaniesData()[0]][metric_id] === undefined)
+                metric_id = "commits";
+        } 
+        else if (kind === "repos") {
+        	global = this.getReposGlobalData();
+            if (global[this.getReposData()[0]][metric_id] === undefined)
+                metric_id = "commits";
+        }
+        $.each(global, function(item, data) {
            metric.push(data[metric_id]);
         });
         metric.sort(function(a, b) {return b - a;});
         $.each(metric, function(id, value) {
-            $.each(companies, function(company, data) {
+            $.each(global, function(item, data) {
                 if (data[metric_id] === value) {
-                    sorted_companies.push(company);
+                    sorted.push(item);
                     return false;
                 }
              });
         });
-        return sorted_companies;
+        return sorted;
     };
 
     this.displayCompaniesNav = function (div_nav, sort_metric) {
@@ -390,9 +406,10 @@ function DataSource(name, basic_metrics) {
         $("#"+div_nav).append(nav);
     };
     
-    this.displayReposNav = function (div_nav) {
+    this.displayReposNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
-        $.each(this.getReposData(), function(id, repo) {
+        var sorted_repos = this.sortRepos(sort_metric);
+        $.each(sorted_repos, function(id, repo) {
             nav += "<a href='#"+repo+"-nav'>"+repo + "</a> ";
         });
         $("#"+div_nav).append(nav);
@@ -421,7 +438,7 @@ function DataSource(name, basic_metrics) {
         }
         else if (report === "repos") {
             data = this.getReposMetricsData();
-            sorted = this.getReposData();
+            sorted = this.sortRepos(sort_metric);
         } 
         else return;
 
