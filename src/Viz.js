@@ -68,11 +68,15 @@ var Viz = {};
         return new_config;
     }
 
-    function findMetricDoer(history, metric) {
-        for ( var field in history) {
-            if (field != metric)
-                return field;
-        }
+    function findMetricDoer(history, metric_id) {
+    	var doer = '';
+    	$.each(Report.getAllMetrics(), function(name,metric) {
+    		if (metric.action === metric_id) {
+    			doer = metric.column;
+    			return false;
+    		}
+    	});
+    	return doer;
     }
 
     function hideEmail(email) {

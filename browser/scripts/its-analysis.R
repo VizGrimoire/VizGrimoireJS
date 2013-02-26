@@ -26,6 +26,8 @@ completeZeroMonthly <- function (data) {
   return (completedata)
 }
 
+# Some queries: Repositories
+source("./its-lib.R")
 
 # Get command line args, and produce variables for the script
 args <- commandArgs(trailingOnly = TRUE)
@@ -34,6 +36,7 @@ print(args)
 database <- args[1]
 user <- args[2]
 password <- args[3]
+reports <- args[4]
 
 # bugzilla, allura.
 if (length(args) > 3) {
@@ -217,5 +220,38 @@ q <- paste ("select id,name,email,user_id from people")
 people_list <- query(q)
 createJSON (people_list, "../data/json/its-people.json")
 
+# Repositories
+repos  <- repos_name()
+repos <- repos$name
+createJSON(repos, "../data/json/scm-repos.json")
+
+for (repo in repos) {
+	repo_name = paste(c("'", repo, "'"), collapse='')
+	repo_aux = paste(c("", repo, ""), collapse='')
+	print (repo_name)
+	
+	print ("commits") 
+	commits <- repo_commits(repo_name)	
+	# print ("lines")
+	# lines <- repo_lines(repo_name)
+	lines <- ""
+	print ("files")
+	files <- repo_files(repo_name)
+	print ("people")
+	authors <- repo_authors(repo_name)
+	
+	agg_data = merge(commits, lines, all = TRUE)
+	agg_data = merge(agg_data, files, all = TRUE)
+	agg_data = merge(agg_data, authors, all = TRUE)	
+	
+	createJSON(agg_data, paste(c("../data/json/",repo_aux,"-scm-evolutionary.json"), collapse=''))
+	
+	print ("static info")
+	static_info <- evol_info_data_repo(repo_name)
+	createJSON(static_info, paste(c("../data/json/",repo_aux,"-scm-static.json"), collapse=''))		
+}
+
+
 # Disconnect from DB
 dbDisconnect(con)
+
