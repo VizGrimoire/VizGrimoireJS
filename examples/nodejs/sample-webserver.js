@@ -11,24 +11,18 @@ var connection = mysql.createConnection({
 
 
 var commits_ts_sql = "" +
-		"select m.id as id, "+
-        "m.year as year, "+
-        "m.month as month, "+
-        "DATE_FORMAT(m.date, '%b %Y') as date, "+
-        "IFNULL(pm.commits, 0) as commits "+
-		"from   months m "+
-		"left join ("+
-        "select year(s.date) as year, "+ 
-        "       month(s.date) as month, "+ 
-        "       count(distinct(s.id)) as commits "+
-        "from   scmlog s "+
-        "group by year(s.date), "+
-        "      month(s.date) "+
-        "order by year(s.date), "+
-        "       month(s.date) ) as pm "+
-        "       on ("+
-        "m.year = pm.year and "+
-        "m.month = pm.month);";
+	"SELECT m.id AS id, m.year AS year, m.month AS month, "+
+    "DATE_FORMAT(m.date, '%b %Y') AS date, "+
+    "IFNULL(cm.commits, 0) AS commits "+
+	"FROM  months m "+
+	"LEFT JOIN ("+
+    " SELECT year(s.date) as year, month(s.date) as month, "+ 
+    "  COUNT(DISTINCT(s.id)) AS commits "+
+    " FROM scmlog s "+
+    " GROUP BY YEAR(s.date), MONTH(s.date) "+
+    " ORDER BY YEAR(s.date), month(s.date)" +
+    ") AS cm "+
+    "ON (m.year = cm.year AND m.month = cm.month);";
 
 connection.connect();
 
