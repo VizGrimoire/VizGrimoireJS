@@ -431,6 +431,7 @@ function DataSource(name, basic_metrics) {
     this.displaySubReportList = function (report, metrics,div_id, 
             config_metric, sort_metric) {
         var list = "";
+        var ds = this;
         var data = null, sorted = null;
         if (report === "companies") {
             data = this.getCompaniesMetricsData();
@@ -451,7 +452,10 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-                list += "<a href='repository.html?repository="+item;
+            	if (ds.getName() === "its")
+            		list += "<a href='its-repository.html?repository="+item;
+            	else
+            		list += "<a href='repository.html?repository="+item;
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }

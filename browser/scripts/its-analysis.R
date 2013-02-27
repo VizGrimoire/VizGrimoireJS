@@ -15,198 +15,47 @@
 #       Jesus Gonzalez Barahona <jgb@bitergia.com>
 #       Alvaro del Castillo San Felix <acs@bitergia.com>
 #
-# Note: this script works with bicho databases obtained from Bugzilla
-completeZeroMonthly <- function (data) {
 
-  firstmonth = as.integer(data$id[1])
-  lastmonth = as.integer(data$id[nrow(data)])
-  months = data.frame('id'=c(firstmonth:lastmonth))
-  completedata <- merge (data, months, all=TRUE)
-  completedata[is.na(completedata)] <- 0
-  return (completedata)
-}
-
-# Some queries: Repositories
 source("./its-lib.R")
 
-# Get command line args, and produce variables for the script
-args <- commandArgs(trailingOnly = TRUE)
-print(args)
+options <- parse_options()
 
-database <- args[1]
-user <- args[2]
-password <- args[3]
-reports <- args[4]
+mychannel = connectDB(options)
 
-# bugzilla, allura.
-if (length(args) > 3) {
-	its <- args[4]
-} else {
-	its <- 'bugzilla'
-}
-
-if (length(args) > 4) {
-   enddate <- args[5]
-} else {
-   enddate <- "2100-01-01"
-}
-enddatesplit <- strsplit(enddate,'-')
+enddatesplit <- strsplit(options$enddate,'-')
 endyear <- enddatesplit[[1]][1]
 endmonth <- enddatesplit[[1]][2]
-enddate <- paste (c("'", enddate, "'"), collapse='')
+enddate <- paste (c("'", options$enddate, "'"), collapse='')
 
-if (length(args) > 5) {
-   startdate <- args[6]
-} else {
-   startdate <- "1900-01-01"
-}
-startdatesplit <- strsplit(startdate,'-')
+startdatesplit <- strsplit(options$startdate,'-')
 startyear <- startdatesplit[[1]][1]
 startmonth <- startdatesplit[[1]][2]
-startdate <- paste (c("'", startdate, "'"), collapse='')
-
-library(rjson)
-#
-# Create a JSON file with some R object
-#
-createJSON <- function (data, filename) {
-   sink(filename)
-   cat(toJSON(data))
-   sink()
-}
-
-library(RMySQL)
-#
-# Connect to the database and prepare...
-#
-mychannel <- dbConnect(MySQL(), user=user, password=password, host="localhost", db=database)
-query <- function(...) dbGetQuery(mychannel, ...)
-dbGetQuery(mychannel, "SET NAMES 'utf8'")
-
-# To install RColorBrewer
-# $sudo R
-# > install.packages('RColorBrewer', dep = T)
-# Exit R
-library(RColorBrewer)
-
-source("swscopio.R")
+startdate <- paste (c("'", options$startdate, "'"), collapse='')
 
 closed_condition <- "(new_value='RESOLVED' OR new_value='CLOSED')"
-
-if (its == 'allura') closed_condition <- "new_value='CLOSED'"
-if (its == 'github') closed_condition <- "field='closed'"
-
-# Closed tickets: time ticket was open, first closed, time-to-first-close
-q <- paste("SELECT issue_id, issue,
-        submitted_on as time_open,
-        time_closed,
-    time_closed_last,
-    TIMESTAMPDIFF (DAY, submitted_on, ch.time_closed) AS ttofix
-      FROM issues, (
-         SELECT
-           issue_id,
-           MIN(changed_on) AS time_closed,
-           MAX(changed_on) as time_closed_last
-         FROM changes
-         WHERE ",closed_condition,"
-         GROUP BY issue_id) ch
-      WHERE issues.id = ch.issue_id")
-res_issues_closed <- query(q)
+if (!is.null(options$its)) {
+	if (options$its == 'allura') closed_condition <- "new_value='CLOSED'"
+	if (options$its == 'github') closed_condition <- "field='closed'"
+}
 
 
-# Opened and openers
-q <- paste ("SELECT year(submitted_on) * 12 + month(submitted_on) AS id,
-               year(submitted_on) AS year,
-               month(submitted_on) AS month,
-	       DATE_FORMAT (submitted_on, '%b %Y') as date,
-               count(submitted_by) AS opened,
-               count(distinct(submitted_by)) AS openers
-             FROM issues
-	     GROUP BY year,month
-	     ORDER BY year,month")
-open_monthly <- query(q)
-
-# Closed and closers
-q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
-               year(changed_on) as year,
-               month(changed_on) as month,
-               DATE_FORMAT (changed_on, '%b %Y') as date,
-               count(issue_id) AS closed,
-               count(distinct(changed_by)) AS closers
-             FROM changes
-             WHERE ",closed_condition," 
-             GROUP BY year,month
-         ORDER BY year,month")
-closed_monthly <- query(q)
-
-# Changed and changers 
-q <- paste ("SELECT year(changed_on) * 12 + month (changed_on) AS id,
-               year(changed_on) as year,
-               month(changed_on) as month,
-           DATE_FORMAT (changed_on, '%b %Y') as date,
-               count(changed_by) AS changed,
-               count(distinct(changed_by)) AS changers
-             FROM changes
-             GROUP BY year,month
-         ORDER BY year,month")
-changed_monthly <- query(q)
-
+closed_monthly <- evol_closed(closed_condition)
+changed_monthly <- evol_changed()
+open_monthly <- evol_opened()
+repos_monthly <- evol_repositories();
 
 issues_monthly <- merge (open_monthly, closed_monthly, all = TRUE)
 issues_monthly <- merge (issues_monthly, changed_monthly, all = TRUE)
+issues_monthly <- merge (issues_monthly, repos_monthly, all = TRUE)
 issues_monthly[is.na(issues_monthly)] <- 0
 
 issues_monthly <- completeZeroMonthly(issues_monthly)
 
 createJSON (issues_monthly, "../data/json/its-evolutionary.json")
 
-## Get some general stats from the database and url info
-##
-q <- paste ("SELECT count(*) as tickets,
-			 count(distinct(submitted_by)) as openers,
-			 DATE_FORMAT (min(submitted_on), '%Y-%m-%d') as first_date,
-			 DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
-			 FROM issues")
-data <- query(q)
-q <- paste ("SELECT count(distinct(changed_by)) as closers FROM changes WHERE ", closed_condition)
-data1 <- query(q)
-q <- paste ("SELECT count(distinct(changed_by)) as changers FROM changes")
-data2 <- query(q)
-q <- paste ("SELECT count(*) as opened FROM issues")
-data3 <- query(q)
-q <- paste ("SELECT count(distinct(issue_id)) as changed FROM changes")
-data4 <- query(q)
-q <- paste ("SELECT count(distinct(issue_id)) as closed FROM changes WHERE", closed_condition)
-data5 <- query(q)
-q <- paste ("SELECT url,name as type FROM trackers t JOIN supported_trackers s ON t.type = s.id")
-data6 <- query(q)
-agg_data = merge(data, data1)
-agg_data = merge(agg_data, data2)
-agg_data = merge(agg_data, data3)
-agg_data = merge(agg_data, data4)
-agg_data = merge(agg_data, data5)
-agg_data = merge(agg_data, data6)
-createJSON (agg_data, "../data/json/its-static.json")
+all_static_info <- static_info()
+createJSON (all_static_info, "../data/json/its-static.json")
 
-# Top
-top_closers <- function(days = 0) {
-	if (days == 0 ) {
-		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
-					FROM changes c JOIN people p ON c.changed_by = p.id 
-					WHERE ", closed_condition, " 
-					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")	
-	} else {
-        q <- paste("SELECT @maxdate:=max(changed_on) from changes limit 1;")
-        data <- query(q)
-		q <- paste("SELECT p.user_id as developer, count(c.id) as closed 
-					FROM changes c JOIN people p ON c.changed_by = p.id 
-					WHERE ", closed_condition, " 
-					AND c.id in (select id from changes where DATEDIFF(@maxdate,changed_on)<",days,") 
-					GROUP BY changed_by ORDER BY closed DESC LIMIT 10;")		
-	}
-	data <- query(q)
-	return (data)	
-}
 # Top closers
 top_closers_data <- list()
 top_closers_data[['closers.']]<-top_closers()
@@ -216,39 +65,34 @@ top_closers_data[['closers.last month']]<-top_closers(31)
 createJSON (top_closers_data, "../data/json/its-top.json")
 
 # People List for working in unique identites
-q <- paste ("select id,name,email,user_id from people")
-people_list <- query(q)
+people_list <- people()
 createJSON (people_list, "../data/json/its-people.json")
 
 # Repositories
-repos  <- repos_name()
-repos <- repos$name
-createJSON(repos, "../data/json/scm-repos.json")
-
-for (repo in repos) {
-	repo_name = paste(c("'", repo, "'"), collapse='')
-	repo_aux = paste(c("", repo, ""), collapse='')
-	print (repo_name)
+if (options$reports == 'repositories') {	
+	repos  <- repos_name()
+	repos <- repos$name
+	createJSON(repos, "../data/json/its-repos.json")
 	
-	print ("commits") 
-	commits <- repo_commits(repo_name)	
-	# print ("lines")
-	# lines <- repo_lines(repo_name)
-	lines <- ""
-	print ("files")
-	files <- repo_files(repo_name)
-	print ("people")
-	authors <- repo_authors(repo_name)
-	
-	agg_data = merge(commits, lines, all = TRUE)
-	agg_data = merge(agg_data, files, all = TRUE)
-	agg_data = merge(agg_data, authors, all = TRUE)	
-	
-	createJSON(agg_data, paste(c("../data/json/",repo_aux,"-scm-evolutionary.json"), collapse=''))
-	
-	print ("static info")
-	static_info <- evol_info_data_repo(repo_name)
-	createJSON(static_info, paste(c("../data/json/",repo_aux,"-scm-static.json"), collapse=''))		
+	for (repo in repos) {
+		repo_name = paste(c("'", repo, "'"), collapse='')
+		repo_aux = paste(c("", repo, ""), collapse='')
+		repo_file = gsub("/","_",repo)
+		print (repo_name)
+		
+		# EVOLUTION INFO
+		closed <- repo_evol_closed(repo_name, closed_condition)
+		changed <- repo_evol_changed(repo_name)
+		opened <- repo_evol_opened(repo_name)		
+		agg_data = merge(closed, changed, all = TRUE)
+		agg_data = merge(agg_data, opened, all = TRUE)	
+		agg_data[is.na(agg_data)] <- 0				
+		createJSON(agg_data, paste(c("../data/json/",repo_file,"-its-evolutionary.json"), collapse=''))
+		
+		# STATIC INFO
+		static_info <- static_info_repo(repo_name)
+		createJSON(static_info, paste(c("../data/json/",repo_file,"-its-static.json"), collapse=''))		
+	}
 }
 
 

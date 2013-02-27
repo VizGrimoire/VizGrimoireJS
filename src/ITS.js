@@ -94,6 +94,34 @@ function ITS() {
         self.repos = repos;
     };
     
+    this.displaySubReportSummary = function(report, divid, item, ds) {
+        var html = "<h1>"+item+"</h1>";
+        var id_label = {    
+    		opened: "Opened",
+    		openers: "Openers",
+    		first_date: "Start",
+    		last_date: "End",
+    		closers: "Closers",
+    		closed: "Closed",
+    		changers: "Changers",
+    		changed: "Changed"
+        };
+        var global_data = null;
+        if (report === "companies")
+            global_data = ds.getCompaniesGlobalData();
+        else if (report === "repositories")
+            global_data = ds.getReposGlobalData();
+        else return;
+        
+        $.each(global_data[item],function(id,value) {
+        	if (id_label[id]) 
+        		html += id_label[id] + ": " + value + "<br>";
+        	else
+        		html += id + ": " + value + "<br>";
+        });
+        $("#"+divid).append(html);
+    };
+    
     this.displayData = function(divid) {
         var div_id = "#" + divid;
         var str = this.global_data.url;

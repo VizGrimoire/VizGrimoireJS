@@ -419,7 +419,7 @@ var Report = {};
                 });
             }
             if (repo !== null) {
-                if (DS.getName() !== "scm") return;
+                if (DS.getName() !== "scm" && DS.getName() !== "its") return;
                 var divid = DS.getName()+"-refcard-repo";
                 if ($("#"+divid).length > 0) {
                     DS.displayRepoSummary(divid, repo, this);
