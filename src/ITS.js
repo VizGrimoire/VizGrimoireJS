@@ -84,6 +84,16 @@ function ITS() {
         return "opened";
     };
     
+    this.setReposData = function(repos_name, self) {
+        if (self === undefined) self = this;
+        var repos = [];
+        // convert http://issues.liferay.com/browse/AUI, change "/" by "_"
+        for (var i=0; i<repos_name.length; i++) {
+        	repos.push(repos_name[i].replace(/\//g,"_"));
+        }
+        self.repos = repos;
+    };
+    
     this.displayData = function(divid) {
         var div_id = "#" + divid;
         var str = this.global_data.url;

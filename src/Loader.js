@@ -160,6 +160,7 @@ var Loader = {};
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             var repos = DS.getReposData();
+            if (repos === null) return;
             $.each(repos, function(i, repo) {
                 var file = DS.getDataDir()+"/"+repo+"-";
                 file_evo = file + DS.getName()+"-evolutionary.json";

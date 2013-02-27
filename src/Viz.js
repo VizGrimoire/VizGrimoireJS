@@ -271,8 +271,10 @@ var Viz = {};
     function displayMetricSubReportLines(div_id, metric, items, title, config) {
         var lines_data = [];
         var history = {};
-
+        
         $.each(items, function(item, data) {
+            if (data[metric] === undefined) return false;
+            
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
                 cdata[i] = [data.id[i], data[metric][i]];
@@ -280,6 +282,9 @@ var Viz = {};
             lines_data.push({label:item, data:cdata});
             history = data;
         });
+        
+        if (lines_data.length === 0) return;
+        
         displayDSLines(div_id, history, lines_data, title, config);
     };
 

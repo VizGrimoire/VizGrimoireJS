@@ -393,16 +393,18 @@ var Report = {};
                     var metric = $(this).data('metric');
                     var limit = $(this).data('limit');
                     var show_others = $(this).data('show-others');
+                    var order_by = $(this).data('order-by');
                     config_metric.graph = $(this).data('graph');
                     div.id = metric+"-flotr2-repos-static";
                     DS.displayBasicMetricReposStatic(metric,div.id,
-                            config_metric, limit, null, show_others);
+                            config_metric, limit, order_by, show_others);
                 });
             }
             
             var div_nav = DS.getName()+"-flotr2-repos-nav";
             if ($("#"+div_nav).length > 0) {
-                DS.displayReposNav(div_nav);
+                var order_by = $("#"+div_nav).data('order-by');
+                DS.displayReposNav(div_nav, order_by);
             }
             
             var divs_comp_list = DS.getName()+"-flotr2-repos-list";
@@ -410,9 +412,10 @@ var Report = {};
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
+                    var order_by = $(this).data('order-by');
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-repos-list";
                     DS.displayReposList(metrics.split(","),div.id, 
-                            config_metric);
+                            config_metric, order_by);
                 });
             }
             if (repo !== null) {
