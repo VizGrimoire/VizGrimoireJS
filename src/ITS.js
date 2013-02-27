@@ -95,15 +95,18 @@ function ITS() {
     };
     
     this.displaySubReportSummary = function(report, divid, item, ds) {
-        var html = "<h1>"+item+"</h1>";
-        var id_label = {    
-    		opened: "Opened",
-    		openers: "Openers",
-    		first_date: "Start",
-    		last_date: "End",
-    		closers: "Closers",
-    		closed: "Closed",
-    		changers: "Changers",
+        var label = item;
+        if (item.lastIndexOf("http") === 0)
+            label = item.substr(item.lastIndexOf("_") + 1);
+        var html = "<h1>" + label + "</h1>";
+        var id_label = {
+            opened : "Opened",
+            openers : "Openers",
+            first_date : "Start",
+            last_date : "End",
+            closers : "Closers",
+            closed : "Closed",
+            changers : "Changers",
     		changed: "Changed"
         };
         var global_data = null;

@@ -1111,8 +1111,11 @@ var Viz = {};
         if (config.graph) graph = config.graph;
 
         $.each(data, function(item,data) {
-           labels.push(item);
-           metric_data.push(data[metric]);
+            // TODO: find a generic way to filter labels
+            if (item.lastIndexOf("http") === 0)
+                item = item.substr(item.lastIndexOf("_") + 1);
+            labels.push(item);
+            metric_data.push(data[metric]);
         });
         displayBasicChart(div_id, labels, metric_data, graph, title, config);
     }

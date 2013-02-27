@@ -271,8 +271,8 @@ repo_evol_opened <- function(repo){
 }
 
 static_info_repo <- function (repo) {
-	q <- paste ("SELECT count(*) as opened,
-					count(distinct(submitted_by)) as openers,
+	q <- paste ("SELECT count(distinct(submitted_by)) as openers,
+	                count(*) as opened,
 					DATE_FORMAT (min(submitted_on), '%Y-%m-%d') as first_date,
 					DATE_FORMAT (max(submitted_on), '%Y-%m-%d') as last_date 
 					FROM issues ")

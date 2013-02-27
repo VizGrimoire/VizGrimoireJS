@@ -201,6 +201,9 @@ function DataSource(name, basic_metrics) {
     this.getReposData = function() {
         return this.repos;
     };
+    this.getReposDataNames = function() {
+        return this.repos;
+    };
     this.setReposData = function(repos, self) {
         if (self === undefined) self = this;
         self.repos = repos;
@@ -410,9 +413,14 @@ function DataSource(name, basic_metrics) {
         var nav = "<span id='nav'></span>";
         var sorted_repos = this.sortRepos(sort_metric);
         $.each(sorted_repos, function(id, repo) {
-            nav += "<a href='#"+repo+"-nav'>"+repo + "</a> ";
+            nav += "<a href='#" + repo + "-nav'>";
+            var label = repo;
+            if (repo.lastIndexOf("http") === 0)
+                label = repo.substr(repo.lastIndexOf("_") + 1);
+            nav += label;
+            nav += "</a> ";
         });
-        $("#"+div_nav).append(nav);
+        $("#" + div_nav).append(nav);
     };
 
 
@@ -459,7 +467,12 @@ function DataSource(name, basic_metrics) {
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
-            list += "<strong>"+item+"</strong> +info</a>";
+            list += "<strong>";
+            var label = item;
+            if (item.lastIndexOf("http") === 0)
+                label = item.substr(item.lastIndexOf("_") + 1);
+            list += label;
+            list += "</strong> +info</a>";
             list += "<br><a href='#nav'>^</a>";
             list += "</div>";
             $.each(metrics, function(id, metric) {
