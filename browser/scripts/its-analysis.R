@@ -22,7 +22,7 @@
 
 source("./its-lib.R")
 
-options <- parse_options()
+options <- parse_options_its()
 
 mychannel = connectDB(options)
 
@@ -37,9 +37,9 @@ startmonth <- startdatesplit[[1]][2]
 startdate <- paste (c("'", options$startdate, "'"), collapse='')
 
 closed_condition <- "(new_value='RESOLVED' OR new_value='CLOSED')"
-if (!is.null(options$its)) {
-	if (options$its == 'allura') closed_condition <- "new_value='CLOSED'"
-	if (options$its == 'github') closed_condition <- "field='closed'"
+if (!is.null(options$backend)) {
+	if (options$backend == 'allura') closed_condition <- "new_value='CLOSED'"
+	if (options$backend == 'github') closed_condition <- "field='closed'"
 }
 
 

@@ -15,62 +15,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 #
 
-completeZeroMonthly <- function (data) {	
-	firstmonth = as.integer(data$id[1])
-	lastmonth = as.integer(data$id[nrow(data)])
-	months = data.frame('id'=c(firstmonth:lastmonth))
-	completedata <- merge (data, months, all=TRUE)
-	completedata[is.na(completedata)] <- 0
-	return (completedata)
-}
-
-library(optparse)
-
-parse_options <- function () {
-	option_list <- list(			
-			make_option(c("-d", "--database"), dest="database", 
-					help="Database with SCM data"),
-			make_option(c("-u", "--dbuser"), dest="dbuser", 
-					help="Database user", default="root"),
-			make_option(c("-p", "--dbpass"), dest="dbpassword", 
-					help="Database user password", default=""),			
-			make_option(c("-r", "--reports"), dest="reports", default="",
-					help="Reports to be generated (repositories, companies)"),			
-			make_option(c("-s", "--start"), dest="startdate", 
-					help="Start date for the report", default="1900-01-01"),
-			make_option(c("-e", "--end"), dest="enddate", 
-					help="End date for the report", default="2100-01-01")
-	)
-	parser <- OptionParser(usage = "%prog [options]", option_list = option_list)
-	options <- parse_args(parser)
-	
-	if (is.null(options$database)) {		
-		print_help(parser)
-		stop("Database param is required")
-	}
-	
-	return (options)
-}
-
-library(rjson)
-#
-# Create a JSON file with some R object
-#
-createJSON <- function (data, filename) {
-	sink(filename)
-	cat(toJSON(data))
-	sink()
-}
-
-library(RMySQL)
-connectDB <- function (options) {
-	mychannel <- dbConnect(MySQL(), user=options$dbuser, password=options$dbpassword, 
-			host="localhost", db=options$database)
-	dbGetQuery(mychannel, "SET NAMES 'utf8'")
-	return (mychannel)
-}
-# TODO: Ugly this global mychannel var here!
-query <- function(...) dbGetQuery(mychannel, ...)
+source("./util-lib.R")
 
 evol_commits <- function(granularity){
   #Commits evolution
