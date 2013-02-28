@@ -45,7 +45,7 @@ data_committers = evol_committers()
 # Authors per month
 data_authors = evol_authors()
 
-if (options$reports == 'companies') data_companies = companies_evolution()
+if (options$reports == 'companies') data_companies = evol_companies()
 
 #Files per month
 data_files = evol_files()

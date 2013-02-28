@@ -659,9 +659,7 @@ company_top_authors_year <- function(company_name, year){
 	
 }
 
-companies_evolution <- function(){
-#unique number of active companies per month and its evolution
-	
+evol_companies <- function(){	
 	q <- paste("select m.id as id,
 					m.year as year,
 					m.month as month,
@@ -684,10 +682,9 @@ companies_evolution <- function(){
 					on (  
 					m.year = pm.year and
 					m.month = pm.month)
-					order by m.id;")
-	
+					order by m.id;")	
 	num_companies<- query(q)
-	print (num_companies)
+	return (num_companies)
 }
 
 
