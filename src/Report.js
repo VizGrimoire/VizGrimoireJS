@@ -378,7 +378,7 @@ var Report = {};
         var querystr = window.location.search.substr(1);
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "repository")
-            repo = querystr.split("&")[0].split("=")[1];
+            repo = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
 
         $.each(Report.getDataSources(), function(index, DS) {
             var divid = DS.getName()+"-repos-summary";
@@ -419,7 +419,6 @@ var Report = {};
                 });
             }
             if (repo !== null) {
-                if (DS.getName() !== "scm" && DS.getName() !== "its") return;
                 var divid = DS.getName()+"-refcard-repo";
                 if ($("#"+divid).length > 0) {
                     DS.displayRepoSummary(divid, repo, this);

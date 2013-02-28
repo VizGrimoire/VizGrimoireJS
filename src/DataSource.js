@@ -201,9 +201,6 @@ function DataSource(name, basic_metrics) {
     this.getReposData = function() {
         return this.repos;
     };
-    this.getReposDataNames = function() {
-        return this.repos;
-    };
     this.setReposData = function(repos, self) {
         if (self === undefined) self = this;
         self.repos = repos;
@@ -417,6 +414,8 @@ function DataSource(name, basic_metrics) {
             var label = repo;
             if (repo.lastIndexOf("http") === 0)
                 label = repo.substr(repo.lastIndexOf("_") + 1);
+            else if (repo.lastIndexOf("<") === 0)
+                label = MLS.displayMLSListName(repo);
             nav += label;
             nav += "</a> ";
         });
@@ -460,10 +459,8 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-            	if (ds.getName() === "its")
-            		list += "<a href='its-repository.html?repository="+item;
-            	else
-            		list += "<a href='repository.html?repository="+item;
+        		list += "<a href='"+ds.getName();
+        		list += "-repository.html?repository="+item;
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
@@ -471,6 +468,8 @@ function DataSource(name, basic_metrics) {
             var label = item;
             if (item.lastIndexOf("http") === 0)
                 label = item.substr(item.lastIndexOf("_") + 1);
+            else if (item.lastIndexOf("<") === 0)
+                label = MLS.displayMLSListName(item);
             list += label;
             list += "</strong> +info</a>";
             list += "<br><a href='#nav'>^</a>";
@@ -517,7 +516,7 @@ function DataSource(name, basic_metrics) {
             avg_commits_author:'Commits per author',
             avg_authors_month:'Authors per month',
             avg_reviewers_month:'Reviewers per moth',
-            avg_files_author:'Files per author',
+            avg_files_author:'Files per author'            
         };
         var global_data = null;
         if (report === "companies")
@@ -527,7 +526,10 @@ function DataSource(name, basic_metrics) {
         else return;
         
         $.each(global_data[item],function(id,value) {
-            html += id_label[id] + ": " + value + "<br>";
+            if (id_label[id])
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };
