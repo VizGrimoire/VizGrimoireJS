@@ -20,8 +20,7 @@
 #
 # Note: this script works with MailingListStats tool
 
-completeZeroMonthly <- function (data) {
-	
+completeZeroMonthly <- function (data) {	
 	firstmonth = as.integer(data$id[1])
 	lastmonth = as.integer(data$id[nrow(data)])
 	months = data.frame('id'=c(firstmonth:lastmonth))
@@ -173,7 +172,10 @@ analList <- function (listname) {
 	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
 	mls_monthly[is.na(mls_monthly)] <- 0
+	# TODO: Multilist approach. We will obsolete it in future
 	createJSON (mls_monthly, paste("../data/json/mls-",listname_file,"-evolutionary.json",sep=''))
+	# Multirepos filename
+	createJSON (mls_monthly, paste("../data/json/",listname_file,"-mls-evolutionary.json",sep=''))
 	# createJSON (subjects_monthly, paste("../data/json/mls-",listname,"-subjects-evolutionary.json",sep=''))
 	createJSON (emails_monthly, paste("../data/json/mls-",listname_file,"-emails-evolutionary.json",sep=''))
 	
@@ -187,19 +189,22 @@ analList <- function (listname) {
 					JOIN messages_people on (messages_people.message_id = messages.message_ID)
 					WHERE ",field,"='",listname,"'",sep='')
 	data <- query(q)
+	# TODO: Multilist approach. We will obsolete it in future
 	createJSON (data, paste("../data/json/mls-",listname_file,"-static.json",sep=''))
+	# Multirepos filename
+	createJSON (data, paste("../data/json/",listname_file,"-mls-static.json",sep=''))
 }
 
 top_senders <- function(days = 0) {
 	if (days == 0 ) {
-		q <- paste("SELECT email_address as developer, count(m.message_id) as sent 
+		q <- paste("SELECT email_address as senders, count(m.message_id) as sent 
 						FROM messages m join messages_people m_p on m_p.message_id=m.message_ID 
 						GROUP by email_address ORDER BY sent DESC LIMIT 10;")
 		
 	} else {
 		q <- paste("SELECT @maxdate:=max(first_date) from messages limit 1;")
 		data <- query(q)
-		q <- paste("SELECT email_address as developer, count(m.message_id) as sent 
+		q <- paste("SELECT email_address as senders, count(m.message_id) as sent 
 						FROM messages m join messages_people m_p on m_p.message_id=m.message_ID
 						WHERE DATEDIFF(@maxdate,first_date)<",days," 
 						GROUP by email_address ORDER BY sent DESC LIMIT 10;")		
@@ -221,5 +226,4 @@ static_info <- function () {
 	agg_data = merge(num_msg,num_ppl)
 	agg_data = merge(agg_data, repo_info)
 	return (agg_data)
-}	
-
+}
