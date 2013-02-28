@@ -1114,6 +1114,8 @@ var Viz = {};
             // TODO: find a generic way to filter labels
             if (item.lastIndexOf("http") === 0)
                 item = item.substr(item.lastIndexOf("_") + 1);
+            else if (item.lastIndexOf("<") === 0)
+                item = MLS.displayMLSListName(item);
             labels.push(item);
             metric_data.push(data[metric]);
         });

@@ -32,19 +32,17 @@ library(optparse)
 parse_options <- function () {
 	option_list <- list(			
 			make_option(c("-d", "--database"), dest="database", 
-					help="Database with ITS data"),
+					help="Database with SCM data"),
 			make_option(c("-u", "--dbuser"), dest="dbuser", 
 					help="Database user", default="root"),
 			make_option(c("-p", "--dbpass"), dest="dbpassword", 
 					help="Database user password", default=""),			
-			make_option(c("-r", "--reports"), dest="reports", 
+			make_option(c("-r", "--reports"), dest="reports", default="",
 					help="Reports to be generated (repositories, companies)"),			
 			make_option(c("-s", "--start"), dest="startdate", 
 					help="Start date for the report", default="1900-01-01"),
 			make_option(c("-e", "--end"), dest="enddate", 
 					help="End date for the report", default="2100-01-01"),
-			make_option(c("-t", "--type"), dest="enddate", 
-					help="Type of ITS: bugzilla, allura, jira, github", default="bugzilla")
 	)
 	parser <- OptionParser(usage = "%prog [options]", option_list = option_list)
 	options <- parse_args(parser)
