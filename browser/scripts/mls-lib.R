@@ -199,10 +199,10 @@ analList <- function (listname) {
 	
 	## Get some general stats from the database
 	##
-	q <- paste ("SELECT count(*) as messages,
+	q <- paste ("SELECT count(*) as sent,
 					DATE_FORMAT (min(first_date), '%Y-%m-%d') as first_date,
 					DATE_FORMAT (max(first_date), '%Y-%m-%d') as last_date,
-					COUNT(DISTINCT(email_address)) as people
+					COUNT(DISTINCT(email_address)) as senders
 					FROM messages 
 					JOIN messages_people on (messages_people.message_id = messages.message_ID)
 					WHERE ",field,"='",listname,"'",sep='')
