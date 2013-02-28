@@ -300,14 +300,14 @@ evol_info_data_companies <- function() {
 
 top_committers <- function(days = 0) {
 	if (days == 0 ) {
-	q <- paste("SELECT count(s.id) as commits, p.email as developer
+	q <- paste("SELECT count(s.id) as commits, p.email as committers
 				FROM scmlog s JOIN people p ON p.id=s.committer_id 
 				GROUP BY p.email ORDER BY commits DESC 
 				LIMIT 10;")
 	} else {
     q <- paste("SELECT @maxdate:=max(date) from scmlog limit 1;")
     data <- query(q)
-	q <- paste("SELECT count(s.id) as commits, p.email as developer
+	q <- paste("SELECT count(s.id) as commits, p.email as committers
 			   FROM scmlog s JOIN people p ON p.id=s.committer_id
 			   WHERE DATEDIFF(@maxdate,date)<",days," 
 			   GROUP BY p.email ORDER BY commits DESC 
