@@ -239,9 +239,19 @@ static_info <- function () {
 	num_msg <- query(q)
 	q <- paste ("SELECT count(*) as senders from people")
 	num_ppl <- query(q)
+	# num repositories
+	field = "mailing_list"
+	q <- paste ("select distinct(mailing_list) from messages")
+	mailing_lists <- query(q)
+	if (is.na(mailing_lists$mailing_list)) {
+		field = "mailing_list_url"
+	}
+	q <- paste("SELECT COUNT(DISTINCT(",field,")) AS repositories FROM messages")
+	num_repos <- query(q)
 	q <- paste("SELECT mailing_list_url as url FROM mailing_lists")
 	repo_info <- query(q)
 	agg_data = merge(num_msg,num_ppl)
+	agg_data = merge(agg_data, num_repos)
 	agg_data = merge(agg_data, repo_info)
 	return (agg_data)
 }
