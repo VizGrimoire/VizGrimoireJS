@@ -103,7 +103,25 @@ analAggregated <- function () {
 					ORDER BY year,month")
 	senders_monthly <- query(q)
 	
+	# repositories
+	field = "mailing_list"
+	q <- paste ("select distinct(mailing_list) from messages")
+	mailing_lists <- query(q)
+	if (is.na(mailing_lists$mailing_list)) {
+		field = "mailing_list_url"
+	}		
+	q <- paste ("SELECT year(first_date) * 12 + month(first_date) AS id,
+					year(first_date) AS year,
+					month(first_date) AS month,
+					DATE_FORMAT (first_date, '%b %Y') as date,
+					count(DISTINCT(",field,")) AS repositories
+					FROM messages
+					GROUP BY year,month
+					ORDER BY year,month")
+	repos_monthly <- query(q)
+	
 	mls_monthly <- completeZeroMonthly (merge (sent_monthly, senders_monthly, all = TRUE))
+	mls_monthly <- completeZeroMonthly (merge (mls_monthly, repos_monthly, all = TRUE))
 	mls_monthly[is.na(mls_monthly)] <- 0
 	createJSON (mls_monthly, paste("../data/json/mls-evolutionary.json"))	
 }
