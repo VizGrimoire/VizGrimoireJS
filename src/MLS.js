@@ -105,7 +105,7 @@ function MLS() {
         
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
     // <allura-dev.incubator.apache.org>
-    function displayMLSListName(listinfo) {
+    MLS.displayMLSListName = function (listinfo) {
         var list_name_tokens = listinfo.split("_");
         var list_name = ''; 
         if (list_name_tokens.length > 1) {
@@ -203,7 +203,7 @@ function MLS() {
                 continue;
             var new_div = "<div class='info-pill m0-box-div flotr2-"
                     + metric.column + "'>";
-            new_div += "<h1>" + metric.name + " " + displayMLSListName(l)
+            new_div += "<h1>" + metric.name + " " + MLS.displayMLSListName(l)
                     + "</h1>";
             new_div += "<div id='" + metric.divid + "_" + l
                     + "' class='m0-box flotr2-" + metric.column + "'></div>";
@@ -380,7 +380,7 @@ function MLS() {
             if ($.inArray(l, user_lists) > -1)
                 html += 'checked ';
             html += '>';
-            html += displayMLSListName(l);
+            html += MLS.displayMLSListName(l);
             html += '<br>';
         }
         html += '<input type=button value="All" ';
@@ -433,7 +433,7 @@ function MLS() {
             file_messages = this.getDataDir()+"/mls-";
             file_messages += l;
             file_messages += "-evolutionary.json";
-            this.displayEvoList(displayMLSListName(l), id, file_messages);
+            this.displayEvoList(MLS.displayMLSListName(l), id, file_messages);
         }
     };
 
@@ -449,7 +449,7 @@ function MLS() {
         var config = Report.getConfig();
         var options = Viz.getEnvisionOptionsMin(div_id, history,  
                 config.mls_hide);
-        options.data.list_label = displayMLSListName(list_label);
+        options.data.list_label = MLS.displayMLSListName(list_label);
         new envision.templates.Envision_Report(options, [ this ]);
     };
 }

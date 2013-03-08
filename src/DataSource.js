@@ -298,7 +298,7 @@ function DataSource(name, basic_metrics) {
             if (report=="companies")
                 sorted = this.sortCompanies(order_by);
             else if (report=="repos")
-                sorted = this.getReposData();
+                sorted = this.sortRepos(order_by);
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
@@ -357,28 +357,44 @@ function DataSource(name, basic_metrics) {
     
     this.displayBasic = function() {
         this.basicEvo(this.getData());
+    };    
+    
+    this.sortCompanies = function(metric_id) {
+    	return this.sortGlobal(metric_id, "companies");
+    };
+    
+    this.sortRepos = function(metric_id) {
+    	return this.sortGlobal(metric_id, "repos");
     };
 
-    this.sortCompanies = function(metric_id) {
+    this.sortGlobal = function (metric_id, kind) {
         if (metric_id === undefined) metric_id = "commits";
         var metric = [];
-        var sorted_companies = [];
-        var companies = this.getCompaniesGlobalData();
-        if (companies[this.getCompaniesData()[0]][metric_id] === undefined)
-            metric_id = "commits";
-        $.each(companies, function(company, data) {
+        var sorted = [];
+        var global = null;
+        if (kind === "companies") {
+        	global = this.getCompaniesGlobalData();
+            if (global[this.getCompaniesData()[0]][metric_id] === undefined)
+                metric_id = "commits";
+        } 
+        else if (kind === "repos") {
+        	global = this.getReposGlobalData();
+            if (global[this.getReposData()[0]][metric_id] === undefined)
+                metric_id = "commits";
+        }
+        $.each(global, function(item, data) {
            metric.push(data[metric_id]);
         });
         metric.sort(function(a, b) {return b - a;});
         $.each(metric, function(id, value) {
-            $.each(companies, function(company, data) {
+            $.each(global, function(item, data) {
                 if (data[metric_id] === value) {
-                    sorted_companies.push(company);
+                    sorted.push(item);
                     return false;
                 }
              });
         });
-        return sorted_companies;
+        return sorted;
     };
 
     this.displayCompaniesNav = function (div_nav, sort_metric) {
@@ -390,12 +406,20 @@ function DataSource(name, basic_metrics) {
         $("#"+div_nav).append(nav);
     };
     
-    this.displayReposNav = function (div_nav) {
+    this.displayReposNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
-        $.each(this.getReposData(), function(id, repo) {
-            nav += "<a href='#"+repo+"-nav'>"+repo + "</a> ";
+        var sorted_repos = this.sortRepos(sort_metric);
+        $.each(sorted_repos, function(id, repo) {
+            nav += "<a href='#" + repo + "-nav'>";
+            var label = repo;
+            if (repo.lastIndexOf("http") === 0)
+                label = repo.substr(repo.lastIndexOf("_") + 1);
+            if (repo.lastIndexOf("<") === 0 || label === '')
+                label = MLS.displayMLSListName(repo);
+            nav += label;
+            nav += "</a> ";
         });
-        $("#"+div_nav).append(nav);
+        $("#" + div_nav).append(nav);
     };
 
 
@@ -414,6 +438,7 @@ function DataSource(name, basic_metrics) {
     this.displaySubReportList = function (report, metrics,div_id, 
             config_metric, sort_metric) {
         var list = "";
+        var ds = this;
         var data = null, sorted = null;
         if (report === "companies") {
             data = this.getCompaniesMetricsData();
@@ -421,7 +446,7 @@ function DataSource(name, basic_metrics) {
         }
         else if (report === "repos") {
             data = this.getReposMetricsData();
-            sorted = this.getReposData();
+            sorted = this.sortRepos(sort_metric);
         } 
         else return;
 
@@ -434,11 +459,19 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-                list += "<a href='repository.html?repository="+item;
+        		list += "<a href='"+ds.getName();
+        		list += "-repository.html?repository="+item;
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
-            list += "<strong>"+item+"</strong> +info</a>";
+            list += "<strong>";
+            var label = item;
+            if (item.lastIndexOf("http") === 0)
+                label = item.substr(item.lastIndexOf("_") + 1);
+            if (item.lastIndexOf("<") === 0 || label === '')
+                label = MLS.displayMLSListName(item);
+            list += label;
+            list += "</strong> +info</a>";
             list += "<br><a href='#nav'>^</a>";
             list += "</div>";
             $.each(metrics, function(id, metric) {
@@ -470,7 +503,14 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displaySubReportSummary = function(report, divid, item, ds) {
-        var html = "<h1>"+item+"</h1>";
+        // TODO: find a generic way to filter labels
+        var label = item;
+        if (item.lastIndexOf("http") === 0) 
+            label = item.substr(item.lastIndexOf("_") + 1);
+        if (item.lastIndexOf("<") === 0 || label === '')
+            label = MLS.displayMLSListName(item);
+      
+        var html = "<h1>"+label+"</h1>";
         var id_label = {
             commits:'Total commits',
             authors:'Total authors',
@@ -483,7 +523,7 @@ function DataSource(name, basic_metrics) {
             avg_commits_author:'Commits per author',
             avg_authors_month:'Authors per month',
             avg_reviewers_month:'Reviewers per moth',
-            avg_files_author:'Files per author',
+            avg_files_author:'Files per author'            
         };
         var global_data = null;
         if (report === "companies")
@@ -493,7 +533,10 @@ function DataSource(name, basic_metrics) {
         else return;
         
         $.each(global_data[item],function(id,value) {
-            html += id_label[id] + ": " + value + "<br>";
+            if (id_label[id])
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };

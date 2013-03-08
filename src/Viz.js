@@ -68,11 +68,15 @@ var Viz = {};
         return new_config;
     }
 
-    function findMetricDoer(history, metric) {
-        for ( var field in history) {
-            if (field != metric)
-                return field;
-        }
+    function findMetricDoer(history, metric_id) {
+    	var doer = '';
+    	$.each(Report.getAllMetrics(), function(name,metric) {
+    		if (metric.action === metric_id) {
+    			doer = metric.column;
+    			return false;
+    		}
+    	});
+    	return doer;
     }
 
     function hideEmail(email) {
@@ -267,8 +271,10 @@ var Viz = {};
     function displayMetricSubReportLines(div_id, metric, items, title, config) {
         var lines_data = [];
         var history = {};
-
+        
         $.each(items, function(item, data) {
+            if (data[metric] === undefined) return false;
+            
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
                 cdata[i] = [data.id[i], data[metric][i]];
@@ -276,6 +282,9 @@ var Viz = {};
             lines_data.push({label:item, data:cdata});
             history = data;
         });
+        
+        if (lines_data.length === 0) return;
+        
         displayDSLines(div_id, history, lines_data, title, config);
     };
 
@@ -1102,8 +1111,14 @@ var Viz = {};
         if (config.graph) graph = config.graph;
 
         $.each(data, function(item,data) {
-           labels.push(item);
-           metric_data.push(data[metric]);
+            // TODO: find a generic way to filter labels
+            var label = item;
+            if (item.lastIndexOf("http") === 0) 
+                label = item.substr(item.lastIndexOf("_") + 1);
+            if (item.lastIndexOf("<") === 0 || label === '')
+                label = MLS.displayMLSListName(item);
+            labels.push(label);
+            metric_data.push(data[metric]);
         });
         displayBasicChart(div_id, labels, metric_data, graph, title, config);
     }
