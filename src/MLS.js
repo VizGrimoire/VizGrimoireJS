@@ -85,6 +85,7 @@ function MLS() {
         } else {
             $(div_id + ' #mls_url').attr("href", Report.getProjectData().mls_url);
             $(div_id + ' #mls_name').text(Report.getProjectData().mls_name);            
+            $(div_id + ' #mls_type').text(Report.getProjectData().mls_type);
         }
 
         var company = this.getCompanyQuery();
