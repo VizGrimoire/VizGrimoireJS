@@ -414,7 +414,7 @@ function DataSource(name, basic_metrics) {
             var label = repo;
             if (repo.lastIndexOf("http") === 0)
                 label = repo.substr(repo.lastIndexOf("_") + 1);
-            else if (repo.lastIndexOf("<") === 0)
+            if (repo.lastIndexOf("<") === 0 || label === '')
                 label = MLS.displayMLSListName(repo);
             nav += label;
             nav += "</a> ";
@@ -468,7 +468,7 @@ function DataSource(name, basic_metrics) {
             var label = item;
             if (item.lastIndexOf("http") === 0)
                 label = item.substr(item.lastIndexOf("_") + 1);
-            else if (item.lastIndexOf("<") === 0)
+            if (item.lastIndexOf("<") === 0 || label === '')
                 label = MLS.displayMLSListName(item);
             list += label;
             list += "</strong> +info</a>";
@@ -503,7 +503,14 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displaySubReportSummary = function(report, divid, item, ds) {
-        var html = "<h1>"+item+"</h1>";
+        // TODO: find a generic way to filter labels
+        var label = item;
+        if (item.lastIndexOf("http") === 0) 
+            label = item.substr(item.lastIndexOf("_") + 1);
+        if (item.lastIndexOf("<") === 0 || label === '')
+            label = MLS.displayMLSListName(item);
+      
+        var html = "<h1>"+label+"</h1>";
         var id_label = {
             commits:'Total commits',
             authors:'Total authors',

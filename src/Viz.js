@@ -1112,11 +1112,12 @@ var Viz = {};
 
         $.each(data, function(item,data) {
             // TODO: find a generic way to filter labels
-            if (item.lastIndexOf("http") === 0)
-                item = item.substr(item.lastIndexOf("_") + 1);
-            else if (item.lastIndexOf("<") === 0)
-                item = MLS.displayMLSListName(item);
-            labels.push(item);
+            var label = item;
+            if (item.lastIndexOf("http") === 0) 
+                label = item.substr(item.lastIndexOf("_") + 1);
+            if (item.lastIndexOf("<") === 0 || label === '')
+                label = MLS.displayMLSListName(item);
+            labels.push(label);
             metric_data.push(data[metric]);
         });
         displayBasicChart(div_id, labels, metric_data, graph, title, config);
