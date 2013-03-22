@@ -162,9 +162,11 @@ function MLS() {
 
     this.displayBasic = function (div_id, config_metric) {
         var lists = this.getListsData();
-
+        
         lists_hide = Report.getConfig().mls_hide_lists;
-        lists = lists.mailing_list;
+        lists = lists.mailing_list;        
+        if (lists === undefined) return null;
+        
         var user_pref = false;
 
         if (typeof lists === 'string')
@@ -237,6 +239,9 @@ function MLS() {
 
         history = this.getListsData();
         lists = history.mailing_list;
+        
+        if (lists === undefined) return;
+        
         var config = Report.getConfig();
         lists_hide = config.mls_hide_lists;
         if (typeof lists === 'string') {
