@@ -79,12 +79,13 @@ function MLS() {
 
         if (this.global_data.type)
             $(div_id + ' #mls_type').text(this.global_data.type);
-        if (this.global_data.url && this.global_data.url !== ".") {
+        if (this.global_data.url && this.global_data.url !== "." && this.global_data.type !== undefined)  {
             $(div_id + ' #mls_url').attr("href", url);
             $(div_id + ' #mls_name').text("MLS " + this.global_data.type);
         } else {
             $(div_id + ' #mls_url').attr("href", Report.getProjectData().mls_url);
             $(div_id + ' #mls_name').text(Report.getProjectData().mls_name);            
+            $(div_id + ' #mls_type').text(Report.getProjectData().mls_type);
         }
 
         var company = this.getCompanyQuery();
