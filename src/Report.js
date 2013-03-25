@@ -375,10 +375,14 @@ var Report = {};
         config_metric.show_labels = true;
         
         var repo = null;
+        var country = null;
         var querystr = window.location.search.substr(1);
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "repository")
             repo = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
+        if (querystr  &&
+                querystr.split("&")[0].split("=")[0] === "country")
+            country = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
 
         $.each(Report.getDataSources(), function(index, DS) {
             var divid = DS.getName()+"-repos-summary";
@@ -475,6 +479,27 @@ var Report = {};
                     });
                 }                
             }
+            
+            if (country !== null) {
+                var divid = DS.getName()+"-refcard-country";
+                if ($("#"+divid).length > 0) {
+                    DS.displayCountrySummary(divid, country, this);
+                }
+                
+                var div_country = DS.getName()+"-flotr2-metrics-country";
+                var divs = $("."+div_country);
+                if (divs.length) {
+                    $.each(divs, function(id, div) {
+                        var metrics = $(this).data('metrics');
+                        config.show_legend = false;
+                        if ($(this).data('legend')) config_metric.show_legend = true;
+                        div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-country";
+                        DS.displayBasicMetricsCountry(country, metrics.split(","),
+                                div.id, config_metric);
+                    });
+                }                
+            }
+
         });
     }
 

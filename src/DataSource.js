@@ -380,6 +380,11 @@ function DataSource(name, basic_metrics) {
         Viz.displayBasicMetricsRepo(repo, metrics,
                 this.getReposMetricsData()[repo], div_id, config);
     };
+    
+    this.displayBasicMetricsCountry = function (country, metrics, div_id, config) {
+        Viz.displayBasicMetricsCountry(country, metrics,
+                this.getCountriesMetricsData()[country], div_id, config);
+    };
 
     this.displayBasicMetrics = function(metric_ids, div_target, config) {
         Viz.displayBasicMetricsHTML(metric_ids, this.getData(),
@@ -583,6 +588,10 @@ function DataSource(name, basic_metrics) {
     this.displayRepoSummary = function(divid, repo, ds) {
         this.displaySubReportSummary("repositories",divid, repo, ds);
     };
+    
+    this.displayCountrySummary = function(divid, repo, ds) {
+        this.displaySubReportSummary("countries",divid, repo, ds);
+    };
 
     this.displaySubReportSummary = function(report, divid, item, ds) {
         var html = "<h1>"+item+"</h1>";
@@ -605,6 +614,8 @@ function DataSource(name, basic_metrics) {
             global_data = ds.getCompaniesGlobalData();
         else if (report === "repositories")
             global_data = ds.getReposGlobalData();
+        else if (report === "countries")
+            global_data = ds.getCountriesGlobalData();
         else return;
         
         $.each(global_data[item],function(id,value) {

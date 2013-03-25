@@ -37,6 +37,7 @@ var Viz = {};
     Viz.displayBasicMetricSubReportStatic = displayBasicMetricSubReportStatic;
     Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
     Viz.displayBasicMetricsRepo = displayBasicMetricsRepo;
+    Viz.displayBasicMetricsCountry = displayBasicMetricsCountry;
     Viz.displayBasicMetricsHTML = displayBasicMetricsHTML;
     Viz.displayBasicLinesFile = displayBasicLinesFile;
     Viz.displayBasicLines = displayBasicLines;
@@ -1091,6 +1092,13 @@ var Viz = {};
         var title = repo;
         displayMetricsLines(div_id, metrics, data, title, config);
     }
+    
+    function displayBasicMetricsCountry (country, metrics, data, div_id, config) {
+        config = checkBasicConfig(config);
+        var title = country;
+        displayMetricsLines(div_id, metrics, data, title, config);
+    }
+
 
     function displayBasicMetricCompaniesHTML(metric, data,
             div_target, config) {
