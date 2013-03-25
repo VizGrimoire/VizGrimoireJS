@@ -462,6 +462,16 @@ function DataSource(name, basic_metrics) {
         $("#"+div_nav).append(nav);
     };
     
+    this.displayCountriesNav = function (div_nav, sort_metric) {
+        var nav = "<span id='nav'></span>";
+        var sorted_countries = this.sortCountries(sort_metric);
+        $.each(sorted_countries, function(id, country) {
+            nav += "<a href='#"+country+"-nav'>"+country + "</a> ";
+        });
+        $("#"+div_nav).append(nav);
+    };
+
+    
     this.displayReposNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
         var sorted_repos = this.sortRepos(sort_metric);
@@ -491,6 +501,12 @@ function DataSource(name, basic_metrics) {
                 config_metric, sort_metric);
     };
     
+    this.displayCountriesList = function (metrics,div_id, 
+            config_metric, sort_metric) {
+        this.displaySubReportList("countries",metrics,div_id, 
+                config_metric, sort_metric);
+    };
+    
     this.displaySubReportList = function (report, metrics,div_id, 
             config_metric, sort_metric) {
         var list = "";
@@ -503,6 +519,10 @@ function DataSource(name, basic_metrics) {
         else if (report === "repos") {
             data = this.getReposMetricsData();
             sorted = this.sortRepos(sort_metric);
+        }
+        else if (report === "countries") {
+            data = this.getCountriesMetricsData();
+            sorted = this.sortCountries(sort_metric);
         } 
         else return;
 
@@ -517,6 +537,12 @@ function DataSource(name, basic_metrics) {
             else if (report === "repos") {
         		list += "<a href='"+ds.getName();
         		list += "-repository.html?repository="+item;
+                list += "&data_dir=" + Report.getDataDir();
+                list += "'>";
+            }
+            else if (report === "countries") {
+                list += "<a href='"+ds.getName();
+                list += "-country.html?country="+item;
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
