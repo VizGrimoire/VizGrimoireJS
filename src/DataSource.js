@@ -319,7 +319,7 @@ function DataSource(name, basic_metrics) {
                 div_target, config, limit, order_by, show_others);
     };
     
-    this.displayBasicMetricReposStatic = function (metric_id,
+    this.displayBasicMetricCountriesStatic = function (metric_id,
           div_target, config, limit, order_by, show_others) {
     
         this.displayBasicMetricSubReportStatic ("countries", metric_id,
@@ -335,7 +335,7 @@ function DataSource(name, basic_metrics) {
             data = this.getCompaniesGlobalData();
         else if (report=="repos")
             data = this.getReposGlobalData();
-        else if (report=="repos")
+        else if (report=="countries")
           data = this.getCountriesGlobalData();
         else return;
         if (limit) {
