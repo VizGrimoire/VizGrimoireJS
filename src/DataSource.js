@@ -223,6 +223,41 @@ function DataSource(name, basic_metrics) {
     this.getReposGlobalData = function() {
         return this.repos_global_data;
     };
+    
+    // Countries data
+    this.countries_data_file = 
+        this.data_dir+'/'+ this.name +'-countries.json';
+    this.getCountriesDataFile = function() {
+        return this.countries_data_file;
+    };
+
+    this.countries = null;
+    this.getCountriesData = function() {
+        return this.countries;
+    };
+    this.setCountriesData = function(countries, self) {
+        if (self === undefined) self = this;
+        self.countries = countries;
+    };
+
+    this.countries_metrics_data = {};
+    this.addCountryMetricsData = function(country, data, self) {
+        if (self === undefined) self = this;
+        self.countries_metrics_data[country] = data;
+    };
+    this.getCountriesMetricsData = function() {
+        return this.countries_metrics_data;
+    };
+
+    this.countries_global_data = {};
+    this.addCountryGlobalData = function(country, data, self) {
+        if (self === undefined) self = this;
+        self.countries_global_data[country] = data;
+    };
+    this.getCountriesGlobalData = function() {
+        return this.countries_global_data;
+    };
+
 
     // TODO: Move this login to Report
     this.getCompanyQuery = function () {
@@ -284,6 +319,14 @@ function DataSource(name, basic_metrics) {
                 div_target, config, limit, order_by, show_others);
     };
     
+    this.displayBasicMetricReposStatic = function (metric_id,
+          div_target, config, limit, order_by, show_others) {
+    
+        this.displayBasicMetricSubReportStatic ("countries", metric_id,
+            div_target, config, limit, order_by, show_others);
+    };
+    
+    
     this.displayBasicMetricSubReportStatic = function (report, metric_id,
             div_target, config, limit, order_by, show_others) {
         if (order_by === undefined) order_by = metric_id;
@@ -292,6 +335,8 @@ function DataSource(name, basic_metrics) {
             data = this.getCompaniesGlobalData();
         else if (report=="repos")
             data = this.getReposGlobalData();
+        else if (report=="repos")
+          data = this.getCountriesGlobalData();
         else return;
         if (limit) {
             var sorted = null;
@@ -299,6 +344,8 @@ function DataSource(name, basic_metrics) {
                 sorted = this.sortCompanies(order_by);
             else if (report=="repos")
                 sorted = this.sortRepos(order_by);
+            else if (report=="countries")
+              sorted = this.sortCountries(order_by);            
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
@@ -366,6 +413,10 @@ function DataSource(name, basic_metrics) {
     this.sortRepos = function(metric_id) {
     	return this.sortGlobal(metric_id, "repos");
     };
+    
+    this.sortCountries = function(metric_id) {
+      return this.sortGlobal(metric_id, "countries");
+    };
 
     this.sortGlobal = function (metric_id, kind) {
         if (metric_id === undefined) metric_id = "commits";
@@ -373,13 +424,18 @@ function DataSource(name, basic_metrics) {
         var sorted = [];
         var global = null;
         if (kind === "companies") {
-        	global = this.getCompaniesGlobalData();
+            global = this.getCompaniesGlobalData();
             if (global[this.getCompaniesData()[0]][metric_id] === undefined)
                 metric_id = "commits";
         } 
         else if (kind === "repos") {
-        	global = this.getReposGlobalData();
+            global = this.getReposGlobalData();
             if (global[this.getReposData()[0]][metric_id] === undefined)
+                metric_id = "commits";
+        }
+        else if (kind === "countries") {
+            global = this.getCountriesGlobalData();
+            if (global[this.getCountriesData()[0]][metric_id] === undefined)
                 metric_id = "commits";
         }
         $.each(global, function(item, data) {
@@ -554,6 +610,12 @@ function DataSource(name, basic_metrics) {
         $("#"+divid).append(html);
     };
     
+    this.displayCountriesSummary = function(divid, ds) {
+      var html = "";
+      var data = ds.getGlobalData();
+      html += "Total countries: " + data.countries +"<br>";
+      $("#"+divid).append(html);
+    };
 
     this.displayDemographics = function(divid, file) {
         Viz.displayDemographics(divid, this, file);

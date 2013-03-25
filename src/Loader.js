@@ -26,7 +26,7 @@ var Loader = {};
 (function() {
     
     var data_callbacks = [];
-    var check_companies = false, check_repos = false;
+    var check_companies = false, check_repos = false, check_countries = false;
     
     Loader.data_ready = function(callback) {
         data_callbacks.push(callback);
@@ -54,6 +54,7 @@ var Loader = {};
         }
         data_load_companies();
         data_load_repos();
+        data_load_countries();
         data_load_metrics();
         data_load_people();
         data_load_tops('authors');
@@ -83,6 +84,14 @@ var Loader = {};
             data_load_file(DS.getReposDataFile(), DS.setReposData, DS);
         });
     };
+    
+    function data_load_countries() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getCountriesDataFile(), DS.setCountriesData, DS);
+        });
+    };
+
 
     // TODO: It is better to have all the tops in the same file
     function data_load_tops(metric) {
@@ -176,6 +185,27 @@ var Loader = {};
             });
         });
     }
+    
+    function data_load_countries_metrics() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            var countries = DS.getCountriesData();
+            if (countries === null) return;
+            $.each(countries, function(i, country) {
+                var file = DS.getDataDir()+"/"+country+"-";
+                file_evo = file + DS.getName()+"-evolutionary.json";
+                $.when($.getJSON(file_evo)).done(function(history) {
+                    DS.addCountryMetricsData(country, history, DS);
+                    end_data_load();
+                });
+                file_static = file + DS.getName()+"-static.json";
+                $.when($.getJSON(file_static)).done(function(history) {
+                    DS.addCountryGlobalData(country, history, DS);
+                    end_data_load();
+                });
+            });
+        });
+    }
 
     function data_load_metrics() {
         var data_sources = Report.getDataSources();
@@ -247,6 +277,27 @@ var Loader = {};
         return true;
     }
     
+    function check_countries_loaded(DS) {
+        if (DS.getCountriesData() === null) return false;
+        else {
+            if (DS.getCountriesData().length>0 && !check_countries) {
+                check_countries = true;
+                data_load_countries_metrics();
+                return false;
+            }
+        }
+        if (check_countries && DS.getCountriesData().length>0) {
+            var countries_loaded = 0;
+            for (var key in DS.getCountriesMetricsData()) {countries_loaded++;}
+            if (countries_loaded !== DS.getCountriesData().length) return false;
+            countries_loaded = 0;
+            for (var key in DS.getCountriesGlobalData()) {countries_loaded++;}
+            if (countries_loaded !== DS.getCountriesData().length) return false;
+        }
+        return true;
+    }
+
+    
     // TODO: Make more modular. Move companies and repos code and tops!
     function check_data_loaded() {
         var check = true;
@@ -269,6 +320,7 @@ var Loader = {};
             
             if (!check_companies_loaded(DS)) {check = false; return false;}
             if (!check_repos_loaded(DS)) {check = false; return false;}
+            if (!check_countries_loaded(DS)) {check = false; return false;}
                    
             // TODO: Demographics just for SCM yet!
             if (DS instanceof SCM) {

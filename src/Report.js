@@ -385,6 +385,10 @@ var Report = {};
             if ($("#"+divid).length > 0) {
                 DS.displayReposSummary(divid, this);
             }
+            var divid = DS.getName()+"-countries-summary";
+            if ($("#"+divid).length > 0) {
+                DS.displayCountriesSummary(divid, this);
+            }
             
             var div_repos = DS.getName()+"-flotr2-repos-static";
             var divs = $("."+div_repos);
@@ -397,6 +401,21 @@ var Report = {};
                     config_metric.graph = $(this).data('graph');
                     div.id = metric+"-flotr2-repos-static";
                     DS.displayBasicMetricReposStatic(metric,div.id,
+                            config_metric, limit, order_by, show_others);
+                });
+            }
+            
+            var div_countries = DS.getName()+"-flotr2-countries-static";
+            var divs = $("."+div_countries);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var limit = $(this).data('limit');
+                    var show_others = $(this).data('show-others');
+                    var order_by = $(this).data('order-by');
+                    config_metric.graph = $(this).data('graph');
+                    div.id = metric+"-flotr2-countries-static";
+                    DS.displayBasicMetricCountriesStatic(metric,div.id,
                             config_metric, limit, order_by, show_others);
                 });
             }
