@@ -100,8 +100,8 @@ function MLS() {
         $(div_id + ' #mlsSenders').text(data.senders);
     };
 
-    this.displayBubbles = function(divid) {
-        Viz.displayBubbles(divid, "sent", "senders");
+    this.displayBubbles = function(divid, radius) {
+        Viz.displayBubbles(divid, "sent", "senders", radius);
     };
         
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_

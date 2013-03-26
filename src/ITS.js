@@ -162,8 +162,8 @@ function ITS() {
 
     this.getTitle = function() {return "Tickets";};
 
-    this.displayBubbles = function(divid) {
-        Viz.displayBubbles(divid, "opened", "openers");
+    this.displayBubbles = function(divid, radius) {
+        Viz.displayBubbles(divid, "opened", "openers", radius);
     };
     
 }

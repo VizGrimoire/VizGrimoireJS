@@ -148,8 +148,8 @@ function SCM() {
         $(div_id + ' #scmCommitters').text(data.committers);
     };
 
-    this.displayBubbles = function(divid) {
-        Viz.displayBubbles(divid, "commits", "committers");
+    this.displayBubbles = function(divid, radius) {
+        Viz.displayBubbles(divid, "commits", "committers", radius);
     };
 }
 var aux = new SCM();

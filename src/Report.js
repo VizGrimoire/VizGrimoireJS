@@ -733,8 +733,10 @@ var Report = {};
             if (DS.getData().length === 0) return;
 
             var div_time = DS.getName() + "-time-bubbles";
-            if ($("#" + div_time).length > 0)
-                DS.displayBubbles(div_time);
+            if ($("#" + div_time).length > 0) {
+                var radius = $("#" + div_time).data('radius');
+                DS.displayBubbles(div_time, radius);
+            }
         });        
     }
     

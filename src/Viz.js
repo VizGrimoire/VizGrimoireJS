@@ -462,7 +462,7 @@ var Viz = {};
     }
     
     // The two metrics should be from the same data source
-    function displayBubbles(divid, metric1, metric2) {
+    function displayBubbles(divid, metric1, metric2, radius) {
 
         var container = document.getElementById(divid);
 
@@ -533,6 +533,12 @@ var Viz = {};
             $.extend(config.bubbles, {
                 baseRadius : 1.0
             });
+        
+        if (radius) {
+            $.extend(config.bubbles, {
+                baseRadius : radius
+            });            
+        }
         Flotr.draw(container, bdata, config);
     }
 
