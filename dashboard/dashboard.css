@@ -1,0 +1,13 @@
+body {
+    max-width: 900px;
+    width: 900px;
+    max-height: 700px;
+    height: 700px;
+    margin: 20px;
+    font: normal 0.75em georgia, sans-serif;
+    border-style: solid;
+}
+
+.box {
+    border-style: solid;
+}
