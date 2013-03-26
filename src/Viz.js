@@ -109,9 +109,9 @@ var Viz = {};
         });
     }
 
-    function displayTopMetricTable(history, metric_id) {
+    function displayTopMetricTable(history, metric_id, doer) {
         var table = "<table><tbody>";
-        var doer = findMetricDoer(history, metric_id);
+        if (doer === undefined) doer = findMetricDoer(history, metric_id);
         // new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
         table += "<tr><th></th><th>" + metric_id + "</th></tr>";
         if (history[metric_id] === undefined) return;
@@ -134,8 +134,9 @@ var Viz = {};
         (div_id, project, metric, metric_period, history, graph, titles) {
 
         var metric_id = metric.action;
-        var table = displayTopMetricTable(history, metric_id);
-        var doer = findMetricDoer(history, metric_id);
+        var doer = metric.column;
+        var table = displayTopMetricTable(history, metric_id, doer);
+        // var doer = findMetricDoer(history, metric_id);
 
         if (table === undefined) return;
         if (titles === false) {

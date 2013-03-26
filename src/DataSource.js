@@ -553,8 +553,12 @@ function DataSource(name, basic_metrics) {
             }
             list += "<strong>";
             var label = item;
-            if (item.lastIndexOf("http") === 0)
-                label = item.substr(item.lastIndexOf("_") + 1);
+            if (item.lastIndexOf("http") === 0) {
+                var aux = item.split("_");
+                label = aux.pop();
+                if (label === '') label = aux.pop();
+                // label = item.substr(item.lastIndexOf("_") + 1);
+            }
             else if (item.lastIndexOf("<") === 0)
                 label = MLS.displayMLSListName(item);
             list += label;
