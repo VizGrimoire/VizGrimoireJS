@@ -1,6 +1,10 @@
 var Dashboard = {};
 
-(function() {    
+(function() {
+    
+    default_metrics = ['commits','authors'];
+    default_companies = ['Rackspace','Red Hat','IBM'];
+    
     function getAllProjects(limit, order) {
         var projects = {};
         $.each(Report.getDataSources(), function(index, ds) {
@@ -71,7 +75,8 @@ var Dashboard = {};
                 + option + '" ';
             html += 'onClick="Dashboard.selection(\''+name+'\');"';
             html += 'id="' + option + '_check" ';
-            // if ($.inArray(l, user_lists)>-1) html += 'checked ';
+            if ($.inArray(option, default_metrics)>-1) html += 'checked ';
+            if ($.inArray(option, default_companies)>-1) html += 'checked ';
             html += '>';
             html += option;
             html += '<br>'; 
