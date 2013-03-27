@@ -34,6 +34,32 @@ var Dashboard = {};
         });
         return metrics;
     }
+    
+    function buildSelector(ds, name, options) {
+        var html = name + "";
+        html += "<form id='form_dashboard_'"+name+"'>";
+        $.each(options, function(i,option) {
+            html += '<input type=checkbox name="'+name+'_check_list" value="'
+                + option + '" ';
+//            html += 'onClick="';
+//            html += 'Viz.displayGridMetric(\'' + metric_id + '\');';
+//            html += '" ';
+            html += 'id="' + option + '_check" ';
+            // if ($.inArray(l, user_lists)>-1) html += 'checked ';
+            html += '>';
+            html += option;
+            html += '<br>'; 
+        });
+        html += "</form>";
+        return html;
+    }
+    
+    function cleanName(name) {
+        var aux = name.split("_");
+        var label = aux.pop();
+        if (label === "") label = aux.pop();
+        return label;
+    }
 
     var dashboard_divs = {
         "filter_projects": {
@@ -45,14 +71,11 @@ var Dashboard = {};
                 div.append("PROJECTS<br>");
                 $.each(getAllProjects(limit, order), function(ds, projects) {
                     if (div_ds && div_ds !== ds) return;
-                    div.append(ds + "<ul>");
+                    var options = [];
                     $.each(projects, function(index, project) {
-                        var aux = project.split("_");
-                        label = aux.pop();
-                        if (label === "") label = aux.pop(); 
-                        div.append("<li>"+label+"</li>");
+                        options.push(cleanName(project));
                     });
-                    div.append("</ul>");
+                    div.append(buildSelector(ds,"projects",options));
                 });
             }
         },
@@ -64,11 +87,11 @@ var Dashboard = {};
                 div.append('METRICS<br>');
                 $.each(getAllMetrics(limit), function(ds, metrics) {
                     if (div_ds && div_ds !== ds) return;
-                    div.append(ds + "<ul>");
+                    var options = [];
                     $.each(metrics, function(index, metric) {
-                        div.append("<li>"+metric+"</li>");
+                        options.push(metric);
                     });
-                    div.append("</ul>");
+                    div.append(buildSelector(ds,"metrics",options));
                 });
             }
         },
@@ -81,12 +104,13 @@ var Dashboard = {};
                 div.append('COMPANIES<br>');
                 $.each(getAllCompanies(limit,order), function(ds, companies) {
                     if (div_ds && div_ds !== ds) return;
-                    div.append(ds + "<ul>");
+                    var options = [];
                     $.each(companies, function(index, company) {
-                        div.append("<li>"+company+"</li>");
+                        options.push(company);
                     });
+                    div.append(buildSelector(ds,"companies",options));
                 });
-                div.append("</ul>");
+
             }
         },
         "dashboard_viz": {
