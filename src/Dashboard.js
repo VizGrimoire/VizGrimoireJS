@@ -68,7 +68,9 @@ var Dashboard = {};
                 var div_ds = div.data('ds');
                 var limit = div.data('limit');
                 var order = div.data('order');
-                div.append("PROJECTS<br>");
+                div.append("PROJECTS");
+                if (limit) div.append(" (top "+limit+")");
+                div.append("<br>");
                 $.each(getAllProjects(limit, order), function(ds, projects) {
                     if (div_ds && div_ds !== ds) return;
                     var options = [];
@@ -84,7 +86,9 @@ var Dashboard = {};
                 var div = $('#filter_metrics');
                 var div_ds = div.data('ds');
                 var limit = div.data('limit');
-                div.append('METRICS<br>');
+                div.append('METRICS');
+                if (limit) div.append(" (top "+limit+")");
+                div.append("<br>");                
                 $.each(getAllMetrics(limit), function(ds, metrics) {
                     if (div_ds && div_ds !== ds) return;
                     var options = [];
@@ -101,7 +105,9 @@ var Dashboard = {};
                 var div_ds = div.data('ds');
                 var limit = div.data('limit');
                 var order = div.data('order');
-                div.append('COMPANIES<br>');
+                div.append('COMPANIES');
+                if (limit) div.append(" (top "+limit+")");
+                div.append("<br>");
                 $.each(getAllCompanies(limit,order), function(ds, companies) {
                     if (div_ds && div_ds !== ds) return;
                     var options = [];
