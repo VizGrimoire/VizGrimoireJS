@@ -60,6 +60,22 @@ var Dashboard = {};
         if (label === "") label = aux.pop();
         return label;
     }
+    
+    function displayViz(div_ds, div_id) {
+        var metrics = ["commits","authors","files"];
+        var repo = "nova.git";
+        var config_metric = {show_desc: false, show_title: false, show_legend: true};  
+        $.each(Report.getDataSources(), function(index, ds) {
+            if (div_ds && div_ds !== ds.getName()) return;
+            $.each(metrics, function(index, metric) {
+                var metric_div = "dashboard_"+ds.getName()+"_"+metric;
+                var new_div = "<div class='dashboard_graph' id='"+metric_div+"'></div>";
+                $('#'+div_id).append(new_div);
+                ds.displayBasicMetricsRepo(repo, [metric], metric_div, 
+                        config_metric);
+            });
+        });
+    }
 
     var dashboard_divs = {
         "filter_projects": {
@@ -122,7 +138,8 @@ var Dashboard = {};
         "dashboard_viz": {
             convert: function() {
                 var div = $('#dashboard_viz');
-                $('#dashboard_viz').append('DASH VIZ');
+                var div_ds = div.data('ds');
+                div.append(displayViz(div_ds, 'dashboard_viz'));
             }
         },
     };

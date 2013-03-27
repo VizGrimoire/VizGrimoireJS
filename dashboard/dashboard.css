@@ -14,3 +14,8 @@ body {
     border-width: 1px;
     padding: 5px; 
 }
+
+.dashboard_graph {
+	height: 100px;
+	width: 200px;
+}
