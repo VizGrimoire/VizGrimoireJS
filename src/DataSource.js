@@ -306,14 +306,14 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayBasicMetricMyCompanies = function(companies, metric_id,
-            div_target, config) {
+            div_target, config, year) {
         var companies_data = {};
         var self = this;
         $.each(companies, function(i,name) {
             companies_data[name] = self.getCompaniesMetricsData()[name];
         });
         Viz.displayBasicMetricCompaniesHTML(metric_id, companies_data,
-                div_target, config);
+                div_target, config, year);
     };
 
     

@@ -271,7 +271,7 @@ var Viz = {};
         displayDSLines(div_id, history, lines_data, title, config);
     };
 
-    function displayMetricSubReportLines(div_id, metric, items, title, config) {
+    function displayMetricSubReportLines(div_id, metric, items, title, config, year) {
         var lines_data = [];
         var history = {};
         
@@ -288,13 +288,40 @@ var Viz = {};
         
         if (lines_data.length === 0) return;
         
-        displayDSLines(div_id, history, lines_data, title, config);
+        displayDSLines(div_id, history, lines_data, title, config, year);
     };
-
+    
     // Lines from the same Data Source
     // TODO: Probably we should also fill history
-    function displayDSLines(div_id, history, lines_data, title, config_metric) {
+    function displayDSLines(div_id, history, lines_data, title, config_metric, year) {
         var container = document.getElementById(div_id);
+                
+        if (year) {
+            year = parseInt(year);
+            var min_id = 12*year, max_id = 12*(year+1);
+            var lines_data_year = [];
+            $.each(lines_data, function(i,obj) {
+                var new_obj = {label:obj.label, data:[]};
+                lines_data_year.push(new_obj);
+                $.each(obj.data, function(i,point) {
+                    var id = point[0];
+                    if (id > min_id && id <= max_id)
+                        new_obj.data.push(point);
+                });
+            });
+            lines_data = lines_data_year;
+            var history_year = {};
+                
+            $.each(history, function(name,data) {
+                history_year[name] = [];                
+                $.each(data, function(i, value) {
+                    var id = history.id[i];
+                    if (id > min_id && id <= max_id)
+                        history_year[name].push(value);
+                });
+            });
+            history = history_year;
+        }
 
         var config = {
             title : title,
@@ -1114,11 +1141,11 @@ var Viz = {};
         displayMetricsLines(div_id, metrics, data, title, config);
     }
 
-    function displayBasicMetricCompaniesHTML(metric, data, div_target, config) {
+    function displayBasicMetricCompaniesHTML(metric, data, div_target, config, year) {
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;
-        displayMetricSubReportLines(div_target, metric, data, title, config);
+        displayMetricSubReportLines(div_target, metric, data, title, config, year);
     }
 
     function displayBasicMetricSubReportStatic(metric, data,
