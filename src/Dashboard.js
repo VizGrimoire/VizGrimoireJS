@@ -48,17 +48,28 @@ var Dashboard = {};
         return values;        
     }
         
-    Dashboard.selection = function() {        
+    Dashboard.selection = function(name) {
+        // TODO: Not supported project+companies filtering
+        if (name === "companies") cleanSelector("projects");
+        if (name === "projects") cleanSelector("companies");
         displayViz();
     };
     
+    function cleanSelector(name) {
+        var form_name = "form_dashboard_" + name;
+        var form = document.getElementById(form_name);
+        for (var i = 0; i < form.elements.length; i++) {
+            form.elements[i].checked = false;
+        }
+    }
+
     function buildSelector(ds, name, options) {
         var html = name + "";
         html += "<form id='form_dashboard_"+name+"'>";
         $.each(options, function(i,option) {
             html += '<input type=checkbox name="'+name+'_check_list" value="'
                 + option + '" ';
-            html += 'onClick="Dashboard.selection();"';
+            html += 'onClick="Dashboard.selection(\''+name+'\');"';
             html += 'id="' + option + '_check" ';
             // if ($.inArray(l, user_lists)>-1) html += 'checked ';
             html += '>';
@@ -81,10 +92,9 @@ var Dashboard = {};
         div.empty();
         var div_ds = div.data('ds');
         
-        // var metrics = ["commits","authors","files"];
         var metrics = getValuesForm('form_dashboard_metrics');
-        // /var repos = ["nova.git","melange.git"];
         var projects = getValuesForm('form_dashboard_projects');
+        var companies = getValuesForm('form_dashboard_companies');
         
         var config_metric = {show_desc: false, show_title: true, 
                 show_legend: true};  
@@ -95,8 +105,12 @@ var Dashboard = {};
                 var new_div = "<div class='dashboard_graph' id='";
                 new_div += metric_div+"'></div>";
                 div.append(new_div);
-                ds.displayBasicMetricMyRepos(projects, metric, metric_div, 
+                if (projects.length>0)
+                    ds.displayBasicMetricMyRepos(projects, metric, metric_div, 
                         config_metric);
+                else if (companies.length>0)
+                    ds.displayBasicMetricMyCompanies(companies, metric, metric_div, 
+                            config_metric);
             });
         });
     }
