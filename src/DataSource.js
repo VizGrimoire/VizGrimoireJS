@@ -430,16 +430,19 @@ function DataSource(name, basic_metrics) {
         var global = null;
         if (kind === "companies") {
             global = this.getCompaniesGlobalData();
+            if (this.getCompaniesData().length === 0) return sorted;
             if (global[this.getCompaniesData()[0]][metric_id] === undefined)
                 metric_id = "commits";
         } 
         else if (kind === "repos") {
             global = this.getReposGlobalData();
+            if (this.getReposData().length === 0) return sorted;
             if (global[this.getReposData()[0]][metric_id] === undefined)
                 metric_id = "commits";
         }
         else if (kind === "countries") {
             global = this.getCountriesGlobalData();
+            if (this.getCountriesData().length === 0) return sorted;
             if (global[this.getCountriesData()[0]][metric_id] === undefined)
                 metric_id = "commits";
         }

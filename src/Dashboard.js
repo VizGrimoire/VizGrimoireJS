@@ -1,26 +1,29 @@
 var Dashboard = {};
 
-(function() {
-    
-    function getAllProjects() {
+(function() {    
+    function getAllProjects(limit, order) {
         var projects = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var repos = ds.getReposData();
+            if (order) repos = ds.sortRepos(order);
+            if (limit) repos = repos.slice(0,limit-1);
             projects[ds.getName()] = repos;
         });
         return projects;
     }
     
-    function getAllCompanies() {
+    function getAllCompanies(limit, order) {
         var companies = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var companies_ds = ds.getCompaniesData();
+            if (order) companies_ds = ds.sortCompanies(order);
+            if (limit) companies_ds = companies_ds.slice(0,limit-1);
             companies[ds.getName()] = companies_ds;
         });
         return companies;
     }
     
-    function getAllMetrics() {
+    function getAllMetrics(limit) {
         var metrics = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var metrics_ds = ds.getMetrics();
@@ -35,43 +38,60 @@ var Dashboard = {};
     var dashboard_divs = {
         "filter_projects": {
             convert: function() {
-                $('#filter_projects').append("PROJECTS<br>");
-                $.each(getAllProjects(), function(ds, projects) {
-                    $('#filter_projects').append(ds + "<ul>");
+                var div = $('#filter_projects');
+                var div_ds = div.data('ds');
+                var limit = div.data('limit');
+                var order = div.data('order');
+                div.append("PROJECTS<br>");
+                $.each(getAllProjects(limit, order), function(ds, projects) {
+                    if (div_ds && div_ds !== ds) return;
+                    div.append(ds + "<ul>");
                     $.each(projects, function(index, project) {
                         var aux = project.split("_");
                         label = aux.pop();
                         if (label === "") label = aux.pop(); 
-                        $('#filter_projects').append("<li>"+label+"</li>");
+                        div.append("<li>"+label+"</li>");
                     });
-                    $('#filter_projects').append("</ul>");
+                    div.append("</ul>");
                 });
             }
         },
         "filter_metrics": {
             convert: function() {
-                $('#filter_metrics').append('METRICS<br>');
-                $.each(getAllMetrics(), function(ds, metrics) {
-                    $('#filter_metrics').append(ds + "<ul>");
+                var div = $('#filter_metrics');
+                var div_ds = div.data('ds');
+                var limit = div.data('limit');
+                div.append('METRICS<br>');
+                $.each(getAllMetrics(limit), function(ds, metrics) {
+                    if (div_ds && div_ds !== ds) return;
+                    div.append(ds + "<ul>");
                     $.each(metrics, function(index, metric) {
-                        $('#filter_metrics').append("<li>"+metric+"</li>");
-                    });                    
+                        div.append("<li>"+metric+"</li>");
+                    });
+                    div.append("</ul>");
                 });
             }
         },
         "filter_companies": {
             convert: function() {
-                $('#filter_companies').append('COMPANIES<br>');
-                $.each(getAllCompanies(), function(ds, companies) {
-                    $('#filter_companies').append(ds + "<ul>");
+                var div = $('#filter_companies');
+                var div_ds = div.data('ds');
+                var limit = div.data('limit');
+                var order = div.data('order');
+                div.append('COMPANIES<br>');
+                $.each(getAllCompanies(limit,order), function(ds, companies) {
+                    if (div_ds && div_ds !== ds) return;
+                    div.append(ds + "<ul>");
                     $.each(companies, function(index, company) {
-                        $('#filter_companies').append("<li>"+company+"</li>");
+                        div.append("<li>"+company+"</li>");
                     });
                 });
+                div.append("</ul>");
             }
         },
         "dashboard_viz": {
             convert: function() {
+                var div = $('#dashboard_viz');
                 $('#dashboard_viz').append('DASH VIZ');
             }
         },
