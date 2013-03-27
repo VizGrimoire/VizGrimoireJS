@@ -37,6 +37,7 @@ var Viz = {};
     Viz.displayBasicMetricSubReportStatic = displayBasicMetricSubReportStatic;
     Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
     Viz.displayBasicMetricsRepo = displayBasicMetricsRepo;
+    Viz.displayBasicMetricRepos = displayBasicMetricRepos;
     Viz.displayBasicMetricsCountry = displayBasicMetricsCountry;
     Viz.displayBasicMetricsHTML = displayBasicMetricsHTML;
     Viz.displayBasicLinesFile = displayBasicLinesFile;
@@ -1100,15 +1101,20 @@ var Viz = {};
         displayMetricsLines(div_id, metrics, data, title, config);
     }
     
+    function displayBasicMetricRepos(metric, data, div_target, config) {
+        config = checkBasicConfig(config);
+        config.show_legend = true;
+        var title = metric;
+        displayMetricSubReportLines(div_target, metric, data, title, config);
+    }
+    
     function displayBasicMetricsCountry (country, metrics, data, div_id, config) {
         config = checkBasicConfig(config);
         var title = country;
         displayMetricsLines(div_id, metrics, data, title, config);
     }
 
-
-    function displayBasicMetricCompaniesHTML(metric, data,
-            div_target, config) {
+    function displayBasicMetricCompaniesHTML(metric, data, div_target, config) {
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;

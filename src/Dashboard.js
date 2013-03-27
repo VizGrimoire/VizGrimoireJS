@@ -35,15 +35,30 @@ var Dashboard = {};
         return metrics;
     }
     
+    function getValuesForm(form_name) {
+        var values = [];
+        
+        var form = document.getElementById(form_name);
+        for (var i = 0; i < form.elements.length; i++) {
+            if (form.elements[i].type == "checkbox") {
+                if (form.elements[i].checked === true)
+                    values.push(form.elements[i].value);
+            }
+        }
+        return values;        
+    }
+        
+    Dashboard.selection = function() {        
+        displayViz();
+    };
+    
     function buildSelector(ds, name, options) {
         var html = name + "";
-        html += "<form id='form_dashboard_'"+name+"'>";
+        html += "<form id='form_dashboard_"+name+"'>";
         $.each(options, function(i,option) {
             html += '<input type=checkbox name="'+name+'_check_list" value="'
                 + option + '" ';
-//            html += 'onClick="';
-//            html += 'Viz.displayGridMetric(\'' + metric_id + '\');';
-//            html += '" ';
+            html += 'onClick="Dashboard.selection();"';
             html += 'id="' + option + '_check" ';
             // if ($.inArray(l, user_lists)>-1) html += 'checked ';
             html += '>';
@@ -61,17 +76,26 @@ var Dashboard = {};
         return label;
     }
     
-    function displayViz(div_ds, div_id) {
-        var metrics = ["commits","authors","files"];
-        var repo = "nova.git";
-        var config_metric = {show_desc: false, show_title: false, show_legend: true};  
+    function displayViz() {
+        var div = $('#dashboard_viz');
+        div.empty();
+        var div_ds = div.data('ds');
+        
+        // var metrics = ["commits","authors","files"];
+        var metrics = getValuesForm('form_dashboard_metrics');
+        // /var repos = ["nova.git","melange.git"];
+        var projects = getValuesForm('form_dashboard_projects');
+        
+        var config_metric = {show_desc: false, show_title: true, 
+                show_legend: true};  
         $.each(Report.getDataSources(), function(index, ds) {
             if (div_ds && div_ds !== ds.getName()) return;
             $.each(metrics, function(index, metric) {
                 var metric_div = "dashboard_"+ds.getName()+"_"+metric;
-                var new_div = "<div class='dashboard_graph' id='"+metric_div+"'></div>";
-                $('#'+div_id).append(new_div);
-                ds.displayBasicMetricsRepo(repo, [metric], metric_div, 
+                var new_div = "<div class='dashboard_graph' id='";
+                new_div += metric_div+"'></div>";
+                div.append(new_div);
+                ds.displayBasicMetricMyRepos(projects, metric, metric_div, 
                         config_metric);
             });
         });
@@ -137,9 +161,7 @@ var Dashboard = {};
         },
         "dashboard_viz": {
             convert: function() {
-                var div = $('#dashboard_viz');
-                var div_ds = div.data('ds');
-                div.append(displayViz(div_ds, 'dashboard_viz'));
+                displayViz();
             }
         },
     };

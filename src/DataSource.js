@@ -304,6 +304,39 @@ function DataSource(name, basic_metrics) {
         Viz.displayBasicMetricCompaniesHTML(metric_id, companies_data,
                 div_target, config, limit);
     };
+    
+    // TODO: mix with displayBasicMetricCompanies
+    this.displayBasicMetricRepos = function(metric_id,
+            div_target, config, limit, order_by) {
+        if (order_by === undefined) order_by = metric_id;
+        var repos_data = this.getReposMetricsData();
+        if (limit) {
+            var sorted_repos = this.sortRepos(order_by);
+            if (limit > sorted_repos.length) 
+                limit = sorted_repos.length; 
+            var repos_data_limit = {};
+            for (var i=0; i<limit; i++) {
+                var repo = sorted_repos[i];
+                repos_data_limit[repo] = repos_data[repo];
+            }
+            repos_data = repos_data_limit;
+        }
+        Viz.displayBasicMetricRepos(metric_id, repos_data,
+                div_target, config, limit);
+    };
+    
+    this.displayBasicMetricMyRepos = function(repos, metric_id,
+            div_target, config, limit, order_by) {
+        var repos_data = {};
+        var self = this;
+        $.each(repos, function(i,name) {
+            repos_data[name] = self.getReposMetricsData()[name];
+        });
+        Viz.displayBasicMetricRepos(metric_id, repos_data,
+                div_target, config, limit);
+    };
+    
+
 
     this.displayBasicMetricCompaniesStatic = function (metric_id,
             div_target, config, limit, order_by, show_others) {
