@@ -272,19 +272,23 @@ var Viz = {};
         displayDSLines(div_id, history, lines_data, title, config);
     };
     
+    function filterDates(start_id, end_id, history) {        
+        var history_dates = {};
+        $.each(history, function(name, data) {
+            history_dates[name] = [];                
+            $.each(data, function(i, value) {
+                var id = history.id[i];
+                if (id > start_id && id <= end_id)
+                    history_dates[name].push(value);
+            });
+        });
+        return history_dates;
+    }
+    
     function filterYear(year, history) {
         year = parseInt(year);
         var min_id = 12*year, max_id = 12*(year+1);
-        var history_year = {};
-            
-        $.each(history, function(name,data) {
-            history_year[name] = [];                
-            $.each(data, function(i, value) {
-                var id = history.id[i];
-                if (id > min_id && id <= max_id)
-                    history_year[name].push(value);
-            });
-        });
+        var history_year = filterDates(min_id, max_id, history);            
         return history_year;
     }
     
