@@ -3,6 +3,7 @@ var Dashboard = {};
 (function() {
     
     default_metrics = ['commits','authors'];
+    default_selection = 'companies';
     default_companies = ['Rackspace','Red Hat','IBM'];
     
     function getAllProjects(limit, order) {
@@ -45,6 +46,7 @@ var Dashboard = {};
         var values = [];
         
         var form = document.getElementById(form_name);
+        if (form === null) return values;
         for (var i = 0; i < form.elements.length; i++) {
             if (form.elements[i].type == "checkbox") {
                 if (form.elements[i].checked === true)
@@ -60,11 +62,40 @@ var Dashboard = {};
         return values;        
     }
         
+    // TODO: Breakdown this function when logic grows
     Dashboard.selection = function(name, all) {
         // TODO: Not supported project+companies filtering
         if (name === "companies" && all !== false) cleanSelector("projects");
-        if (name === "projects" && all !== false) cleanSelector("companies");
+        else if (name === "projects" && all !== false) cleanSelector("companies");
         if (all === true || all === false) allSelector(name, all);
+        
+        if (name==="releases") cleanSelectorList("year");
+        if (name==="year") cleanSelectorList("releases");
+
+        var projects = getValuesForm('form_dashboard_projects');
+        var companies = getValuesForm('form_dashboard_companies');
+
+        if (projects.length === 0 && companies.length === 0) {
+            $.each(Report.getDataSources(), function (i, ds) {
+                disableSelector("metrics_"+ds.getName(),false);
+            });            
+        } else {                   
+            // Check data sources has companies or projects data
+            $.each(Report.getDataSources(), function (i, ds) {
+                if (name === "companies") {
+                    if (ds.getCompaniesData().length === 0) {
+                        cleanSelector("metrics_"+ds.getName());
+                        disableSelector("metrics_"+ds.getName(),true);
+                    }                
+                } else if (name === "projects") {
+                    if (ds.getReposData().length === 0) {
+                        cleanSelector("metrics_"+ds.getName());
+                        disableSelector("metrics_"+ds.getName(),true);
+                    }             
+                }
+            });
+        }
+        
         displayViz();
     };
     
@@ -83,6 +114,22 @@ var Dashboard = {};
             form.elements[i].checked = false;
         }
     }
+    
+    function cleanSelectorList(name) {
+        var form_name = "form_dashboard_" + name;
+        var form = document.getElementById(form_name);
+        var select = form.elements[0];
+        select.options[0].selected = true;
+    }
+    
+    function disableSelector(name, status) {
+        var form_name = "form_dashboard_" + name;
+        var form = document.getElementById(form_name);
+        for (var i = 0; i < form.elements.length; i++) {
+            form.elements[i].disabled = status;
+        }    
+    }
+    
 
     function buildSelector(ds, name, options) {
         var html = name + "";
@@ -113,14 +160,19 @@ var Dashboard = {};
         return label;
     }
     
-    function displayViz() {
+    function displayViz(div_ds) {
         var div = $('#dashboard_viz');
         div.empty();
-        var div_ds = div.data('ds');
+        // var div_ds = div.data('ds');
         var start = null;
         var end = null;
         
-        var metrics = getValuesForm('form_dashboard_metrics');
+        var metrics = [];
+        $.each(getAllMetrics(), function(ds, ds_metrics) {
+            if (div_ds && div !== div_ds) return;
+            metrics = 
+                metrics.concat(getValuesForm('form_dashboard_metrics_'+ds));
+        });
         var projects = getValuesForm('form_dashboard_projects');
         var companies = getValuesForm('form_dashboard_companies');
         var year = getValuesForm('form_dashboard_time').pop();
@@ -199,7 +251,7 @@ var Dashboard = {};
                     $.each(metrics, function(index, metric) {
                         options.push(metric);
                     });
-                    div.append(buildSelector(ds,"metrics",options));
+                    div.append(buildSelector(ds,"metrics_"+ds,options));
                 });
             }
         },
@@ -257,10 +309,10 @@ var Dashboard = {};
                 div.html(html);
             }            
         },
-        "filter_time": {
+        "filter_year": {
             convert: function() {
-                var name = "time";
-                var div = $('#filter_time');
+                var name = "year";
+                var div = $('#filter_year');
                 var years = ['2010','2011','2012','2013'];
                 var html = "<form id='form_dashboard_"+name+"'>";
                 html += "<select name='year' ";
@@ -276,7 +328,7 @@ var Dashboard = {};
         },
         "dashboard_viz": {
             convert: function() {
-                displayViz();
+                Dashboard.selection(default_selection);
             }
         },
     };

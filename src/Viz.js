@@ -298,6 +298,7 @@ var Viz = {};
         var history = {};
         
         $.each(items, function(item, data) {
+            if (data === undefined) return false;
             if (data[metric] === undefined) return false;
             
             if (start && end) data = filterDates(start, end, data);
