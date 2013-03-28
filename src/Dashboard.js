@@ -117,12 +117,26 @@ var Dashboard = {};
         var div = $('#dashboard_viz');
         div.empty();
         var div_ds = div.data('ds');
+        var start = null;
+        var end = null;
         
         var metrics = getValuesForm('form_dashboard_metrics');
         var projects = getValuesForm('form_dashboard_projects');
         var companies = getValuesForm('form_dashboard_companies');
         var year = getValuesForm('form_dashboard_time').pop();
-        if (year === "year") year = undefined;
+        var release = getValuesForm('form_dashboard_releases').pop();
+        if (year === "") year = undefined;
+        else {
+            year = parseInt(year);
+            start = year*12; 
+            end = (year+1)*12;
+        }
+        if (release === "") release = undefined;
+        else {
+            var aux = release.split("_");
+            start = parseInt(aux[0]);
+            end = parseInt(aux[1]);
+        }
         
         var config_metric = {show_desc: false, show_title: true, 
                 show_legend: true};  
@@ -136,10 +150,10 @@ var Dashboard = {};
                 div.append(new_div);
                 if (projects.length>0)
                     ds.displayBasicMetricMyRepos(projects, metric, metric_div, 
-                        config_metric, year);
+                        config_metric, start, end);
                 else if (companies.length>0)
                     ds.displayBasicMetricMyCompanies(companies, metric, 
-                            metric_div, config_metric, year);
+                            metric_div, config_metric, start, end);
                 else {
                     config_metric.show_title = false;
                     var data = ds.getData();
@@ -208,13 +222,48 @@ var Dashboard = {};
                 });
             }
         },
+        "filter_releases": {
+            convert: function() {
+                var name = "releases";
+                var div = $('#filter_releases');
+                var releases = {
+                        // Sep 2011-Apr 2012
+                        essex: {
+                            start: 2011*12+9,
+                            end: 2012*12+4
+                        },
+                        // Apr 2012-Sep 2012
+                        folsom: {
+                            start: 2012*12+4,
+                            end: 2012*12+9
+                        },
+                        // Sep 2012-Apr 2013
+                        grizzly: {
+                            start: 2012*12+9,
+                            end: 2013*12+4
+                        }
+                };                
+                var html = "<form id='form_dashboard_"+name+"'>";
+                html += "<select name='releases' ";
+                html += "onChange=\"Dashboard.selection(\''+name+'\');\">";
+                html += "<option value=''>releases</option>";
+                $.each(releases, function(name, data) {
+                   html += "<option value='"+data.start+"_"+data.end+"' ";
+                   html += ">"+name+"</option>"; 
+                });
+                html += "</form>";
+                div.html(html);
+            }            
+        },
         "filter_time": {
             convert: function() {
                 var name = "time";
                 var div = $('#filter_time');
-                var years = ['year','2010','2011','2012','2013'];
+                var years = ['2010','2011','2012','2013'];
                 var html = "<form id='form_dashboard_"+name+"'>";
-                html += "<select name='year' onChange=\"Dashboard.selection(\''+name+'\');\">";
+                html += "<select name='year' ";
+                html += "onChange=\"Dashboard.selection(\''+name+'\');\">";
+                html += "<option value=''>year</option>";
                 $.each(years, function(i, year) {
                    html += "<option value='"+year+"' ";
                    html += ">"+year+"</option>"; 

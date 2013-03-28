@@ -292,14 +292,15 @@ var Viz = {};
         return history_year;
     }
     
-    function displayMetricSubReportLines(div_id, metric, items, title, config, year) {
+    function displayMetricSubReportLines(div_id, metric, items, title, 
+            config, start, end) {
         var lines_data = [];
         var history = {};
         
         $.each(items, function(item, data) {
             if (data[metric] === undefined) return false;
             
-            if (year) data = filterYear(year, data);
+            if (start && end) data = filterDates(start, end, data);
             
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
@@ -1124,24 +1125,29 @@ var Viz = {};
         displayMetricsLines(div_id, metrics, data, title, config);
     }
     
-    function displayBasicMetricRepos(metric, data, div_target, config, year) {
+    function displayBasicMetricRepos(metric, data, div_target, 
+            config, start, end) {
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;
-        displayMetricSubReportLines(div_target, metric, data, title, config, year);
+        displayMetricSubReportLines(div_target, metric, data, title, 
+                config, start, end);
     }
     
-    function displayBasicMetricsCountry (country, metrics, data, div_id, config) {
+    function displayBasicMetricsCountry (country, metrics, data, div_id, 
+            config) {
         config = checkBasicConfig(config);
         var title = country;
         displayMetricsLines(div_id, metrics, data, title, config);
     }
 
-    function displayBasicMetricCompaniesHTML(metric, data, div_target, config, year) {
+    function displayBasicMetricCompaniesHTML(metric, data, div_target, 
+            config, start, end) {
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;
-        displayMetricSubReportLines(div_target, metric, data, title, config, year);
+        displayMetricSubReportLines(div_target, metric, data, title, 
+                config, start, end);
     }
 
     function displayBasicMetricSubReportStatic(metric, data,

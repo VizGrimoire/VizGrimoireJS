@@ -306,14 +306,14 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayBasicMetricMyCompanies = function(companies, metric_id,
-            div_target, config, year) {
+            div_target, config, start, end) {
         var companies_data = {};
         var self = this;
         $.each(companies, function(i,name) {
             companies_data[name] = self.getCompaniesMetricsData()[name];
         });
         Viz.displayBasicMetricCompaniesHTML(metric_id, companies_data,
-                div_target, config, year);
+                div_target, config, start, end);
     };
 
     
@@ -338,14 +338,14 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayBasicMetricMyRepos = function(repos, metric_id,
-            div_target, config, year) {
+            div_target, config, start, end) {
         var repos_data = {};
         var self = this;
         $.each(repos, function(i,name) {
             repos_data[name] = self.getReposMetricsData()[name];
         });
         Viz.displayBasicMetricRepos(metric_id, repos_data,
-                div_target, config, year);
+                div_target, config, start, end);
     };
 
     this.displayBasicMetricCompaniesStatic = function (metric_id,
