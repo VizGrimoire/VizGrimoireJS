@@ -29,12 +29,14 @@ var Dashboard = {};
     
     function getAllMetrics(limit) {
         var metrics = {};
+        var not_metrics = ['id','date','month','year'];
         $.each(Report.getDataSources(), function(index, ds) {
-            var metrics_ds = ds.getMetrics();
-            metrics[ds.getName()] = [];
-            $.each(metrics_ds, function(name, metric) {
-                metrics[ds.getName()].push(name);
-            });                
+            var metrics_ds = [];
+            for (key in ds.getData()) {
+                if ($.inArray(key,not_metrics) > -1) continue;
+                metrics_ds.push(key);
+            }
+            metrics[ds.getName()] = metrics_ds;
         });
         return metrics;
     }
@@ -58,12 +60,21 @@ var Dashboard = {};
         return values;        
     }
         
-    Dashboard.selection = function(name) {
+    Dashboard.selection = function(name, all) {
         // TODO: Not supported project+companies filtering
-        if (name === "companies") cleanSelector("projects");
-        if (name === "projects") cleanSelector("companies");
+        if (name === "companies" && all !== false) cleanSelector("projects");
+        if (name === "projects" && all !== false) cleanSelector("companies");
+        if (all === true || all === false) allSelector(name, all);
         displayViz();
     };
+    
+    function allSelector(name, status) {
+        var form_name = "form_dashboard_" + name;
+        var form = document.getElementById(form_name);
+        for (var i = 0; i < form.elements.length; i++) {
+            form.elements[i].checked = status;
+        }        
+    }
     
     function cleanSelector(name) {
         var form_name = "form_dashboard_" + name;
@@ -87,6 +98,10 @@ var Dashboard = {};
             html += option;
             html += '<br>'; 
         });
+        html += '<input type=button value="All" ';
+        html += 'onClick="Dashboard.selection(\''+name+'\',' + true + ')">';
+        html += '<input type=button value="None" ';
+        html += 'onClick="Dashboard.selection(\''+name+'\',' + false + ')">';
         html += "</form>";
         return html;
     }
@@ -114,6 +129,7 @@ var Dashboard = {};
         $.each(Report.getDataSources(), function(index, ds) {
             if (div_ds && div_ds !== ds.getName()) return;
             $.each(metrics, function(index, metric) {
+                if (!(metric in ds.getData()))  return;
                 var metric_div = "dashboard_"+ds.getName()+"_"+metric;
                 var new_div = "<div class='dashboard_graph' id='";
                 new_div += metric_div+"'></div>";
