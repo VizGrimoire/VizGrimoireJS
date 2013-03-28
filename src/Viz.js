@@ -45,6 +45,7 @@ var Viz = {};
     Viz.displayBubbles = displayBubbles;
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
+    Viz.filterYear = filterYear;
     Viz.displayMetricSubReportLines = displayMetricSubReportLines;
     Viz.displayRadarActivity = displayRadarActivity;
     Viz.displayRadarCommunity = displayRadarCommunity;
@@ -270,13 +271,31 @@ var Viz = {};
         });
         displayDSLines(div_id, history, lines_data, title, config);
     };
-
+    
+    function filterYear(year, history) {
+        year = parseInt(year);
+        var min_id = 12*year, max_id = 12*(year+1);
+        var history_year = {};
+            
+        $.each(history, function(name,data) {
+            history_year[name] = [];                
+            $.each(data, function(i, value) {
+                var id = history.id[i];
+                if (id > min_id && id <= max_id)
+                    history_year[name].push(value);
+            });
+        });
+        return history_year;
+    }
+    
     function displayMetricSubReportLines(div_id, metric, items, title, config, year) {
         var lines_data = [];
         var history = {};
         
         $.each(items, function(item, data) {
             if (data[metric] === undefined) return false;
+            
+            if (year) data = filterYear(year, data);
             
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
@@ -288,40 +307,13 @@ var Viz = {};
         
         if (lines_data.length === 0) return;
         
-        displayDSLines(div_id, history, lines_data, title, config, year);
+        displayDSLines(div_id, history, lines_data, title, config);
     };
     
     // Lines from the same Data Source
     // TODO: Probably we should also fill history
-    function displayDSLines(div_id, history, lines_data, title, config_metric, year) {
+    function displayDSLines(div_id, history, lines_data, title, config_metric) {
         var container = document.getElementById(div_id);
-                
-        if (year) {
-            year = parseInt(year);
-            var min_id = 12*year, max_id = 12*(year+1);
-            var lines_data_year = [];
-            $.each(lines_data, function(i,obj) {
-                var new_obj = {label:obj.label, data:[]};
-                lines_data_year.push(new_obj);
-                $.each(obj.data, function(i,point) {
-                    var id = point[0];
-                    if (id > min_id && id <= max_id)
-                        new_obj.data.push(point);
-                });
-            });
-            lines_data = lines_data_year;
-            var history_year = {};
-                
-            $.each(history, function(name,data) {
-                history_year[name] = [];                
-                $.each(data, function(i, value) {
-                    var id = history.id[i];
-                    if (id > min_id && id <= max_id)
-                        history_year[name].push(value);
-                });
-            });
-            history = history_year;
-        }
 
         var config = {
             title : title,
@@ -1128,11 +1120,11 @@ var Viz = {};
         displayMetricsLines(div_id, metrics, data, title, config);
     }
     
-    function displayBasicMetricRepos(metric, data, div_target, config) {
+    function displayBasicMetricRepos(metric, data, div_target, config, year) {
         config = checkBasicConfig(config);
         config.show_legend = true;
         var title = metric;
-        displayMetricSubReportLines(div_target, metric, data, title, config);
+        displayMetricSubReportLines(div_target, metric, data, title, config, year);
     }
     
     function displayBasicMetricsCountry (country, metrics, data, div_id, config) {

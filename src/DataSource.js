@@ -338,17 +338,15 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayBasicMetricMyRepos = function(repos, metric_id,
-            div_target, config) {
+            div_target, config, year) {
         var repos_data = {};
         var self = this;
         $.each(repos, function(i,name) {
             repos_data[name] = self.getReposMetricsData()[name];
         });
         Viz.displayBasicMetricRepos(metric_id, repos_data,
-                div_target, config);
+                div_target, config, year);
     };
-    
-
 
     this.displayBasicMetricCompaniesStatic = function (metric_id,
             div_target, config, limit, order_by, show_others) {

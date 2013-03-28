@@ -138,8 +138,15 @@ var Dashboard = {};
                     ds.displayBasicMetricMyRepos(projects, metric, metric_div, 
                         config_metric, year);
                 else if (companies.length>0)
-                    ds.displayBasicMetricMyCompanies(companies, metric, metric_div, 
-                            config_metric, year);
+                    ds.displayBasicMetricMyCompanies(companies, metric, 
+                            metric_div, config_metric, year);
+                else {
+                    config_metric.show_title = false;
+                    var data = ds.getData();
+                    if (year) data = Viz.filterYear(year, data);
+                    Viz.displayBasicMetricsHTML([metric], data, 
+                            metric_div, config_metric);
+                }
             });
         });
     }
