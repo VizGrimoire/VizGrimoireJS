@@ -227,17 +227,19 @@ var Dashboard = {};
                 var name = "releases";
                 var div = $('#filter_releases');
                 var releases = {
-                        // Sep 2011-Apr 2012
+                        // Apr 2011-Sep 2011
+                        diablo: {
+                            start: 2011*12+4,
+                            end: 2011*12+9,                            
+                        },
                         essex: {
                             start: 2011*12+9,
                             end: 2012*12+4
                         },
-                        // Apr 2012-Sep 2012
                         folsom: {
                             start: 2012*12+4,
                             end: 2012*12+9
                         },
-                        // Sep 2012-Apr 2013
                         grizzly: {
                             start: 2012*12+9,
                             end: 2013*12+4
