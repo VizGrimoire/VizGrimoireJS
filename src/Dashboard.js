@@ -88,7 +88,9 @@ var Dashboard = {};
                         disableSelector("metrics_"+ds.getName(),true);
                     }                
                 } else if (name === "projects") {
-                    if (ds.getReposData().length === 0) {
+                    if (ds.getReposData().length === 0 ||
+                            ds.getName() !== "scm"//HACK until projects DS join
+                                ) {
                         cleanSelector("metrics_"+ds.getName());
                         disableSelector("metrics_"+ds.getName(),true);
                     }             
@@ -160,22 +162,21 @@ var Dashboard = {};
         return label;
     }
     
-    function displayViz(div_ds) {
+    function displayViz() {
         var div = $('#dashboard_viz');
         div.empty();
-        // var div_ds = div.data('ds');
+        var ds_div = null;
+        // var ds_div = div.data('ds');
         var start = null;
         var end = null;
         
-        var metrics = [];
+        var metrics_selected = {};
         $.each(getAllMetrics(), function(ds, ds_metrics) {
-            if (div_ds && div !== div_ds) return;
-            metrics = 
-                metrics.concat(getValuesForm('form_dashboard_metrics_'+ds));
+            metrics_selected[ds] = getValuesForm('form_dashboard_metrics_'+ds); 
         });
         var projects = getValuesForm('form_dashboard_projects');
         var companies = getValuesForm('form_dashboard_companies');
-        var year = getValuesForm('form_dashboard_time').pop();
+        var year = getValuesForm('form_dashboard_year').pop();
         var release = getValuesForm('form_dashboard_releases').pop();
         if (year === "") year = undefined;
         else {
@@ -193,7 +194,8 @@ var Dashboard = {};
         var config_metric = {show_desc: false, show_title: true, 
                 show_legend: true};  
         $.each(Report.getDataSources(), function(index, ds) {
-            if (div_ds && div_ds !== ds.getName()) return;
+            if (ds_div && ds_div !== ds.getName()) return;
+            var metrics = metrics_selected[ds.getName()];
             $.each(metrics, function(index, metric) {
                 if (!(metric in ds.getData()))  return;
                 var metric_div = "dashboard_"+ds.getName()+"_"+metric;
@@ -221,14 +223,14 @@ var Dashboard = {};
         "filter_companies": {
             convert: function() {
                 var div = $('#filter_companies');
-                var div_ds = div.data('ds');
+                var ds_div = div.data('ds');
                 var limit = div.data('limit');
                 var order = div.data('order');
                 div.append('COMPANIES');
                 if (limit) div.append(" (top "+limit+")");
                 div.append("<br>");
                 $.each(getAllCompanies(limit,order), function(ds, companies) {
-                    if (div_ds && div_ds !== ds) return;
+                    if (ds_div && ds_div !== ds) return;
                     var options = [];
                     $.each(companies, function(index, company) {
                         options.push(company);
@@ -240,13 +242,13 @@ var Dashboard = {};
         "filter_metrics": {
             convert: function() {
                 var div = $('#filter_metrics');
-                var div_ds = div.data('ds');
+                var ds_div = div.data('ds');
                 var limit = div.data('limit');
                 div.append('METRICS');
                 if (limit) div.append(" (top "+limit+")");
                 div.append("<br>");                
                 $.each(getAllMetrics(limit), function(ds, metrics) {
-                    if (div_ds && div_ds !== ds) return;
+                    if (ds_div && ds_div !== ds) return;
                     var options = [];
                     $.each(metrics, function(index, metric) {
                         options.push(metric);
@@ -258,14 +260,14 @@ var Dashboard = {};
         "filter_projects": {
             convert: function() {
                 var div = $('#filter_projects');
-                var div_ds = div.data('ds');
+                var ds_div = div.data('ds');
                 var limit = div.data('limit');
                 var order = div.data('order');
                 div.append("PROJECTS");
                 if (limit) div.append(" (top "+limit+")");
                 div.append("<br>");
                 $.each(getAllProjects(limit, order), function(ds, projects) {
-                    if (div_ds && div_ds !== ds) return;
+                    if (ds_div && ds_div !== ds) return;
                     var options = [];
                     $.each(projects, function(index, project) {
                         options.push(cleanName(project));
