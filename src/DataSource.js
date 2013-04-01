@@ -490,16 +490,11 @@ function DataSource(name, basic_metrics) {
                 metric_id = "commits";
         }
         $.each(global, function(item, data) {
-           metric.push(data[metric_id]);
+           metric.push([item, data[metric_id]]);
         });
-        metric.sort(function(a, b) {return b - a;});
+        metric.sort(function(a, b) {return b[1] - a[1];});
         $.each(metric, function(id, value) {
-            $.each(global, function(item, data) {
-                if (data[metric_id] === value) {
-                    sorted.push(item);
-                    return false;
-                }
-             });
+            sorted.push(value[0]);
         });
         return sorted;
     };
