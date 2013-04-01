@@ -131,7 +131,7 @@ function SCM() {
             url = Report.getProjectData().scm_url;
         }
         if (this.global_data.type === "git")
-            url = url.replace("git://","http://");
+            if (url) url = url.replace("git://","http://");
         $(div_id + ' #scm_url').attr("href", url);
         $(div_id + ' #scm_name').text(this.global_data.type);
 

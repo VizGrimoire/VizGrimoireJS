@@ -358,6 +358,8 @@ var Report = {};
             company = querystr.split("&")[0].split("=")[1];
 
         if (company === null) return;
+        
+        company = decodeURIComponent(company);
 
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getName() !== "scm") return;
@@ -611,6 +613,7 @@ var Report = {};
             if (querystr  &&
                     querystr.split("&")[0].split("=")[0] === "company")
                 company = querystr.split("&")[0].split("=")[1];
+            company = decodeURIComponent(company);
             var div_company = DS.getName()+"-flotr2-metrics-company";
             var divs = $("."+div_company);
             if (divs.length > 0 && company) {
