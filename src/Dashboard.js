@@ -4,7 +4,7 @@ var Dashboard = {};
     
     default_metrics = ['commits','authors'];
     default_selection = 'companies';
-    default_companies = ['Rackspace','Red Hat','IBM'];
+    default_companies = ['company-17','company-19','company-1'];
     
     function getAllProjects(limit, order) {
         var projects = {};
@@ -282,19 +282,19 @@ var Dashboard = {};
                 var div = $('#filter_releases');
                 var releases = {
                         // Apr 2011-Sep 2011
-                        diablo: {
+                        release_1: {
                             start: 2011*12+4,
                             end: 2011*12+9,                            
                         },
-                        essex: {
+                        release_2: {
                             start: 2011*12+9,
                             end: 2012*12+4
                         },
-                        folsom: {
+                        release_3: {
                             start: 2012*12+4,
                             end: 2012*12+9
                         },
-                        grizzly: {
+                        release_4: {
                             start: 2012*12+9,
                             end: 2013*12+4
                         }
