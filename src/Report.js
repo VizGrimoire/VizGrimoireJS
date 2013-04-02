@@ -259,6 +259,17 @@ var Report = {};
                 $.get(html_dir+"header.html", function(header) {
                     $("#header").html(header);
                     displayReportData();
+                    var div_companies_links = "companies_links";
+                    if ($("#"+div_companies_links).length > 0) {
+                        var limit = $("#"+div_companies_links).data('limit');
+                        var order_by = $("#"+div_companies_links).data('order-by');
+                        var DS = null;
+                        // scm support only
+                        $.each(data_sources, function(i, ds) {
+                            if (ds.getName() === "scm") {DS = ds; return false;}
+                        });
+                        DS.displayCompaniesLinks(div_companies_links, limit, order_by);
+                    }
                     var querystr = window.location.search.substr(1);
                     if (querystr && querystr.indexOf("data_dir")!==-1) {
                         var $links = $("#header a");
@@ -408,8 +419,8 @@ var Report = {};
             var divs = $("."+div_company);
             if (divs.length > 0 && company) {
                 $.each(divs, function(id, div) {
-                    var metrics = $(this).data('metrics');
                     config_metric.show_legend = false;
+                    var metrics = $(this).data('metrics');
                     if ($(this).data('legend')) config_metric.show_legend = true;
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company";
                     DS.displayBasicMetricsCompany(company, metrics.split(","),

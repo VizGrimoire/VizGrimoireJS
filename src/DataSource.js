@@ -508,6 +508,17 @@ function DataSource(name, basic_metrics) {
         $("#"+div_nav).append(nav);
     };
     
+    this.displayCompaniesLinks = function (div_links, limit, sort_metric) {
+        var sorted_companies = this.sortCompanies(sort_metric);
+        var links = "";
+        var i = 0;
+        $.each(sorted_companies, function(id, company) {
+            links += '<a href="company.html?company='+company+'">'+company+'</a> | ';
+            if (i++>limit) return false;
+        });
+        $("#"+div_links).append(links);
+    };
+    
     this.displayCountriesNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
         var sorted_countries = this.sortCountries(sort_metric);
