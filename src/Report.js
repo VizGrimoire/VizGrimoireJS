@@ -342,31 +342,113 @@ var Report = {};
         }
     };
 
-    // TODO: Move more company div's here from flotr2?
-    function convertCompanies() {
-        $.each(Report.getDataSources(), function(index, DS) {
-            var divid = DS.getName()+"-companies-summary";
-            if ($("#"+divid).length > 0) {
-                DS.displayCompaniesSummary(divid, this);
-            }
-        });
+    function convertCompanies(config) {        
+        // General config for metrics viz
+        var config_metric = {};
+                
+        config_metric.show_desc = false;
+        config_metric.show_title = false;
+        config_metric.show_labels = true;
 
+        if (config) {
+            $.each(config, function(key, value) {
+                config_metric[key] = value;
+            });
+        }
+
+        
         var company = null;
         var querystr = window.location.search.substr(1);
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "company")
             company = querystr.split("&")[0].split("=")[1];
-
-        if (company === null) return;
-        
         company = decodeURIComponent(company);
 
-        $.each(Report.getDataSources(), function(index, DS) {
-            if (DS.getName() !== "scm") return;
+        $.each(Report.getDataSources(), function(index, DS) {            
+            var divid = DS.getName()+"-companies-summary";
+            if ($("#"+divid).length > 0) {
+                DS.displayCompaniesSummary(divid, this);
+            }
+            
             var divid = DS.getName()+"-refcard-company";
             if ($("#"+divid).length > 0) {
                 DS.displayCompanySummary(divid, company, this);
             }
+
+            var div_companies = DS.getName()+"-flotr2-companies";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var limit = $(this).data('limit');
+                    var order_by = $(this).data('order-by');
+                    var stacked = false;
+                    if ($(this).data('stacked')) stacked = true;
+                    config_metric.lines = {stacked : stacked};
+                    div.id = metric+"-flotr2-companies";
+                    DS.displayBasicMetricCompanies(metric,div.id,
+                            config_metric, limit, order_by);
+                });
+            }
+            var div_companies = DS.getName()+"-flotr2-companies-static";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var order_by = $(this).data('order-by');
+                    var limit = $(this).data('limit');
+                    var show_others = $(this).data('show-others');
+                    config_metric.graph = $(this).data('graph');
+                    div.id = metric+"-flotr2-companies-static";
+                    DS.displayBasicMetricCompaniesStatic(metric,div.id,
+                            config_metric, limit, order_by, show_others);
+                });
+            }
+            var div_company = DS.getName()+"-flotr2-metrics-company";
+            var divs = $("."+div_company);
+            if (divs.length > 0 && company) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    config_metric.show_legend = false;
+                    if ($(this).data('legend')) config_metric.show_legend = true;
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company";
+                    DS.displayBasicMetricsCompany(company, metrics.split(","),
+                            div.id, config_metric);
+                });
+            }
+
+            var div_nav = DS.getName()+"-flotr2-companies-nav";
+            if ($("#"+div_nav).length > 0) {
+                var metric = $("#"+div_nav).data('sort-metric');
+                DS.displayCompaniesNav(div_nav, metric);
+            }
+            var divs_comp_list = DS.getName()+"-flotr2-companies-list";
+            var divs = $("."+divs_comp_list);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    var sort_metric = $(this).data('sort-metric');
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-companies-list";
+                    DS.displayCompaniesList(metrics.split(","),div.id,
+                            config_metric, sort_metric);
+                });
+            }
+
+            var div_companies = DS.getName()+"-flotr2-top-company";
+            var divs = $("."+div_companies);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var period = $(this).data('period');
+                    var titles = $(this).data('titles');
+                    div.id = metric+"-"+period+"-flotr2-top-company";
+                    div.className = "";
+                    DS.displayTopCompany(company,div.id,metric,period,titles);
+                });
+            }            
+        });
+
+        $.each(Report.getDataSources(), function(index, DS) {
         });
     }
     
@@ -578,84 +660,6 @@ var Report = {};
                 });
             }
 
-            // Companies
-            var div_companies = DS.getName()+"-flotr2-companies";
-            var divs = $("."+div_companies);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metric = $(this).data('metric');
-                    var limit = $(this).data('limit');
-                    var order_by = $(this).data('order-by');
-                    var stacked = false;
-                    if ($(this).data('stacked')) stacked = true;
-                    config_metric.lines = {stacked : stacked};
-                    div.id = metric+"-flotr2-companies";
-                    DS.displayBasicMetricCompanies(metric,div.id,
-                            config_metric, limit, order_by);
-                });
-            }
-            var div_companies = DS.getName()+"-flotr2-companies-static";
-            var divs = $("."+div_companies);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metric = $(this).data('metric');
-                    var order_by = $(this).data('order-by');
-                    var limit = $(this).data('limit');
-                    var show_others = $(this).data('show-others');
-                    config_metric.graph = $(this).data('graph');
-                    div.id = metric+"-flotr2-companies-static";
-                    DS.displayBasicMetricCompaniesStatic(metric,div.id,
-                            config_metric, limit, order_by, show_others);
-                });
-            }
-            var company = null;
-            var querystr = window.location.search.substr(1);
-            if (querystr  &&
-                    querystr.split("&")[0].split("=")[0] === "company")
-                company = querystr.split("&")[0].split("=")[1];
-            company = decodeURIComponent(company);
-            var div_company = DS.getName()+"-flotr2-metrics-company";
-            var divs = $("."+div_company);
-            if (divs.length > 0 && company) {
-                $.each(divs, function(id, div) {
-                    var metrics = $(this).data('metrics');
-                    config.show_legend = false;
-                    if ($(this).data('legend')) config_metric.show_legend = true;
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company";
-                    DS.displayBasicMetricsCompany(company, metrics.split(","),
-                            div.id, config_metric);
-                });
-            }
-
-            var div_nav = DS.getName()+"-flotr2-companies-nav";
-            if ($("#"+div_nav).length > 0) {
-                var metric = $("#"+div_nav).data('sort-metric');
-                DS.displayCompaniesNav(div_nav, metric);
-            }
-            var divs_comp_list = DS.getName()+"-flotr2-companies-list";
-            var divs = $("."+divs_comp_list);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metrics = $(this).data('metrics');
-                    var sort_metric = $(this).data('sort-metric');
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-companies-list";
-                    DS.displayCompaniesList(metrics.split(","),div.id,
-                            config_metric, sort_metric);
-                });
-            }
-
-            var div_companies = DS.getName()+"-flotr2-top-company";
-            var divs = $("."+div_companies);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metric = $(this).data('metric');
-                    var period = $(this).data('period');
-                    var titles = $(this).data('titles');
-                    div.id = metric+"-"+period+"-flotr2-top-company";
-                    div.className = "";
-                    DS.displayTopCompany(company,div.id,metric,period,titles);
-                });
-            }
         });
     }
 
