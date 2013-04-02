@@ -140,27 +140,6 @@ var Loader = {};
                     DS.addCompanyGlobalData(company, history, DS);
                     end_data_load();
                 });
-//                // TODO: all Tops in one file. Improve logic.
-//                // Unify with data_load_tops
-//                file_static = file + DS.getName()+"-top-authors";
-//                var file_all = file_static + ".json";
-//                var file_2006 = file_static + "_2006.json";
-//                var file_2009 = file_static + "_2009.json";
-//                var file_2012 = file_static + "_2012.json";
-//                $.when($.getJSON(file_all),
-//                        $.getJSON(file_2006),
-//                        $.getJSON(file_2009),
-//                        $.getJSON(file_2012)
-//                    ).done(function(history, hist2006, hist2009, hist2012) {
-//                        DS.addCompanyTopData(company, history[0], DS, "all");
-//                        DS.addCompanyTopData(company, hist2006[0], DS, "2006");
-//                        DS.addCompanyTopData(company, hist2009[0], DS, "2009");
-//                        DS.addCompanyTopData(company, hist2012[0], DS, "2012");
-//                        end_data_load();
-//                }).fail(function() {
-//                    DS.setCompaniesTopData([], self);
-//                    end_data_load();
-//                });
                 file_static = file + DS.getName()+"-top-";
                 if (DS.getName() === "scm") file_static += "authors";
                 if (DS.getName() === "its") file_static += "closers";
@@ -168,7 +147,7 @@ var Loader = {};
                 var file_all = file_static + ".json";
                 $.when($.getJSON(file_all))
                     .done(function(history) {
-                        DS.addCompanyTopData(company, history[0], DS, "all");
+                        DS.addCompanyTopData(company, history, DS, "all");
                         end_data_load();
                 }).fail(function() {
                     DS.setCompaniesTopData([], self);

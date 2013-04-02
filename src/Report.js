@@ -458,9 +458,6 @@ var Report = {};
                 });
             }            
         });
-
-        $.each(Report.getDataSources(), function(index, DS) {
-        });
     }
     
     function convertRepos() {
