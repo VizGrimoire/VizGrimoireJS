@@ -706,6 +706,7 @@ var Viz = {};
     // Each metric can have several top: metric.period
     // For example: "committers.all":{"commits":[5310, ...],"name":["Brion
     // Vibber",..]}
+    // TODO: Data load should be done in Loader
     function displayTop(div, ds, all, graph, titles) {
         var top_file = ds.getTopDataFile();
         var basic_metrics = ds.getMetrics();

@@ -94,6 +94,7 @@ var Loader = {};
 
 
     // TODO: It is better to have all the tops in the same file
+    // we should move data load from Viz.displayTop here
     function data_load_tops(metric) {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
