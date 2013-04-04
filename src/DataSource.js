@@ -649,47 +649,6 @@ function DataSource(name, basic_metrics) {
         this.displaySubReportSummary("countries",divid, repo, ds);
     };
 
-    this.displaySubReportSummary = function(report, divid, item, ds) {
-        var label = item;
-        if (item.lastIndexOf("http") === 0) {
-            var aux = item.split("_");
-            label = aux.pop();
-            if (label === '') label = aux.pop();
-        }
-
-        var html = "<h1>"+label+"</h1>";
-        var id_label = {
-            commits:'Total commits',
-            authors:'Total authors',
-            first_date:'Initial activity',
-            last_date:'Last activity',
-            files:'Total files',
-            actions:'Total files actions',
-            avg_commits_month:'Commits per month',
-            avg_files_month:'Files per month',
-            avg_commits_author:'Commits per author',
-            avg_authors_month:'Authors per month',
-            avg_reviewers_month:'Reviewers per moth',
-            avg_files_author:'Files per author'            
-        };
-        var global_data = null;
-        if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
-        else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
-        else if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
-        else return;
-        
-        $.each(global_data[item],function(id,value) {
-            if (id_label[id])
-                html += id_label[id] + ": " + value + "<br>";
-            else
-                html += id + ": " + value + "<br>";
-        });
-        $("#"+divid).append(html);
-    };
-
     this.displayCompaniesSummary = function(divid, ds) {
         var html = "";
         var data = ds.getGlobalData();
@@ -702,6 +661,7 @@ function DataSource(name, basic_metrics) {
         $("#"+divid).append(html);
     };
     
+    this.displaySubReportSummary = function(report, divid, item, ds) {};
     
     this.displayReposSummary = function(divid, ds) {
         var html = "";

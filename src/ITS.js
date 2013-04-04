@@ -107,7 +107,10 @@ function ITS() {
             closers : "Closers",
             closed : "Closed",
             changers : "Changers",
-    		changed: "Changed"
+    		changed: "Changed",
+    		tickets: "Tickets",
+    		trackers: "Trackers"
+    		    
         };
         var global_data = null;
         if (report === "companies")

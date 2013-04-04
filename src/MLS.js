@@ -60,6 +60,35 @@ function MLS() {
         return "sent";
     };
     this.getMetrics = function() {return basic_metrics;};
+    
+    this.displaySubReportSummary = function(report, divid, item, ds) {
+        var label = item;
+        if (item.lastIndexOf("http") === 0)
+            label = item.substr(item.lastIndexOf("_") + 1);
+        var html = "<h1>" + label + "</h1>";
+        var id_label = {
+            sent: "Sent",
+            senders: "Senders",
+            first_date : "Start",
+            last_date : "End",
+            repositories: "Repositories"
+        };
+        var global_data = null;
+        if (report === "companies")
+            global_data = ds.getCompaniesGlobalData();
+        else if (report === "repositories")
+            global_data = ds.getReposGlobalData();
+        else return;
+        
+        $.each(global_data[item],function(id,value) {
+            if (id_label[id]) 
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                html += id + ": " + value + "<br>";
+        });
+        $("#"+divid).append(html);
+    };
+
 
     this.displayData = function(divid) {
         var div_id = "#" + divid;

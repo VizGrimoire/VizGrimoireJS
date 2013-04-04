@@ -115,6 +115,52 @@ function SCM() {
     
     this.getTitle = function() {return "Change sets (commits to source code)";};
     
+    this.displaySubReportSummary = function(report, divid, item, ds) {
+        var label = item;
+        if (item.lastIndexOf("http") === 0) {
+            var aux = item.split("_");
+            label = aux.pop();
+            if (label === '') label = aux.pop();
+        }
+
+        var html = "<h1>"+label+"</h1>";
+        var id_label = {    
+            commits:'Commits',
+            committers:'Committers',
+            authors:'Authors',
+            first_date:'Start',
+            last_date:'End',
+            files:'Files',
+            actions:'Files actions',
+            avg_commits_month:'Commits per month',
+            avg_files_month:'Files per month',
+            avg_authors_month:'Authors per month',
+            avg_reviewers_month:'Reviewers per moth',
+            avg_commits_week:'Commits per week',
+            avg_files_week:'Files per week',
+            avg_authors_week:'Authors per week',
+            avg_reviewers_week:'Reviewers per week',
+            avg_commits_author:'Commits per author',
+            avg_files_author:'Files per author'
+        };
+        var global_data = null;
+        if (report === "companies")
+            global_data = ds.getCompaniesGlobalData();
+        else if (report === "repositories")
+            global_data = ds.getReposGlobalData();
+        else if (report === "countries")
+            global_data = ds.getCountriesGlobalData();
+        else return;
+        
+        $.each(global_data[item],function(id,value) {
+            if (id_label[id])
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                html += id + ": " + value + "<br>";
+        });
+        $("#"+divid).append(html);
+    };
+    
     this.displayData = function(divid) {
         var div_id = "#" + divid;
 
