@@ -29,6 +29,7 @@ var Viz = {};
     var bitergiaColor = "#ffa500";
 
     Viz.displayTop = displayTop;
+    Viz.displayTopBasic = displayTopBasic;
     Viz.displayTopCompany = displayTopCompany;
     Viz.displayTopGlobal = displayTopGlobal;
     Viz.displayBasicHTML = displayBasicHTML;
@@ -730,6 +731,17 @@ var Viz = {};
                     }
                 }
             });
+        });
+    }
+    
+    // Each file have just the doer and the do
+    // {"authors":["Mark McLoughlin" ... ,"commits":[265 ...
+    function displayTopBasic(div, ds, metric_do, metric_doer, graph, titles) {
+        var top_file = ds.getTopDataFile();
+        $.getJSON(top_file, function(history) {
+            var table = displayTopMetricTable(history, metric_do, metric_doer);
+            if (table === undefined) return;
+            $('#'+div).append(table);
         });
     }
 

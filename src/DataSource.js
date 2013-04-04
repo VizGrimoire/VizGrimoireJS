@@ -730,6 +730,11 @@ function DataSource(name, basic_metrics) {
             all = true;
         Viz.displayTop(div, this, all, graph);
     };
+    
+    this.displayTopBasic = function(div, action, doer, graph) {
+        Viz.displayTopBasic(div, this, action, doer, graph);
+    };
+
 
     this.displayTopCompany = function(company, div, metric, period, titles) {
         Viz.displayTopCompany(company, div, this, metric, period, titles);

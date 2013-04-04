@@ -725,7 +725,13 @@ var Report = {};
                 var div_id_top = DS.getName()+"-top-"+chart;
                 if ($("#"+div_id_top).length > 0) {
                     if ($("#"+div_id_top).data('show_all')) show_all = true;
-                    DS.displayTop(DS.getName()+'-top-'+ chart, show_all, chart);
+                    DS.displayTop(div_id_top, show_all, chart);
+                }
+                div_id_top = DS.getName()+"-top-basic-"+chart;
+                if ($("#"+div_id_top).length > 0) {
+                    var doer = $("#"+div_id_top).data('doer');
+                    var action = $("#"+div_id_top).data('action');
+                    DS.displayTopBasic(div_id_top, action, doer, chart);
                 }
             });
             
