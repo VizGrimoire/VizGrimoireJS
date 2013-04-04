@@ -190,8 +190,12 @@ function SCM() {
         $(div_id + ' #scmLast').text(data.last_date);
         $(div_id + ' #scmCommits').text(data.commits);
         $(div_id + ' #scmAuthors').text(data.authors);
-        $(div_id + ' #scmReviewers').text(data.reviewers);
+        if (data.reviewers)
+            $(div_id + ' #scmReviewers').text(data.reviewers);
         $(div_id + ' #scmCommitters').text(data.committers);
+        $(div_id + ' #scmRepositories').text(data.repositories);
+        if (data.repositories === 1)
+            $(div_id + ' #scmRepositories').hide();
     };
 
     this.displayBubbles = function(divid, radius) {

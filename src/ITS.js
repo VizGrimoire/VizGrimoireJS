@@ -161,6 +161,9 @@ function ITS() {
         $(div_id + ' #itsLast').text(data.last_date);
         $(div_id + ' #itsTickets').text(data.tickets);
         $(div_id + ' #itsOpeners').text(data.openers);
+        $(div_id + ' #itsRepositories').text(data.repositories);
+        if (data.repositories === 1)
+            $(div_id + ' #itsRepositories').hide();
     };
 
     this.getTitle = function() {return "Tickets";};

@@ -127,6 +127,9 @@ function MLS() {
         $(div_id + ' #mlsLast').text(data.last_date);
         $(div_id + ' #mlsMessages').text(data.sent);
         $(div_id + ' #mlsSenders').text(data.senders);
+        $(div_id + ' #mlsRepositories').text(data.repositories);
+        if (data.repositories === 1)
+            $(div_id + ' #mlsRepositories').hide();
     };
 
     this.displayBubbles = function(divid, radius) {
