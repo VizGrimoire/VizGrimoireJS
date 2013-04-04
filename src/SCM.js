@@ -132,16 +132,16 @@ function SCM() {
             last_date:'End',
             files:'Files',
             actions:'Files actions',
-            avg_commits_month:'Commits per month',
-            avg_files_month:'Files per month',
-            avg_authors_month:'Authors per month',
-            avg_reviewers_month:'Reviewers per moth',
-            avg_commits_week:'Commits per week',
-            avg_files_week:'Files per week',
-            avg_authors_week:'Authors per week',
-            avg_reviewers_week:'Reviewers per week',
-            avg_commits_author:'Commits per author',
-            avg_files_author:'Files per author'
+            avg_commits_month:'Commits/month',
+            avg_files_month:'Files/month',
+            avg_authors_month:'Authors/month',
+            avg_reviewers_month:'Reviewers/moth',
+            avg_commits_week:'Commits/week',
+            avg_files_week:'Files/week',
+            avg_authors_week:'Authors/week',
+            avg_reviewers_week:'Reviewers/week',
+            avg_commits_author:'Commits/author',
+            avg_files_author:'Files/author'
         };
         var global_data = null;
         if (report === "companies")
