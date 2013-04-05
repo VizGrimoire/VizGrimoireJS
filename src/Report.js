@@ -191,6 +191,8 @@ var Report = {};
         } else {
             $('#producer').html("<a href='http://bitergia.com'>Bitergia</a>");
         }
+        $(".project_name").text(data.project_name);
+        $("#project_url").attr("href", data.project_url);
     }
 
     function checkDynamicConfig() {
