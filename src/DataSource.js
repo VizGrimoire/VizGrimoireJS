@@ -152,6 +152,8 @@ function DataSource(name, basic_metrics) {
         return this.companies;
     };
     this.setCompaniesData = function(companies, self) {
+        if (companies === null) companies = [];
+        if (!(companies instanceof Array)) companies=[companies];
         if (self === undefined) self = this;
         self.companies = companies;
     };
@@ -203,6 +205,7 @@ function DataSource(name, basic_metrics) {
     };
     this.setReposData = function(repos, self) {
         if (self === undefined) self = this;
+        if (!(repos instanceof Array)) repos=[repos];
         self.repos = repos;
     };
 

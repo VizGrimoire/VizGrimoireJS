@@ -86,6 +86,7 @@ function ITS() {
     
     this.setReposData = function(repos_name, self) {
         if (self === undefined) self = this;
+        if (!(repos_name instanceof Array)) repos_name=[repos_name];
         var repos = [];
         // convert http://issues.liferay.com/browse/AUI, change "/" by "_"
         for (var i=0; i<repos_name.length; i++) {
