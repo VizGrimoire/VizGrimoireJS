@@ -76,6 +76,8 @@ function MLS() {
         var global_data = null;
         if (report === "companies")
             global_data = ds.getCompaniesGlobalData();
+        if (report === "countries")
+            global_data = ds.getCountriesGlobalData();
         else if (report === "repositories")
             global_data = ds.getReposGlobalData();
         else return;
