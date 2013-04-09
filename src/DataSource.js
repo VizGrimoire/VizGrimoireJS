@@ -688,16 +688,14 @@ function DataSource(name, basic_metrics) {
         Viz.displayTimeToFix(div_id, json_file, column, labels, title);
     };
     
-    this.displayTop = function(div, all, graph) {
-        if (all === undefined)
-            all = true;
-        Viz.displayTop(div, this, all, graph);
+    this.displayTop = function(div, all, show_metric, graph) {
+        if (all === undefined) all = true;
+        Viz.displayTop(div, this, all, show_metric, graph);
     };
     
     this.displayTopBasic = function(div, action, doer, graph) {
         Viz.displayTopBasic(div, this, action, doer, graph);
     };
-
 
     this.displayTopCompany = function(company, div, metric, period, titles) {
         Viz.displayTopCompany(company, div, this, metric, period, titles);

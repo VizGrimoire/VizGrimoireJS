@@ -114,8 +114,6 @@ var Viz = {};
 
     function displayTopMetricTable(history, metric_id, doer) {
         var table = "<table><tbody>";
-        if (doer === undefined) doer = findMetricDoer(history, metric_id);
-        // new_div += "<tr><th>"+doer+"</th><th>"+metric_id+"</th></tr>";
         table += "<tr><th></th><th>" + metric_id + "</th></tr>";
         if (history[metric_id] === undefined) return;
         if (!(history[metric_id] instanceof Array)) {
@@ -136,8 +134,10 @@ var Viz = {};
     function displayTopMetric
         (div_id, project, metric, metric_period, history, graph, titles) {
 
+        if (!history) return;
         var metric_id = metric.action;
         var doer = metric.column;
+        if (doer === undefined) doer = findMetricDoer(history, metric_id);
         var table = displayTopMetricTable(history, metric_id, doer);
         // var doer = findMetricDoer(history, metric_id);
 
@@ -156,7 +156,8 @@ var Viz = {};
         // if (project) new_div += project +" ";
         new_div += "Top " + top_metric_id + " " + metric_period + " </h1>";
         if (graph) {
-            div_graph = "top-" + graph + "-" + metric_id + "-" + metric_period;
+            div_graph = "top-" + graph + "-" + doer + "-";
+            div_graph += metric_id + "-" + metric_period;
             new_div += "<div id='" + div_graph
                     + "' class='graph' style='float:right'></div>";
         }
@@ -264,6 +265,7 @@ var Viz = {};
         var lines_data = [];
 
         $.each(metrics, function(id, metric) {
+            if (!history[metric]) return;
             var mdata = [[],[]];
             $.each(history[metric], function (i, value) {
                 mdata[i] = [history.id[i], history[metric][i]];
@@ -708,7 +710,7 @@ var Viz = {};
     // For example: "committers.all":{"commits":[5310, ...],"name":["Brion
     // Vibber",..]}
     // TODO: Data load should be done in Loader
-    function displayTop(div, ds, all, graph, titles) {
+    function displayTop(div, ds, all, show_metric, graph, titles) {
         var top_file = ds.getTopDataFile();
         var basic_metrics = ds.getMetrics();
         var project = ds.getProject();
@@ -720,12 +722,13 @@ var Viz = {};
                 // ex: commits.all
                 var data = key.split(".");
                 var top_metric = data[0];
+                if (show_metric && show_metric !== top_metric) return true;
                 var top_period = data[1];
                 for (var id in basic_metrics) {
                     var metric = basic_metrics[id];
                     if (metric.column == top_metric) {
-                        displayTopMetric(div, project, metric, top_period, history[key],
-                                graph);
+                        displayTopMetric(div, project, metric, 
+                                top_period, history[key], graph);
                         if (!all) return false;
                         break;
                     }
@@ -757,6 +760,7 @@ var Viz = {};
         var project = data_source.getProject();
         var metric = data_source.getMetrics()[metric_id];
         var graph = null;
+        if (!data_source.getGlobalTopData()[metric_id]) return
         data = data_source.getGlobalTopData()[metric_id][period];
         displayTopMetric(div, project, metric, period, data, graph, titles);
     }

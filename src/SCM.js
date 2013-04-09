@@ -152,6 +152,8 @@ function SCM() {
             global_data = ds.getCountriesGlobalData();
         else return;
         
+        if (!global_data[item]) return;
+        
         $.each(global_data[item],function(id,value) {
             if (id_label[id])
                 html += id_label[id] + ": " + value + "<br>";

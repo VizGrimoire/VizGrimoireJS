@@ -131,17 +131,17 @@ var Loader = {};
             var companies = DS.getCompaniesData();
             $.each(companies, function(i, company) {
                 var file = DS.getDataDir()+"/"+company+"-";
-                file_evo = file + DS.getName()+"-evolutionary.json";
+                var file_evo = file + DS.getName()+"-evolutionary.json";
                 $.when($.getJSON(file_evo)).done(function(history) {
                     DS.addCompanyMetricsData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-static.json";
+                var file_static = file + DS.getName()+"-static.json";
                 $.when($.getJSON(file_static)).done(function(history) {
                     DS.addCompanyGlobalData(company, history, DS);
                     end_data_load();
                 });
-                file_static = file + DS.getName()+"-top-";
+                var file_static = file + DS.getName()+"-top-";
                 if (DS.getName() === "scm") file_static += "authors";
                 if (DS.getName() === "its") file_static += "closers";
                 if (DS.getName() === "mls") file_static += "senders";

@@ -721,13 +721,15 @@ var Report = {};
             
             if ($("#"+div_id_top).length > 0) {
                 if ($("#"+div_id_top).data('show_all')) show_all = true;
-                DS.displayTop(div_id_top, show_all);
+                var top_metric = $("#"+div_id_top).data('metric');
+                DS.displayTop(div_id_top, show_all, top_metric);
             }           
             $.each(['pie','bars'], function (index, chart) {
                 var div_id_top = DS.getName()+"-top-"+chart;
                 if ($("#"+div_id_top).length > 0) {
                     if ($("#"+div_id_top).data('show_all')) show_all = true;
-                    DS.displayTop(div_id_top, show_all, chart);
+                    var show_metric = $("#"+div_id_top).data('metric');
+                    DS.displayTop(div_id_top, show_all, show_metric, chart);
                 }
                 div_id_top = DS.getName()+"-top-basic-"+chart;
                 if ($("#"+div_id_top).length > 0) {
