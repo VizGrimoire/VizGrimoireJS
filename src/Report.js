@@ -34,9 +34,11 @@ var Report = {};
     var projects_dirs = [default_data_dir];
     var projects_data = {};
     var projects_datasources = {};
+    var repos_map = {};
     var project_file = data_dir + "/project-info.json",
         config_file = data_dir + "/viz_cfg.json",
-        markers_file = data_dir + "/markers.json";
+        markers_file = data_dir + "/markers.json",
+        repos_map_file = data_dir + "/repos-map.json";
 
     // TODO: Why is it public? Markup API!
     // Public API
@@ -82,6 +84,7 @@ var Report = {};
         project_file = dataDir + "/project-info.json", 
         config_file = dataDir + "/viz_cfg.json", 
         markers_file = dataDir + "/markers.json";
+        repos_mapping_file = data_dir + "/repos-mapping.json";
     };
    
     function getMarkers() {
@@ -93,6 +96,32 @@ var Report = {};
     };    
     Report.getMarkersFile = function () {
         return markers_file;
+    };
+    
+    Report.getReposMap = function() {
+        return repos_map;
+    };    
+    Report.setReposMap = function (data) {
+        repos_map = data;
+    };    
+    Report.getReposMapFile = function () {
+        return repos_map_file;
+    };
+    Report.getValidRepo = function (repo, ds) {
+        var valid_repo = null;
+        var repos = ds.getReposGlobalData();
+        if (repos[repo]) return repo;
+        // Search for a mapping repository
+        $.each(Report.getReposMap(), function (repo_name, repo_map) {
+            if (repo_name === repo) {
+                valid_repo = repo_map;
+                if (repos[valid_repo]) return false;
+            } else if (repo_map === repo) {
+                valid_repo = repo_name;
+                if (repos[valid_repo]) return false;
+            }
+        });
+        return valid_repo;
     };
 
     function getConfig() {
@@ -554,7 +583,9 @@ var Report = {};
                 });
             }
             
+            if (repo !== null) repo = Report.getValidRepo(repo, DS);
             if (repo !== null) {
+                
                 var divid = DS.getName()+"-refcard-repo";
                 if ($("#"+divid).length > 0) {
                     DS.displayRepoSummary(divid, repo, this);

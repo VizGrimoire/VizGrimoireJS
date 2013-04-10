@@ -83,6 +83,8 @@ var Loader = {};
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getReposDataFile(), DS.setReposData, DS);
         });
+        // Repositories mapping between data sources
+        data_load_file(Report.getReposMapFile(), Report.setReposMap);
     };
     
     function data_load_countries() {
