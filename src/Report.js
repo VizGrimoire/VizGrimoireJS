@@ -114,11 +114,17 @@ var Report = {};
         // Search for a mapping repository
         $.each(Report.getReposMap(), function (repo_name, repo_map) {
             if (repo_name === repo) {
-                valid_repo = repo_map;
-                if (repos[valid_repo]) return false;
+                var test_repo = repo_map;
+                if (repos[test_repo]!== undefined) {
+                    valid_repo = test_repo;
+                    return false;
+                }
             } else if (repo_map === repo) {
-                valid_repo = repo_name;
-                if (repos[valid_repo]) return false;
+                var test_repo = repo_name;
+                if (repos[test_repo]!== undefined) {
+                    valid_repo = test_repo;
+                    return false;
+                }
             }
         });
         return valid_repo;
@@ -497,17 +503,18 @@ var Report = {};
         config_metric.show_title = false;
         config_metric.show_labels = true;
         
-        var repo = null;
+        var repo = null, repo_valid = null;
         var country = null;
         var querystr = window.location.search.substr(1);
         if (querystr  &&
-                querystr.split("&")[0].split("=")[0] === "repository")
+                querystr.split("&")[0].split("=")[0] === "repository") {
             repo = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
+        }
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "country")
             country = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
 
-        $.each(Report.getDataSources(), function(index, DS) {
+        $.each(Report.getDataSources(), function(index, DS) {            
             var divid = DS.getName()+"-repos-summary";
             if ($("#"+divid).length > 0) {
                 DS.displayReposSummary(divid, this);
@@ -583,12 +590,11 @@ var Report = {};
                 });
             }
             
-            if (repo !== null) repo = Report.getValidRepo(repo, DS);
-            if (repo !== null) {
-                
+            if (repo !== null) repo_valid = Report.getValidRepo(repo, DS);
+            if (repo_valid !== null) {                
                 var divid = DS.getName()+"-refcard-repo";
                 if ($("#"+divid).length > 0) {
-                    DS.displayRepoSummary(divid, repo, this);
+                    DS.displayRepoSummary(divid, repo_valid, this);
                 }
                 
                 var div_repo = DS.getName()+"-flotr2-metrics-repo";
@@ -599,7 +605,7 @@ var Report = {};
                         config.show_legend = false;
                         if ($(this).data('legend')) config_metric.show_legend = true;
                         div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-repo";
-                        DS.displayBasicMetricsRepo(repo, metrics.split(","),
+                        DS.displayBasicMetricsRepo(repo_valid, metrics.split(","),
                                 div.id, config_metric);
                     });
                 }                

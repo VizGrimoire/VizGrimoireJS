@@ -595,8 +595,14 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-        		list += "<a href='"+ds.getName();
-        		list += "-repository.html?repository="+item;
+        		list += "<a href='";
+        		// Show together SCM and ITS
+        		if ((ds.getName() === "scm" || ds.getName() === "its") &&
+        		     (Report.getReposMap().length === undefined)) ;
+        		else 
+        		    list += ds.getName()+"-";
+        		list += "repository.html";
+        		list += "?repository="+item;
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
