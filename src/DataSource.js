@@ -532,10 +532,11 @@ function DataSource(name, basic_metrics) {
     };
 
     
-    this.displayReposNav = function (div_nav, sort_metric) {
+    this.displayReposNav = function (div_nav, sort_metric, scm_and_its) {
         var nav = "<span id='nav'></span>";
-        var sorted_repos = this.sortRepos(sort_metric);
+        var sorted_repos = this.sortRepos(sort_metric);        
         $.each(sorted_repos, function(id, repo) {
+            if (scm_and_its && (!(Report.getReposMap()[repo]))) return;
             nav += "<a href='#" + repo + "-nav'>";
             var label = repo;
             if (repo.lastIndexOf("http") === 0)
@@ -556,9 +557,9 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayReposList = function (metrics,div_id, 
-            config_metric, sort_metric) {
+            config_metric, sort_metric, scm_and_its) {
         this.displaySubReportList("repos",metrics,div_id, 
-                config_metric, sort_metric);
+                config_metric, sort_metric, scm_and_its);
     };
     
     this.displayCountriesList = function (metrics,div_id, 
@@ -568,7 +569,7 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displaySubReportList = function (report, metrics,div_id, 
-            config_metric, sort_metric) {
+            config_metric, sort_metric, scm_and_its) {
         var list = "";
         var ds = this;
         var data = null, sorted = null;
@@ -590,6 +591,7 @@ function DataSource(name, basic_metrics) {
         metrics.reverse();
 
         $.each(sorted, function(id, item) {
+            if (scm_and_its && (!(Report.getReposMap()[item]))) return;
             list += "<div class='subreport-list' id='"+item+"-nav'>";
             list += "<div style='float:left;'>";
             if (report === "companies") 
@@ -635,8 +637,18 @@ function DataSource(name, basic_metrics) {
         $("#"+div_id).append(list);
         // Draw the graphs
         $.each(sorted, function(id, item) {
-            var item_data = data[item];
+            if (scm_and_its && (!(Report.getReposMap()[item]))) return;
             $.each(metrics, function(id, metric) {
+                var item_data = data[item];
+                if (item_data[metric] === undefined && report === "repos") {
+                    // Hack to support showing ITS+SCM metrics in repos
+                    var map_repo = Report.getReposMap()[item];                    
+                    if (map_repo) {
+                        new_data = ds.getITS().getReposMetricsData()[map_repo];
+                        item_data = new_data;
+                    }
+                    else return;
+                }
                 var div_id = item+"-"+metric;
                 var items = {};
                 items[item] = item_data;

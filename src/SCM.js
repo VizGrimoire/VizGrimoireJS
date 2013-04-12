@@ -113,6 +113,14 @@ function SCM() {
         return "commits";
     };
     
+    this.setITS = function(its) {
+        this.its = its;
+    };
+    
+    this.getITS = function(its) {
+        return this.its;
+    };
+    
     this.getTitle = function() {return "Change sets (commits to source code)";};
     
     this.displaySubReportSummary = function(report, divid, item, ds) {

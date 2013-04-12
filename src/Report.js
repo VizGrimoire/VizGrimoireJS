@@ -270,7 +270,8 @@ var Report = {};
         
             its.setDataDir(project);
             mls.setDataDir(project);
-            scm.setDataDir(project);   
+            scm.setDataDir(project);
+            scm.setITS(its);
         });
         
         return true;
@@ -513,7 +514,7 @@ var Report = {};
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "country")
             country = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
-
+        
         $.each(Report.getDataSources(), function(index, DS) {            
             var divid = DS.getName()+"-repos-summary";
             if ($("#"+divid).length > 0) {
@@ -557,8 +558,9 @@ var Report = {};
             var div_nav = DS.getName()+"-flotr2-repos-nav";
             if ($("#"+div_nav).length > 0) {
                 var order_by = $("#"+div_nav).data('order-by');
-                DS.displayReposNav(div_nav, order_by);
-            }
+                var scm_and_its = $("#"+div_nav).data('scm-and-its');
+                DS.displayReposNav(div_nav, order_by, scm_and_its);
+            }            
             
             var div_nav = DS.getName()+"-flotr2-countries-nav";
             if ($("#"+div_nav).length > 0) {
@@ -572,9 +574,10 @@ var Report = {};
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
                     var order_by = $(this).data('order-by');
+                    var scm_and_its = $(this).data('scm-and-its');
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-repos-list";
                     DS.displayReposList(metrics.split(","),div.id, 
-                            config_metric, order_by);
+                            config_metric, order_by, scm_and_its);
                 });
             }
             
