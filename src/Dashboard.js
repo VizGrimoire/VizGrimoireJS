@@ -181,8 +181,11 @@ var Dashboard = {};
         if (year === "") year = undefined;
         else {
             year = parseInt(year);
-            start = year*12; 
-            end = (year+1)*12;
+            // Old ids format in JSON using months
+            //start = year*12;
+            // New format: days since 1970-01-01
+            start = (new Date(year.toString()).getTime())/(1000*60*60*24);
+            end = (new Date((year+1).toString()).getTime())/(1000*60*60*24);                
         }
         if (release === "") release = undefined;
         else {
@@ -211,7 +214,7 @@ var Dashboard = {};
                 else {
                     config_metric.show_title = false;
                     var data = ds.getData();
-                    if (year) data = Viz.filterYear(year, data);
+                    if (year || release) data = Viz.filterDates(start, end, data);
                     Viz.displayBasicMetricsHTML([metric], data, 
                             metric_div, config_metric);
                 }
@@ -280,23 +283,25 @@ var Dashboard = {};
             convert: function() {
                 var name = "releases";
                 var div = $('#filter_releases');
+                var day_msec = 1000*60*60*24;
                 var releases = {
                         // Apr 2011-Sep 2011
-                        release_1: {
-                            start: 2011*12+4,
-                            end: 2011*12+9,                            
+                        diablo: {
+                            // start: 2011*12+4,
+                            start: (new Date('2011-04').getTime())/(day_msec),
+                            end: (new Date('2011-09').getTime())/(day_msec),                            
                         },
-                        release_2: {
-                            start: 2011*12+9,
-                            end: 2012*12+4
+                        essex: {
+                            start: (new Date('2011-09').getTime())/(day_msec),
+                            end: (new Date('2012-04').getTime())/(day_msec),                            
                         },
-                        release_3: {
-                            start: 2012*12+4,
-                            end: 2012*12+9
+                        folsom: {
+                            start: (new Date('2012-04').getTime())/(day_msec),
+                            end: (new Date('2012-09').getTime())/(day_msec),                            
                         },
-                        release_4: {
-                            start: 2012*12+9,
-                            end: 2013*12+4
+                        grizzly: {
+                            start: (new Date('2012-09').getTime())/(day_msec),
+                            end: (new Date('2013-04').getTime())/(day_msec),
                         }
                 };                
                 var html = "<form id='form_dashboard_"+name+"'>";

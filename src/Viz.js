@@ -47,6 +47,7 @@ var Viz = {};
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
     Viz.filterYear = filterYear;
+    Viz.filterDates = filterDates;
     Viz.displayMetricSubReportLines = displayMetricSubReportLines;
     Viz.displayRadarActivity = displayRadarActivity;
     Viz.displayRadarCommunity = displayRadarCommunity;
@@ -280,7 +281,9 @@ var Viz = {};
         $.each(history, function(name, data) {
             history_dates[name] = [];                
             $.each(data, function(i, value) {
-                var id = history.id[i];
+                // var id = history.id[i];
+                // TODO: week should be id
+                var id = history.week[i];
                 if (id > start_id && id <= end_id)
                     history_dates[name].push(value);
             });
@@ -289,8 +292,12 @@ var Viz = {};
     }
     
     function filterYear(year, history) {
+        var day_msecs = 1000*60*60*24;
         year = parseInt(year);
-        var min_id = 12*year, max_id = 12*(year+1);
+        //var min_id = 12*year, max_id = 12*(year+1);
+        var min_id = (new Date(year.toString()).getTime())/(day_msecs);
+        var max_id = (new Date((year+1).toString()).getTime())/(day_msecs);                
+
         var history_year = filterDates(min_id, max_id, history);            
         return history_year;
     }

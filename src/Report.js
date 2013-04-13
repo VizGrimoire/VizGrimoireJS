@@ -325,6 +325,23 @@ var Report = {};
                 });
             }
         },
+        "activity":  {
+            convert: function() {
+                var html = "<h1>Last Week</h1>";
+                $.each(Report.getDataSources(), function(index, DS) {
+                    var data = DS.getGlobalData();
+                    for (key in data) {
+                        // 7, 30, 90, 365
+                        var suffix = "_7"; 
+                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
+                            var metric = key.substring(0, key.length - suffix.length);
+                            html += metric + ":" + data[key] + "<br>";
+                        }
+                    };
+                });
+                $("#activity").html(html);
+            }
+        },
         // Reference card with info from all data sources
         "refcard": {
             convert: function() {
