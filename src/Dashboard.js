@@ -2,9 +2,9 @@ var Dashboard = {};
 
 (function() {
     
-    default_metrics = ['commits','authors'];
+    default_metrics = ['authors','closers','senders'];
     default_selection = 'companies';
-    default_companies = ['company-17','company-19','company-1'];
+    default_companies = ['Rackspace', 'Nebula','Red Hat'];
     
     function getAllProjects(limit, order) {
         var projects = {};
