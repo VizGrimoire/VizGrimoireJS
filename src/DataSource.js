@@ -539,8 +539,12 @@ function DataSource(name, basic_metrics) {
             if (scm_and_its && (!(Report.getReposMap()[repo]))) return;
             nav += "<a href='#" + repo + "-nav'>";
             var label = repo;
-            if (repo.lastIndexOf("http") === 0)
-                label = repo.substr(repo.lastIndexOf("_") + 1);
+            if (repo.lastIndexOf("http") === 0) {
+                var aux = repo.split("_");
+                label = aux.pop();
+                if (label === '') label = aux.pop();
+                // label = repo.substr(repo.lastIndexOf("_") + 1);
+            }
             else if (repo.lastIndexOf("<") === 0)
                 label = MLS.displayMLSListName(repo);
             nav += label;

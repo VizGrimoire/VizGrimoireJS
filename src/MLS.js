@@ -63,8 +63,11 @@ function MLS() {
     
     this.displaySubReportSummary = function(report, divid, item, ds) {
         var label = item;
-        if (item.lastIndexOf("http") === 0)
-            label = item.substr(item.lastIndexOf("_") + 1);
+        if (item.lastIndexOf("http") === 0) {
+            var aux = item.split("_");
+            label = aux.pop();
+            if (label === '') label = aux.pop();
+        }
         var html = "<h1>" + label + "</h1>";
         var id_label = {
             sent: "Sent",

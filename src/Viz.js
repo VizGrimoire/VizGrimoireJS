@@ -1185,13 +1185,18 @@ var Viz = {};
         var graph = 'bars';
         if (config.graph) graph = config.graph;
 
-        $.each(data, function(item,data) {
+        $.each(data, function(item, data) {
             // TODO: find a generic way to filter labels
-            if (item.lastIndexOf("http") === 0)
-                item = item.substr(item.lastIndexOf("_") + 1);
+            var label = item;
+            if (item.lastIndexOf("http") === 0) {
+                var aux = item.split("_");
+                label = aux.pop();
+                if (label === '') label = aux.pop();
+                // item = item.substr(item.lastIndexOf("_") + 1);
+            }
             else if (item.lastIndexOf("<") === 0)
-                item = MLS.displayMLSListName(item);
-            labels.push(item);
+                label = MLS.displayMLSListName(item);
+            labels.push(label);
             metric_data.push(data[metric]);
         });
         displayBasicChart(div_id, labels, metric_data, graph, title, config);
