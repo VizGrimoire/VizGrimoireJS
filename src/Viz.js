@@ -709,14 +709,24 @@ var Viz = {};
     }
     
     function displayTimeToFix(div_id, ttf_data, column, labels, title) {
-        var history = ttf_data.data;
+        var history = ttf_data.data; 
         if (!history[column]) return;
+        var new_history = {};
+        new_history.date = history.date;
+        // We prefer the data in days, not hours
+        $.each(history, function(name, data) {
+            if (name != column) return;
+            new_history[name] = [];
+            for (var i=0; i<data.length; i++) {
+                new_history[name].push(parseInt(data[i])/24);
+            }            
+        });
         //  We need and id column
-        history.id=[];
+        new_history.id=[];
         for (var i=0; i<history[column].length;i++) {
-            history.id.push(i);
+            new_history.id.push(i);
         }
-        Viz.displayBasicLines(div_id, history, column, labels, title);
+        Viz.displayBasicLines(div_id, new_history, column, labels, title);
     }
 
     // Each metric can have several top: metric.period
