@@ -80,6 +80,7 @@ function DataSource(name, basic_metrics) {
         this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
         this.repos_data_file = dataDir+'/'+ this.name +'-repos.json';
         this.countries_data_file = dataDir+'/'+ this.name +'-countries.json';
+        this.time_to_fix_data_file = dataDir+'/'+ this.name +'-quantiles-month-time_to_fix_hour.json';
     };
     
 
@@ -124,7 +125,6 @@ function DataSource(name, basic_metrics) {
     this.getPeopleDataFile = function() {
         return this.people_data_file;
     };
-
     this.people = null;
     this.getPeopleData = function() {
         return this.people;
@@ -134,6 +134,20 @@ function DataSource(name, basic_metrics) {
         self.people = people;
     };
     
+    this.time_to_fix_data_file = this.data_dir + '/'+this.name+'-quantiles-month-time_to_fix_hour.json';
+    this.getTimeToFixDataFile = function() {
+        return this.time_to_fix_data_file;
+    };
+    this.time_to_fix_data = null;
+    this.getTimeToFixData = function() {
+        return this.time_to_fix_data;
+    };
+    this.setTimeToFixData = function(data, self) {
+        if (self === undefined) self = this;
+        self.time_to_fix_data = data;
+    };
+
+        
     this.project = null;
     this.getProject = function() {
         return this.project;
@@ -707,8 +721,10 @@ function DataSource(name, basic_metrics) {
         Viz.displayDemographics(divid, this, file);
     };
 
-    this.displayTimeToFix = function(div_id, json_file, column, labels, title) {
-        Viz.displayTimeToFix(div_id, json_file, column, labels, title);
+    this.displayTimeToFix = function(div_id, column, labels, title) {
+        var labels = true;
+        var title = "Time to Fix " + column;
+        Viz.displayTimeToFix(div_id, this.getTimeToFixData(), column, labels, title);
     };
     
     this.displayTop = function(div, all, show_metric, graph) {

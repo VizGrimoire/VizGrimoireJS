@@ -727,7 +727,17 @@ var Report = {};
                             config_metric);
                 });
             }
-
+            
+           // Time to fix
+            var div_ttfix = DS.getName()+"-time-to-fix";
+            divs = $("."+div_ttfix); 
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var quantil = 'X'+$(this).data('quantil');
+                    div.id = DS.getName()+"-time-to-fix-"+quantil;
+                    DS.displayTimeToFix(div.id, quantil);
+                });
+            }
         });
     }
 

@@ -58,6 +58,7 @@ var Loader = {};
         data_load_metrics();
         data_load_people();
         data_load_tops('authors');
+        data_load_time_to_fix();
     };
     
     function data_load_companies() {
@@ -91,6 +92,13 @@ var Loader = {};
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getCountriesDataFile(), DS.setCountriesData, DS);
+        });
+    };
+     
+    function data_load_time_to_fix() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getTimeToFixDataFile(), DS.setTimeToFixData, DS);
         });
     };
 
@@ -316,7 +324,7 @@ var Loader = {};
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getPeopleData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
-            
+            if (DS.getTimeToFixData() === null) {check = false; return false;}
  
             if (!check_companies_loaded(DS)) {check = false; return false;}
             if (!check_repos_loaded(DS)) {check = false; return false;}

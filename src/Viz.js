@@ -46,6 +46,7 @@ var Viz = {};
     Viz.displayBubbles = displayBubbles;
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
+    Viz.displayTimeToFix = displayTimeToFix;
     Viz.filterYear = filterYear;
     Viz.filterDates = filterDates;
     Viz.displayMetricSubReportLines = displayMetricSubReportLines;
@@ -707,10 +708,15 @@ var Viz = {};
         displayRadar(div_id, metrics);
     }
     
-    function displayTimeToFix(div_id, json_file, column, labels, title) {
-        $.getJSON(json_file, function(history) {            
-            Viz.displayBasicLines(div_id, history, column, labels, title);
-        });
+    function displayTimeToFix(div_id, ttf_data, column, labels, title) {
+        var history = ttf_data.data;
+        if (!history[column]) return;
+        //  We need and id column
+        history.id=[];
+        for (var i=0; i<history[column].length;i++) {
+            history.id.push(i);
+        }
+        Viz.displayBasicLines(div_id, history, column, labels, title);
     }
 
     // Each metric can have several top: metric.period
