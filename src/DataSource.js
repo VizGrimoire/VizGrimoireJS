@@ -79,6 +79,7 @@ function DataSource(name, basic_metrics) {
         this.top_data_file = dataDir + '/'+this.name+'-top.json';
         this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
         this.repos_data_file = dataDir+'/'+ this.name +'-repos.json';
+        this.countries_data_file = dataDir+'/'+ this.name +'-countries.json';
     };
     
 
