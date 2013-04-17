@@ -913,6 +913,7 @@ var Report = {};
         convertBubbles();        
         convertEnvision();
         convertFlotr2(config);
+        convertTop();
     }
     
     function convertStudies() {
@@ -921,7 +922,6 @@ var Report = {};
         convertCountries();
         convertDemographics();
         convertSelectors();
-        convertTop();
     }
     
     // TODO: Move to plugins
