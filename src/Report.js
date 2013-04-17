@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Bitergia
+ * Copyright (C) 2012-2013 Bitergia
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,8 @@ var Report = {};
         return basic_divs;
     }; 
     Report.displayReportData = displayReportData;
-    Report.report = report;
+    Report.convertGlobal = convertGlobal;
+    Report.convertStudies = convertStudies;
     Report.getDataSources = function() {
         // return data_sources.slice(0,3);
         return data_sources;
@@ -516,46 +517,22 @@ var Report = {};
         });
     }
     
-    function convertRepos() {
+    function convertCountries() {
         var config_metric = {};                
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
         
-        var repo = null, repo_valid = null;
         var country = null;
         var querystr = window.location.search.substr(1);
         if (querystr  &&
-                querystr.split("&")[0].split("=")[0] === "repository") {
-            repo = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
-        }
-        if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "country")
             country = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
-        
-        $.each(Report.getDataSources(), function(index, DS) {            
-            var divid = DS.getName()+"-repos-summary";
-            if ($("#"+divid).length > 0) {
-                DS.displayReposSummary(divid, this);
-            }
+
+        $.each(Report.getDataSources(), function(index, DS) {
             var divid = DS.getName()+"-countries-summary";
             if ($("#"+divid).length > 0) {
                 DS.displayCountriesSummary(divid, this);
-            }
-            
-            var div_repos = DS.getName()+"-flotr2-repos-static";
-            var divs = $("."+div_repos);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metric = $(this).data('metric');
-                    var limit = $(this).data('limit');
-                    var show_others = $(this).data('show-others');
-                    var order_by = $(this).data('order-by');
-                    config_metric.graph = $(this).data('graph');
-                    div.id = metric+"-flotr2-repos-static";
-                    DS.displayBasicMetricReposStatic(metric,div.id,
-                            config_metric, limit, order_by, show_others);
-                });
             }
             
             var div_countries = DS.getName()+"-flotr2-countries-static";
@@ -573,30 +550,10 @@ var Report = {};
                 });
             }
             
-            var div_nav = DS.getName()+"-flotr2-repos-nav";
-            if ($("#"+div_nav).length > 0) {
-                var order_by = $("#"+div_nav).data('order-by');
-                var scm_and_its = $("#"+div_nav).data('scm-and-its');
-                DS.displayReposNav(div_nav, order_by, scm_and_its);
-            }            
-            
             var div_nav = DS.getName()+"-flotr2-countries-nav";
             if ($("#"+div_nav).length > 0) {
                 var order_by = $("#"+div_nav).data('order-by');
                 DS.displayCountriesNav(div_nav, order_by);
-            }
-            
-            var divs_repos_list = DS.getName()+"-flotr2-repos-list";
-            var divs = $("."+divs_repos_list);
-            if (divs.length > 0) {
-                $.each(divs, function(id, div) {
-                    var metrics = $(this).data('metrics');
-                    var order_by = $(this).data('order-by');
-                    var scm_and_its = $(this).data('scm-and-its');
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-repos-list";
-                    DS.displayReposList(metrics.split(","),div.id, 
-                            config_metric, order_by, scm_and_its);
-                });
             }
             
             var divs_countries_list = DS.getName()+"-flotr2-countries-list";
@@ -608,6 +565,81 @@ var Report = {};
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-countries-list";
                     DS.displayCountriesList(metrics.split(","),div.id, 
                             config_metric, order_by);
+                });
+            }
+            
+            if (country !== null) {
+                var divid = DS.getName()+"-refcard-country";
+                if ($("#"+divid).length > 0) {
+                    DS.displayCountrySummary(divid, country, this);
+                }
+                
+                var div_country = DS.getName()+"-flotr2-metrics-country";
+                var divs = $("."+div_country);
+                if (divs.length) {
+                    $.each(divs, function(id, div) {
+                        var metrics = $(this).data('metrics');
+                        config.show_legend = false;
+                        if ($(this).data('legend')) config_metric.show_legend = true;
+                        div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-country";
+                        DS.displayBasicMetricsCountry(country, metrics.split(","),
+                                div.id, config_metric);
+                    });
+                }                
+            }            
+        });        
+    }
+    
+    function convertRepos() {
+        var config_metric = {};                
+        config_metric.show_desc = false;
+        config_metric.show_title = false;
+        config_metric.show_labels = true;
+        
+        var repo = null, repo_valid = null;
+        var querystr = window.location.search.substr(1);
+        if (querystr  &&
+                querystr.split("&")[0].split("=")[0] === "repository") {
+            repo = decodeURIComponent(querystr.split("&")[0].split("=")[1]);
+        }
+        
+        $.each(Report.getDataSources(), function(index, DS) {            
+            var divid = DS.getName()+"-repos-summary";
+            if ($("#"+divid).length > 0) {
+                DS.displayReposSummary(divid, this);
+            }
+            var div_repos = DS.getName()+"-flotr2-repos-static";
+            var divs = $("."+div_repos);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metric = $(this).data('metric');
+                    var limit = $(this).data('limit');
+                    var show_others = $(this).data('show-others');
+                    var order_by = $(this).data('order-by');
+                    config_metric.graph = $(this).data('graph');
+                    div.id = metric+"-flotr2-repos-static";
+                    DS.displayBasicMetricReposStatic(metric,div.id,
+                            config_metric, limit, order_by, show_others);
+                });
+            }
+            
+            var div_nav = DS.getName()+"-flotr2-repos-nav";
+            if ($("#"+div_nav).length > 0) {
+                var order_by = $("#"+div_nav).data('order-by');
+                var scm_and_its = $("#"+div_nav).data('scm-and-its');
+                DS.displayReposNav(div_nav, order_by, scm_and_its);
+            }            
+            
+            var divs_repos_list = DS.getName()+"-flotr2-repos-list";
+            var divs = $("."+divs_repos_list);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    var order_by = $(this).data('order-by');
+                    var scm_and_its = $(this).data('scm-and-its');
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-repos-list";
+                    DS.displayReposList(metrics.split(","),div.id, 
+                            config_metric, order_by, scm_and_its);
                 });
             }
             
@@ -630,28 +662,7 @@ var Report = {};
                                 div.id, config_metric);
                     });
                 }                
-            }
-            
-            if (country !== null) {
-                var divid = DS.getName()+"-refcard-country";
-                if ($("#"+divid).length > 0) {
-                    DS.displayCountrySummary(divid, country, this);
-                }
-                
-                var div_country = DS.getName()+"-flotr2-metrics-country";
-                var divs = $("."+div_country);
-                if (divs.length) {
-                    $.each(divs, function(id, div) {
-                        var metrics = $(this).data('metrics');
-                        config.show_legend = false;
-                        if ($(this).data('legend')) config_metric.show_legend = true;
-                        div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-country";
-                        DS.displayBasicMetricsCountry(country, metrics.split(","),
-                                div.id, config_metric);
-                    });
-                }                
-            }
-
+            }            
         });
     }
 
@@ -896,24 +907,33 @@ var Report = {};
     };
            
 
-    function report() {
+    function convertGlobal() {
         configDataSources();
         convertBasicDivs();
         convertBubbles();        
-        convertCompanies();
-        convertDemographics();
         convertEnvision();
         convertFlotr2(config);
-        // TODO: Create a new class for Identity?
-        convertIdentity();
+    }
+    
+    function convertStudies() {
         convertRepos();
+        convertCompanies();
+        convertCountries();
+        convertDemographics();
         convertSelectors();
         convertTop();
+    }
+    
+    // TODO: Move to plugins
+    function convertOthers() {
+        // TODO: Create a new class for Identity?
+        convertIdentity();
     }
 })();
 
 Loader.data_ready(function() {
-    Report.report();
+    Report.convertGlobal();
+    Report.convertStudies();
     $("body").css("cursor", "auto");
 });
 
