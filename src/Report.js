@@ -931,8 +931,11 @@ var Report = {};
     }
 })();
 
+Loader.data_ready_global(function() {
+    Report.convertGlobal();    
+});
+    
 Loader.data_ready(function() {
-    Report.convertGlobal();
     Report.convertStudies();
     $("body").css("cursor", "auto");
 });

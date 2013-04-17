@@ -350,4 +350,3 @@ var Dashboard = {};
 Loader.data_ready(function() {
     Dashboard.build();
 });
-

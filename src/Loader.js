@@ -1,5 +1,5 @@
 /* 
- * Copyright (C) 2012 Bitergia
+ * Copyright (C) 2012-2013 Bitergia
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -26,11 +26,17 @@ var Loader = {};
 (function() {
     
     var data_callbacks = [];
+    var data_global_callbacks = [];
     var check_companies = false, check_repos = false, check_countries = false;
     
     Loader.data_ready = function(callback) {
         data_callbacks.push(callback);
     };
+    
+    Loader.data_ready_global = function(callback) {
+        data_global_callbacks.push(callback);
+    };
+
     
     Loader.data_load = function () {
         data_load_file(Report.getProjectFile(), 
@@ -302,28 +308,41 @@ var Loader = {};
         }
         return true;
     }
-
     
-    // TODO: Make more modular. Move companies and repos code and tops!
-    function check_data_loaded() {
-        var check = true;
-        if (Report.getProjectData() === null || 
-                Report.getConfig() === null || Report.getMarkers() === null) 
-            return false;
-
+    function check_projects_loaded() {
         var projects_loaded = 0;
         var projects_data = Report.getProjectsData();
         var projects_dirs = Report.getProjectsDirs();
         for (var key in projects_data) {projects_loaded++;}
         if (projects_loaded < projects_dirs.length ) return false;
+        return true;
+    }
+    
+    function check_data_loaded_global() {
+        var check = true;
+        if (Report.getProjectData() === null || 
+                Report.getConfig() === null || Report.getMarkers() === null) 
+            return false;
+
+        if (!(check_projects_loaded())) return false;
         
         var data_sources = Report.getDataSources();        
         $.each(data_sources, function(index, DS) {
-            // if (!(DS instanceof MLS)) return; Check load process by DS
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
-            if (DS.getPeopleData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
+        });
+        return check;
+    }
+    
+    function check_data_loaded() {
+        var check = true;
+
+        if (!(check_data_loaded_global())) return false;
+        
+        var data_sources = Report.getDataSources();        
+        $.each(data_sources, function(index, DS) {
+            if (DS.getPeopleData() === null) {check = false; return false;}
             if (DS.getTimeToFixData() === null) {check = false; return false;}
  
             if (!check_companies_loaded(DS)) {check = false; return false;}
@@ -341,7 +360,14 @@ var Loader = {};
         return check;
     }
 
-    function end_data_load()  {        
+    // Two steps data loading
+    function end_data_load()  {
+        if (check_data_loaded_global()) {
+            for ( var i = 0; i < data_global_callbacks.length; i++) {
+                data_global_callbacks[i]();
+            }
+            data_global_callbacks = [];
+        }
         if (check_data_loaded()) {
             // Invoke callbacks informing all data needed has been loaded
             for ( var i = 0; i < data_callbacks.length; i++) {
