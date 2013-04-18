@@ -96,6 +96,24 @@ function SCM() {
             'name' : "Files",
             'desc' : "Evolution of the number of unique files handled by the community"
         },
+        'files' : {
+            'divid' : "scm-files",
+            'column' : "files",
+            'name' : "Files",
+            'desc' : "Evolution of the number of unique files handled by the community"
+        },
+        'added_lines' : {
+            'divid' : "scm-added-lines",
+            'column' : "added_lines",
+            'name' : "Lines Added",
+            'desc' : "Evolution of the source code lines added"
+        },
+        'removed_lines' : {
+            'divid' : "scm-removed-lines-",
+            'column' : "removed_lines",
+            'name' : "Lines Removed",
+            'desc' : "Evolution of the source code lines removed"
+        },
         'repositories' : {
             'divid' : "scm-repositories",
             'column' : "repositories",
