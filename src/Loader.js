@@ -331,6 +331,7 @@ var Loader = {};
             if (DS.getData() === null) {check = false; return false;}
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
+            if (DS.getTimeToFixData() === null) {check = false; return false;}
         });
         return check;
     }
@@ -343,7 +344,6 @@ var Loader = {};
         var data_sources = Report.getDataSources();        
         $.each(data_sources, function(index, DS) {
             if (DS.getPeopleData() === null) {check = false; return false;}
-            if (DS.getTimeToFixData() === null) {check = false; return false;}
  
             if (!check_companies_loaded(DS)) {check = false; return false;}
             if (!check_repos_loaded(DS)) {check = false; return false;}
