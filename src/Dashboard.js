@@ -83,7 +83,7 @@ var Dashboard = {};
             // Check data sources has companies or projects data
             $.each(Report.getDataSources(), function (i, ds) {
                 if (name === "companies") {
-                    if (ds.getCompaniesData().length === 0) {
+                    if (ds.getCompaniesData().length === 0 ) {
                         cleanSelector("metrics_"+ds.getName());
                         disableSelector("metrics_"+ds.getName(),true);
                     }                
@@ -104,6 +104,7 @@ var Dashboard = {};
     function allSelector(name, status) {
         var form_name = "form_dashboard_" + name;
         var form = document.getElementById(form_name);
+        if (form === null) return;
         for (var i = 0; i < form.elements.length; i++) {
             form.elements[i].checked = status;
         }        
@@ -112,6 +113,7 @@ var Dashboard = {};
     function cleanSelector(name) {
         var form_name = "form_dashboard_" + name;
         var form = document.getElementById(form_name);
+        if (form === null) return;
         for (var i = 0; i < form.elements.length; i++) {
             form.elements[i].checked = false;
         }
@@ -120,6 +122,7 @@ var Dashboard = {};
     function cleanSelectorList(name) {
         var form_name = "form_dashboard_" + name;
         var form = document.getElementById(form_name);
+        if (form === null) return;
         var select = form.elements[0];
         select.options[0].selected = true;
     }
@@ -127,6 +130,7 @@ var Dashboard = {};
     function disableSelector(name, status) {
         var form_name = "form_dashboard_" + name;
         var form = document.getElementById(form_name);
+        if (form === null) return;
         for (var i = 0; i < form.elements.length; i++) {
             form.elements[i].disabled = status;
         }    
