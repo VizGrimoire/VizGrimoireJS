@@ -360,7 +360,12 @@ function DataSource(name, basic_metrics) {
         var repos_data = {};
         var self = this;
         $.each(repos, function(i,name) {
-            repos_data[name] = self.getReposMetricsData()[name];
+            var metrics = self.getReposMetricsData()[name];
+            if (!metrics) {
+                name = Report.getReposMap()[name];
+                metrics = self.getReposMetricsData()[name];
+            }
+            repos_data[name] = metrics;
         });
         Viz.displayBasicMetricRepos(metric_id, repos_data,
                 div_target, config, start, end);

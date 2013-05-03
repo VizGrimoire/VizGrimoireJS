@@ -89,7 +89,7 @@ var Dashboard = {};
                     }                
                 } else if (name === "projects") {
                     if (ds.getReposData().length === 0 ||
-                            ds.getName() !== "scm"//HACK until projects DS join
+                            ds.getName() === "mls"//HACK until projects DS join
                                 ) {
                         cleanSelector("metrics_"+ds.getName());
                         disableSelector("metrics_"+ds.getName(),true);
@@ -160,6 +160,8 @@ var Dashboard = {};
     }
     
     function cleanName(name) {
+//        var aux = name.split(".git");
+//        aux = aux[0];
         var aux = name.split("_");
         var label = aux.pop();
         if (label === "") label = aux.pop();
