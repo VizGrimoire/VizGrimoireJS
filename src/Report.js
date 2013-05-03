@@ -344,6 +344,40 @@ var Report = {};
                 $("#activity").html(html);
             }
         },
+        "activitymonth":  {
+            convert: function() {
+                var html = "<h1>Last Month</h1>";
+                $.each(Report.getDataSources(), function(index, DS) {
+                    var data = DS.getGlobalData();
+                    for (key in data) {
+                        // 7, 30, 90, 365
+                        var suffix = "_30";
+                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
+                            var metric = key.substring(0, key.length - suffix.length);
+                            html += metric + ":" + data[key] + "<br>";
+                        }
+                    };
+                });
+                $("#activitymonth").html(html);
+            }
+        },
+        "activityquarter":  {
+            convert: function() {
+                var html = "<h1>Last Quarter</h1>";
+                $.each(Report.getDataSources(), function(index, DS) {
+                    var data = DS.getGlobalData();
+                    for (key in data) {
+                        // 7, 30, 90, 365
+                        var suffix = "_90";
+                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
+                            var metric = key.substring(0, key.length - suffix.length);
+                            html += metric + ":" + data[key] + "<br>";
+                        }
+                    };
+                });
+                $("#activityquarter").html(html);
+            }
+        },
         // Reference card with info from all data sources
         "refcard": {
             convert: function() {
