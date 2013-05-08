@@ -53,7 +53,7 @@ function DataSource(name, basic_metrics) {
     };
     
     
-    this.demographics_file = this.data_dir + '/'+this.name+'-demographics-aging.json';
+    this.demographics_file = this.data_dir + '/'+this.name+'-demographics.json';
     this.getDemographicsFile = function() {
         return this.demographics_file;
     };
@@ -74,7 +74,7 @@ function DataSource(name, basic_metrics) {
     this.setDataDir = function(dataDir) {
         this.data_dir = dataDir;
         this.data_file = dataDir + '/'+this.name+'-evolutionary.json';
-        this.demographics_file = dataDir + '/'+this.name+'-demographics-aging.json';
+        this.demographics_file = dataDir + '/'+this.name+'-demographics.json';
         this.global_data_file = dataDir + '/'+this.name+'-static.json';
         this.top_data_file = dataDir + '/'+this.name+'-top.json';
         this.companies_data_file = dataDir+'/'+ this.name +'-companies.json';
@@ -722,8 +722,8 @@ function DataSource(name, basic_metrics) {
       $("#"+divid).append(html);
     };
 
-    this.displayDemographics = function(divid, file) {
-        Viz.displayDemographics(divid, this, file);
+    this.displayDemographics = function(divid, file, period) {
+        Viz.displayDemographics(divid, this, file, period);
     };
 
     this.displayTimeToFix = function(div_id, column, labels, title) {

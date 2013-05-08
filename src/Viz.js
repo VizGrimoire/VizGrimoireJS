@@ -579,42 +579,44 @@ var Viz = {};
         Flotr.draw(container, bdata, config);
     }
 
-    function displayDemographics(divid, ds, file) {
+    function displayDemographics(divid, ds, file, period) {
         if (!file) {
             var data = ds.getDemographicsData();
-            displayDemographicsChart(divid, ds, data);
+            displayDemographicsChart(divid, ds, data, period);
         } else {
             $.when($.getJSON(file)).done(function(history) {
-                displayDemographicsChart(divid, ds, history);
+                displayDemographicsChart(divid, ds, history, period);
             }).fail(function() {
                 alert("Can't load JSON file: " + file);
             });
         }
     }
 
-    function displayDemographicsChart(divid, ds, data) {
-        if (!data) return; 
+    function displayDemographicsChart(divid, ds, data, period_year) {
+        if (!data) return;
+        
+        if (!period_year) period = 365/4;
+        else period = 365*period_year;
 
-        var quarter = 365 / 4;
         // var data = ds.getDemographicsData();
-        var quarter_data = [];
+        var period_data = [];
         var labels = [], i;
         var config = {show_legend:false};
 
         for (i = 0; i < data.persons.age.length; i++) {
             var age = data.persons.age[i];
-            var index = parseInt(age / quarter, 10);
-            if (!quarter_data[index])
-                quarter_data[index] = 0;
-            quarter_data[index] += 1;
+            var index = parseInt(age / period, 10);
+            if (!period_data[index])
+                period_data[index] = 0;
+            period_data[index] += 1;
         }
 
-        for (i = 0; i < quarter_data.length; i++) {
-            labels[i] = "Q" + parseInt(i, 10);
+        for (i = 0; i < period_data.length; i++) {
+            labels[i] = "" + parseInt(i, 10);
         }
 
         if (data)
-            displayBasicChart(divid, labels, quarter_data,
+            displayBasicChart(divid, labels, period_data,
                     "bars", "", config, true, bitergiaColor);
     }
 

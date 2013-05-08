@@ -887,7 +887,9 @@ var Report = {};
             var divs = $('[id^="' + DS.getName() + '-demographics"]');
             for ( var i = 0; i < divs.length; i++) {
                 var file = $(divs[i]).data('file');
-                DS.displayDemographics(divs[i].id, file);
+                // period in years
+                var period = $(divs[i]).data('period');
+                DS.displayDemographics(divs[i].id, file, period);
             }
         });
     }
