@@ -47,6 +47,7 @@ var Viz = {};
     Viz.displayDemographics = displayDemographics;
     Viz.displayEvoSummary = displayEvoSummary;
     Viz.displayTimeToFix = displayTimeToFix;
+    Viz.displayTimeToAttention = displayTimeToAttention;
     Viz.filterYear = filterYear;
     Viz.filterDates = filterDates;
     Viz.displayMetricSubReportLines = displayMetricSubReportLines;
@@ -710,7 +711,15 @@ var Viz = {};
         displayRadar(div_id, metrics);
     }
     
+    function displayTimeToAttention(div_id, ttf_data, column, labels, title) {
+        displayTimeTo(div_id, ttf_data, column, labels, title);
+    }
+    
     function displayTimeToFix(div_id, ttf_data, column, labels, title) {
+        displayTimeTo(div_id, ttf_data, column, labels, title);
+    }
+
+    function displayTimeTo(div_id, ttf_data, column, labels, title) {       
         var history = ttf_data.data; 
         if (!history[column]) return;
         var new_history = {};

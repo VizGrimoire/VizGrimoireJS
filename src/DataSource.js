@@ -134,7 +134,8 @@ function DataSource(name, basic_metrics) {
         self.people = people;
     };
     
-    this.time_to_fix_data_file = this.data_dir + '/'+this.name+'-quantiles-month-time_to_fix_hour.json';
+    this.time_to_fix_data_file = this.data_dir + '/'+this.name 
+            + '-quantiles-month-time_to_fix_hour.json';
     this.getTimeToFixDataFile = function() {
         return this.time_to_fix_data_file;
     };
@@ -146,7 +147,20 @@ function DataSource(name, basic_metrics) {
         if (self === undefined) self = this;
         self.time_to_fix_data = data;
     };
-
+    
+    this.time_to_attention_data_file = this.data_dir + '/'+this.name 
+            + '-quantiles-month-time_to_attention_hour.json';
+    this.getTimeToAttentionDataFile = function() {
+        return this.time_to_attention_data_file;
+    };
+    this.time_to_attention_data = null;
+    this.getTimeToAttentionData = function() {
+        return this.time_to_attention_data;
+    };
+    this.setTimeToAttentionData = function(data, self) {
+        if (self === undefined) self = this;
+        self.time_to_attention_data = data;
+    };
         
     this.project = null;
     this.getProject = function() {
@@ -726,6 +740,12 @@ function DataSource(name, basic_metrics) {
         Viz.displayDemographics(divid, this, file, period);
     };
 
+    this.displayTimeToAttention = function(div_id, column, labels, title) {
+        var labels = true;
+        var title = "Time to Attention " + column;
+        Viz.displayTimeToAttention(div_id, this.getTimeToAttentionData(), column, labels, title);
+    };
+    
     this.displayTimeToFix = function(div_id, column, labels, title) {
         var labels = true;
         var title = "Time to Fix " + column;

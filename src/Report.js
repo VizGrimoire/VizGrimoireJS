@@ -783,6 +783,16 @@ var Report = {};
                     DS.displayTimeToFix(div.id, quantil);
                 });
             }
+            // Time to attention
+            var div_ttatt = DS.getName()+"-time-to-attention";
+            divs = $("."+div_ttatt); 
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var quantil = 'X'+$(this).data('quantil');
+                    div.id = DS.getName()+"-time-to-attention-"+quantil;
+                    DS.displayTimeToAttention(div.id, quantil);
+                });
+            }
         });
     }
 

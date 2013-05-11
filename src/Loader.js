@@ -65,6 +65,7 @@ var Loader = {};
         data_load_people();
         data_load_tops('authors');
         data_load_time_to_fix();
+        data_load_time_to_attention();
     };
     
     function data_load_companies() {
@@ -107,7 +108,13 @@ var Loader = {};
             data_load_file(DS.getTimeToFixDataFile(), DS.setTimeToFixData, DS);
         });
     };
-
+    
+    function data_load_time_to_attention() {
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(i, DS) {
+            data_load_file(DS.getTimeToAttentionDataFile(), DS.setTimeToAttentionData, DS);
+        });
+    };
 
     // TODO: It is better to have all the tops in the same file
     // we should move data load from Viz.displayTop here
