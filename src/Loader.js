@@ -339,7 +339,6 @@ var Loader = {};
             if (DS.getGlobalData() === null) {check = false; return false;}
             if (DS.getGlobalTopData() === null) {check = false; return false;}
             if (DS.getTimeToFixData() === null) {check = false; return false;}
-            if (DS.getTimeToAttendData() === null) {check = false; return false;}
         });
         return check;
     }
