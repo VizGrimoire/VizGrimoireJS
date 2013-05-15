@@ -461,6 +461,13 @@ function DataSource(name, basic_metrics) {
                 this.getReposMetricsData()[repo], div_id, config);
     };
     
+    this.displayBasicMetricsPeople = function (upeople_id, upeople_identifier, metrics, div_id, config) {
+        var json_file = "people-"+upeople_id+"-"+this.getName()+"-evolutionary.json";
+        $.getJSON(this.getDataDir()+"/"+json_file, null, function(history) {
+            Viz.displayBasicMetricsPeople(upeople_identifier, metrics, history, div_id, config);
+        });
+    };
+    
     this.displayBasicMetricsCountry = function (country, metrics, div_id, config) {
         Viz.displayBasicMetricsCountry(country, metrics,
                 this.getCountriesMetricsData()[country], div_id, config);
@@ -706,6 +713,20 @@ function DataSource(name, basic_metrics) {
     
     this.displayCountrySummary = function(divid, repo, ds) {
         this.displaySubReportSummary("countries",divid, repo, ds);
+    };
+    
+    // On demand file loading for people
+    this.displayPeopleSummary = function(divid, upeople_id, 
+            upeople_identifier, ds) {
+        var json_file = "people-"+upeople_id+"-"+ds.getName()+"-static.json";
+        $.getJSON(this.getDataDir()+"/"+json_file, null, function(history) {
+            html = "<h1>"+upeople_identifier+"</h1>";
+            html += "Start: "+history.first_date+" End: "+ history.last_date;
+            if (ds.getName() == "scm") html += " Commits:" + history.commits;
+            else if (ds.getName() == "its") html += " Closed:" + history.closed;
+            else if (ds.getName() == "mls") html += " Sent:" + history.sent;
+            $("#"+divid).append(html);
+        });
     };
 
     this.displayCompaniesSummary = function(divid, ds) {

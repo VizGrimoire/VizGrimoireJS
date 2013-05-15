@@ -37,6 +37,7 @@ var Viz = {};
     Viz.displayBasicMetricCompaniesHTML = displayBasicMetricCompaniesHTML;
     Viz.displayBasicMetricSubReportStatic = displayBasicMetricSubReportStatic;
     Viz.displayBasicMetricsCompany = displayBasicMetricsCompany;
+    Viz.displayBasicMetricsPeople = displayBasicMetricsPeople;
     Viz.displayBasicMetricsRepo = displayBasicMetricsRepo;
     Viz.displayBasicMetricRepos = displayBasicMetricRepos;
     Viz.displayBasicMetricsCountry = displayBasicMetricsCountry;
@@ -126,8 +127,11 @@ var Viz = {};
         for ( var i = 0; i < history[metric_id].length; i++) {
             var metric_value = history[metric_id][i];
             var doer_value = history[doer][i];
-            table += "<tr><td>" + hideEmail(doer_value) + "</td><td>"
-                    + metric_value + "</td></tr>";
+            var doer_id = history.id[i];
+            table += "<tr><td>";
+            table += "<a href='people.html?id="+doer_id+"&name="+doer_value+"'>";
+            table += hideEmail(doer_value) + "</a></td><td>";
+            table += metric_value + "</td></tr>";
         }
         table += "</tbody></table>";
 
@@ -1174,6 +1178,12 @@ var Viz = {};
     function displayBasicMetricsRepo (repo, metrics, data, div_id, config) {
         config = checkBasicConfig(config);
         var title = repo;
+        displayMetricsLines(div_id, metrics, data, title, config);
+    }
+    
+    function displayBasicMetricsPeople (upeople_identifier, metrics, data, div_id, config) {
+        config = checkBasicConfig(config);
+        var title = upeople_identifier;
         displayMetricsLines(div_id, metrics, data, title, config);
     }
     
