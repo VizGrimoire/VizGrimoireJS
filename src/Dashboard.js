@@ -190,8 +190,11 @@ var Dashboard = {};
             // Old ids format in JSON using months
             //start = year*12;
             // New format: days since 1970-01-01
-            start = (new Date(year.toString()).getTime())/(1000*60*60*24);
-            end = (new Date((year+1).toString()).getTime())/(1000*60*60*24);                
+            // start = (new Date(year.toString()).getTime())/(1000*60*60*24);
+            // end = (new Date((year+1).toString()).getTime())/(1000*60*60*24);
+            // New format: seconds since 1970-01-01
+            start = (new Date(year.toString()).getTime())/1000;
+            end = (new Date((year+1).toString()).getTime())/1000;
         }
         if (release === "") release = undefined;
         else {
@@ -289,25 +292,25 @@ var Dashboard = {};
             convert: function() {
                 var name = "releases";
                 var div = $('#filter_releases');
-                var day_msec = 1000*60*60*24;
+                var msec = 1000;
                 var releases = {
                         // Apr 2011-Sep 2011
                         diablo: {
                             // start: 2011*12+4,
-                            start: (new Date('2011-04').getTime())/(day_msec),
-                            end: (new Date('2011-09').getTime())/(day_msec),                            
+                            start: (new Date('2011-04').getTime())/(msec),
+                            end: (new Date('2011-09').getTime())/(msec),                            
                         },
                         essex: {
-                            start: (new Date('2011-09').getTime())/(day_msec),
-                            end: (new Date('2012-04').getTime())/(day_msec),                            
+                            start: (new Date('2011-09').getTime())/(msec),
+                            end: (new Date('2012-04').getTime())/(msec),                            
                         },
                         folsom: {
-                            start: (new Date('2012-04').getTime())/(day_msec),
-                            end: (new Date('2012-09').getTime())/(day_msec),                            
+                            start: (new Date('2012-04').getTime())/(msec),
+                            end: (new Date('2012-09').getTime())/(msec),                            
                         },
                         grizzly: {
-                            start: (new Date('2012-09').getTime())/(day_msec),
-                            end: (new Date('2013-04').getTime())/(day_msec),
+                            start: (new Date('2012-09').getTime())/(msec),
+                            end: (new Date('2013-04').getTime())/(msec),
                         }
                 };                
                 var html = "<form id='form_dashboard_"+name+"'>";
