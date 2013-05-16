@@ -747,7 +747,7 @@ var Viz = {};
             new_history.id.push(i);
         }
         // Viz.displayBasicLines(div_id, new_history, metrics[0], labels, title);
-        var config = {show_legend: true};
+        var config = {show_legend: true, show_labels: true};
         displayMetricsLines(div_id, metrics, new_history, column, config);
     }
 
