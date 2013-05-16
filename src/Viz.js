@@ -726,25 +726,29 @@ var Viz = {};
         displayTimeTo(div_id, ttf_data, column, labels, title);
     }
 
-    function displayTimeTo(div_id, ttf_data, column, labels, title) {       
+    function displayTimeTo(div_id, ttf_data, column, labels, title) {
+        // We can have several columns (metrics)
+        var metrics = column.split(",");
         var history = ttf_data.data; 
-        if (!history[column]) return;
+        if (!history[metrics[0]]) return;
         var new_history = {};
         new_history.date = history.date;
         // We prefer the data in days, not hours
         $.each(history, function(name, data) {
-            if (name != column) return;
+            if ($.inArray(name, metrics) === -1) return;
             new_history[name] = [];
             for (var i=0; i<data.length; i++) {
-                new_history[name].push(parseInt(data[i])/24);
+                new_history[name].push((parseInt(data[i])/24).toFixed(2));
             }            
         });
         //  We need and id column
         new_history.id=[];
-        for (var i=0; i<history[column].length;i++) {
+        for (var i=0; i<history[metrics[0]].length;i++) {
             new_history.id.push(i);
         }
-        Viz.displayBasicLines(div_id, new_history, column, labels, title);
+        // Viz.displayBasicLines(div_id, new_history, metrics[0], labels, title);
+        var config = {show_legend: true};
+        displayMetricsLines(div_id, metrics, new_history, column, config);
     }
 
     // Each metric can have several top: metric.period
