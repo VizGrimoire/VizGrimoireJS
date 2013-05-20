@@ -1045,8 +1045,8 @@ var Viz = {};
             yTickFormatter : function(n) {
                 return n + '';
             },
-            // Initial selection
-            selection : {
+            // Initial selection: disabled
+            selection_disabled : {
                 data : {
                     x : {
                         min : dates[0][0],
@@ -1393,11 +1393,12 @@ var Viz = {};
         });        
     };
 
-    function displayEvoSummary(div_id, relative) {
+    function displayEvoSummary(div_id, relative, legend_show) {
         var projects_full_data = Report.getProjectsDataSources();
         var config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, projects_full_data, null,
                 config.summary_hide);
+        options.legend_show = legend_show;
         if (relative) {
             // TODO: Improve main metric selection. Report.getMainMetric()
             $.each(projects_full_data, function(project, data) {

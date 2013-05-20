@@ -837,7 +837,8 @@ var Report = {};
     function convertEnvision() {
         if ($("#all-envision").length > 0) {
             var relative = $('#all-envision').data('relative');
-            Viz.displayEvoSummary('all-envision', relative);
+            var legend = $('#all-envision').data('legend-show');
+            Viz.displayEvoSummary('all-envision', relative, legend);
         }
         var already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {

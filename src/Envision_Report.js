@@ -229,8 +229,10 @@
 
         defaults.summary.data = data.summary;
 
-        // SHOW MOUSE LEGEND AND LEGEND
+        // SHOW MOUSE LEGEND AND LEGEND        
         defaults[main_metric].config.legend.show = true;
+        if (options.legend_show === false)
+            defaults[main_metric].config.legend.show = false;
         defaults[main_metric].config.mouse.trackFormatter = options.trackFormatter;
         if (options.xTickFormatter) {
             defaults.summary.config.xaxis.tickFormatter = options.xTickFormatter;
