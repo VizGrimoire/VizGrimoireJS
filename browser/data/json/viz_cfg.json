@@ -2,6 +2,6 @@
 "scm_hide":["*branches", "*files", "repositories"],
 "its_hide":["*opened", "*changed", "*openers", "*changers"],
 "mls_hide":["*senders"],
-"summary_hide":["committers","branches", "files", "repositories","opened", "openers", "changed", "changers"],
+"summary_hide":["authors","committers","branches","added_lines","removed_lines","files", "repositories","closed","closers","*opened", "openers", "changed", "changers","*sent","senders"],
 "mls_hide_lists":["<allura-users.incubator.apache.org>"]
 }

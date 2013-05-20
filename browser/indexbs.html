@@ -8,7 +8,9 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap.css" rel="stylesheet">
+    <!-- <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css" /> -->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/viz.css" />
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
       body {
         padding-top: 60px;
@@ -27,8 +29,8 @@
         }
       }
     </style>
-    <link href="http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css" rel="stylesheet">
-
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="custom.css" />    
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="../assets/js/html5shiv.js"></script>
@@ -101,80 +103,48 @@
         </div>
       </div>
     </div>
-
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
+        <div class="span2">
           <div class="well sidebar-nav">
             <div id="refcard"></div>
-          
-<!--             <ul class="nav nav-list">
-              <li class="nav-header">Sidebar</li>
-              <li class="active"><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li class="nav-header">Sidebar</li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-              <li><a href="./indexbs_files/indexbs.html">Link</a></li>
-            </ul>
- -->          </div><!--/.well -->
+          </div><!--/.well -->
         </div><!--/span-->
-        <div class="span9">
-          <div class="hero-unit">
-            <h1>Hello, world!</h1>
-            <p>This is a template for a simple marketing or informational website. It includes a large callout called the hero unit and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
-            <p><a href="./indexbs_files/indexbs.html" class="btn btn-primary btn-large">Learn more »</a></p>
+        <div class="span10">
+          <div class="row-fluid">
+          <div class="hero-unit" style="height:400px;">
+            <h4>General activity</h4>
+            <div id="all-envision"></div>
           </div>
           <div class="row-fluid">
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+                <div id="scm-top"></div>
             </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+                <div id="its-top"></div>
             </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+                <div id="mls-top"></div>
             </div><!--/span-->
           </div><!--/row-->
           <div class="row-fluid">
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+	            <div id="scm-commits-flotr2"></div>
+	            <div id="scm-authors-flotr2"></div>            
             </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+	            <div id="its-closed-flotr2"></div>
+	            <div id="its-closers-flotr2"></div>            
             </div><!--/span-->
-            <div class="span4">
-              <h2>Heading</h2>
-              <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-              <p><a class="btn" href="./indexbs_files/indexbs.html">View details »</a></p>
+            <div class="span3">
+                <div id="mls-sent-flotr2"></div>
+                <div id="mls-senders-flotr2"></div>
             </div><!--/span-->
           </div><!--/row-->
         </div><!--/span-->
       </div><!--/row-->
-
-      <hr>
-
       <footer>
-        <p>© Company 2013</p>
+        <div id="footer"></div>
       </footer>
 
     </div><!--/.fluid-container-->
@@ -183,7 +153,16 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>    
-    <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>  
+    <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+<!--     <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script> -->
+    <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/DataSource.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Loader.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>                 
 
 </body></html>

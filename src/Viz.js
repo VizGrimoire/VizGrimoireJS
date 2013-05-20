@@ -158,10 +158,10 @@ var Viz = {};
         var top_metric_id = metric.column;
         var div_graph = '';
         var new_div = '';
-        new_div += "<div class='info-pill'>";
-        new_div += "<h1>";
+        // new_div += "<div class='info-pill'>";
+        new_div += "<h4>";
         // if (project) new_div += project +" ";
-        new_div += "Top " + top_metric_id + " " + metric_period + " </h1>";
+        new_div += "Top " + top_metric_id + " " + metric_period + " </h4>";
         if (graph) {
             div_graph = "top-" + graph + "-" + doer + "-";
             div_graph += metric_id + "-" + metric_period;
@@ -170,7 +170,7 @@ var Viz = {};
         }
 
         new_div += table;
-        new_div += "</div>";
+        // new_div += "</div>";
 
         var div = $("#" + div_id);
         div.append(new_div);
@@ -1157,8 +1157,9 @@ var Viz = {};
     function displayBasicHTML(data, div_target, title, basic_metrics, hide,
             config, projs) {
         config = checkBasicConfig(config);
-        var new_div = '<div class="info-pill">';
-        new_div += '<h1>' + title + '</h1></div>';
+        //var new_div = '<div class="info-pill">';
+        new_div += '<h4>' + title + '</h4>';
+        // new_div += '</div>';
         $("#" + div_target).append(new_div);
         for ( var id in basic_metrics) {
             var metric = basic_metrics[id];
@@ -1252,11 +1253,11 @@ var Viz = {};
         if (!config.show_title)
             title = '';
 
-        var new_div = '<div class="info-pill">';
-        $("#" + div_target).append(new_div);
+        //var new_div = '<div class="info-pill">';
+        //$("#" + div_target).append(new_div);
         new_div = '<div id="flotr2_' + metric.column
-                + '" class="info-pill m0-box-div">';
-        new_div += '<h1>' + metric.name + '</h1>';
+                + '" class="m0-box-div">';
+        new_div += '<h4>' + metric.name + '</h4>';
         if (config.realtime) {            
             new_div += '<div class="basic-metric-html" id="' + metric.divid;
             new_div += "_" + div_target;

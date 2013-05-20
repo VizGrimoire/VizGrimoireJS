@@ -1,0 +1,21 @@
+.envision-component-container {
+    width: 600px;
+    height : 80px;  
+}
+
+.envision-component-container.envision-first {
+    width: 600px;
+    height : 80px;         
+}
+
+/* Bootstrap */ 
+
+.hero-unit {
+	padding: 30px;
+}
+
+.center {
+     float: none;
+     margin-left: auto;
+     margin-right: auto;
+}
