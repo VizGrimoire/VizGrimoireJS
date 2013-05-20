@@ -51,7 +51,7 @@
 /* Mouse Tracker */
 .envision-component-container.envision-first .flotr-mouse-value {
     font-size: 12px;
-    display:inline;    
+    display: inline;    
 }
 
 .envision-component-container .flotr-mouse-value
@@ -60,6 +60,8 @@
 }
 
 /* Flotr2 */
+
+
 
 .m0-box-div {
     height: 130px;
@@ -115,8 +117,9 @@
     font-size: 0.8em
 }
 
-.graph .flotr-grid-label {
-    font-size: 0.6em
+.flotr-mouse-value
+ {
+    font-size: 0.8em
 }
 
 .graph {
