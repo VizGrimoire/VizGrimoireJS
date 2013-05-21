@@ -8,6 +8,17 @@
     height : 80px;         
 }
 
+.basic-metric-html {
+	width: 150px;
+}
+
+.m0-box-div {
+    height: 130px;
+    float: left;
+    margin-bottom: 20px;   
+}
+
+
 /* Bootstrap */ 
 
 .hero-unit {

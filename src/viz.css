@@ -61,10 +61,8 @@
 
 /* Flotr2 */
 
-
-
 .m0-box-div {
-    height: 130px;
+    height: 130px;    
 }
 
 .m0-box {
@@ -166,6 +164,6 @@
 #footer {
     overflow: hidden;
     clear: both;
-    padding: 10px 0;
+    padding: 20px 0;
     /* border-top: 1px dashed #000; */
 }

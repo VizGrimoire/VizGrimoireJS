@@ -294,6 +294,20 @@ var Report = {};
                 });                
             }
         },
+        "navbar": {
+            convert: function() {
+                $.get(html_dir+"navbar", function(navigation) {
+                    $("#navbar").html(navigation);
+                    var querystr = window.location.search.substr(1);
+                    if (querystr && querystr.indexOf("data_dir")!==-1) {
+                        var $links = $("#navbar a");
+                        $.each($links, function(index, value){
+                            value.href += "?"+window.location.search.substr(1);
+                        });
+                    }
+                });                
+            }
+        },
         "header": {
             convert: function() {
                 $.get(html_dir+"header.html", function(header) {

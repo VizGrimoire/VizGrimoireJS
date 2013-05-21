@@ -1158,7 +1158,7 @@ var Viz = {};
             config, projs) {
         config = checkBasicConfig(config);
         //var new_div = '<div class="info-pill">';
-        new_div += '<h4>' + title + '</h4>';
+        var new_div = '<h4>' + title + '</h4>';
         // new_div += '</div>';
         $("#" + div_target).append(new_div);
         for ( var id in basic_metrics) {
