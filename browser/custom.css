@@ -1,10 +1,10 @@
 .envision-component-container {
-    width: 600px;
+    width: 500px;
     height : 80px;  
 }
 
 .envision-component-container.envision-first {
-    width: 600px;
+    width: 500px;
     height : 80px;         
 }
 
@@ -18,15 +18,25 @@
     margin-bottom: 20px;   
 }
 
-.scm-flotr2-metrics {
+.scm-flotr2-metrics,
+.its-flotr2-metrics
+{
 	height: 130px;
 }
 
 .scm-flotr2-countries-static,
 .scm-flotr2-companies-static,
-.scm-flotr2-repos-static
+.scm-flotr2-repos-static,
+.its-flotr2-countries-static,
+.its-flotr2-companies-static,
+.its-flotr2-repos-static,
+.its-time-to-fix
  {
     height: 200px;
+}
+
+#its-envision {
+	height: 450px;
 }
 
 .scm-flotr2-companies

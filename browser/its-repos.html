@@ -1,84 +1,83 @@
 <!DOCTYPE html>
+<!-- saved from url=(0055)http://twitter.github.io/bootstrap/examples/fluid.html# -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>Bootstrap, from Twitter</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-<html>
-    <head>
-        <meta name="keywords" content="bitergia, floss, libresoft, oss, linux, research, reports, free software, software analysis" />
-        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, maximum-scale=1.0">
-        <meta name="description" content="Bitergia company website" />
-	    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css" />
-        <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
-        <title>WebKit Report by Bitergia: Information about all repositories</title>
-        <style type="text/css">
-        </style>
-    </head>
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/src/viz.css" />
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="custom.css" />    
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
 
-    <body>
-        <div id="wrapper">
-            <div id="header"></div>
-            <div id="navigation" style="float:left"></div>
-            <div style="float:left">
-    			<div style="float:left">
-    				<div id="info-pill">
-    					<h1 style="font-size:1.5em;font-weight: bold;">Information about all repositories</h1>
-					<p>Some charts and tables for all repositories in the project, and a summary of the evolution of 
-                    their participation with links to more detailed information per repository.</p>
-    				</div>
-                    <div>
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="favicon.png">
+  </head>
 
-                        <div id="info-pill" style="width:360px;height:170px;float:left;margin-bottom:15px;margin-righ:15px">
-                             <div style="float:left;width:350px;height:150px" 
-                                  class="its-flotr2-metrics" data-metrics="repositories" data-legend="false"></div>
-                             <i><b>Active Tickets repositories per month</b></i><a href="notes.html#note:charts:repositories:repositories"><img src="qm_15.png"></a>
-                        </div>       
-
-                         <div class="info-pill" style="width:360px;height:170px;float:left;margin-bottom:15px;">
-                             <div style="float:left;margin:10px;width:350px;height:150px" id="its-repos-summary">
-                             </div>
-                        </div>
-                    </div>
-                                    
-                     <div>
-                        <div id="info-pill" style="width:370px;height:270px;float:left;margin-bottom:25px;margin-righ:25px">
-                            <div class="its-flotr2-repos-static" 
-                                 data-metric="closed" data-limit="10" data-order-by="closed"
-                                 style="width:350px;height:250px;margin-right:10px;float:left;margin-bottom:10px"></div>
-                            <i><b>Closed per repository (aggregated)</b><a href="notes.html#note:charts:repositories:closed"><img src="qm_15.png"></a></i>
-                        </div>
-
-                        <div id="info-pill" style="width:370px;height:270px;float:left;margin-bottom:25px;margin-righ:25px">
-                            <div class="its-flotr2-repos-static"
-                                 data-metric="closers" data-limit="10" data-order-by="closed"
-                                 style="width:350px;height:250px;margin-right:10px;float:left;margin-bottom:10px"></div>
-                            <i><b>Closers per repository (aggregated)</b><a href="notes.html#note:charts:repositories:closers"><img src="qm_15.png"></a></i>
-                        </div>
-                    </div>
-                </div>
-                <div style="clear:both"></div>
-                <div style="width=715px;padding:20px;">
-                    <h1 style="font-weight: bold;">List of repositories</h1>
-                    <div id="its-flotr2-repos-nav" data-order-by="closed" style="width:700px;"></div>
-                </div>
-                
-                <div>
-                    <div class="its-flotr2-repos-list" 
-                        data-metrics="closed,closers" data-order-by="closed"
-                        style="width:700px; margin-right:10px;"></div>
-                </div>
-            </div>
-		<div id="footer"></div>
-
+  <body>
+    <div id="navbar"></div>
+    <div class="container-fluid">
+      <div id="info" class="row-fluid">
+        <h4>Information about all repositories</h4>
+        Some charts and tables for top repositories in the project, and a summary of the evolution of 
+        their participation with links to more detailed information per repository.
+      </div><!--/row-->
+      <div id="summary-evol" class="row-fluid">
+        <div class="span6">
+		<div class="its-flotr2-metrics" data-metrics="repositories" data-legend="false"></div>
+		<i><b>Active repositories per month</b></i><a href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
 		</div>
-        <!-- <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script> -->
-        <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/DataSource.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Loader.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>
-    </body>
-</html>
+		<div class="span6">       		
+		<div id="its-repos-summary"></div>
+		</div>      
+      </div><!--/row-->
+      <div id="summary-static" class="row-fluid">
+        <div class="span6">
+	        <div class="its-flotr2-repos-static" 
+	            data-metric="closed" data-limit="10" data-order-by="closed"></div>
+	        <i><b>Closed per repository (aggregated)</b><a href="notes.html#note:charts:repositories:closed">
+	        <img src="qm_15.png"></a></i>
+        </div>
+        <div class="span6">
+            <div class="its-flotr2-repos-static"
+            data-metric="closers" data-limit="10" data-order-by="closed"></div>
+            <i><b>Closers per repository (aggregated)</b><a href="notes.html#note:charts:repositories:closers">
+            <img src="qm_15.png"></a></i>        
+        </div>
+      </div><!--/row-->
+      <div id="nav" class="row-fluid">
+        <h4 style="font-weight: bold;">List of repositories</h4>
+        <div id="its-flotr2-repos-nav" data-order-by="closed"></div>      
+      </div><!--/row-->
+      <div id="list" class="row-fluid">
+        <div class="its-flotr2-repos-list" 
+        data-metrics="closed,closers" data-order-by="closed""></div>
+      </div><!--/row-->      
+      <footer>
+        <div id="footer"></div>
+      </footer>
+    </div><!--/.fluid-container-->
+
+    <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+   <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>                    
+</body></html>
