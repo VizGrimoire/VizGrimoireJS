@@ -18,6 +18,13 @@
     margin-bottom: 20px;   
 }
 
+.scm-flotr2-metrics {
+	height: 130px;
+}
+
+.scm-flotr2-countries-static {
+    height: 200px;
+}
 
 /* Bootstrap */ 
 
