@@ -296,7 +296,7 @@ var Report = {};
         },
         "navbar": {
             convert: function() {
-                $.get(html_dir+"navbar", function(navigation) {
+                $.get(html_dir+"navbar.html", function(navigation) {
                     $("#navbar").html(navigation);
                     var querystr = window.location.search.substr(1);
                     if (querystr && querystr.indexOf("data_dir")!==-1) {
