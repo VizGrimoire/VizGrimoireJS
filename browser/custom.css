@@ -19,7 +19,8 @@
 }
 
 .scm-flotr2-metrics,
-.its-flotr2-metrics
+.its-flotr2-metrics,
+.mls-flotr2-metrics
 {
 	height: 130px;
 }
@@ -30,13 +31,21 @@
 .its-flotr2-countries-static,
 .its-flotr2-companies-static,
 .its-flotr2-repos-static,
-.its-time-to-fix
+.mls-flotr2-countries-static,
+.mls-flotr2-companies-static,
+.mls-flotr2-repos-static,
+.its-time-to-fix,
+.mls-time-to-attention
  {
     height: 200px;
 }
 
 #its-envision {
 	height: 450px;
+}
+
+#mls-envision {
+    height: 250px;
 }
 
 .scm-flotr2-companies
