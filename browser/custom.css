@@ -22,8 +22,16 @@
 	height: 130px;
 }
 
-.scm-flotr2-countries-static {
+.scm-flotr2-countries-static,
+.scm-flotr2-companies-static,
+.scm-flotr2-repos-static
+ {
     height: 200px;
+}
+
+.scm-flotr2-companies
+ {
+    height: 300px;
 }
 
 /* Bootstrap */ 
