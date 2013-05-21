@@ -53,6 +53,10 @@
     height: 300px;
 }
 
+.demographic-bars {
+    width:400px;height:200px;
+}
+
 /* Bootstrap */ 
 
 .hero-unit {
