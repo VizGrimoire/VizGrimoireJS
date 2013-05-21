@@ -161,6 +161,19 @@
     <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>                 
+    <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>
+    <script type="text/javascript">
+        function resizedw(){
+            /* Report.convertGlobal();
+            Report.convertStudies(); */
+            location.reload();
+        }
+        var resized;
+        $(window).resize(function () {
+            clearTimeout(resized);
+            resized = setTimeout(resizedw, 100);
+        });
+    </script>
+                     
 
 </body></html>

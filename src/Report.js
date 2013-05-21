@@ -1035,3 +1035,16 @@ $(document).ready(function() {
         $("body").css("cursor", "progress");
     });
 });
+
+// TODO: Hack to reload all window. Do it right only for viz!
+function resizedw(){
+    /* Report.convertGlobal();
+    Report.convertStudies(); */
+    location.reload();
+}
+var resized;
+$(window).resize(function () {
+    clearTimeout(resized);
+    resized = setTimeout(resizedw, 100);
+});
+
