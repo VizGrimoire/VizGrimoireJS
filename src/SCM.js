@@ -149,7 +149,7 @@ function SCM() {
             if (label === '') label = aux.pop();
         }
 
-        var html = "<h1>"+label+"</h1>";
+        var html = "<h4>"+label+"</h4>";
         var id_label = {    
             commits:'Commits',
             committers:'Committers',

@@ -68,7 +68,7 @@ function MLS() {
             label = aux.pop();
             if (label === '') label = aux.pop();
         }
-        var html = "<h1>" + label + "</h1>";
+        var html = "<h4>" + label + "</h4>";
         var id_label = {
             sent: "Sent",
             senders: "Senders",
@@ -243,8 +243,8 @@ function MLS() {
                 continue;
             var new_div = "<div class='info-pill m0-box-div flotr2-"
                     + metric.column + "'>";
-            new_div += "<h1>" + metric.name + " " + MLS.displayMLSListName(l)
-                    + "</h1>";
+            new_div += "<h4>" + metric.name + " " + MLS.displayMLSListName(l)
+                    + "</h4>";
             new_div += "<div id='" + metric.divid + "_" + l
                     + "' class='m0-box flotr2-" + metric.column + "'></div>";
             if (config.show_desc)

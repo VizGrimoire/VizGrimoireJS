@@ -40,8 +40,18 @@
     height: 200px;
 }
 
-.scm-flotr2-metrics-company {
-	height: 250px;
+.scm-flotr2-metrics-country,
+.its-flotr2-metrics-country,
+.mls-flotr2-metrics-country,
+.scm-flotr2-metrics-repo,
+.its-flotr2-metrics-repo,
+.mls-flotr2-metrics-repo,
+.scm-flotr2-metrics-company,
+.scm-flotr2-metrics-people,
+.its-flotr2-metrics-people,
+.mls-flotr2-metrics-people
+{
+	height: 200px;
 }
 
 #its-envision {

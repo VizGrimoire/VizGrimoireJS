@@ -720,7 +720,7 @@ function DataSource(name, basic_metrics) {
             upeople_identifier, ds) {
         var json_file = "people-"+upeople_id+"-"+ds.getName()+"-static.json";
         $.getJSON(this.getDataDir()+"/"+json_file, null, function(history) {
-            html = "<h1>"+upeople_identifier+"</h1>";
+            html = "<h4>"+upeople_identifier+"</h4>";
             html += "Start: "+history.first_date+" End: "+ history.last_date;
             if (ds.getName() == "scm") html += " Commits:" + history.commits;
             else if (ds.getName() == "its") html += " Closed:" + history.closed;

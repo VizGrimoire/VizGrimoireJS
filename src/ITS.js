@@ -99,7 +99,7 @@ function ITS() {
         var label = item;
         if (item.lastIndexOf("http") === 0)
             label = item.substr(item.lastIndexOf("_") + 1);
-        var html = "<h1>" + label + "</h1>";
+        var html = "<h4>" + label + "</h4>";
         var id_label = {
             opened : "Opened",
             openers : "Openers",
