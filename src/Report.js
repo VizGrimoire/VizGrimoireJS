@@ -987,6 +987,8 @@ var Report = {};
             $.each(projects_data, function (name, project) {
                 if (project.dir === ds.getDataDir()) {                    
                     if (prjs_dss[name] === undefined) prjs_dss[name] = [];
+                    // Support data reloading
+                    if ($.inArray(ds, prjs_dss[name]) > -1) return false;
                     ds.setProject(name);
                     prjs_dss[name].push(ds);
                     return false;
