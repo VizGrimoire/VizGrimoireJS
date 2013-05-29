@@ -804,10 +804,11 @@ function DataSource(name, basic_metrics) {
         }
     };
     
-    this.envisionEvo = function(div_id, history, relative) {
+    this.envisionEvo = function(div_id, history, relative, legend_show) {
         config = Report.getConfig();
         var options = Viz.getEnvisionOptions(div_id, history, this.getName(),
                 Report.getConfig()[this.getName()+"_hide"]);
+        options.legend_show = legend_show;
         
         if (relative)
             Viz.addRelativeValues(options.data, this.getMainMetric());
@@ -815,9 +816,9 @@ function DataSource(name, basic_metrics) {
         new envision.templates.Envision_Report(options, [ this ]);
     };
     
-    this.displayEvo = function(divid, relative) {
+    this.displayEvo = function(divid, relative, legend_show) {
         var projects_full_data = Report.getProjectsDataSources();
         
-        this.envisionEvo(divid, projects_full_data, relative);
+        this.envisionEvo(divid, projects_full_data, relative, legend_show);
     };    
 }

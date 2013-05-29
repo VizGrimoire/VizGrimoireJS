@@ -863,16 +863,17 @@ var Report = {};
             if ($("#" + div_envision).length > 0) {
                 if ($.inArray(DS.getName(), already_shown) !== -1)
                     return;
+                var legend = $('#'+div_envision).data('legend-show');
                 var relative = $('#'+div_envision).data('relative');
                 if (DS instanceof MLS) {
-                    DS.displayEvo(div_envision, relative);
+                    DS.displayEvo(div_envision, relative, legend);
                     // DS.displayEvoAggregated(div_envision);
                     if (Report.getProjectsList().length === 1)
                         if ($("#" + DS.getName() + "-envision"+"-lists").length > 0)
                             DS.displayEvoListsMain
                                 (DS.getName() + "-envision"+"-lists");
                 } else if ($.inArray(DS.getName(), already_shown) === -1) { 
-                    DS.displayEvo(div_envision, relative); 
+                    DS.displayEvo(div_envision, relative, legend); 
                 }
                 already_shown.push(DS.getName());
             }
