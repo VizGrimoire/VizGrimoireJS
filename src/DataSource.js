@@ -463,8 +463,11 @@ function DataSource(name, basic_metrics) {
     
     this.displayBasicMetricsPeople = function (upeople_id, upeople_identifier, metrics, div_id, config) {
         var json_file = "people-"+upeople_id+"-"+this.getName()+"-evolutionary.json";
-        $.getJSON(this.getDataDir()+"/"+json_file, null, function(history) {
+        $.when($.getJSON(this.getDataDir()+"/"+json_file)).done(function(history) {
             Viz.displayBasicMetricsPeople(upeople_identifier, metrics, history, div_id, config);
+        }).fail(function() {
+            $("#people").empty();
+            $("#people").html('No data available for people');
         });
     };
     
