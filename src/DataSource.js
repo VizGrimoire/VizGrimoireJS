@@ -737,9 +737,12 @@ function DataSource(name, basic_metrics) {
         var data = ds.getGlobalData();
 
         html += "Total companies: " + data.companies +"<br>";
-        html += "Companies in 2006: " + data.companies_2006+"<br>";
-        html += "Companies in 2009: " + data.companies_2009+"<br>";
-        html += "Companies in 2012: " + data.companies_2012+"<br>";
+        if (data.companies_2006)
+            html += "Companies in 2006: " + data.companies_2006+"<br>";
+        if (data.companies_2009)
+            html += "Companies in 2009: " + data.companies_2009+"<br>";
+        if (data.companies_2012)
+            html += "Companies in 2012: " + data.companies_2012+"<br>";
 
         $("#"+divid).append(html);
     };
