@@ -535,7 +535,7 @@ var Report = {};
 
             var div_nav = DS.getName()+"-flotr2-companies-nav";
             if ($("#"+div_nav).length > 0) {
-                var metric = $("#"+div_nav).data('sort-metric');
+                var metric = $("#"+div_nav).data('order-by');
                 DS.displayCompaniesNav(div_nav, metric);
             }
             var divs_comp_list = DS.getName()+"-flotr2-companies-list";
@@ -543,7 +543,7 @@ var Report = {};
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
-                    var sort_metric = $(this).data('sort-metric');
+                    var sort_metric = $(this).data('order-by');
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-companies-list";
                     DS.displayCompaniesList(metrics.split(","),div.id,
                             config_metric, sort_metric);
