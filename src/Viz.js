@@ -1238,6 +1238,7 @@ var Viz = {};
                 label = aux.pop();
                 if (label === '') label = aux.pop();
                 // item = item.substr(item.lastIndexOf("_") + 1);
+                label = label.replace('buglist.cgi?product=','');
             }
             else if (item.lastIndexOf("<") === 0)
                 label = MLS.displayMLSListName(item);

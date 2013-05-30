@@ -190,7 +190,8 @@ var Loader = {};
             var repos = DS.getReposData();
             if (repos === null) return;
             $.each(repos, function(i, repo) {
-                var file = DS.getDataDir()+"/"+repo+"-";
+                repo_uri = encodeURIComponent(repo);
+                var file = DS.getDataDir()+"/"+repo_uri+"-";
                 file_evo = file + DS.getName()+"-evolutionary.json";
                 $.when($.getJSON(file_evo)).done(function(history) {
                     DS.addRepoMetricsData(repo, history, DS);
