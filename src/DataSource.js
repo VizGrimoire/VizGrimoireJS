@@ -578,7 +578,8 @@ function DataSource(name, basic_metrics) {
     
     this.displayReposNav = function (div_nav, sort_metric, scm_and_its) {
         var nav = "<span id='nav'></span>";
-        var sorted_repos = this.sortRepos(sort_metric);        
+        var sorted_repos = this.sortRepos(sort_metric);
+        var self = this;
         $.each(sorted_repos, function(id, repo) {
             if (scm_and_its && (!(Report.getReposMap()[repo]))) return;
             nav += "<a href='#" + repo + "-nav'>";
@@ -587,6 +588,9 @@ function DataSource(name, basic_metrics) {
                 var aux = repo.split("_");
                 label = aux.pop();
                 if (label === '') label = aux.pop();
+                if (self.getName() === "its") {
+                    label = label.replace('buglist.cgi?product=','');
+                }
                 // label = repo.substr(repo.lastIndexOf("_") + 1);
             }
             else if (repo.lastIndexOf("<") === 0)
@@ -652,7 +656,7 @@ function DataSource(name, basic_metrics) {
         		else 
         		    list += ds.getName()+"-";
         		list += "repository.html";
-        		list += "?repository="+item;
+        		list += "?repository="+encodeURIComponent(item);
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
@@ -668,6 +672,9 @@ function DataSource(name, basic_metrics) {
                 var aux = item.split("_");
                 label = aux.pop();
                 if (label === '') label = aux.pop();
+                if (ds.getName() === "its") {
+                    label = label.replace('buglist.cgi?product=','');
+                }
                 // label = item.substr(item.lastIndexOf("_") + 1);
             }
             else if (item.lastIndexOf("<") === 0)
