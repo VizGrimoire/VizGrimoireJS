@@ -47,6 +47,8 @@
 .its-flotr2-metrics-repo,
 .mls-flotr2-metrics-repo,
 .scm-flotr2-metrics-company,
+.its-flotr2-metrics-company,
+.mls-flotr2-metrics-company,
 .scm-flotr2-metrics-people,
 .its-flotr2-metrics-people,
 .mls-flotr2-metrics-people
@@ -69,6 +71,10 @@
 
 .demographic-bars {
     width:400px;height:200px;
+}
+
+.subreport-list-item {
+    margin: 5px;
 }
 
 /* Bootstrap */ 
