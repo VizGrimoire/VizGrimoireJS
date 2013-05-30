@@ -73,6 +73,10 @@
     width:400px;height:200px;
 }
 
+.subreport-list-item {
+    margin: 5px;
+}
+
 /* Bootstrap */ 
 
 .hero-unit {
