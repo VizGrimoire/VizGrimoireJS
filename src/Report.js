@@ -206,6 +206,28 @@ var Report = {};
         });
         return all;
     }
+    
+    function displayActiveMenu() {
+        var active = window.location.href;
+        var page = active.substr(active.lastIndexOf("/")+1,active.length);
+        page = page.split(".html")[0];
+        if (page.indexOf('scm') === 0) {
+            $(".scm-menu")[0].className = $(".scm-menu")[0].className + " active"; 
+        } else if (page.indexOf('its') === 0) {
+            $(".its-menu")[0].className = $(".its-menu")[0].className + " active";
+        } else if (page.indexOf('mls') === 0) {
+            $(".mls-menu")[0].className = $(".mls-menu")[0].className + " active";
+        } else if (page.indexOf('demographics') === 0) {
+            $(".demographics-menu")[0].className = 
+                $(".demographics-menu")[0].className + " active";
+        } else if (page.indexOf('index') === 0 || page === '') {
+            $(".summary-menu")[0].className = 
+                $(".summary-menu")[0].className + " active";
+        } else {
+            $(".experimental-menu")[0].className = 
+                $(".experimental-menu")[0].className + " active";
+        }
+    }
 
     function displayReportData() {
         data = project_data;
@@ -299,6 +321,7 @@ var Report = {};
                 $.get(html_dir+"navbar.html", function(navigation) {
                     $("#navbar").html(navigation);
                     displayReportData();
+                    displayActiveMenu();
                     var querystr = window.location.search.substr(1);
                     if (querystr && querystr.indexOf("data_dir")!==-1) {
                         var $links = $("#navbar a");
