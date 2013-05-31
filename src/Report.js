@@ -298,6 +298,7 @@ var Report = {};
             convert: function() {
                 $.get(html_dir+"navbar.html", function(navigation) {
                     $("#navbar").html(navigation);
+                    displayReportData();
                     var querystr = window.location.search.substr(1);
                     if (querystr && querystr.indexOf("data_dir")!==-1) {
                         var $links = $("#navbar a");
