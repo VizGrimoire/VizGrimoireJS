@@ -198,7 +198,6 @@ var Report = {};
         return ds;
     }
 
-
     function getAllMetrics() {
         var all = {};
         $.each(Report.getDataSources(), function(index, DS) {

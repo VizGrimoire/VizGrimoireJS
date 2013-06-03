@@ -10,7 +10,7 @@ var Dashboard = {};
         var projects = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var repos = ds.getReposData();
-            if (order) repos = ds.sortRepos(order);
+            if (order) repos = DataProcess.sortRepos(ds,order);
             if (limit) repos = repos.slice(0,limit-1);
             projects[ds.getName()] = repos;
         });
@@ -21,7 +21,7 @@ var Dashboard = {};
         var companies = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var companies_ds = ds.getCompaniesData();
-            if (order) companies_ds = ds.sortCompanies(order);
+            if (order) companies_ds = DataProcess.sortCompanies(ds,order);
             if (limit) companies_ds = companies_ds.slice(0,limit-1);
             companies[ds.getName()] = companies_ds;
         });
@@ -223,7 +223,7 @@ var Dashboard = {};
                 else {
                     config_metric.show_title = false;
                     var data = ds.getData();
-                    if (year || release) data = Viz.filterDates(start, end, data);
+                    if (year || release) data = DataProcess.filterDates(start, end, data);
                     Viz.displayBasicMetricsHTML([metric], data, 
                             metric_div, config_metric);
                 }

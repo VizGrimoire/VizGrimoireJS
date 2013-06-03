@@ -775,7 +775,7 @@ function DataSource(name, basic_metrics) {
         options.legend_show = legend_show;
         
         if (relative)
-            Viz.addRelativeValues(options.data, this.getMainMetric());
+            DataProcess.addRelativeValues(options.data, this.getMainMetric());
         
         new envision.templates.Envision_Report(options, [ this ]);
     };
