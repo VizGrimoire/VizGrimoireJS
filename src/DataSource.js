@@ -291,7 +291,7 @@ function DataSource(name, basic_metrics) {
     };
 
 
-    // TODO: Move this login to Report
+    // TODO: Move this logic to Report
     this.getCompanyQuery = function () {
         var company = null;
         var querystr = window.location.search.substr(1);
@@ -323,7 +323,7 @@ function DataSource(name, basic_metrics) {
         if (order_by === undefined) order_by = metric_id;
         var companies_data = this.getCompaniesMetricsData();
         if (limit) {
-            var sorted_companies = this.sortCompanies(order_by);
+            var sorted_companies = DataProcess.sortCompanies(this, order_by);
             if (limit > sorted_companies.length) 
                 limit = sorted_companies.length; 
             var companies_data_limit = {};
@@ -355,7 +355,7 @@ function DataSource(name, basic_metrics) {
         if (order_by === undefined) order_by = metric_id;
         var repos_data = this.getReposMetricsData();
         if (limit) {
-            var sorted_repos = this.sortRepos(order_by);
+            var sorted_repos = DataProcess.sortRepos(this, order_by);
             if (limit > sorted_repos.length) 
                 limit = sorted_repos.length; 
             var repos_data_limit = {};
@@ -421,11 +421,11 @@ function DataSource(name, basic_metrics) {
         if (limit) {
             var sorted = null;
             if (report=="companies")
-                sorted = this.sortCompanies(order_by);
+                sorted = DataProcess.sortCompanies(this, order_by);
             else if (report=="repos")
-                sorted = this.sortRepos(order_by);
+                sorted = DataProcess.sortRepos(this, order_by);
             else if (report=="countries")
-              sorted = this.sortCountries(order_by);            
+              sorted = DataProcess.sortCountries(this, order_by);            
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
@@ -500,55 +500,10 @@ function DataSource(name, basic_metrics) {
     this.displayBasic = function() {
         this.basicEvo(this.getData());
     };    
-    
-    this.sortCompanies = function(metric_id) {
-    	return this.sortGlobal(metric_id, "companies");
-    };
-    
-    this.sortRepos = function(metric_id) {
-    	return this.sortGlobal(metric_id, "repos");
-    };
-    
-    this.sortCountries = function(metric_id) {
-      return this.sortGlobal(metric_id, "countries");
-    };
-
-    this.sortGlobal = function (metric_id, kind) {
-        if (metric_id === undefined) metric_id = "commits";
-        var metric = [];
-        var sorted = [];
-        var global = null;
-        if (kind === "companies") {
-            global = this.getCompaniesGlobalData();
-            if (this.getCompaniesData().length === 0) return sorted;
-            if (global[this.getCompaniesData()[0]][metric_id] === undefined)
-                metric_id = "commits";
-        } 
-        else if (kind === "repos") {
-            global = this.getReposGlobalData();
-            if (this.getReposData().length === 0) return sorted;
-            if (global[this.getReposData()[0]][metric_id] === undefined)
-                metric_id = "commits";
-        }
-        else if (kind === "countries") {
-            global = this.getCountriesGlobalData();
-            if (this.getCountriesData().length === 0) return sorted;
-            if (global[this.getCountriesData()[0]][metric_id] === undefined)
-                metric_id = "commits";
-        }
-        $.each(global, function(item, data) {
-           metric.push([item, data[metric_id]]);
-        });
-        metric.sort(function(a, b) {return b[1] - a[1];});
-        $.each(metric, function(id, value) {
-            sorted.push(value[0]);
-        });
-        return sorted;
-    };
 
     this.displayCompaniesNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
-        var sorted_companies = this.sortCompanies(sort_metric);
+        var sorted_companies = DataProcess.sortCompanies(this, sort_metric);
         $.each(sorted_companies, function(id, company) {
             nav += "<a href='#"+company+"-nav'>"+company + "</a> ";
         });
@@ -556,7 +511,7 @@ function DataSource(name, basic_metrics) {
     };
     
     this.displayCompaniesLinks = function (div_links, limit, sort_metric) {
-        var sorted_companies = this.sortCompanies(sort_metric);
+        var sorted_companies = DataProcess.sortCompanies(this, sort_metric);
         var links = "";
         var i = 0;
         $.each(sorted_companies, function(id, company) {
@@ -568,17 +523,16 @@ function DataSource(name, basic_metrics) {
     
     this.displayCountriesNav = function (div_nav, sort_metric) {
         var nav = "<span id='nav'></span>";
-        var sorted_countries = this.sortCountries(sort_metric);
+        var sorted_countries = DataProcess.sortCountries(this, sort_metric);
         $.each(sorted_countries, function(id, country) {
             nav += "<a href='#"+country+"-nav'>"+country + "</a> ";
         });
         $("#"+div_nav).append(nav);
     };
-
     
     this.displayReposNav = function (div_nav, sort_metric, scm_and_its) {
         var nav = "<span id='nav'></span>";
-        var sorted_repos = this.sortRepos(sort_metric);
+        var sorted_repos = DataProcess.sortRepos(this, sort_metric);
         var self = this;
         $.each(sorted_repos, function(id, repo) {
             if (scm_and_its && (!(Report.getReposMap()[repo]))) return;
@@ -627,15 +581,15 @@ function DataSource(name, basic_metrics) {
         var data = null, sorted = null;
         if (report === "companies") {
             data = this.getCompaniesMetricsData();
-            sorted = this.sortCompanies(sort_metric);
+            sorted = DataProcess.sortCompanies(this, sort_metric);
         }
         else if (report === "repos") {
             data = this.getReposMetricsData();
-            sorted = this.sortRepos(sort_metric);
+            sorted = DataProcess.sortRepos(this, sort_metric);
         }
         else if (report === "countries") {
             data = this.getCountriesMetricsData();
-            sorted = this.sortCountries(sort_metric);
+            sorted = DataProcess.sortCountries(this, sort_metric);
         } 
         else return;
 
