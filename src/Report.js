@@ -844,9 +844,9 @@ var Report = {};
                     config.show_legend = false;
                     if ($(this).data('legend'))
                         config_metric.show_legend = true;
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";                    
                     DS.displayBasicMetrics(metrics.split(","),div.id,
-                            config_metric);
+                            config_metric, $(this).data('aggregated'));
                 });
             }
             

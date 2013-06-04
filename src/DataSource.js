@@ -476,9 +476,10 @@ function DataSource(name, basic_metrics) {
                 this.getCountriesMetricsData()[country], div_id, config);
     };
 
-    this.displayBasicMetrics = function(metric_ids, div_target, config) {
-        Viz.displayBasicMetricsHTML(metric_ids, this.getData(),
-                div_target, config);
+    this.displayBasicMetrics = function(metric_ids, div_target, config, aggregated) {
+        var data = this.getData();
+        if (aggregated) data = DataProcess.aggregate(data, metric_ids);
+        Viz.displayBasicMetricsHTML(metric_ids, data, div_target, config);
     };
 
     this.displayBasicMetricHTML = function(metric_id, div_target, config) {

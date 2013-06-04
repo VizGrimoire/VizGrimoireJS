@@ -225,6 +225,22 @@ var DataProcess = {};
             });
         });        
     };
-
-
+    
+    DataProcess.aggregate = function(data, metrics) {
+        var new_data = {};
+        if (!(metrics instanceof Array)) metrics = [metrics];
+        $.each(data, function(metric, mdata){
+            if ($.inArray(metric, metrics)> -1) {
+                var metric_agg = [];
+                metric_agg[0] = data[metric][0];
+                for (var i=1; i<data[metric].length; i++) {
+                    metric_agg[i] = metric_agg[i-1] + data[metric][i];
+                }
+                new_data[metric] = metric_agg;
+            } else {
+                new_data[metric] = data[metric];
+            }
+        }); 
+        return new_data;
+    };
 })();
