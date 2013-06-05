@@ -243,4 +243,17 @@ var DataProcess = {};
         }); 
         return new_data;
     };
+
+    DataProcess.substract = function(data, metric1, metric2) {
+        var new_data = {};
+        var substract = [];
+        for (var i=0; i<data[metric1].length; i++) {
+            substract[i] = data[metric1][i]-data[metric2][i];
+        }
+        $.each(data, function(metric, mdata) {
+            new_data[metric] = data[metric];
+        });
+        new_data['substract'] = substract;
+        return new_data;
+    };
 })();
