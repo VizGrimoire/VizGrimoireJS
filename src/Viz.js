@@ -49,8 +49,6 @@ var Viz = {};
     Viz.displayEvoSummary = displayEvoSummary;
     Viz.displayTimeToFix = displayTimeToFix;
     Viz.displayTimeToAttention = displayTimeToAttention;
-    Viz.filterYear = filterYear;
-    Viz.filterDates = filterDates;
     Viz.displayMetricSubReportLines = displayMetricSubReportLines;
     Viz.displayRadarActivity = displayRadarActivity;
     Viz.displayRadarCommunity = displayRadarCommunity;
@@ -58,23 +56,11 @@ var Viz = {};
     Viz.drawMetric = drawMetric;
     Viz.getEnvisionOptions = getEnvisionOptions;
     Viz.checkBasicConfig = checkBasicConfig;
-    Viz.mergeConfig = mergeConfig;
     Viz.displayGridMetric = displayGridMetric;
     Viz.displayGridMetricSelector = displayGridMetricSelector;
     Viz.displayGridMetricAll = displayGridMetricAll;
     // Working fixing gridster issue: redmine issue 991
     Viz.gridster_debug = gridster_debug;
-
-    function mergeConfig(config1, config2) {
-        var new_config = {};
-        $.each(config1, function(entry, value) {
-            new_config[entry] = value;
-        });
-        $.each(config2, function(entry, value) {
-            new_config[entry] = value;
-        });
-        return new_config;
-    }
 
     function findMetricDoer(history, metric_id) {
     	var doer = '';
@@ -85,14 +71,6 @@ var Viz = {};
     		}
     	});
     	return doer;
-    }
-
-    function hideEmail(email) {
-        var clean = email;
-        if (email.indexOf("@") > -1) {
-            clean = email.split('@')[0];
-        }
-        return clean;
     }
 
     function drawMetric(metric_id, divid) {
@@ -130,7 +108,7 @@ var Viz = {};
             var doer_id = history.id[i];
             table += "<tr><td>";
             table += "<a href='people.html?id="+doer_id+"&name="+doer_value+"'>";
-            table += hideEmail(doer_value) + "</a></td><td>";
+            table += DataProcess.hideEmail(doer_value) + "</a></td><td>";
             table += metric_value + "</td></tr>";
         }
         table += "</tbody></table>";
@@ -211,9 +189,9 @@ var Viz = {};
             // TODO: projects should be included in data not in a different array
             if (projects)
                 lines_data[j] = {label:projects[j], 
-                    data:fillHistoryLines(full_history_id, lines_data[j])};
+                    data:DataProcess.fillHistoryLines(full_history_id, lines_data[j])};
             else
-                lines_data[j] = {data:fillHistoryLines(full_history_id, lines_data[j])};
+                lines_data[j] = {data:DataProcess.fillHistoryLines(full_history_id, lines_data[j])};
         }
 
         // TODO: Hack to have lines_data visible in track/tickFormatter
@@ -282,35 +260,6 @@ var Viz = {};
         displayDSLines(div_id, history, lines_data, title, config);
     };
     
-    function filterDates(start_id, end_id, history) {        
-        var history_dates = {};
-        $.each(history, function(name, data) {
-            history_dates[name] = [];                
-            $.each(data, function(i, value) {
-                // var id = history.id[i];
-                // TODO: week should be id
-                // var id = history.week[i];
-                var id = history.unixtime[i];
-                if (id > start_id && id <= end_id)
-                    history_dates[name].push(value);
-            });
-        });
-        return history_dates;
-    }
-    
-    function filterYear(year, history) {
-        // var day_msecs = 1000*60*60*24;
-        year = parseInt(year);
-        //var min_id = 12*year, max_id = 12*(year+1);
-        // var min_id = (new Date(year.toString()).getTime())/(day_msecs);
-        // var max_id = (new Date((year+1).toString()).getTime())/(day_msecs);
-        var min_id = new Date(year.toString()).getTime();
-        var max_id = new Date((year+1).toString()).getTime();
-
-        var history_year = filterDates(min_id, max_id, history);
-        return history_year;
-    }
-    
     function displayMetricSubReportLines(div_id, metric, items, title, 
             config, start, end) {
         var lines_data = [];
@@ -320,7 +269,7 @@ var Viz = {};
             if (data === undefined) return false;
             if (data[metric] === undefined) return false;
             
-            if (start && end) data = filterDates(start, end, data);
+            if (start && end) data = DataProcess.filterDates(start, end, data);
             
             var cdata = [[], []];
             for (var i=0; i<data.id.length; i++ ) {
@@ -410,14 +359,14 @@ var Viz = {};
             for (i = 0; i < labels.length; i++) {
                 chart_data.push({
                     data : [ [ i, data[i] ] ],
-                    label : hideEmail(labels[i])
+                    label : DataProcess.hideEmail(labels[i])
                 });
             }
         } else {
             for (i = 0; i < labels.length; i++) {
                 chart_data.push({
                     data : [ [ data[i], i ] ],
-                    label : hideEmail(labels[i])
+                    label : DataProcess.hideEmail(labels[i])
                 });
             }
         }
@@ -444,7 +393,7 @@ var Viz = {};
                     var i = 'x';
                     if (horizontal)
                         i = 'y';
-                    return hideEmail(labels[parseInt(o[i], 10)]) + ": "
+                    return DataProcess.hideEmail(labels[parseInt(o[i], 10)]) + ": "
                             + data[parseInt(o[i], 10)];
                 }
             },
@@ -495,24 +444,13 @@ var Viz = {};
         graph = Flotr.draw(container, chart_data, config);
     }
 
-    function getDSMetric(metric_id) {
-        var ds = null;
-        $.each(Report.getDataSources(), function(index, DS) {
-            $.each(DS.getMetrics(), function(i, metric) {
-                if (i === metric_id)
-                    ds = DS;
-            });
-        });
-        return ds;
-    }
-    
     // The two metrics should be from the same data source
     function displayBubbles(divid, metric1, metric2, radius) {
 
         var container = document.getElementById(divid);
 
-        var DS = getDSMetric(metric1);
-        var DS1 = getDSMetric(metric2);
+        var DS = Report.getMetricDS(metric1)[0];
+        var DS1 = Report.getMetricDS(metric2)[0];
 
         var bdata = [];
 
@@ -538,14 +476,14 @@ var Viz = {};
         for (var i=0; i<full_data.length; i++) {
             // if empty data return
             if (full_data[i] instanceof Array) return;
-            dates = Viz.fillDates(dates, [full_data[i].id, full_data[i].date]);
+            dates = DataProcess.fillDates(dates, [full_data[i].id, full_data[i].date]);
         }
 
         for ( var j = 0; j < full_data.length; j++) {
             var serie = [];
             var data = full_data[j];
-            var data1 = Viz.fillHistory(dates[0], [data.id, data[metric1]]);
-            var data2 = Viz.fillHistory(dates[0], [data.id, data[metric2]]);
+            var data1 = DataProcess.fillHistory(dates[0], [data.id, data[metric1]]);
+            var data2 = DataProcess.fillHistory(dates[0], [data.id, data[metric2]]);
             for ( var i = 0; i < dates[0].length; i++) {
                 serie.push( [ dates[0][i], data1[1][i], data2[1][i] ]);
             }
@@ -862,84 +800,7 @@ var Viz = {};
            });
         });
     }
-
-    Viz.fillDates = function (dates_orig, more_dates) {
-        
-        if (dates_orig[0].length === 0) return more_dates;
-
-        // [ids, values]
-        var new_dates = [[],[]];
-        
-        // Insert older dates
-        if (dates_orig[0][0]> more_dates[0][0]) {
-            for (var i=0; i< more_dates[0].length; i++) {
-                new_dates[0][i] = more_dates[0][i];
-                new_dates[1][i] = more_dates[1][i];
-            }
-        }
-
-        // Push already existing dates
-        for (var i=0; i< dates_orig[0].length; i++) {
-            pos = new_dates[0].indexOf(dates_orig[0][i]);
-            if (pos === -1) {
-                new_dates[0].push(dates_orig[0][i]);
-                new_dates[1].push(dates_orig[1][i]);
-            }
-        }
-        
-        // Push newer dates
-        if (dates_orig[0][dates_orig[0].length-1] < 
-                more_dates[0][more_dates[0].length-1]) {
-            for (var i=0; i< more_dates[0].length; i++) {
-                pos = new_dates[0].indexOf(more_dates[0][i]);
-                if (pos === -1) {
-                    new_dates[0].push(more_dates[0][i]);
-                    new_dates[1].push(more_dates[1][i]);
-                }
-            }
-        }
-        
-        return new_dates;
-
-    };
     
-    Viz.fillHistory = function (hist_complete_id, hist_partial) {
-        // [ids, values]
-        var new_history = [ [], [] ];
-        for ( var i = 0; i < hist_complete_id.length; i++) {
-            pos = hist_partial[0].indexOf(hist_complete_id[i]);
-            new_history[0][i] = hist_complete_id[i];
-            if (pos != -1) {
-                new_history[1][i] = hist_partial[1][pos];
-            } else {
-                new_history[1][i] = 0;
-            }
-        }
-        return new_history;
-    };
-    
-    // Envision and Flotr2 formats are different.
-    function fillHistoryLines(hist_complete_id, hist_partial) {        
-        // [ids, values]
-        var old_history = [ [], [] ];
-        var new_history = [ [], [] ];
-        var lines_history = [];
-        
-        for ( var i = 0; i < hist_partial.length; i++) {
-            // ids
-            old_history[0].push(hist_partial[i][0]);
-            // values
-            old_history[1].push(hist_partial[i][1]);
-        }
-        
-        new_history = Viz.fillHistory(hist_complete_id, old_history);
-        
-        for ( var i = 0; i < hist_complete_id.length; i++) {
-            lines_history.push([new_history[0][i],new_history[1][i]]);
-        }
-        return lines_history;
-    }
-
     // TODO: Remove when mls lists are multiproject
     Viz.getEnvisionOptionsMin = function (div_id, history, hide) {
         var firstMonth = history.id[0],
@@ -1025,7 +886,7 @@ var Viz = {};
         $.each(projects_data, function(project, data) {
             $.each(data, function(index, DS) {
                 if (ds_name && ds_name !== DS.getName()) return;
-                dates = Viz.fillDates(dates, 
+                dates = DataProcess.fillDates(dates, 
                         [DS.getData().id, DS.getData().date]);
             });
         });
@@ -1057,7 +918,7 @@ var Viz = {};
         };        
         
         options.data = {
-            summary : Viz.fillHistory(dates[0], summary_data),
+            summary : DataProcess.fillHistory(dates[0], summary_data),
             markers : markers,
             dates : dates[1],
             envision_hide : hide,
@@ -1072,14 +933,14 @@ var Viz = {};
                     if (options.data[metric] === undefined) 
                         options.data[metric] = [];
                     var full_data =
-                        Viz.fillHistory(dates[0], [data.id, data[metric]]);
+                        DataProcess.fillHistory(dates[0], [data.id, data[metric]]);
                     if (metric === main_metric) {
                         options.data[metric].push(
                                 {label:project, data:full_data});
                         if (data[metric+"_relative"] === undefined) return;
                         if (options.data[metric+"_relative"] === undefined) 
                             options.data[metric+"_relative"] = [];
-                        full_data = Viz.fillHistory(dates[0],
+                        full_data = DataProcess.fillHistory(dates[0],
                                     [data.id, data[metric+"_relative"]]);
                         options.data[metric+"_relative"].push(
                                 {label:project, data:full_data});
@@ -1364,36 +1225,6 @@ var Viz = {};
         $("#" + div_id).html(html);
     }
 
-    Viz.addRelativeValues = function (metrics_data, metric) {        
-        if (metrics_data[metric] === undefined) return;
-        metrics_data[metric+"_relative"] = [];
-        var added_values = [];
-        
-        $.each(metrics_data[metric], function(index, pdata) {
-            var metric_values = pdata.data[1];
-            for (var i = 0; i<metric_values.length;i++) {
-                if (added_values[i] === undefined)
-                    added_values[i] = 0;
-                added_values[i] += metric_values[i];
-            }
-        });
-        
-        $.each(metrics_data[metric], function(index, pdata) {
-            var val_relative = [];
-            for (var i = 0; i<pdata.data[0].length;i++) {
-                if (added_values[i] === 0) val_relative[i] = 0;
-                else {
-                    var rel_val = pdata.data[1][i]/added_values[i]*100;
-                    val_relative[i] = rel_val;
-                }
-            }
-            metrics_data[metric+"_relative"].push({
-                label: pdata.label,
-                data: [pdata.data[0],val_relative],
-            });
-        });        
-    };
-
     function displayEvoSummary(div_id, relative, legend_show) {
         var projects_full_data = Report.getProjectsDataSources();
         var config = Report.getConfig();
@@ -1407,7 +1238,7 @@ var Viz = {};
                     main_metric = DS.getMainMetric();
                 });
             });
-            Viz.addRelativeValues(options.data, main_metric);
+            DataProcess.addRelativeValues(options.data, main_metric);
         }                
         new envision.templates.Envision_Report(options);
     }
