@@ -51,8 +51,16 @@
                     </div>                  
                 </div>
                 <div class="span6">
-	                <div class="mls-flotr2-metrics"
-	                    data-metrics="threads,responses" data-legend="true"></div>
+                    <div class="span6">
+	                   <div class="mls-flotr2-metrics"
+	                       data-metrics="threads,responses" data-legend="true"></div>
+                    </div>
+                    <div class="span6">
+                       <div class="mls-flotr2-metrics"
+                           data-metrics="sent,responses" 
+                           data-convert="substract-aggregate"></div>
+                       <div style="margin:10px"><em>Total Messages without answer</em></div>
+                    </div>
                 </div>
             </div>
             <div class="row-fluid">
