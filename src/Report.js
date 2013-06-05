@@ -841,12 +841,12 @@ var Report = {};
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
-                    config.show_legend = false;
+                    config_metric.show_legend = false;
                     if ($(this).data('legend'))
                         config_metric.show_legend = true;
                     div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";                    
                     DS.displayBasicMetrics(metrics.split(","),div.id,
-                            config_metric, $(this).data('aggregated'));
+                            config_metric, $(this).data('convert'));
                 });
             }
             
