@@ -476,9 +476,22 @@ function DataSource(name, basic_metrics) {
                 this.getCountriesMetricsData()[country], div_id, config);
     };
 
-    this.displayBasicMetrics = function(metric_ids, div_target, config, aggregated) {
+    this.displayBasicMetrics = function(metric_ids, div_target, config, convert) {
         var data = this.getData();
-        if (aggregated) data = DataProcess.aggregate(data, metric_ids);
+        if (convert) {
+            if (convert === "aggregate")
+                data = DataProcess.aggregate(data, metric_ids);
+            if (convert === "substract") {
+                data = DataProcess.substract(data, metric_ids[0], metric_ids[1]);
+                metric_ids = ['substract'];
+            }
+            if (convert === "substract-aggregate") {
+                data = DataProcess.substract(data, metric_ids[0], metric_ids[1]);
+                metric_ids = ['substract'];
+                data = DataProcess.aggregate(data, metric_ids);
+            }
+
+        }
         Viz.displayBasicMetricsHTML(metric_ids, data, div_target, config);
     };
 
