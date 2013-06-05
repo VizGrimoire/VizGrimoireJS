@@ -38,10 +38,20 @@
     <div class="container-fluid">    
       <div class="row-fluid">
         <div class="span8">
-            <div class="row-fluid">
+            <div class="row-fluid" style="margin:20px">
                <div class="span10">
-                <div id="scm-flotr2"></div>
+                <div id="scm-flotr2"></div> 
                 </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span5">
+               <div class="scm-flotr2-metrics" data-metrics="commits" 
+                    data-convert="aggregate" data-legend="true"></div>
+              </div>
+              <div class="span5">
+              <div class="scm-flotr2-metrics" data-metrics="committers,authors" 
+                    data-convert="aggregate" data-legend="true"></div>
+              </div>
             </div>
             <div class="row-fluid">
               <div class="span10">             
@@ -61,5 +71,15 @@
 
     <script type="text/javascript" src="VizGrimoireJS/src/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+    <!-- <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script> -->
+        <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Loader.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/DataProcess.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/DataSource.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>    
 </body></html>

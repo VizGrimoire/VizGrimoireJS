@@ -198,7 +198,6 @@ var Report = {};
         return ds;
     }
 
-
     function getAllMetrics() {
         var all = {};
         $.each(Report.getDataSources(), function(index, DS) {
@@ -842,12 +841,12 @@ var Report = {};
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
-                    config.show_legend = false;
+                    config_metric.show_legend = false;
                     if ($(this).data('legend'))
                         config_metric.show_legend = true;
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";                    
                     DS.displayBasicMetrics(metrics.split(","),div.id,
-                            config_metric);
+                            config_metric, $(this).data('convert'));
                 });
             }
             
@@ -1012,8 +1011,11 @@ var Report = {};
             $.each(projects_data, function (name, project) {
                 if (project.dir === ds.getDataDir()) {                    
                     if (prjs_dss[name] === undefined) prjs_dss[name] = [];
-                    // Support data reloading
-                    if ($.inArray(ds, prjs_dss[name]) > -1) return false;
+                    // Support data reloading. Each project has instance per DS
+                    for (var i in prjs_dss[name]) {
+                        if (ds.getName() === prjs_dss[name][i].getName()) return false;
+                    }
+                    // if ($.inArray(ds, prjs_dss[name]) > -1) return false;
                     ds.setProject(name);
                     prjs_dss[name].push(ds);
                     return false;

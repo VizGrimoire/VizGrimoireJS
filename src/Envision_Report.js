@@ -94,7 +94,7 @@
         $.each(metrics, function(metric, value) {
             config = default_config;
             if (value.envision)
-                config = Viz.mergeConfig(default_config,
+                config = DataProcess.mergeConfig(default_config,
                         value.envision);
             if ($.inArray(metric, global_data.envision_hide) === -1) {
                 viz[metric] = getEnvisionDefaultsGraph
