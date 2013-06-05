@@ -26,6 +26,18 @@ function MLS() {
     var self = this;
     
     var basic_metrics = {
+        'repositories' : {
+            'divid' : "mls-repos",
+            'column' : "repositories",
+            'name' : "Repositories",
+            'desc' : "Number of mailing lists"
+        },
+        'responses' : {
+            'divid' : "mls-responses",
+            'column' : "responses",
+            'name' : "Responses",
+            'desc' : "Number of messages that are responses"
+        },
         'sent' : {
             'divid' : "mls-sent",
             'column' : "sent",
@@ -38,6 +50,12 @@ function MLS() {
             'name' : "Senders",
             'desc' : "Number of unique message senders",
             'action' : "sent"
+        },
+        'threads' : {
+            'divid' : "mls-threads",
+            'column' : "threads",
+            'name' : "Threads",
+            'desc' : "Number of messages threads"
         }
     };
         
