@@ -1029,8 +1029,10 @@ var Report = {};
         if (data) {
             if (data['global-html-dir'])
                 Report.setHtmlDir(data['global-html-dir']);
-            if (data['global-data-dir'])
+            if (data['global-data-dir']) {
                 Report.setDataDir(data['global-data-dir']);
+                Report.setProjectsDirs([data['global-data-dir']]);
+            }
             if (data['projects-data-dirs'])
                 Report.setProjectsDirs(data['projects-data-dirs']);
         }
