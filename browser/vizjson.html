@@ -14,7 +14,9 @@
 </head>
 
 <body>
- <div id="jsonViz" style="height: 300px"></div>
+ <div id="jsonViz" style="height: 200px"></div>
+ <div id="jsonViz1" style="height: 200px"></div>
+ <div id="jsonViz2" style="height: 200px"></div>
 
  <script type="text/javascript">
   // Load JSON
@@ -23,8 +25,12 @@
     // Viz
     var metric_ids = ['authors','committers'];
     var div_target = 'jsonViz';
+    var div_target1 = 'jsonViz1';
+    var div_target2 = 'jsonViz2';
     var config = {};
     Viz.displayBasicMetricsHTML(metric_ids, data, div_target, config);
+    Viz.displayBasicMetricsHTML(metric_ids, data, div_target1, config);
+    Viz.displayBasicMetricsHTML(metric_ids, data, div_target2, config);
   });
 </script>
 
