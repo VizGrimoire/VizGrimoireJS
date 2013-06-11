@@ -456,6 +456,15 @@ var Report = {};
         }
     };
 
+    function convertSummary() {
+        $.each(Report.getDataSources(), function(index, DS) {
+            var div_summary = DS.getName()+"-summary";
+            if ($("#"+div_summary).length > 0) {
+                DS.displayGlobalSummary(div_summary);
+            }
+        });        
+    }
+    
     function convertCompanies(config) {        
         // General config for metrics viz
         var config_metric = {};
@@ -1054,6 +1063,7 @@ var Report = {};
         convertEnvision();
         convertFlotr2(config);
         convertTop();
+        convertSummary();
         convertPeople(); // using on demand file loading
     }
     

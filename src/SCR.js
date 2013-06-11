@@ -86,17 +86,16 @@ function SCR() {
             'name' : "WaitingForSubmitter",
             'desc' : ""
         },
-        /* TODO: Fix submitted duplicate metric */
-        'submitted.x' : {
-            'divid' : "scr-submitted.x",
-            'column' : "submitted.x",
-            'name' : "submitted.x",
+        'submitted' : {
+            'divid' : "scr-submitted",
+            'column' : "submitted",
+            'name' : "submitted",
             'desc' : ""
         },
-        'submitted.y' : {
-            'divid' : "scr-submitted.y",
-            'column' : "submitted.y",
-            'name' : "submitted.y",
+        'sent' : {
+            'divid' : "scr-sent",
+            'column' : "sent",
+            'name' : "sent",
             'desc' : ""
         }
     };
@@ -106,7 +105,26 @@ function SCR() {
     };
     this.getMetrics = function() {return basic_metrics;};
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {
+    function getMetricsLabels() {        
+        var id_label = {
+            submitted: "Submitted",
+            opened:"Opened",
+            "new":"New",
+            closed:"Closed",
+            merged:"Merged",
+            abandoned:"Abandoned",
+            verified:"Verified",
+            approved:"Approved",
+            codereview:"Code Review",
+            sent:"Sent",
+            WaitingForReviewer:"Waiting for Reviewer",
+            WaitingForSubmitter:"Waiting for Submitter"
+        };
+        return id_label;
+    }
+    
+    this.displaySummary = function(report, divid, item, ds) {
+        if (!item) item = "";
         var label = item;
         if (item.lastIndexOf("http") === 0) {
             var aux = item.split("_");
@@ -114,39 +132,23 @@ function SCR() {
             if (label === '') label = aux.pop();
         }
         var html = "<h4>" + label + "</h4>";
-        
-        // TODO: No label translation yet
-        var id_label = {};
-        
-        var id_label1 = {
-            "submitted.x": "",
-            opened:"",
-            "new":"",
-            closed:"",
-            merged:"",
-            abandoned:"",
-            verified:"",
-            approved:"",
-            codereview:"",
-            "submitted.y":"",
-            WaitingForReviewer:"",
-            WaitingForSubmitter:""
-        };
-        
         var global_data = null;
         if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
+            global_data = ds.getCompaniesGlobalData()[item];
         if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
+            global_data = ds.getCountriesGlobalData()[item];
         else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
-        else return;
+            global_data = ds.getReposGlobalData()[item];
+        else global_data = ds.getGlobalData();
         
-        $.each(global_data[item],function(id,value) {
+        if (!global_data) return;
+        
+        var id_label = getMetricsLabels();
+        $.each(global_data,function(id,value) {
             if (id_label[id]) 
                 html += id_label[id] + ": " + value + "<br>";
             else
-                html += id + ": " + value + "<br>";
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };

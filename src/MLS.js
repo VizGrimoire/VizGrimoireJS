@@ -79,7 +79,8 @@ function MLS() {
     };
     this.getMetrics = function() {return basic_metrics;};
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {
+    this.displaySummary = function(report, divid, item, ds) {
+        if (!item) item = "";
         var label = item;
         if (item.lastIndexOf("http") === 0) {
             var aux = item.split("_");
@@ -96,18 +97,20 @@ function MLS() {
         };
         var global_data = null;
         if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
+            global_data = ds.getCompaniesGlobalData()[item];
         if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
+            global_data = ds.getCountriesGlobalData()[item];
         else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
-        else return;
+            global_data = ds.getReposGlobalData()[item];
+        else global_data = ds.getGlobalData();
         
-        $.each(global_data[item],function(id,value) {
+        if (!global_data) return;
+        
+        $.each(global_data,function(id,value) {
             if (id_label[id]) 
                 html += id_label[id] + ": " + value + "<br>";
             else
-                html += id + ": " + value + "<br>";
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };

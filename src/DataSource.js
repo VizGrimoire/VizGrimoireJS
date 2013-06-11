@@ -680,17 +680,21 @@ function DataSource(name, basic_metrics) {
             });
         });
     };
+
+    this.displayGlobalSummary = function(divid) {
+        this.displaySummary(null, divid, null, this);
+    };
     
     this.displayCompanySummary = function(divid, company, ds) {
-        this.displaySubReportSummary("companies",divid, company, ds);
+        this.displaySummary("companies",divid, company, ds);
     };
     
     this.displayRepoSummary = function(divid, repo, ds) {
-        this.displaySubReportSummary("repositories",divid, repo, ds);
+        this.displaySummary("repositories",divid, repo, ds);
     };
     
     this.displayCountrySummary = function(divid, repo, ds) {
-        this.displaySubReportSummary("countries",divid, repo, ds);
+        this.displaySummary("countries",divid, repo, ds);
     };
     
     // On demand file loading for people
@@ -722,7 +726,7 @@ function DataSource(name, basic_metrics) {
         $("#"+divid).append(html);
     };
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {};
+    this.displaySummary = function(report, divid, item, ds) {};
     
     this.displayReposSummary = function(divid, ds) {
         var html = "";
