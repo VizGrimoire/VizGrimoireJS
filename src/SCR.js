@@ -27,76 +27,76 @@ function SCR() {
     
     var basic_metrics = {
         'opened' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-opened",
+            'column' : "opened",
+            'name' : "opened",
             'desc' : ""
         },
         'closed' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-closed",
+            'column' : "closed",
+            'name' : "closed",
             'desc' : ""
         },
         'merged' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-merged",
+            'column' : "merged",
+            'name' : "merged",
             'desc' : ""
         },
         'new' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-new",
+            'column' : "new",
+            'name' : "new",
             'desc' : ""
         },
         'abandoned' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-abandoned",
+            'column' : "abandoned",
+            'name' : "abandoned",
             'desc' : ""
         },
         'verified' : {
             'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'column' : "verified",
+            'name' : "verified",
             'desc' : ""
         },
         'approved' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-approved",
+            'column' : "approved",
+            'name' : "approved",
             'desc' : ""
         },
         'codereview' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-codereview",
+            'column' : "codereview",
+            'name' : "codereview",
             'desc' : ""
         },
         'WaitingForReviewer' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-WaitingForReviewer",
+            'column' : "WaitingForReviewer",
+            'name' : "WaitingForReviewer",
             'desc' : ""
         },        
         'WaitingForSubmitter' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-WaitingForSubmitter",
+            'column' : "WaitingForSubmitter",
+            'name' : "WaitingForSubmitter",
             'desc' : ""
         },
         /* TODO: Fix submitted duplicate metric */
         'submitted.x' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-submitted.x",
+            'column' : "submitted.x",
+            'name' : "submitted.x",
             'desc' : ""
         },
         'submitted.y' : {
-            'divid' : "scr-",
-            'column' : "",
-            'name' : "",
+            'divid' : "scr-submitted.y",
+            'column' : "submitted.y",
+            'name' : "submitted.y",
             'desc' : ""
         }
     };
@@ -175,8 +175,8 @@ function SCR() {
             $(div_id + ' #scr_name').text("SCR " + this.global_data.type);
         } else {
             $(div_id + ' #scr_url').attr("href", Report.getProjectData().mls_url);
-            $(div_id + ' #scr_name').text(Report.getProjectData().mls_name);            
-            $(div_id + ' #scr_type').text(Report.getProjectData().mls_type);
+            $(div_id + ' #scr_name').text(Report.getProjectData().scr_name);            
+            $(div_id + ' #scr_type').text(Report.getProjectData().scr_type);
         }
 
         var company = this.getCompanyQuery();
