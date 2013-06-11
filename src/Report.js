@@ -219,6 +219,9 @@ var Report = {};
         } else if (page.indexOf('demographics') === 0) {
             $(".demographics-menu")[0].className = 
                 $(".demographics-menu")[0].className + " active";
+        } else if (page.indexOf('scr') === 0) {
+            $(".scr-menu")[0].className = 
+                $(".scr-menu")[0].className + " active";
         } else if (page.indexOf('index') === 0 || page === '') {
             $(".summary-menu")[0].className = 
                 $(".summary-menu")[0].className + " active";
