@@ -33,6 +33,7 @@ vizgrimoire.core.js: \
     src/ITS.js \
     src/MLS.js \
     src/SCM.js \
+    src/SCR.js \
     src/Identity.js
     
 vizgrimoire.deps.css: \
