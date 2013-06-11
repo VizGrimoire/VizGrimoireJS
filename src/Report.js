@@ -423,38 +423,7 @@ var Report = {};
         },
         // Reference card with info from all data sources
         "refcard": {
-            convert: function() {
-                $.when($.get(html_dir+"refcard.html"), 
-                        $.get(html_dir+"project-card.html"))
-                .done (function(res1, res2) {
-                    refcard = res1[0];
-                    projcard = res2[0];
-
-                    $("#refcard").html(refcard);
-                    displayReportData();
-                    $.each(getProjectsData(), function(prj_name, prj_data) {
-                        var new_div = "card-"+prj_name.replace(".","").replace(" ","");
-                        $("#refcard #projects_info").append(projcard);
-                        $("#refcard #projects_info #new_card")
-                            .attr("id", new_div);
-                        $.each(data_sources, function(i, DS) {
-                            if (DS.getProject() !== prj_name) {
-                                $("#" + new_div + ' .'+DS.getName()+'-info').hide();
-                                return;
-                            }
-                            DS.displayData(new_div);
-                        });
-                        $("#"+new_div+" #project_name").text(prj_name);
-                        if (projects_dirs.length>1)
-                            $("#"+new_div+" .project_info")
-                                .append(' <a href="VizGrimoireJS/browser/index.html?data_dir=../../'+prj_data.dir+'">Report</a>');
-                        
-                        $("#"+new_div+" #project_url")
-                            .attr("href", prj_data.url);
-
-                    });
-                });
-            }
+            convert: convertRefcard
         },
         "radar-activity": {
             convert: function() {
@@ -988,6 +957,39 @@ var Report = {};
             }
         });
     }
+    
+    function convertRefcard() {
+        $.when($.get(html_dir+"refcard.html"), 
+                $.get(html_dir+"project-card.html"))
+        .done (function(res1, res2) {
+            refcard = res1[0];
+            projcard = res2[0];
+
+            $("#refcard").html(refcard);
+            displayReportData();
+            $.each(getProjectsData(), function(prj_name, prj_data) {
+                var new_div = "card-"+prj_name.replace(".","").replace(" ","");
+                $("#refcard #projects_info").append(projcard);
+                $("#refcard #projects_info #new_card")
+                    .attr("id", new_div);
+                $.each(data_sources, function(i, DS) {
+                    if (DS.getProject() !== prj_name) {
+                        $("#" + new_div + ' .'+DS.getName()+'-info').hide();
+                        return;
+                    }
+                    DS.displayData(new_div);
+                });
+                $("#"+new_div+" #project_name").text(prj_name);
+                if (projects_dirs.length>1)
+                    $("#"+new_div+" .project_info")
+                        .append(' <a href="VizGrimoireJS/browser/index.html?data_dir=../../'+prj_data.dir+'">Report</a>');
+                
+                $("#"+new_div+" #project_url")
+                    .attr("href", prj_data.url);
+            });
+        });
+    }
+
     
     function convertSelectors() {       
         // Selectors
