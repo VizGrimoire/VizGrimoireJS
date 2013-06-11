@@ -293,10 +293,13 @@ var Report = {};
             Report.registerDataSource(mls);        
             var scm = new SCM();
             Report.registerDataSource(scm);
+            var scr = new SCR();
+            Report.registerDataSource(scr);
         
             its.setDataDir(project);
             mls.setDataDir(project);
             scm.setDataDir(project);
+            scr.setDataDir(project);
             scm.setITS(its);
         });
         
