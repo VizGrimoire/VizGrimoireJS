@@ -520,8 +520,13 @@ var Report = {};
                     var metric = $(this).data('metric');
                     var order_by = $(this).data('order-by');
                     var limit = $(this).data('limit');
-                    var show_others = $(this).data('show-others');
+                    var show_others = $(this).data('show-others'); 
                     config_metric.graph = $(this).data('graph');
+                    config_metric.show_legend = $(this).data('legend');
+                    if ($('#'+$(this).data('legend-div')).length>0) {
+                        config_metric.legend = {
+                            container: $(this).data('legend-div')};
+                    } else config_metric.legend.container = null;
                     div.id = metric+"-flotr2-companies-static";
                     DS.displayBasicMetricCompaniesStatic(metric,div.id,
                             config_metric, limit, order_by, show_others);

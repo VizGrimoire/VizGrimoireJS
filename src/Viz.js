@@ -353,6 +353,9 @@ var Viz = {};
             horizontal = true;
 
         var container = document.getElementById(divid);
+        var legend_div = null;
+        if (config_metric.legend && config_metric.legend.container)
+            legend_div = $('#'+config_metric.legend.container);
         var chart_data = [], i;
 
         if (!horizontal) {
@@ -400,8 +403,8 @@ var Viz = {};
             legend : {
                 show : false,
                 position : 'se',
-                backgroundColor : '#D2E8FF'
-            // container: container_legend
+                backgroundColor : '#D2E8FF',
+                container: legend_div
             }
         };
 
@@ -421,7 +424,8 @@ var Viz = {};
             }
 
             if (config_metric && config_metric.show_legend !== false)
-                config.legend = {show:true, position: 'ne'};
+                config.legend = {show:true, position: 'ne', 
+                    container: legend_div};
             
             // TODO: Color management should be defined
             //var defaults_colors = [ '#ffa500', '#ffff00', '#00ff00', '#4DA74D',
