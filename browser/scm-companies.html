@@ -36,6 +36,8 @@
   <body>
     <div id="navbar"></div>
     <div class="container-fluid">
+      <div id="container_legend" class="row-fluid">TEST
+      </div>
       <div id="info" class="row-fluid">
         <h4>Information about all companies</h4>
         Some charts and tables for top companies in the project, and a summary of the evolution of 
@@ -51,16 +53,21 @@
 		</div>      
       </div><!--/row-->
       <div id="summary-static" class="row-fluid">
-        <div class="span6">
+        <div class="span5">
 	        <div class="scm-flotr2-companies-static" 
-	            data-metric="commits" data-limit="10" data-order-by="commits"></div>
+	            data-metric="commits" data-limit="10" 
+                data-order-by="commits" data-legend-div='companies_legend'></div>
 	        <i><b>Commits per company (aggregated)</b><a href="notes.html#note:charts:companies:commits">
 	        <img src="qm_15.png"></a></i>
         </div>
-        <div class="span6">
+        <div class="span2" id="companies_legend">
+        </div>
+        <div class="span5">
             <div class="scm-flotr2-companies-static"
-            data-metric="authors" data-limit="10" data-order-by="commits"></div>
-            <i><b>Authors per company (aggregated)</b><a href="notes.html#note:charts:companies:authors">
+            data-metric="authors" data-limit="10" data-order-by="commits" 
+            data-legend='false'></div>
+            <i><b>Authors per company (aggregated)</b>
+            <a href="notes.html#note:charts:companies:authors">
             <img src="qm_15.png"></a></i>        
         </div>
       </div><!--/row-->
@@ -79,5 +86,16 @@
 
     <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-   <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>                    
+    <!-- <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script> -->
+    <script type="text/javascript" src="VizGrimoireJS/src/envision.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/DataSource.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/DataProcess.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Loader.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/ITS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/MLS.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/SCM.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/SCR.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Envision_Report.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/src/Viz.js"></script>                              
 </body></html>
