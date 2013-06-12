@@ -1,8 +1,8 @@
 {
 "scm_hide":["branches", "files", "added_lines", "removed_lines", "repositories"],
-"scr_hide":["*opened", "*closed", "*merged", "*new", "*abandoned", "*verified", "*approved", "*codereview", "*WaitingForReviewer", "*WaitingForSubmitter", "*submitted", "*sent"],
+"scr_hide":["*opened", "*closed", "*merged", "*new", "*abandoned", "*verified", "*approved", "*codereview", "*WaitingForReviewer", "*WaitingForSubmitter", "*submitted", "*sent","*reviewers"],
 "its_hide":["*opened", "*changed", "*openers", "closers", "changers"],
 "mls_hide":["*senders","threads","repositories","responses"],
-"summary_hide":["authors","committers","branches","added_lines","removed_lines","files", "repositories","closed","closers","*opened", "openers", "changed", "changers","*sent","senders","threads","responses","*merged", "new", "abandoned", "verified", "approved", "codereview", "WaitingForReviewer", "WaitingForSubmitter", "submitted", "sent"],
+"summary_hide":["authors","committers","branches","added_lines","removed_lines","files", "repositories","closed","closers","*opened", "openers", "changed", "changers","*sent","senders","threads","responses","merged", "new", "abandoned", "verified", "approved", "codereview", "WaitingForReviewer", "WaitingForSubmitter", "submitted", "sent","reviewers"],
 "mls_hide_lists":["<allura-users.incubator.apache.org>"]
 }
