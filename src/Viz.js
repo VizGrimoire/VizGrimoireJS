@@ -391,6 +391,7 @@ var Viz = {};
                 min : 0
             },
             mouse : {
+                container: legend_div,
                 track : true,
                 trackFormatter : function(o) {
                     var i = 'x';
