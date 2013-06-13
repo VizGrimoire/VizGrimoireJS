@@ -912,7 +912,7 @@ var Viz = {};
                 return n + '';
             },
             // Initial selection: disabled
-            selection_disabled : {
+            selection : {
                 data : {
                     x : {
                         min : dates[0][0],
