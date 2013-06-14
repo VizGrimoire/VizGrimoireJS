@@ -245,10 +245,28 @@ var Viz = {};
             
         graph = Flotr.draw(container, lines_data, config);
     }
+    
+    
+    function showHelp(div_id, metrics) {
+        var all_metrics = Report.getAllMetrics();
+        var help ='<a href="#" class="help"';
+        var content = "";
+        for (var i=0; i<metrics.length; i++) {
+            $.each (all_metrics, function (id, value) {
+                if (metrics[i] === id) {
+                    content += id +":"+ value.desc + "<br>";
+                    return false;
+                }
+            });
+        }         
+        help += 'data-content="'+content+'" data-html="true">'; 
+        help += '<img src="qm_15.png"></a>';
+        $('#'+div_id).before(help);
+    }
 
-    function displayMetricsLines(div_id, metrics, history, title, config) {
+    function displayMetricsLines(div_id, metrics, history, title, config) {        
+        showHelp(div_id, metrics);
         var lines_data = [];
-
         $.each(metrics, function(id, metric) {
             if (!history[metric]) return;
             var mdata = [[],[]];
@@ -258,6 +276,7 @@ var Viz = {};
             lines_data.push({label:metric, data:mdata});
         });
         displayDSLines(div_id, history, lines_data, title, config);
+
     };
     
     function displayMetricSubReportLines(div_id, metric, items, title, 
