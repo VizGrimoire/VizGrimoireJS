@@ -1,7 +1,7 @@
 {
 "its": {
-    "opened" : {
-        "divid" : "its-opened",
+    "its_opened" : {
+        "divid" : "its_opened",
         "column" : "opened",
         "name" : "Opened",
         "desc" : "Number of opened tickets",
@@ -10,8 +10,8 @@
             "show_markers" : true
         }
     },
-    "openers" : {
-        "divid" : "its-openers",
+    "its_openers" : {
+        "divid" : "its_openers",
         "column" : "openers",
         "name" : "Openers",
         "desc" : "Unique identities opening tickets",
@@ -20,14 +20,14 @@
             "gtype" : "whiskers"
         }
     },
-    "closed" : {
-        "divid" : "its-closed",
+    "its_closed" : {
+        "divid" : "its_closed",
         "column" : "closed",
         "name" : "Closed",
         "desc" : "Number of closed tickets"
     },
-    "closers" : {
-        "divid" : "its-closers",
+    "its_closers" : {
+        "divid" : "its_closers",
         "column" : "closers",
         "name" : "Closers",
         "desc" : "Number of identities closing tickets",
@@ -36,14 +36,14 @@
             "gtype" : "whiskers"
         }
     },
-    "changed" : {
-        "divid" : "its-changed",
+    "its_changed" : {
+        "divid" : "its_changed",
         "column" : "changed",
         "name" : "Changed",
         "desc" : "Number of changes to the state of tickets"
     },
-    "changers" : {
-        "divid" : "its-changers",
+    "its_changers" : {
+        "divid" : "its_changers",
         "column" : "changers",
         "name" : "Changers",
         "desc" : "Number of identities changing the state of tickets",
@@ -54,41 +54,41 @@
     }
 },
 "mls": {
-    "repositories" : {
-        "divid" : "mls-repos",
+    "mls_repositories" : {
+        "divid" : "mls_repos",
         "column" : "repositories",
         "name" : "Repositories",
         "desc" : "Number of mailing lists"
     },
-    "responses" : {
-        "divid" : "mls-responses",
+    "mls_responses" : {
+        "divid" : "mls_responses",
         "column" : "responses",
         "name" : "Responses",
         "desc" : "Number of messages that are responses"
     },
-    "sent" : {
-        "divid" : "mls-sent",
+    "mls_sent" : {
+        "divid" : "mls_sent",
         "column" : "sent",
         "name" : "Sent",
         "desc" : "Number of messages"
     },
-    "senders" : {
-        "divid" : "mls-senders",
+    "mls_senders" : {
+        "divid" : "mls_senders",
         "column" : "senders",
         "name" : "Senders",
         "desc" : "Number of unique message senders",
         "action" : "sent"
     },
-    "threads" : {
-        "divid" : "mls-threads",
+    "mls_threads" : {
+        "divid" : "mls_threads",
         "column" : "threads",
         "name" : "Threads",
         "desc" : "Number of messages threads"
     }
 },
 "scm": {
-    "commits" : {
-        "divid" : "scm-commits",
+    "scm_commits" : {
+        "divid" : "scm_commits",
         "column" : "commits",
         "name" : "Commits",
         "desc" : "Number of commits (aggregating branches)",
@@ -97,8 +97,8 @@
             "show_markers" : true
         }
     },
-    "committers" : {
-        "divid" : "scm-committers",
+    "scm_committers" : {
+        "divid" : "scm_committers",
         "column" : "committers",
         "name" : "Committers",
         "desc" : "Unique committers making changes to the source code",
@@ -107,8 +107,8 @@
             "gtype" : "whiskers"
         }
     },
-    "authors" : {
-        "divid" : "scm-authors",
+    "scm_authors" : {
+        "divid" : "scm_authors",
         "column" : "authors",
         "name" : "Authors",
         "desc" : "Unique authors making changes to the source code",
@@ -117,8 +117,8 @@
             "gtype" : "whiskers"
         }
     },
-    "authors_rev" : {
-        "divid" : "scm-authors-rev",
+    "scm_authors_rev" : {
+        "divid" : "scm_authors_rev",
         "column" : "authors_rev",
         "name" : "Authors",
         "desc" : "Unique authors making changes reviewed to the source code",
@@ -127,8 +127,8 @@
             "gtype" : "whiskers"
         }
     },
-    "commits_rev" : {
-        "divid" : "scm-commits-rev",
+    "scm_commits_rev" : {
+        "divid" : "scm_commits_rev",
         "column" : "commits_rev",
         "name" : "Commits Reviewed",
         "desc" : "Evolution of the number of commits reviewed (aggregating branches)",
@@ -137,8 +137,8 @@
             "show_markers" : true
         }
     },
-    "reviewers" : {
-        "divid" : "scm-reviewers",
+    "scm_reviewers" : {
+        "divid" : "scm_reviewers",
         "column" : "reviewers",
         "name" : "Reviewers",
         "desc" : "Unique reviewers making reviews to the source code changes",
@@ -147,32 +147,32 @@
             "gtype" : "whiskers"
         }
     },
-    "branches" : {
-        "divid" : "scm-branches",
+    "scm_branches" : {
+        "divid" : "scm_branches",
         "column" : "branches",
         "name" : "Branches",
         "desc" : "Evolution of the number of branches"
     },
-    "files" : {
-        "divid" : "scm-files",
+    "scm_files" : {
+        "divid" : "scm_files",
         "column" : "files",
         "name" : "Files",
         "desc" : "Evolution of the number of unique files handled by the community"
     },
-    "added_lines" : {
-        "divid" : "scm-added-lines",
+    "scm_added_lines" : {
+        "divid" : "scm_added_lines",
         "column" : "added_lines",
         "name" : "Lines Added",
         "desc" : "Source code lines added"
     },
-    "removed_lines" : {
-        "divid" : "scm-removed-lines-",
+    "scm_removed_lines" : {
+        "divid" : "scm_removed_lines",
         "column" : "removed_lines",
         "name" : "Lines Removed",
         "desc" : "Source code lines removed"
     },
-    "repositories" : {
-        "divid" : "scm-repositories",
+    "scm_repositories" : {
+        "divid" : "scm_repositories",
         "column" : "repositories",
         "name" : "Repositories",
         "desc" : "Evolution of the number of repositories",
@@ -182,74 +182,74 @@
     }
 },
 "scr": {
-    "opened" : {
-        "divid" : "scr-opened",
+    "scr_opened" : {
+        "divid" : "scr_opened",
         "column" : "opened",
         "name" : "opened",
         "desc" : ""
     },
-    "closed" : {
-        "divid" : "scr-closed",
+    "scr_closed" : {
+        "divid" : "scr_closed",
         "column" : "closed",
         "name" : "closed",
         "desc" : ""
     },
-    "merged" : {
-        "divid" : "scr-merged",
+    "scr_merged" : {
+        "divid" : "scr_merged",
         "column" : "merged",
         "name" : "merged",
         "desc" : ""
     },
-    "new" : {
-        "divid" : "scr-new",
+    "scr_new" : {
+        "divid" : "scr_new",
         "column" : "new",
         "name" : "new",
         "desc" : ""
     },
-    "abandoned" : {
-        "divid" : "scr-abandoned",
+    "scr_abandoned" : {
+        "divid" : "scr_abandoned",
         "column" : "abandoned",
         "name" : "abandoned",
         "desc" : ""
     },
-    "verified" : {
-        "divid" : "scr-",
+    "scr_verified" : {
+        "divid" : "scr_verified",
         "column" : "verified",
         "name" : "verified",
         "desc" : ""
     },
-    "approved" : {
-        "divid" : "scr-approved",
+    "scr_approved" : {
+        "divid" : "scr_approved",
         "column" : "approved",
         "name" : "approved",
         "desc" : ""
     },
-    "codereview" : {
-        "divid" : "scr-codereview",
+    "scr_codereview" : {
+        "divid" : "scr_codereview",
         "column" : "codereview",
-        "name" : "codereview",
+        "name" : "code review",
         "desc" : ""
     },
-    "WaitingForReviewer" : {
-        "divid" : "scr-WaitingForReviewer",
+    "scr_WaitingForReviewer" : {
+        "divid" : "scr_WaitingForReviewer",
         "column" : "WaitingForReviewer",
-        "name" : "WaitingForReviewer",
+        "name" : "Waiting for Reviewer",
         "desc" : ""
     },        
-    "WaitingForSubmitter" : {
-        "divid" : "scr-WaitingForSubmitter",
+    "scr_WaitingForSubmitter" : {
+        "divid" : "scr_WaitingForSubmitter",
         "column" : "WaitingForSubmitter",
-        "name" : "WaitingForSubmitter",
+        "name" : "Waiting for Submitter",
         "desc" : ""
     },
-    "submitted" : {
-        "divid" : "scr-submitted",
+    "scr_submitted" : {
+        "divid" : "scr_submitted",
         "column" : "submitted",
         "name" : "submitted",
         "desc" : ""
     },
-    "sent" : {
-        "divid" : "scr-sent",
+    "scr_sent" : {
+        "divid" : "scr_sent",
         "column" : "sent",
         "name" : "sent",
         "desc" : ""
