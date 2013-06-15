@@ -52,7 +52,15 @@ function DataSource(name, basic_metrics) {
     };
     this.setData = function(load_data, self) {
         if (self === undefined) self = this;
-        self.data = load_data;
+        // Namespace metrics
+        var metrics = {};
+        $.each(load_data, function (name, value) {
+            var ns_name = self.getName()+"_"+name;
+            if (self.getMetrics()[ns_name] === undefined)
+                metrics[name] = value;
+            else metrics[ns_name] = value;
+        });
+        self.data = metrics;
     };
     
     

@@ -24,8 +24,8 @@
 function ITS() {
 
     this.basic_metrics = {
-        'opened' : {
-            'divid' : 'its-opened',
+        'its_opened' : {
+            'divid' : 'its_opened',
             'column' : "opened",
             'name' : "Opened",
             'desc' : "Number of opened tickets",
@@ -34,8 +34,8 @@ function ITS() {
                 show_markers : true
             }
         },
-        'openers' : {
-            'divid' : 'its-openers',
+        'its_openers' : {
+            'divid' : 'its_openers',
             'column' : "openers",
             'name' : "Openers",
             'desc' : "Unique identities opening tickets",
@@ -44,14 +44,14 @@ function ITS() {
                 gtype : 'whiskers'
             }
         },
-        'closed' : {
-            'divid' : 'its-closed',
+        'its_closed' : {
+            'divid' : 'its_closed',
             'column' : "closed",
             'name' : "Closed",
             'desc' : "Number of closed tickets"
         },
-        'closers' : {
-            'divid' : 'its-closers',
+        'its_closers' : {
+            'divid' : 'its_closers',
             'column' : "closers",
             'name' : "Closers",
             'desc' : "Number of identities closing tickets",
@@ -60,14 +60,14 @@ function ITS() {
                 gtype : 'whiskers'
             }
         },
-        'changed' : {
-            'divid' : 'its-changed',
+        'its_changed' : {
+            'divid' : 'its_changed',
             'column' : "changed",
             'name' : "Changed",
             'desc' : "Number of changes to the state of tickets"
         },
-        'changers' : {
-            'divid' : 'its-changers',
+        'its_changers' : {
+            'divid' : 'its_changers',
             'column' : "changers",
             'name' : "Changers",
             'desc' : "Number of identities changing the state of tickets",
@@ -79,7 +79,7 @@ function ITS() {
     };       
     
     this.getMainMetric = function() {
-        return "opened";
+        return "its_opened";
     };
     
     this.setReposData = function(repos_name, self) {

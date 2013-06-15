@@ -24,8 +24,8 @@
 function SCM() {
 
     this.basic_metrics = {
-        'commits' : {
-            'divid' : "scm-commits",
+        'scm_commits' : {
+            'divid' : "scm_commits",
             'column' : "commits",
             'name' : "Commits",
             'desc' : "Evolution of the number of commits (aggregating branches)",
@@ -34,8 +34,8 @@ function SCM() {
                 show_markers : true
             }
         },
-        'committers' : {
-            'divid' : "scm-committers",
+        'scm_committers' : {
+            'divid' : "scm_committers",
             'column' : "committers",
             'name' : "Committers",
             'desc' : "Unique committers making changes to the source code",
@@ -44,8 +44,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'authors' : {
-            'divid' : "scm-authors",
+        'scm_authors' : {
+            'divid' : "scm_authors",
             'column' : "authors",
             'name' : "Authors",
             'desc' : "Unique authors making changes to the source code",
@@ -54,8 +54,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'authors_rev' : {
-            'divid' : "scm-authors-rev",
+        'scm_authors_rev' : {
+            'divid' : "scm_authors-rev",
             'column' : "authors_rev",
             'name' : "Authors",
             'desc' : "Unique authors making changes reviewed to the source code",
@@ -64,8 +64,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'commits_rev' : {
-            'divid' : "scm-commits-rev",
+        'scm_commits_rev' : {
+            'divid' : "scm_commits-rev",
             'column' : "commits_rev",
             'name' : "Commits Reviewed",
             'desc' : "Evolution of the number of commits reviewed (aggregating branches)",
@@ -74,8 +74,8 @@ function SCM() {
                 show_markers : true
             }
         },
-        'reviewers' : {
-            'divid' : "scm-reviewers",
+        'scm_reviewers' : {
+            'divid' : "scm_reviewers",
             'column' : "reviewers",
             'name' : "Reviewers",
             'desc' : "Unique reviewers making reviews to the source code changes",
@@ -84,38 +84,32 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'branches' : {
-            'divid' : "scm-branches",
+        'scm_branches' : {
+            'divid' : "scm_branches",
             'column' : "branches",
             'name' : "Branches",
             'desc' : "Evolution of the number of branches"
         },
-        'files' : {
-            'divid' : "scm-files",
+        'scm_files' : {
+            'divid' : "scm_files",
             'column' : "files",
             'name' : "Files",
             'desc' : "Evolution of the number of unique files handled by the community"
         },
-        'files' : {
-            'divid' : "scm-files",
-            'column' : "files",
-            'name' : "Files",
-            'desc' : "Evolution of the number of unique files handled by the community"
-        },
-        'added_lines' : {
-            'divid' : "scm-added-lines",
+        'scm_added_lines' : {
+            'divid' : "scm_added-lines",
             'column' : "added_lines",
             'name' : "Lines Added",
             'desc' : "Evolution of the source code lines added"
         },
-        'removed_lines' : {
-            'divid' : "scm-removed-lines-",
+        'scm_removed_lines' : {
+            'divid' : "scm_removed-lines-",
             'column' : "removed_lines",
             'name' : "Lines Removed",
             'desc' : "Evolution of the source code lines removed"
         },
-        'repositories' : {
-            'divid' : "scm-repositories",
+        'scm_repositories' : {
+            'divid' : "scm_repositories",
             'column' : "repositories",
             'name' : "Repositories",
             'desc' : "Evolution of the number of repositories",
@@ -126,7 +120,7 @@ function SCM() {
     };
     
     this.getMainMetric = function() {
-        return "commits";
+        return "scm_commits";
     };
     
     this.setITS = function(its) {

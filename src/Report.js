@@ -532,7 +532,7 @@ var Report = {};
                     if ($('#'+$(this).data('legend-div')).length>0) {
                         config_metric.legend = {
                             container: $(this).data('legend-div')};
-                    } else config_metric.legend.container = null;
+                    } else config_metric.legend = {container: null};
                     div.id = metric+"-flotr2-companies-static";
                     DS.displayBasicMetricCompaniesStatic(metric,div.id,
                             config_metric, limit, order_by, show_others);
@@ -791,11 +791,12 @@ var Report = {};
         var metric_already_shown = [];
         $.each(Report.getDataSources(), function(index, DS) {
             if (DS.getData().length === 0) return;
-            $.each(DS.getMetrics(), function(i, metric) {
+            $.each(DS.getMetrics(), function(name, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
                 if ($("#"+div_flotr2).length > 0 &&
                         $.inArray(metric.column, metric_already_shown) === -1) {
-                    DS.displayBasicMetricHTML(i,div_flotr2, config_metric);
+                    DS.displayBasicMetricHTML(name,div_flotr2, config_metric);
+                    // TODO: clean this hack
                     metric_already_shown.push(metric.column);
                 }
                 // Getting data real time

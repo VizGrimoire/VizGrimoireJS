@@ -26,33 +26,33 @@ function MLS() {
     var self = this;
     
     this.basic_metrics = {
-        'repositories' : {
-            'divid' : "mls-repos",
+        'mls_repositories' : {
+            'divid' : "mls_repos",
             'column' : "repositories",
             'name' : "Repositories",
             'desc' : "Number of mailing lists"
         },
-        'responses' : {
-            'divid' : "mls-responses",
+        'mls_responses' : {
+            'divid' : "mls_responses",
             'column' : "responses",
             'name' : "Responses",
             'desc' : "Number of messages that are responses"
         },
-        'sent' : {
-            'divid' : "mls-sent",
+        'mls_sent' : {
+            'divid' : "mls_sent",
             'column' : "sent",
             'name' : "Sent",
             'desc' : "Number of messages"
         },
-        'senders' : {
-            'divid' : "mls-senders",
+        'mls_senders' : {
+            'divid' : "mls_senders",
             'column' : "senders",
             'name' : "Senders",
             'desc' : "Number of unique message senders",
             'action' : "sent"
         },
-        'threads' : {
-            'divid' : "mls-threads",
+        'mls_threads' : {
+            'divid' : "mls_threads",
             'column' : "threads",
             'name' : "Threads",
             'desc' : "Number of messages threads"
@@ -75,7 +75,7 @@ function MLS() {
     };
 
     this.getMainMetric = function() {
-        return "sent";
+        return "mls_sent";
     };
     
     this.displaySummary = function(report, divid, item, ds) {

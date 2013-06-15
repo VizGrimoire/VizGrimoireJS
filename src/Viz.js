@@ -1159,7 +1159,9 @@ var Viz = {};
             displayBasicLinesFile(metric.divid+"_"+div_target, config.json_ds, 
                     metric.column, config.show_labels, title, projs);
         else
-            displayBasicLines(metric.divid, data, metric.column,
+            // displayBasicLines(metric.divid, data, metric.column,
+            // TODO: temporal hack for ns metric name
+            displayBasicLines(metric.divid, data, metric.divid,
                     config.show_labels, title, projs);
     }
 

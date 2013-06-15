@@ -26,74 +26,74 @@ function SCR() {
     var self = this;
     
     this.basic_metrics = {
-        'opened' : {
-            'divid' : "scr-opened",
+        'scr_opened' : {
+            'divid' : "scr_opened",
             'column' : "opened",
             'name' : "opened",
             'desc' : ""
         },
-        'closed' : {
-            'divid' : "scr-closed",
+        'scr_closed' : {
+            'divid' : "scr_closed",
             'column' : "closed",
             'name' : "closed",
             'desc' : ""
         },
-        'merged' : {
-            'divid' : "scr-merged",
+        'scr_merged' : {
+            'divid' : "scr_merged",
             'column' : "merged",
             'name' : "merged",
             'desc' : ""
         },
-        'new' : {
-            'divid' : "scr-new",
+        'scr_new' : {
+            'divid' : "scr_new",
             'column' : "new",
             'name' : "new",
             'desc' : ""
         },
-        'abandoned' : {
-            'divid' : "scr-abandoned",
+        'scr_abandoned' : {
+            'divid' : "scr_abandoned",
             'column' : "abandoned",
             'name' : "abandoned",
             'desc' : ""
         },
-        'verified' : {
-            'divid' : "scr-",
+        'scr_verified' : {
+            'divid' : "scr_verified",
             'column' : "verified",
             'name' : "verified",
             'desc' : ""
         },
-        'approved' : {
-            'divid' : "scr-approved",
+        'scr_approved' : {
+            'divid' : "scr_approved",
             'column' : "approved",
             'name' : "approved",
             'desc' : ""
         },
-        'codereview' : {
-            'divid' : "scr-codereview",
+        'scr_codereview' : {
+            'divid' : "scr_codereview",
             'column' : "codereview",
             'name' : "codereview",
             'desc' : ""
         },
-        'WaitingForReviewer' : {
-            'divid' : "scr-WaitingForReviewer",
+        'scr_WaitingForReviewer' : {
+            'divid' : "scr_WaitingForReviewer",
             'column' : "WaitingForReviewer",
             'name' : "WaitingForReviewer",
             'desc' : ""
         },        
-        'WaitingForSubmitter' : {
-            'divid' : "scr-WaitingForSubmitter",
+        'scr_WaitingForSubmitter' : {
+            'divid' : "scr_WaitingForSubmitter",
             'column' : "WaitingForSubmitter",
             'name' : "WaitingForSubmitter",
             'desc' : ""
         },
-        'submitted' : {
-            'divid' : "scr-submitted",
+        'scr_submitted' : {
+            'divid' : "scr_submitted",
             'column' : "submitted",
             'name' : "submitted",
             'desc' : ""
         },
-        'sent' : {
-            'divid' : "scr-sent",
+        'scr_sent' : {
+            'divid' : "scr_sent",
             'column' : "sent",
             'name' : "sent",
             'desc' : ""
@@ -101,7 +101,7 @@ function SCR() {
     };
         
     this.getMainMetric = function() {
-        return "merged";
+        return "scr_merged";
     };
     
     function getMetricsLabels() {        
