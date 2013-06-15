@@ -25,7 +25,7 @@ function SCR() {
     
     var self = this;
     
-    var basic_metrics = {
+    this.basic_metrics = {
         'opened' : {
             'divid' : "scr-opened",
             'column' : "opened",
@@ -103,7 +103,6 @@ function SCR() {
     this.getMainMetric = function() {
         return "merged";
     };
-    this.getMetrics = function() {return basic_metrics;};
     
     function getMetricsLabels() {        
         var id_label = {
@@ -217,5 +216,4 @@ function SCR() {
 
     this.getTitle = function() {return "Source Code Review";};    
 }
-var aux = new SCR();
-SCR.prototype = new DataSource("scr", aux.getMetrics());
+SCR.prototype = new DataSource("scr");

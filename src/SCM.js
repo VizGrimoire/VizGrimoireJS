@@ -23,7 +23,7 @@
 
 function SCM() {
 
-    var basic_metrics = {
+    this.basic_metrics = {
         'commits' : {
             'divid' : "scm-commits",
             'column' : "commits",
@@ -124,8 +124,6 @@ function SCM() {
             }
         }
     };
-    
-    this.getMetrics = function() {return basic_metrics;};
     
     this.getMainMetric = function() {
         return "commits";
@@ -231,5 +229,4 @@ function SCM() {
         Viz.displayBubbles(divid, "commits", "committers", radius);
     };
 }
-var aux = new SCM();
-SCM.prototype = new DataSource("scm", aux.getMetrics());
+SCM.prototype = new DataSource("scm");

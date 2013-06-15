@@ -188,6 +188,12 @@ var Report = {};
       return projects_datasources;
     };
     
+    Report.setMetricsDefinition = function(metrics) {
+        $.each(Report.getDataSources(), function(i, DS) {
+           DS.setMetricsDefinition(metrics[DS.getName()]); 
+        });
+    };
+    
     function getMetricDS(metric_id) {
         var ds = [];
         $.each(Report.getDataSources(), function(i, DS) {

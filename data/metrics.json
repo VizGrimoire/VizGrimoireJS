@@ -1,0 +1,258 @@
+{
+"its": {
+    "opened" : {
+        "divid" : "its-opened",
+        "column" : "opened",
+        "name" : "Opened",
+        "desc" : "Number of opened tickets",
+        "envision" : {
+            "y_labels" : true,
+            "show_markers" : true
+        }
+    },
+    "openers" : {
+        "divid" : "its-openers",
+        "column" : "openers",
+        "name" : "Openers",
+        "desc" : "Unique identities opening tickets",
+        "action" : "opened",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "closed" : {
+        "divid" : "its-closed",
+        "column" : "closed",
+        "name" : "Closed",
+        "desc" : "Number of closed tickets"
+    },
+    "closers" : {
+        "divid" : "its-closers",
+        "column" : "closers",
+        "name" : "Closers",
+        "desc" : "Number of identities closing tickets",
+        "action" : "closed",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "changed" : {
+        "divid" : "its-changed",
+        "column" : "changed",
+        "name" : "Changed",
+        "desc" : "Number of changes to the state of tickets"
+    },
+    "changers" : {
+        "divid" : "its-changers",
+        "column" : "changers",
+        "name" : "Changers",
+        "desc" : "Number of identities changing the state of tickets",
+        "action" : "changed",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    }
+},
+"mls": {
+    "repositories" : {
+        "divid" : "mls-repos",
+        "column" : "repositories",
+        "name" : "Repositories",
+        "desc" : "Number of mailing lists"
+    },
+    "responses" : {
+        "divid" : "mls-responses",
+        "column" : "responses",
+        "name" : "Responses",
+        "desc" : "Number of messages that are responses"
+    },
+    "sent" : {
+        "divid" : "mls-sent",
+        "column" : "sent",
+        "name" : "Sent",
+        "desc" : "Number of messages"
+    },
+    "senders" : {
+        "divid" : "mls-senders",
+        "column" : "senders",
+        "name" : "Senders",
+        "desc" : "Number of unique message senders",
+        "action" : "sent"
+    },
+    "threads" : {
+        "divid" : "mls-threads",
+        "column" : "threads",
+        "name" : "Threads",
+        "desc" : "Number of messages threads"
+    }
+},
+"scm": {
+    "commits" : {
+        "divid" : "scm-commits",
+        "column" : "commits",
+        "name" : "Commits",
+        "desc" : "Number of commits (aggregating branches)",
+        "envision" : {
+            "y_labels" : true,
+            "show_markers" : true
+        }
+    },
+    "committers" : {
+        "divid" : "scm-committers",
+        "column" : "committers",
+        "name" : "Committers",
+        "desc" : "Unique committers making changes to the source code",
+        "action" : "commits",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "authors" : {
+        "divid" : "scm-authors",
+        "column" : "authors",
+        "name" : "Authors",
+        "desc" : "Unique authors making changes to the source code",
+        "action" : "commits",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "authors_rev" : {
+        "divid" : "scm-authors-rev",
+        "column" : "authors_rev",
+        "name" : "Authors",
+        "desc" : "Unique authors making changes reviewed to the source code",
+        "action" : "commits_rev",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "commits_rev" : {
+        "divid" : "scm-commits-rev",
+        "column" : "commits_rev",
+        "name" : "Commits Reviewed",
+        "desc" : "Evolution of the number of commits reviewed (aggregating branches)",
+        "envision" : {
+            "y_labels" : true,
+            "show_markers" : true
+        }
+    },
+    "reviewers" : {
+        "divid" : "scm-reviewers",
+        "column" : "reviewers",
+        "name" : "Reviewers",
+        "desc" : "Unique reviewers making reviews to the source code changes",
+        "action" : "commits-rev",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "branches" : {
+        "divid" : "scm-branches",
+        "column" : "branches",
+        "name" : "Branches",
+        "desc" : "Evolution of the number of branches"
+    },
+    "files" : {
+        "divid" : "scm-files",
+        "column" : "files",
+        "name" : "Files",
+        "desc" : "Evolution of the number of unique files handled by the community"
+    },
+    "added_lines" : {
+        "divid" : "scm-added-lines",
+        "column" : "added_lines",
+        "name" : "Lines Added",
+        "desc" : "Source code lines added"
+    },
+    "removed_lines" : {
+        "divid" : "scm-removed-lines-",
+        "column" : "removed_lines",
+        "name" : "Lines Removed",
+        "desc" : "Source code lines removed"
+    },
+    "repositories" : {
+        "divid" : "scm-repositories",
+        "column" : "repositories",
+        "name" : "Repositories",
+        "desc" : "Evolution of the number of repositories",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    }
+},
+"scr": {
+    "opened" : {
+        "divid" : "scr-opened",
+        "column" : "opened",
+        "name" : "opened",
+        "desc" : ""
+    },
+    "closed" : {
+        "divid" : "scr-closed",
+        "column" : "closed",
+        "name" : "closed",
+        "desc" : ""
+    },
+    "merged" : {
+        "divid" : "scr-merged",
+        "column" : "merged",
+        "name" : "merged",
+        "desc" : ""
+    },
+    "new" : {
+        "divid" : "scr-new",
+        "column" : "new",
+        "name" : "new",
+        "desc" : ""
+    },
+    "abandoned" : {
+        "divid" : "scr-abandoned",
+        "column" : "abandoned",
+        "name" : "abandoned",
+        "desc" : ""
+    },
+    "verified" : {
+        "divid" : "scr-",
+        "column" : "verified",
+        "name" : "verified",
+        "desc" : ""
+    },
+    "approved" : {
+        "divid" : "scr-approved",
+        "column" : "approved",
+        "name" : "approved",
+        "desc" : ""
+    },
+    "codereview" : {
+        "divid" : "scr-codereview",
+        "column" : "codereview",
+        "name" : "codereview",
+        "desc" : ""
+    },
+    "WaitingForReviewer" : {
+        "divid" : "scr-WaitingForReviewer",
+        "column" : "WaitingForReviewer",
+        "name" : "WaitingForReviewer",
+        "desc" : ""
+    },        
+    "WaitingForSubmitter" : {
+        "divid" : "scr-WaitingForSubmitter",
+        "column" : "WaitingForSubmitter",
+        "name" : "WaitingForSubmitter",
+        "desc" : ""
+    },
+    "submitted" : {
+        "divid" : "scr-submitted",
+        "column" : "submitted",
+        "name" : "submitted",
+        "desc" : ""
+    },
+    "sent" : {
+        "divid" : "scr-sent",
+        "column" : "sent",
+        "name" : "sent",
+        "desc" : ""
+    }
+}
+}

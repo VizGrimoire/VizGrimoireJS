@@ -61,6 +61,7 @@ var Loader = {};
         data_load_companies();
         data_load_repos();
         data_load_countries();
+        data_load_metrics_definition();
         data_load_metrics();
         data_load_people();
         data_load_tops('authors');
@@ -241,6 +242,10 @@ var Loader = {};
             }
 
         });
+    }
+    
+    function data_load_metrics_definition() {
+        data_load_file("VizGrimoireJS/data/metrics.json", Report.setMetricsDefinition);
     }
     
     function data_load_people() {

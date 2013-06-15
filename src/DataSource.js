@@ -30,9 +30,12 @@ function DataSource(name, basic_metrics) {
         return this.top_data_file;
     };
     
-    this.basic_metrics = basic_metrics;
-    this.getMetrics = function() {
-        return this.basic_metrics;
+    this.getMetrics = function() {return this.basic_metrics;};
+    this.setMetrics = function(metrics) {this.basic_metrics = metrics;};
+    
+    this.setMetricsDefinition = function(metrics) {
+        if (metrics === undefined) return;
+        this.setMetrics(metrics);
     };
     
     this.data_file = this.data_dir + '/'+this.name+'-evolutionary.json';

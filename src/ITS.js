@@ -23,7 +23,7 @@
 
 function ITS() {
 
-    var basic_metrics = {
+    this.basic_metrics = {
         'opened' : {
             'divid' : 'its-opened',
             'column' : "opened",
@@ -77,8 +77,6 @@ function ITS() {
             }
         }
     };       
-    
-    this.getMetrics = function() {return basic_metrics;};
     
     this.getMainMetric = function() {
         return "opened";
@@ -181,5 +179,4 @@ function ITS() {
     };
     
 }
-var aux = new ITS();
-ITS.prototype = new DataSource("its", aux.getMetrics());
+ITS.prototype = new DataSource("its");

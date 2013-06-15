@@ -25,7 +25,7 @@ function MLS() {
     
     var self = this;
     
-    var basic_metrics = {
+    this.basic_metrics = {
         'repositories' : {
             'divid' : "mls-repos",
             'column' : "repositories",
@@ -77,7 +77,6 @@ function MLS() {
     this.getMainMetric = function() {
         return "sent";
     };
-    this.getMetrics = function() {return basic_metrics;};
     
     this.displaySummary = function(report, divid, item, ds) {
         if (!item) item = "";
@@ -517,5 +516,4 @@ function MLS() {
         new envision.templates.Envision_Report(options, [ this ]);
     };
 }
-var aux = new MLS();
-MLS.prototype = new DataSource("mls", aux.getMetrics());
+MLS.prototype = new DataSource("mls");
