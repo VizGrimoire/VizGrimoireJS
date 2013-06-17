@@ -52,6 +52,9 @@ function DataSource(name, basic_metrics) {
     };
     
     function nameSpaceMetrics(plain_metrics, ds) {
+        // If array, empty data
+        if (plain_metrics instanceof Array) 
+            return plain_metrics;
         var metrics = {};
         $.each(plain_metrics, function (name, value) {
             var ns_name = ds.getName()+"_"+name;
