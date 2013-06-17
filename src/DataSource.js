@@ -50,17 +50,21 @@ function DataSource(name, basic_metrics) {
     this.getData = function() {
         return this.data;
     };
-    this.setData = function(load_data, self) {
-        if (self === undefined) self = this;
-        // Namespace metrics
+    
+    function nameSpaceMetrics(plain_metrics, ds) {
         var metrics = {};
-        $.each(load_data, function (name, value) {
-            var ns_name = self.getName()+"_"+name;
-            if (self.getMetrics()[ns_name] === undefined)
+        $.each(plain_metrics, function (name, value) {
+            var ns_name = ds.getName()+"_"+name;
+            if (ds.getMetrics()[ns_name] === undefined)
                 metrics[name] = value;
             else metrics[ns_name] = value;
         });
-        self.data = metrics;
+        return metrics;
+    }
+    
+    this.setData = function(load_data, self) {
+        if (self === undefined) self = this;
+        self.data = nameSpaceMetrics(load_data, self);
     };
     
     
@@ -201,7 +205,7 @@ function DataSource(name, basic_metrics) {
     this.companies_metrics_data = {};
     this.addCompanyMetricsData = function(company, data, self) {
         if (self === undefined) self = this;
-        self.companies_metrics_data[company] = data;
+        self.companies_metrics_data[company] = nameSpaceMetrics(data, self);
     };
     this.getCompaniesMetricsData = function() {
         return this.companies_metrics_data;
@@ -252,7 +256,7 @@ function DataSource(name, basic_metrics) {
     this.repos_metrics_data = {};
     this.addRepoMetricsData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repos_metrics_data[repo] = data;
+        self.repos_metrics_data[repo] = nameSpaceMetrics(data, self);
     };
     this.getReposMetricsData = function() {
         return this.repos_metrics_data;
@@ -286,7 +290,7 @@ function DataSource(name, basic_metrics) {
     this.countries_metrics_data = {};
     this.addCountryMetricsData = function(country, data, self) {
         if (self === undefined) self = this;
-        self.countries_metrics_data[country] = data;
+        self.countries_metrics_data[country] = nameSpaceMetrics(data, self);
     };
     this.getCountriesMetricsData = function() {
         return this.countries_metrics_data;
@@ -474,7 +478,9 @@ function DataSource(name, basic_metrics) {
     
     this.displayBasicMetricsPeople = function (upeople_id, upeople_identifier, metrics, div_id, config) {
         var json_file = "people-"+upeople_id+"-"+this.getName()+"-evolutionary.json";
+        var self = this;
         $.when($.getJSON(this.getDataDir()+"/"+json_file)).done(function(history) {
+            history = nameSpaceMetrics(history, self);
             Viz.displayBasicMetricsPeople(upeople_identifier, metrics, history, div_id, config);
         }).fail(function() {
             $("#people").empty();

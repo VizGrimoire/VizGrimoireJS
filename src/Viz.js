@@ -1048,8 +1048,8 @@ var Viz = {};
         $("#" + div_target).append(new_div);
         for ( var id in basic_metrics) {
             var metric = basic_metrics[id];
-            if (data[0][metric.column] === undefined) continue;
-            if ($.inArray(metric.column, Report.getConfig()[hide]) > -1)
+            if (data[0][metric.divid] === undefined) continue;
+            if ($.inArray(metric.divid, Report.getConfig()[hide]) > -1)
                 continue;
             displayBasicMetricHTML(metric, data, div_target, config, projs);
         }
