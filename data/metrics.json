@@ -52,29 +52,29 @@
             "gtype" : "whiskers"
         }
     },
-    'its_companies' : {
-        'divid' : 'its_companies',
-        'column' : "companies",
-        'name' : "Companies",
-        'desc' : "Number of active companies"
+    "its_companies" : {
+        "divid" : "its_companies",
+        "column" : "companies",
+        "name" : "Companies",
+        "desc" : "Number of active companies"
     }, 
-    'its_countries' : {
-        'divid' : 'its_countries',
-        'column' : "countries",
-        'name' : "Countries",
-        'desc' : "Number of active countries"
+    "its_countries" : {
+        "divid" : "its_countries",
+        "column" : "countries",
+        "name" : "Countries",
+        "desc" : "Number of active countries"
     },
-    'its_repositories' : {
-        'divid' : 'its_repositories',
-        'column' : "repositories",
-        'name' : "Respositories",
-        'desc' : "Number of active respositories"
+    "its_repositories" : {
+        "divid" : "its_repositories",
+        "column" : "repositories",
+        "name" : "Respositories",
+        "desc" : "Number of active respositories"
     },
-    'its_people' : {
-        'divid' : 'its_people',
-        'column' : "people",
-        'name' : "People",
-        'desc' : "Number of active people"
+    "its_people" : {
+        "divid" : "its_people",
+        "column" : "people",
+        "name" : "People",
+        "desc" : "Number of active people"
     }
 },
 "mls": {
@@ -109,29 +109,29 @@
         "name" : "Threads",
         "desc" : "Number of messages threads"
     },
-    'mls_companies' : {
-        'divid' : 'mls_companies',
-        'column' : "companies",
-        'name' : "Companies",
-        'desc' : "Number of active companies"
+    "mls_companies" : {
+        "divid" : "mls_companies",
+        "column" : "companies",
+        "name" : "Companies",
+        "desc" : "Number of active companies"
     },
-    'mls_countries' : {
-        'divid' : 'mls_countries',
-        'column' : "countries",
-        'name' : "Countries",
-        'desc' : "Number of active countries"
+    "mls_countries" : {
+        "divid" : "mls_countries",
+        "column" : "countries",
+        "name" : "Countries",
+        "desc" : "Number of active countries"
     },
-    'mls_repositories' : {
-        'divid' : 'mls_repositories',
-        'column' : "repositories",
-        'name' : "Respositories",
-        'desc' : "Number of active respositories"
+    "mls_repositories" : {
+        "divid" : "mls_repositories",
+        "column" : "repositories",
+        "name" : "Respositories",
+        "desc" : "Number of active respositories"
     },
-    'mls_people' : {
-        'divid' : 'mls_people',
-        'column' : "people",
-        'name' : "People",
-        'desc' : "Number of active people"
+    "mls_people" : {
+        "divid" : "mls_people",
+        "column" : "people",
+        "name" : "People",
+        "desc" : "Number of active people"
     }
 },
 "scm": {
@@ -228,29 +228,29 @@
             "gtype" : "whiskers"
         }
     },
-    'scm_companies' : {
-        'divid' : 'scm_companies',
-        'column' : "companies",
-        'name' : "Companies",
-        'desc' : "Number of active companies"
+    "scm_companies" : {
+        "divid" : "scm_companies",
+        "column" : "companies",
+        "name" : "Companies",
+        "desc" : "Number of active companies"
     },
-    'scm_countries' : {
-        'divid' : 'scm_countries',
-        'column' : "countries",
-        'name' : "Countries",
-        'desc' : "Number of active countries"
+    "scm_countries" : {
+        "divid" : "scm_countries",
+        "column" : "countries",
+        "name" : "Countries",
+        "desc" : "Number of active countries"
     },
-    'scm_repositories' : {
-        'divid' : 'scm_repositories',
-        'column' : "repositories",
-        'name' : "Respositories",
-        'desc' : "Number of active respositories"
+    "scm_repositories" : {
+        "divid" : "scm_repositories",
+        "column" : "repositories",
+        "name" : "Respositories",
+        "desc" : "Number of active respositories"
     },
-    'scm_people' : {
-        'divid' : 'scm_people',
-        'column' : "people",
-        'name' : "People",
-        'desc' : "Number of active people"
+    "scm_people" : {
+        "divid" : "scm_people",
+        "column" : "people",
+        "name" : "People",
+        "desc" : "Number of active people"
     }
 },
 "scr": {
@@ -326,29 +326,29 @@
         "name" : "sent",
         "desc" : ""
     },
-    'scr_companies' : {
-        'divid' : 'scr_companies',
-        'column' : "companies",
-        'name' : "Companies",
-        'desc' : "Number of active companies"
+    "scr_companies" : {
+        "divid" : "scr_companies",
+        "column" : "companies",
+        "name" : "Companies",
+        "desc" : "Number of active companies"
     },
-    'scr_countries' : {
-        'divid' : 'scr_countries',
-        'column' : "countries",
-        'name' : "Countries",
-        'desc' : "Number of active countries"
+    "scr_countries" : {
+        "divid" : "scr_countries",
+        "column" : "countries",
+        "name" : "Countries",
+        "desc" : "Number of active countries"
     },
-    'scr_repositories' : {
-        'divid' : 'scr_repositories',
-        'column' : "repositories",
-        'name' : "Respositories",
-        'desc' : "Number of active respositories"
+    "scr_repositories" : {
+        "divid" : "scr_repositories",
+        "column" : "repositories",
+        "name" : "Respositories",
+        "desc" : "Number of active respositories"
     },
-    'scr_people' : {
-        'divid' : 'scr_people',
-        'column' : "people",
-        'name' : "People",
-        'desc' : "Number of active people"
+    "scr_people" : {
+        "divid" : "scr_people",
+        "column" : "people",
+        "name" : "People",
+        "desc" : "Number of active people"
     }
 }
 }
