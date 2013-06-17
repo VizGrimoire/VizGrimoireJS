@@ -128,24 +128,6 @@ function SCR() {
         return "scr_merged";
     };
     
-    function getMetricsLabels() {        
-        var id_label = {
-            submitted: "Submitted",
-            opened:"Opened",
-            "new":"New",
-            closed:"Closed",
-            merged:"Merged",
-            abandoned:"Abandoned",
-            verified:"Verified",
-            approved:"Approved",
-            codereview:"Code Review",
-            sent:"Sent",
-            WaitingForReviewer:"Waiting for Reviewer",
-            WaitingForSubmitter:"Waiting for Submitter"
-        };
-        return id_label;
-    }
-    
     this.displaySummary = function(report, divid, item, ds) {
         if (!item) item = "";
         var label = item;
@@ -162,13 +144,19 @@ function SCR() {
             global_data = ds.getCountriesGlobalData()[item];
         else if (report === "repositories")
             global_data = ds.getReposGlobalData()[item];
-        else global_data = ds.getGlobalData();
-        
+        else global_data = ds.getGlobalData();        
         if (!global_data) return;
-        
-        var id_label = getMetricsLabels();
+
+        var id_label = {
+                first_date : "Start",
+                last_date : "End",
+        };
+
+        var self = this;
         $.each(global_data,function(id,value) {
-            if (id_label[id]) 
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id]) 
                 html += id_label[id] + ": " + value + "<br>";
             else
                 if (report) html += id + ": " + value + "<br>";

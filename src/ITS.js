@@ -126,17 +126,10 @@ function ITS() {
         }
         var html = "<h4>" + label + "</h4>";
         var id_label = {
-            opened : "Opened",
-            openers : "Openers",
             first_date : "Start",
             last_date : "End",
-            closers : "Closers",
-            closed : "Closed",
-            changers : "Changers",
-    		changed: "Changed",
     		tickets: "Tickets",
-    		trackers: "Trackers"
-    		    
+    		trackers: "Trackers"    		    
         };
         var global_data = null;
         if (report === "companies")
@@ -148,9 +141,12 @@ function ITS() {
         else global_data = ds.getGlobalData();
         
         if (!global_data) return;
-        
+
+        var self = this;
         $.each(global_data,function(id,value) {
-        	if (id_label[id]) 
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id]) 
         		html += id_label[id] + ": " + value + "<br>";
         	else
         	    if (report) html += id + ": " + value + "<br>";

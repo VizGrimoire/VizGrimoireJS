@@ -112,11 +112,8 @@ function MLS() {
         }
         var html = "<h4>" + label + "</h4>";
         var id_label = {
-            sent: "Sent",
-            senders: "Senders",
             first_date : "Start",
             last_date : "End",
-            repositories: "Repositories"
         };
         var global_data = null;
         if (report === "companies")
@@ -129,8 +126,11 @@ function MLS() {
         
         if (!global_data) return;
         
+        var self = this;
         $.each(global_data,function(id,value) {
-            if (id_label[id]) 
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id]) 
                 html += id_label[id] + ": " + value + "<br>";
             else
                 if (report) html += id + ": " + value + "<br>";
