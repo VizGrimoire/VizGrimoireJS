@@ -110,7 +110,7 @@ function DataSource(name, basic_metrics) {
     };
     this.setGlobalData = function(data, self) {
         if (self === undefined) self = this;
-        self.global_data = data;
+        self.global_data = nameSpaceMetrics(data, self);
     };
     
     this.global_top_data = null;
@@ -214,7 +214,7 @@ function DataSource(name, basic_metrics) {
     this.companies_global_data = {};
     this.addCompanyGlobalData = function(company, data, self) {
         if (self === undefined) self = this;
-        self.companies_global_data[company] = data;
+        self.companies_global_data[company] = nameSpaceMetrics(data, self);
     };
     this.getCompaniesGlobalData = function() {
         return this.companies_global_data;
@@ -265,7 +265,7 @@ function DataSource(name, basic_metrics) {
     this.repos_global_data = {};
     this.addRepoGlobalData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repos_global_data[repo] = data;
+        self.repos_global_data[repo] =  nameSpaceMetrics(data, self);
     };
     this.getReposGlobalData = function() {
         return this.repos_global_data;
@@ -299,7 +299,7 @@ function DataSource(name, basic_metrics) {
     this.countries_global_data = {};
     this.addCountryGlobalData = function(country, data, self) {
         if (self === undefined) self = this;
-        self.countries_global_data[country] = data;
+        self.countries_global_data[country] = nameSpaceMetrics(data, self);
     };
     this.getCountriesGlobalData = function() {
         return this.countries_global_data;

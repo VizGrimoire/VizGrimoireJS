@@ -669,14 +669,14 @@ var Viz = {};
     }
 
     function displayRadarCommunity(div_id) {
-        var metrics = [ 'committers', 'authors', 'openers', 'closers',
-                'changers', 'senders' ];
+        var metrics = [ 'scm_committers', 'scm_authors', 'its_openers', 'its_closers',
+                'its_changers', 'mls_senders' ];
         displayRadar(div_id, metrics);
     }
 
     function displayRadarActivity(div_id) {
-        var metrics = [ 'commits', 'files', 'opened', 'closed', 'changed',
-                'sent' ];
+        var metrics = [ 'scm_commits', 'scm_files', 'its_opened', 'its_closed', 'its_changed',
+                'mls_sent' ];
         displayRadar(div_id, metrics);
     }
     
