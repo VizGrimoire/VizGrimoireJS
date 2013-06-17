@@ -199,7 +199,7 @@ function ITS() {
     this.getTitle = function() {return "Tickets";};
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "opened", "openers", radius);
+        Viz.displayBubbles(divid, "its_opened", "its_openers", radius);
     };
     
 }

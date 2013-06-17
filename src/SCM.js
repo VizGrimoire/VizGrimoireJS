@@ -244,7 +244,7 @@ function SCM() {
     };
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "commits", "committers", radius);
+        Viz.displayBubbles(divid, "scm_commits", "scm_committers", radius);
     };
 }
 SCM.prototype = new DataSource("scm");

@@ -182,7 +182,7 @@ function MLS() {
     };
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "sent", "senders", radius);
+        Viz.displayBubbles(divid, "mls_sent", "mls_senders", radius);
     };
         
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
