@@ -75,7 +75,31 @@ function ITS() {
             'envision' : {
                 gtype : 'whiskers'
             }
-        }
+        },
+        'its_companies' : {
+            'divid' : 'its_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'its_countries' : {
+            'divid' : 'its_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'its_repositories' : {
+            'divid' : 'its_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'its_people' : {
+            'divid' : 'its_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
+        }  
     };       
     
     this.getMainMetric = function() {

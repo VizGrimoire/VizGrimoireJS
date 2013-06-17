@@ -56,6 +56,30 @@ function MLS() {
             'column' : "threads",
             'name' : "Threads",
             'desc' : "Number of messages threads"
+        },
+        'mls_companies' : {
+            'divid' : 'mls_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'mls_countries' : {
+            'divid' : 'mls_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'mls_repositories' : {
+            'divid' : 'mls_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'mls_people' : {
+            'divid' : 'mls_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
         }
     };
         

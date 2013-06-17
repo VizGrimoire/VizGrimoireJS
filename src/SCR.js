@@ -97,6 +97,30 @@ function SCR() {
             'column' : "sent",
             'name' : "sent",
             'desc' : ""
+        },
+        'scr_companies' : {
+            'divid' : 'scr_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'scr_countries' : {
+            'divid' : 'scr_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'scr_repositories' : {
+            'divid' : 'scr_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'scr_people' : {
+            'divid' : 'scr_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
         }
     };
         

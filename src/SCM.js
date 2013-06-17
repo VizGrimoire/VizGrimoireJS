@@ -116,6 +116,30 @@ function SCM() {
             'envision' : {
                 gtype : 'whiskers'
             }
+        },
+        'scm_companies' : {
+            'divid' : 'scm_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'scm_countries' : {
+            'divid' : 'scm_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'scm_repositories' : {
+            'divid' : 'scm_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'scm_people' : {
+            'divid' : 'scm_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
         }
     };
     
