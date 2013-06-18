@@ -373,7 +373,7 @@ var Loader = {};
             }
         });         
         return check;
-    }
+    };
 
     // Two steps data loading
     function end_data_load()  {

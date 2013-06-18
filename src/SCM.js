@@ -97,13 +97,13 @@ function SCM() {
             'desc' : "Evolution of the number of unique files handled by the community"
         },
         'scm_added_lines' : {
-            'divid' : "scm_added-lines",
+            'divid' : "scm_added_lines",
             'column' : "added_lines",
             'name' : "Lines Added",
             'desc' : "Evolution of the source code lines added"
         },
         'scm_removed_lines' : {
-            'divid' : "scm_removed-lines-",
+            'divid' : "scm_removed_lines",
             'column' : "removed_lines",
             'name' : "Lines Removed",
             'desc' : "Evolution of the source code lines removed"

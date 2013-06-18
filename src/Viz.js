@@ -1150,7 +1150,7 @@ var Viz = {};
 
         //var new_div = '<div class="info-pill">';
         //$("#" + div_target).append(new_div);
-        new_div = '<div id="flotr2_' + metric.column
+        new_div = '<div id="flotr2_' + metric.divid
                 + '" class="m0-box-div">';
         new_div += '<h4>' + metric.name + '</h4>';
         if (config.realtime) {            

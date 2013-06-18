@@ -792,10 +792,10 @@ var Report = {};
             $.each(DS.getMetrics(), function(name, metric) {
                 var div_flotr2 = metric.divid+"-flotr2";
                 if ($("#"+div_flotr2).length > 0 &&
-                        $.inArray(metric.column, metric_already_shown) === -1) {
+                        $.inArray(metric.divid, metric_already_shown) === -1) {
                     DS.displayBasicMetricHTML(name,div_flotr2, config_metric);
                     // TODO: clean this hack
-                    metric_already_shown.push(metric.column);
+                    metric_already_shown.push(metric.divid);
                 }
                 // Getting data real time
                 var div_flotr2_rt = metric.divid+"-flotr2-rt";
@@ -808,7 +808,7 @@ var Report = {};
                         db = $(this).data('db');
                         div.id = db + "_" + div.className;
                         config_metric.json_ds ="http://localhost:3000/scm/"+db+"/";
-                        config_metric.json_ds += metric.column+"_evol/?callback=?";
+                        config_metric.json_ds += metric.divid+"_evol/?callback=?";
                         DS.displayBasicMetricHTML(i,div.id, config_metric);
                     });
                 }

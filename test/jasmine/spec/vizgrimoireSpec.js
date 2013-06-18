@@ -55,8 +55,10 @@ describe( "VizGrimoireJS library", function () {
                     });
                     Report.convertFlotr2();
                     $.each(Report.getDataSources(), function(index, DS) {
-                        $.each(DS.getMetrics(), function(i, metric) {
-                            expect(document.getElementById("flotr2_"+i)
+                        var ds_metrics = DS.getData(); 
+                        $.each(DS.getMetrics(), function(name, metric) {
+                            if (ds_metrics[name] === undefined) return true;
+                            expect(document.getElementById("flotr2_"+name)
                                     .childNodes.length).toBeGreaterThan(0);
                         });
                     });
