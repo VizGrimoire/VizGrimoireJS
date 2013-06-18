@@ -168,6 +168,7 @@ function ITS() {
         } else {
             url = Report.getProjectData().its_url;
         }
+        if (url === undefined) url = '';
         if (this.global_data.type === "allura")
             url = url.replace("rest/","");
         else if (this.global_data.type === "github") {

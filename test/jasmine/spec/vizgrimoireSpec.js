@@ -102,24 +102,43 @@ describe( "VizGrimoireJS library", function () {
                     Report.convertBubbles();
                     var new_ncanvas = document.getElementsByClassName
                         ('flotr-canvas').length;
-                    expect(new_ncanvas-ncanvas).toEqual
-                        (Report.getDataSources().length);
+                    // SCR does not support bubbles yet
+                    var bubbles_ds = Report.getDataSources().length - 1;
+                    expect(new_ncanvas-ncanvas).toEqual(bubbles_ds);
                 });        
             });
             it("html demographics should be displayed", function () {
-                runs(function() {
+                function buildNodesDemographic(type) {
                     $.each(Report.getDataSources(), function(index, DS) {
-                        // TODO: ITS and MLS demographics not supported yet
-                        if (DS.getName() === "scm")
-                            buildNode(DS.getName()+"-demographics",
-                                        "demographics");
-                    });
-                    var ncanvas = document.getElementsByClassName
+                        if (DS.getName() !== "scr")
+                            buildNode(DS.getName()+"-demographics-"+type,
+                                      DS.getName()+"-demographics-"+type,
+                                    {
+                                        'data-period': '0.25',
+                                        'class': 'demographic-bars',
+                                        'data-file':'data/json/'+DS.getName()+'-demographics-'+type+'.json',
+                                        'style':'position: relative'
+                                    });
+                    });                    
+                }
+                var ncanvas = 0;
+                runs(function() {
+                    buildNodesDemographic('aging');
+                    buildNodesDemographic('birth');
+                    ncanvas = document.getElementsByClassName
                         ('flotr-canvas').length;
                     Report.convertDemographics();
+                });
+                // TODO: JSON files for top should be loaded. 
+                //       Change this load to global data loading
+                waitsFor(function() {
+                    return (document.getElementById("scm-demographics-birth")
+                    .childNodes.length > 0);
+                }, "It took too long to load data", 100);
+                runs(function() {
                     var new_ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    expect(new_ncanvas-ncanvas).toEqual(1);
+                        ('flotr-titles').length;
+                    expect(new_ncanvas-ncanvas).toEqual(6);
                 });        
             });
             it("html selectors should be displayed", function () {

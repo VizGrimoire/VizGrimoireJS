@@ -205,7 +205,8 @@ function SCR() {
 
     this.displayBubbles = function(divid, radius) {
         // TODO: we don't have people metrics data
-        Viz.displayBubbles(divid, "opened", "openers", radius);
+        return;
+        Viz.displayBubbles(divid, "scr_opened", "scr_openers", radius);
     };
         
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
