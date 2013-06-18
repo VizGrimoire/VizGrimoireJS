@@ -351,7 +351,7 @@ var Loader = {};
         return check;
     }
     
-    function check_data_loaded() {
+    Loader.check_data_loaded = function() {
         var check = true;
 
         if (!(check_data_loaded_global())) return false;
@@ -383,7 +383,7 @@ var Loader = {};
             }
             data_global_callbacks = [];
         }
-        if (check_data_loaded()) {
+        if (Loader.check_data_loaded()) {
             // Invoke callbacks informing all data needed has been loaded
             for (var j = 0; j < data_callbacks.length; j++) {
                 data_callbacks[j]();
