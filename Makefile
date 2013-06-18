@@ -6,6 +6,7 @@ JSHINT = jshint
 
 all: \
 	vizgrimoire.js \
+	jshint \
 	vizgrimoire.min.js \
 	vizgrimoire.css
 	
@@ -50,13 +51,17 @@ vizgrimoire.core.css: \
 	$(JS_UGLIFY) -o $@ $<  
 
 vizgrimoire%js: Makefile
+	echo $@
 	@rm -f $@
-	# @$(JSHINT) $(filter %.js,$^)
 	@cat $(filter %.js,$^) > $@
 	# @cat $(filter %.js,$^) > $@.tmp
 	# $(JS_UGLIFY) -o $@  $@.tmp
 	# @rm $@.tmp
 	@chmod a-w $@
+
+jshint: vizgrimoire.core.js
+	@echo "JSHINT Checking ..."
+	@$(JSHINT) $(filter %.js,$^)
 
 vizgrimoire%css: Makefile
 	@rm -f $@
