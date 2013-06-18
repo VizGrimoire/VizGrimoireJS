@@ -156,15 +156,15 @@ describe( "VizGrimoireJS library", function () {
                     expect(new_ncanvas-ncanvas).toEqual(2);
                 });        
             });
-            it("html gridster should be displayed", function () {
-                runs(function() {
-                    buildNode("gridster","gridster");
-                    Report.getBasicDivs()["gridster"].convert(); 
-                    var grids = document.getElementsByClassName
-                        ('gs_w').length;
-                    expect(grids).toEqual(18);
-                });        
-            });
+//            it("html gridster should be displayed", function () {
+//                runs(function() {
+//                    buildNode("gridster","gridster");
+//                    Report.getBasicDivs()["gridster"].convert(); 
+//                    var grids = document.getElementsByClassName
+//                        ('gs_w').length;
+//                    expect(grids).toEqual(18);
+//                });        
+//            });
             it("html treemap should be displayed", function () {               
                 runs(function() {
                     buildNode("treemap","treemap",
