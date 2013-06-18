@@ -1,17 +1,17 @@
 describe( "VizGrimoireJS library", function () {    
     beforeEach(function() {
         waitsFor(function() {
-            return Report.check_data_loaded();
+            return Loader.check_data_loaded();
         }, "It took too long to load data", 100);
       });
     
     describe( "Report", function () {
         it("data files should be loaded", function () {
             waitsFor(function() {
-                return Report.check_data_loaded();
+                return Loader.check_data_loaded();
             }, "It took too long to load data", 100);
             runs(function() {
-                expect(Report.check_data_loaded()).toBeTruthy();
+                expect(Loader.check_data_loaded()).toBeTruthy();
             });
         });
         
