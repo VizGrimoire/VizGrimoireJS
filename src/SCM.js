@@ -129,12 +129,6 @@ function SCM() {
             'name' : "Countries",
             'desc' : "Number of active countries"
         },
-        'scm_repositories' : {
-            'divid' : 'scm_repositories',
-            'column' : "repositories",
-            'name' : "Respositories",
-            'desc' : "Number of active respositories"
-        },
         'scm_people' : {
             'divid' : 'scm_people',
             'column' : "people",

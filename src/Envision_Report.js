@@ -56,7 +56,7 @@
                     show: false,
                     backgroundColor : '#FFFFFF',
                     backgroundOpacity : 0
-                },
+                }
             }
         };
 
@@ -105,7 +105,7 @@
                     viz[metric+"_relative"] = getEnvisionDefaultsGraph
                         ('report-' + DS.getName() + '-' + metric+"_relative", config);
                     viz[metric].config['lite-lines'] = {show:false};
-                    viz[metric].config['lines'] = {
+                    viz[metric].config.lines = {
                             lineWidth : 1,
                             show : true,
                             stacked: true,

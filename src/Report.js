@@ -114,14 +114,15 @@ var Report = {};
         if (repos[repo]) return repo;
         // Search for a mapping repository
         $.each(Report.getReposMap(), function (repo_name, repo_map) {
+            var test_repo = null;
             if (repo_name === repo) {
-                var test_repo = repo_map;
+                test_repo = repo_map;
                 if (repos[test_repo]!== undefined) {
                     valid_repo = test_repo;
                     return false;
                 }
             } else if (repo_map === repo) {
-                var test_repo = repo_name;
+                test_repo = repo_name;
                 if (repos[test_repo]!== undefined) {
                     valid_repo = test_repo;
                     return false;
@@ -178,9 +179,9 @@ var Report = {};
     
     Report.getProjectsList = function () {
         var projects_list = [];
-        for (key in getProjectsData()) {
+        $.each(getProjectsData(), function (key,val) {
             projects_list.push(key);
-        }
+        });
         return projects_list;
     };
     
@@ -380,15 +381,14 @@ var Report = {};
             convert: function() {
                 var html = "<h1>Last Week</h1>";
                 $.each(Report.getDataSources(), function(index, DS) {
-                    var data = DS.getGlobalData();
-                    for (key in data) {
+                    $.each(getProjectsData(), function (key,val) {
                         // 7, 30, 90, 365
                         var suffix = "_7"; 
                         if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
                             var metric = key.substring(0, key.length - suffix.length);
                             html += metric + ":" + data[key] + "<br>";
                         }
-                    };
+                    });
                 });
                 $("#activity").html(html);
             }
@@ -397,15 +397,14 @@ var Report = {};
             convert: function() {
                 var html = "<h1>Last Month</h1>";
                 $.each(Report.getDataSources(), function(index, DS) {
-                    var data = DS.getGlobalData();
-                    for (key in data) {
+                    $.each(getProjectsData(), function (key,val) {
                         // 7, 30, 90, 365
                         var suffix = "_30";
                         if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
                             var metric = key.substring(0, key.length - suffix.length);
                             html += metric + ":" + data[key] + "<br>";
                         }
-                    };
+                    });
                 });
                 $("#activitymonth").html(html);
             }
@@ -414,15 +413,14 @@ var Report = {};
             convert: function() {
                 var html = "<h1>Last Quarter</h1>";
                 $.each(Report.getDataSources(), function(index, DS) {
-                    var data = DS.getGlobalData();
-                    for (key in data) {
+                    $.each(getProjectsData(), function (key,val) {
                         // 7, 30, 90, 365
                         var suffix = "_90";
                         if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
                             var metric = key.substring(0, key.length - suffix.length);
                             html += metric + ":" + data[key] + "<br>";
                         }
-                    };
+                    });
                 });
                 $("#activityquarter").html(html);
             }
@@ -499,7 +497,7 @@ var Report = {};
                 DS.displayCompaniesSummary(divid, this);
             }
             
-            var divid = DS.getName()+"-refcard-company";
+            divid = DS.getName()+"-refcard-company";
             if ($("#"+divid).length > 0) {
                 DS.displayCompanySummary(divid, company, this);
             }
@@ -519,8 +517,8 @@ var Report = {};
                             config_metric, limit, order_by);
                 });
             }
-            var div_companies = DS.getName()+"-flotr2-companies-static";
-            var divs = $("."+div_companies);
+            div_companies = DS.getName()+"-flotr2-companies-static";
+            divs = $("."+div_companies);
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metric = $(this).data('metric');
@@ -539,7 +537,7 @@ var Report = {};
                 });
             }
             var div_company = DS.getName()+"-flotr2-metrics-company";
-            var divs = $("."+div_company);
+            divs = $("."+div_company);
             if (divs.length > 0 && company) {
                 $.each(divs, function(id, div) {
                     config_metric.show_legend = false;
@@ -557,7 +555,7 @@ var Report = {};
                 DS.displayCompaniesNav(div_nav, metric);
             }
             var divs_comp_list = DS.getName()+"-flotr2-companies-list";
-            var divs = $("."+divs_comp_list);
+            divs = $("."+divs_comp_list);
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
@@ -568,8 +566,8 @@ var Report = {};
                 });
             }
 
-            var div_companies = DS.getName()+"-flotr2-top-company";
-            var divs = $("."+div_companies);
+            div_companies = DS.getName()+"-flotr2-top-company";
+            divs = $("."+div_companies);
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metric = $(this).data('metric');
@@ -623,7 +621,7 @@ var Report = {};
             }
             
             var divs_countries_list = DS.getName()+"-flotr2-countries-list";
-            var divs = $("."+divs_countries_list);
+            divs = $("."+divs_countries_list);
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
@@ -635,13 +633,13 @@ var Report = {};
             }
             
             if (country !== null) {
-                var divid = DS.getName()+"-refcard-country";
+                divid = DS.getName()+"-refcard-country";
                 if ($("#"+divid).length > 0) {
                     DS.displayCountrySummary(divid, country, this);
                 }
                 
                 var div_country = DS.getName()+"-flotr2-metrics-country";
-                var divs = $("."+div_country);
+                divs = $("."+div_country);
                 if (divs.length) {
                     $.each(divs, function(id, div) {
                         var metrics = $(this).data('metrics');
@@ -697,7 +695,7 @@ var Report = {};
             }            
             
             var divs_repos_list = DS.getName()+"-flotr2-repos-list";
-            var divs = $("."+divs_repos_list);
+            divs = $("."+divs_repos_list);
             if (divs.length > 0) {
                 $.each(divs, function(id, div) {
                     var metrics = $(this).data('metrics');
@@ -713,13 +711,13 @@ var Report = {};
             // Hide all information for this data source
             if (repo_valid === null) $("#"+DS.getName()+"-repo").hide();
             else {                
-                var divid = DS.getName()+"-refcard-repo";
+                divid = DS.getName()+"-refcard-repo";
                 if ($("#"+divid).length > 0) {
                     DS.displayRepoSummary(divid, repo_valid, this);
                 }
                 
                 var div_repo = DS.getName()+"-flotr2-metrics-repo";
-                var divs = $("."+div_repo);
+                divs = $("."+div_repo);
                 if (divs.length) {
                     $.each(divs, function(id, div) {
                         var metrics = $(this).data('metrics');

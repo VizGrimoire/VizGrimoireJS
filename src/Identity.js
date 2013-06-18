@@ -27,8 +27,9 @@ var Identity = {};
     var unique_list = "unique-sortable";
     
     function sortSelList(list_divid, list, name) {
-        var connect = "";        
-        list_divid === unique_list ? connect ="" : connect = unique_list;
+        var connect = "";
+        if (list_divid === unique_list) connect = ""; 
+        else connect = unique_list;
         $('#'+name).sortable({
             handle: ".handle",
             connectWith: "#"+connect,

@@ -37,6 +37,14 @@ var Loader = {};
         data_global_callbacks.push(callback);
     };
 
+    function fillProjectInfo(data, dir) {
+        if (data.project_name === undefined) {
+            data.project_name = dir.replace("data/json","")
+                .replace(/\.\.\//g,"");
+        }
+        var projects_data = Report.getProjectsData();
+        projects_data[data.project_name] = {dir:dir,url:data.project_url};
+   }
     
     Loader.data_load = function () {
         data_load_file(Report.getProjectFile(), 
@@ -49,14 +57,7 @@ var Loader = {};
         for (var i=0;  i<projects_dirs.length; i++) {
             var data_dir = projects_dirs[i];
             var prj_file = Report.getDataDir() + "/project-info.json";
-            data_load_file(prj_file, function(data, dir) {
-                if (data.project_name === undefined) {
-                    data.project_name = dir.replace("data/json","")
-                        .replace(/\.\.\//g,"");
-                }
-                var projects_data = Report.getProjectsData();
-                projects_data[data.project_name] = {dir:dir,url:data.project_url};
-            }, data_dir);
+            data_load_file(prj_file, fillProjectInfo, data_dir);
         }
         data_load_companies();
         data_load_repos();
@@ -85,7 +86,7 @@ var Loader = {};
             fn_data_set([], self);
             end_data_load();
         });
-    };
+    }
     
     function data_load_repos() {
         var data_sources = Report.getDataSources();
@@ -94,28 +95,28 @@ var Loader = {};
         });
         // Repositories mapping between data sources
         data_load_file(Report.getReposMapFile(), Report.setReposMap);
-    };
+    }
     
     function data_load_countries() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getCountriesDataFile(), DS.setCountriesData, DS);
         });
-    };
+    }
      
     function data_load_time_to_fix() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getTimeToFixDataFile(), DS.setTimeToFixData, DS);
         });
-    };
+    }
     
     function data_load_time_to_attention() {
         var data_sources = Report.getDataSources();
         $.each(data_sources, function(i, DS) {
             data_load_file(DS.getTimeToAttentionDataFile(), DS.setTimeToAttentionData, DS);
         });
-    };
+    }
 
     // TODO: It is better to have all the tops in the same file
     // we should move data load from Viz.displayTop here
@@ -147,7 +148,7 @@ var Loader = {};
                 end_data_load();
             });
         });
-    };
+    }
     
     function data_load_companies_metrics() {
         var data_sources = Report.getDataSources();
@@ -166,7 +167,7 @@ var Loader = {};
                     DS.addCompanyGlobalData(company, history, DS);
                     end_data_load();
                 });
-                var file_static = file + DS.getName()+"-top-";
+                file_static = file + DS.getName()+"-top-";
                 if (DS.getName() === "scm") file_static += "authors";
                 if (DS.getName() === "its") file_static += "closers";
                 if (DS.getName() === "mls") file_static += "senders";
@@ -270,12 +271,12 @@ var Loader = {};
             if (companies_loaded !== DS.getCompaniesData().length) 
                 return false;                
             companies_loaded = 0;
-            for (var key in DS.getCompaniesGlobalData()) {companies_loaded++;}
+            for (key in DS.getCompaniesGlobalData()) {companies_loaded++;}
             if (companies_loaded !== DS.getCompaniesData().length)
                 return false;
             if (DS.getCompaniesTopData() === null) return false;
             companies_loaded = 0;
-            for (var key in DS.getCompaniesTopData()) {companies_loaded++;}
+            for (key in DS.getCompaniesTopData()) {companies_loaded++;}
             if (companies_loaded !== DS.getCompaniesData().length) 
                 return false;
         }
@@ -296,7 +297,7 @@ var Loader = {};
             for (var key in DS.getReposMetricsData()) {repos_loaded++;}
             if (repos_loaded !== DS.getReposData().length) return false;
             repos_loaded = 0;
-            for (var key in DS.getReposGlobalData()) {repos_loaded++;}
+            for (key in DS.getReposGlobalData()) {repos_loaded++;}
             if (repos_loaded !== DS.getReposData().length) return false;
         }
         return true;
@@ -316,7 +317,7 @@ var Loader = {};
             for (var key in DS.getCountriesMetricsData()) {countries_loaded++;}
             if (countries_loaded !== DS.getCountriesData().length) return false;
             countries_loaded = 0;
-            for (var key in DS.getCountriesGlobalData()) {countries_loaded++;}
+            for (key in DS.getCountriesGlobalData()) {countries_loaded++;}
             if (countries_loaded !== DS.getCountriesData().length) return false;
         }
         return true;
@@ -377,16 +378,16 @@ var Loader = {};
     // Two steps data loading
     function end_data_load()  {
         if (check_data_loaded_global()) {
-            for ( var i = 0; i < data_global_callbacks.length; i++) {
+            for (var i = 0; i < data_global_callbacks.length; i++) {
                 data_global_callbacks[i]();
             }
             data_global_callbacks = [];
         }
         if (check_data_loaded()) {
             // Invoke callbacks informing all data needed has been loaded
-            for ( var i = 0; i < data_callbacks.length; i++) {
-                data_callbacks[i]();
+            for (var j = 0; j < data_callbacks.length; j++) {
+                data_callbacks[j]();
             }
         }
-    };
+    }
 })();

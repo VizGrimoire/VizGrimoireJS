@@ -149,7 +149,7 @@ function SCR() {
 
         var id_label = {
                 first_date : "Start",
-                last_date : "End",
+                last_date : "End"
         };
 
         var self = this;

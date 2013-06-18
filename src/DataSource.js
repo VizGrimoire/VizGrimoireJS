@@ -438,6 +438,7 @@ function DataSource(name, basic_metrics) {
         else return;
         if (limit) {
             var sorted = null;
+            var item = null;
             if (report=="companies")
                 sorted = DataProcess.sortCompanies(this, order_by);
             else if (report=="repos")
@@ -447,15 +448,15 @@ function DataSource(name, basic_metrics) {
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
-                var item = sorted[i];
+                item = sorted[i];
                 data_limit[item] = data[item];
             }
 
             // Add a final companies_data for the sum of other values
             if (show_others) {
                 var others = 0;
-                for (var i=limit; i<sorted.length; i++) {
-                    var item = sorted[i];
+                for (var j=limit; j<sorted.length; j++) {
+                    item = sorted[j];
                     others += data[item][metric_id];
                 }
                 data_limit.others = {};
@@ -637,14 +638,14 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-        		list += "<a href='";
-        		// Show together SCM and ITS
-        		if ((ds.getName() === "scm" || ds.getName() === "its") &&
-        		     (Report.getReposMap().length === undefined)) ;
-        		else 
-        		    list += ds.getName()+"-";
-        		list += "repository.html";
-        		list += "?repository="+encodeURIComponent(item);
+                list += "<a href='";
+                // Show together SCM and ITS
+                if ((ds.getName() === "scm" || ds.getName() === "its")
+                        && (Report.getReposMap().length === undefined));
+                else
+                    list += ds.getName() + "-";
+                list += "repository.html";
+                list += "?repository=" + encodeURIComponent(item);
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
@@ -767,14 +768,14 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displayTimeToAttention = function(div_id, column, labels, title) {
-        var labels = true;
-        var title = "Time to Attention " + column;
+        labels = true;
+        title = "Time to Attention " + column;
         Viz.displayTimeToAttention(div_id, this.getTimeToAttentionData(), column, labels, title);
     };
     
     this.displayTimeToFix = function(div_id, column, labels, title) {
-        var labels = true;
-        var title = "Time to Fix " + column;
+        labels = true;
+        title = "Time to Fix " + column;
         Viz.displayTimeToFix(div_id, this.getTimeToFixData(), column, labels, title);
     };
     

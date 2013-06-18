@@ -112,7 +112,7 @@ function ITS() {
         var repos = [];
         // convert http://issues.liferay.com/browse/AUI, change "/" by "_"
         for (var i=0; i<repos_name.length; i++) {
-        	repos.push(repos_name[i].replace(/\//g,"_"));
+            repos.push(repos_name[i].replace(/\//g,"_"));
         }
         self.repos = repos;
     };
@@ -128,8 +128,8 @@ function ITS() {
         var id_label = {
             first_date : "Start",
             last_date : "End",
-    		tickets: "Tickets",
-    		trackers: "Trackers"    		    
+            tickets : "Tickets",
+            trackers : "Trackers"
         };
         var global_data = null;
         if (report === "companies")
@@ -147,9 +147,9 @@ function ITS() {
             if (self.getMetrics()[id])
                 html += self.getMetrics()[id].name + ": " + value + "<br>";
             else if (id_label[id]) 
-        		html += id_label[id] + ": " + value + "<br>";
-        	else
-        	    if (report) html += id + ": " + value + "<br>";
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };

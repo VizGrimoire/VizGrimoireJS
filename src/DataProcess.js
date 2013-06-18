@@ -108,7 +108,7 @@ var DataProcess = {};
     
     DataProcess.filterYear = function(year, history) {
         // var day_msecs = 1000*60*60*24;
-        year = parseInt(year);
+        year = parseInt(year, null);
         //var min_id = 12*year, max_id = 12*(year+1);
         // var min_id = (new Date(year.toString()).getTime())/(day_msecs);
         // var max_id = (new Date((year+1).toString()).getTime())/(day_msecs);
@@ -127,15 +127,16 @@ var DataProcess = {};
         var new_dates = [[],[]];
         
         // Insert older dates
+        var i = 0;
         if (dates_orig[0][0]> more_dates[0][0]) {
-            for (var i=0; i< more_dates[0].length; i++) {
+            for (i=0; i< more_dates[0].length; i++) {
                 new_dates[0][i] = more_dates[0][i];
                 new_dates[1][i] = more_dates[1][i];
             }
         }
 
         // Push already existing dates
-        for (var i=0; i< dates_orig[0].length; i++) {
+        for (i=0; i< dates_orig[0].length; i++) {
             pos = new_dates[0].indexOf(dates_orig[0][i]);
             if (pos === -1) {
                 new_dates[0].push(dates_orig[0][i]);
@@ -146,7 +147,7 @@ var DataProcess = {};
         // Push newer dates
         if (dates_orig[0][dates_orig[0].length-1] < 
                 more_dates[0][more_dates[0].length-1]) {
-            for (var i=0; i< more_dates[0].length; i++) {
+            for (i=0; i< more_dates[0].length; i++) {
                 pos = new_dates[0].indexOf(more_dates[0][i]);
                 if (pos === -1) {
                     new_dates[0].push(more_dates[0][i]);
@@ -190,7 +191,7 @@ var DataProcess = {};
         
         new_history = DataProcess.fillHistory(hist_complete_id, old_history);
         
-        for ( var i = 0; i < hist_complete_id.length; i++) {
+        for (i = 0; i < hist_complete_id.length; i++) {
             lines_history.push([new_history[0][i],new_history[1][i]]);
         }
         return lines_history;
@@ -221,7 +222,7 @@ var DataProcess = {};
             }
             metrics_data[metric+"_relative"].push({
                 label: pdata.label,
-                data: [pdata.data[0],val_relative],
+                data: [pdata.data[0],val_relative]
             });
         });        
     };
@@ -253,7 +254,7 @@ var DataProcess = {};
         $.each(data, function(metric, mdata) {
             new_data[metric] = data[metric];
         });
-        new_data['substract'] = substract;
+        new_data.substract = substract;
         return new_data;
     };
 })();

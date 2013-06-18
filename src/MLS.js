@@ -26,12 +26,6 @@ function MLS() {
     var self = this;
     
     this.basic_metrics = {
-        'mls_repositories' : {
-            'divid' : "mls_repos",
-            'column' : "repositories",
-            'name' : "Repositories",
-            'desc' : "Number of mailing lists"
-        },
         'mls_responses' : {
             'divid' : "mls_responses",
             'column' : "responses",
@@ -113,7 +107,7 @@ function MLS() {
         var html = "<h4>" + label + "</h4>";
         var id_label = {
             first_date : "Start",
-            last_date : "End",
+            last_date : "End"
         };
         var global_data = null;
         if (report === "companies")
@@ -201,7 +195,7 @@ function MLS() {
             list_name = list_name_tokens[0];
         }
         return list_name;
-    }
+    };
 
     function getUserLists() {
         var form = document.getElementById('form_mls_selector');
@@ -501,7 +495,7 @@ function MLS() {
             $("#" + div_id_sel).append("Not supported in multiproject");
             $('#' + div_id_sel + ' :input').attr('disabled', true);
         }
-    }
+    };
 
     // history values should be always arrays
     function filterHistory(history) {
