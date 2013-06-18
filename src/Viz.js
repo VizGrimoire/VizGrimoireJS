@@ -375,7 +375,7 @@ var Viz = {};
 
         var container = document.getElementById(divid);
         var legend_div = null;
-        if (config_metric.legend && config_metric.legend.container)
+        if (config_metric && config_metric.legend && config_metric.legend.container)
             legend_div = $('#'+config_metric.legend.container);
         var chart_data = [], i;
 

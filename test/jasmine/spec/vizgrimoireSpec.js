@@ -82,7 +82,7 @@ describe( "VizGrimoireJS library", function () {
                 }, "It took too long to load data", 100);
                 runs(function() {
                     $.each(Report.getDataSources(), function(index, DS) {
-                        if (DS.getName() === "mls") return;
+                        if (DS.getName() === "scr") return;
                         expect(document.getElementById(DS.getName()+"-top")
                                 .childNodes.length).toBeGreaterThan(0);
                         expect(document.getElementById(DS.getName()+"-top-pie")
