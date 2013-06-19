@@ -248,6 +248,49 @@ describe( "VizGrimoireJS library", function () {
             });            
         });
     });
+    
+    describe("Repositories checking", function() {
+        var data_sources = Report.getDataSources();
+        it("All repositories should have Evol and Global metrics", function () {
+            $.each(data_sources, function(index, DS) {
+                var repos = DS.getReposData();
+                if (repos.length === 0) return;
+                var repos_global = DS.getReposGlobalData();
+                var repos_metrics = DS.getReposMetricsData();
+                for (var i=0; i<repos.length; i++) {
+                    for (field in repos_metrics[repos[i]]) {
+                        if (DS.getMetrics()[field]) {
+                            expect(repos_global[repos[i]][field]).toBeDefined();
+                        }
+                    }
+                }
+            });
+        });
+        it("Repositories basic viz should work", function() {
+            var total_canvas = 0;
+            $.each(data_sources, function(index, DS) {
+                var ds_name = DS.getName();
+                if (ds_name !== "scr") {
+                    total_canvas += 2*DS.getReposData().length;
+                    var metrics = "";
+                    if (ds_name === "scm") metrics = "scm_commits,scm_authors"; 
+                    if (ds_name === "its") metrics = "its_closed,its_closers";
+                    if (ds_name === "mls") metrics = "mls_sent,mls_senders";   
+                    buildNode(DS.getName()+"-flotr2-repos-list",
+                              DS.getName()+"-flotr2-repos-list",
+                            {
+                                'data-metrics': metrics,
+                            });
+                }
+            });
+            var ncanvas = document.getElementsByClassName
+                ('flotr-canvas').length;
+            Report.convertRepos();
+            var new_ncanvas = document.getElementsByClassName
+                ('flotr-canvas').length;
+            expect(new_ncanvas-ncanvas).toEqual(total_canvas);            
+        });
+    });
 
     
     function buildNode (id, div_class, attr_map) {
