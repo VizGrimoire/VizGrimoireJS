@@ -40,14 +40,17 @@ var Report = {};
         markers_file = data_dir + "/markers.json",
         repos_map_file = data_dir + "/repos-map.json";
 
-    // TODO: Why is it public? Markup API!
+    // TODO: Why is it public? Markup API! useful for testing!
     // Public API
     Report.convertBasicDivs = convertBasicDivs;
+    Report.convertCompanies = convertCompanies;
+    Report.convertCountries = convertCountries;
     Report.convertEnvision = convertEnvision;
     Report.convertFlotr2 = convertFlotr2;
     Report.convertTop = convertTop;
     Report.convertBubbles = convertBubbles;
     Report.convertDemographics = convertDemographics;
+    Report.convertRepos = convertRepos;
     Report.convertSelectors = convertSelectors;
     Report.createDataSources = createDataSources;
     Report.getAllMetrics = getAllMetrics;

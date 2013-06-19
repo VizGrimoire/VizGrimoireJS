@@ -249,48 +249,100 @@ describe( "VizGrimoireJS library", function () {
         });
     });
     
-    describe("Repositories checking", function() {
+    function checkDataReport(report) {
+        if ($.inArray(report,['repos','companies','countries'])===-1) 
+            return;
         var data_sources = Report.getDataSources();
-        it("All repositories should have Evol and Global metrics", function () {
-            $.each(data_sources, function(index, DS) {
-                var repos = DS.getReposData();
-                if (repos.length === 0) return;
-                var repos_global = DS.getReposGlobalData();
-                var repos_metrics = DS.getReposMetricsData();
-                for (var i=0; i<repos.length; i++) {
-                    for (field in repos_metrics[repos[i]]) {
-                        if (DS.getMetrics()[field]) {
-                            expect(repos_global[repos[i]][field]).toBeDefined();
-                        }
+        var repos = 0, repos_global = {}, repos_metrics = {};
+        $.each(data_sources, function(index, DS) {
+            if (report === "repos") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            else if (report === "companies") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            else if (report === "countries") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            if (repos.length === 0) return;
+            for (var i=0; i<repos.length; i++) {
+                for (field in repos_metrics[repos[i]]) {
+                    if (DS.getMetrics()[field]) {
+                        expect(repos_global[repos[i]][field]).toBeDefined();
                     }
                 }
-            });
+            }
+        });        
+    }
+    
+    function checkVizReport(report) {
+        if ($.inArray(report,['repos','companies','countries'])===-1) 
+            return;
+        var total_canvas = 0;
+        var data_sources = Report.getDataSources();
+        $.each(data_sources, function(index, DS) {
+            var ds_name = DS.getName();
+            if (ds_name === "scr") return;
+            if (report === "repos")
+                total_canvas += 2*DS.getReposData().length;
+            else if (report === "companies")
+                total_canvas += 2*DS.getCompaniesData().length;
+            else if (report === "countries")
+                total_canvas += 2*DS.getCountriesData().length;
+            var metrics = "";
+            if (ds_name === "scm") metrics = "scm_commits,scm_authors"; 
+            if (ds_name === "its") metrics = "its_closed,its_closers";
+            if (ds_name === "mls") metrics = "mls_sent,mls_senders"; 
+            buildNode(DS.getName()+"-flotr2-"+report+"-list",
+                      DS.getName()+"-flotr2-"+report+"-list",
+                    {
+                        'data-metrics': metrics,
+                    });
+        });
+        var ncanvas = document.getElementsByClassName
+            ('flotr-canvas').length;
+        if (report === "repos")
+            Report.convertRepos();
+        else if (report === "companies")
+            Report.convertCompanies();
+        else if (report === "countries")
+            Report.convertCountries();
+        var new_ncanvas = document.getElementsByClassName
+            ('flotr-canvas').length;
+        expect(new_ncanvas-ncanvas).toEqual(total_canvas);        
+    }
+    
+    describe("Repositories checking", function() {
+        it("All repositories should have Evol and Global metrics", function () {
+            checkDataReport('repos');
         });
         it("Repositories basic viz should work", function() {
-            var total_canvas = 0;
-            $.each(data_sources, function(index, DS) {
-                var ds_name = DS.getName();
-                if (ds_name !== "scr") {
-                    total_canvas += 2*DS.getReposData().length;
-                    var metrics = "";
-                    if (ds_name === "scm") metrics = "scm_commits,scm_authors"; 
-                    if (ds_name === "its") metrics = "its_closed,its_closers";
-                    if (ds_name === "mls") metrics = "mls_sent,mls_senders";   
-                    buildNode(DS.getName()+"-flotr2-repos-list",
-                              DS.getName()+"-flotr2-repos-list",
-                            {
-                                'data-metrics': metrics,
-                            });
-                }
-            });
-            var ncanvas = document.getElementsByClassName
-                ('flotr-canvas').length;
-            Report.convertRepos();
-            var new_ncanvas = document.getElementsByClassName
-                ('flotr-canvas').length;
-            expect(new_ncanvas-ncanvas).toEqual(total_canvas);            
+            checkVizReport("repos");
         });
     });
+    describe("Companies checking", function() {
+        it("All companies should have Evol and Global metrics", function () {
+            checkDataReport('companies');
+        });
+        it("Companies basic viz should work", function() {
+            checkVizReport("companies");
+        });
+    });
+    describe("Countries checking", function() {
+        it("All countries should have Evol and Global metrics", function () {
+            checkDataReport('countries');
+        });
+        it("Countries basic viz should work", function() {
+            checkVizReport("countries");
+        });
+    });
+
 
     
     function buildNode (id, div_class, attr_map) {
