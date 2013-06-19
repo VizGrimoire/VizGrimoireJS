@@ -3,8 +3,7 @@ describe( "VizGrimoireJS library", function () {
         waitsFor(function() {
             return Loader.check_data_loaded();
         }, "It took too long to load data", 100);
-      });
-    
+      });    
     describe( "Report", function () {
         it("data files should be loaded", function () {
             waitsFor(function() {
@@ -214,6 +213,22 @@ describe( "VizGrimoireJS library", function () {
             });
         });
     });
+    
+    describe("Data checking", function() {
+        it("Evol metrics should be present in the Global metrics", function () {
+            var data_sources = Report.getDataSources();
+            $.each(data_sources, function(index, DS) {
+                var global = DS.getGlobalData();
+                var evol = DS.getData();
+                for (field in evol) {
+                    if (DS.getMetrics()[field]) {
+                        expect(global[field]).toBeDefined();
+                    }
+                }
+            });
+        });
+    });
+
     
     function buildNode (id, div_class, attr_map) {
         if (document.getElementById(id)) return;
