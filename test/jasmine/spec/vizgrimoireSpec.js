@@ -227,6 +227,26 @@ describe( "VizGrimoireJS library", function () {
                 }
             });
         });
+        it("Summable Evol metrics should sum Global metrics", function () {
+            var data_sources = Report.getDataSources();
+            // var summable_metrics= ['its_opened','its_closed','mls_sent','scm_commits','scr_sent'];
+            var summable_metrics= ['its_opened','mls_sent','scm_commits','scr_sent'];
+            $.each(data_sources, function(index, DS) {
+                var global = DS.getGlobalData();
+                var evol = DS.getData();
+                for (field in evol) {
+                    if (DS.getMetrics()[field]) {
+                        if ($.inArray(field,summable_metrics)===-1) continue;
+                        var metric_evol = evol[field];
+                        var metric_total = 0;
+                        for (var i=0; i<metric_evol.length;i++) {
+                            metric_total += metric_evol[i];
+                        }
+                        expect(metric_total).toEqual(global[field]);
+                    }
+                }
+            });            
+        });
     });
 
     
