@@ -303,7 +303,7 @@ describe( "VizGrimoireJS library", function () {
                       DS.getName()+"-flotr2-"+report+"-list",
                     {
                         'data-metrics': metrics,
-                    });
+            });
         });
         var ncanvas = document.getElementsByClassName
             ('flotr-canvas').length;
@@ -342,8 +342,62 @@ describe( "VizGrimoireJS library", function () {
             checkVizReport("countries");
         });
     });
-
-
+    describe("People checking", function() {
+        it("Top 1 SCM developer should have Evol and Global metrics", function () {
+            var ncanvas = 0, nds = 0;
+            runs(function() {
+                var data_sources = Report.getDataSources();
+                var people_id = null, max_people_index = 0;
+                var metrics = null;
+                // Find developer with ITS, MLS and SCM activity
+                $.each(data_sources, function(index, DS) {
+                    if (DS.getName() === 'scr') return;
+                    var np = DS.getPeopleData().id.length;
+                    if (np > max_people_index) max_people_index = np;
+                    nds++;
+                });
+                for (var i=0; i<max_people_index; i++) {
+                    var dev_found = true;
+                    $.each(data_sources, function(index, DS) { 
+                        if (DS.getName() === 'scr') return;
+                        if ($.inArray(i,DS.getPeopleData().id)===-1) {
+                            dev_found = false;
+                            return false;
+                        }
+                    });
+                    if (dev_found) {people_id = i; break;}
+                }
+                $.each(data_sources, function(index, DS) {
+                    if (DS.getName() === 'scr') return;
+                    if (DS.getName() === 'scm') {
+                        metrics = 'scm_commits';
+                    }
+                    else if (DS.getName() === 'its') {
+                        metrics = 'its_closed';
+                    }
+                    else if (DS.getName() === 'mls') {
+                        metrics = 'mls_sent';
+                    }
+                    buildNode(DS.getName()+"-flotr2-metrics-people",
+                            DS.getName()+"-flotr2-metrics-people",
+                          {
+                              'data-metrics': metrics,
+                    });      
+                });
+                ncanvas = document.getElementsByClassName
+                    ('flotr-canvas').length;
+                Report.convertPeople(people_id,'');
+            });
+            waitsFor(function() {
+                return (document.getElementsByClassName('flotr-canvas').length>=nds);
+            }, "It took too long to load data", 100);               
+            runs(function() {
+                var new_ncanvas = document.getElementsByClassName
+                    ('flotr-canvas').length;
+                expect(new_ncanvas-ncanvas).toEqual(nds);
+            });
+        });
+    });
     
     function buildNode (id, div_class, attr_map) {
         if (document.getElementById(id)) return;
