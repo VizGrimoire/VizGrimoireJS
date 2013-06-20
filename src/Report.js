@@ -86,8 +86,8 @@ var Report = {};
 
     Report.setDataDir = function(dataDir) {
         data_dir = dataDir;
-        project_file = dataDir + "/project-info.json", 
-        config_file = dataDir + "/viz_cfg.json", 
+        project_file = dataDir + "/project-info.json";
+        config_file = dataDir + "/viz_cfg.json";
         markers_file = dataDir + "/markers.json";
         repos_mapping_file = data_dir + "/repos-mapping.json";
     };

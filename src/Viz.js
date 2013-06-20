@@ -1181,8 +1181,10 @@ var Viz = {};
         var silent = true;
 
         if (config) {
-            size_x = config.size_x, size_y = config.size_y, col = config.col,
-                    row = config.row;
+            size_x = config.size_x;
+            size_y = config.size_y;
+            col = config.col;
+            row = config.row;
         }
 
         var divid = metric.divid + "_grid";
