@@ -134,7 +134,7 @@ var Viz = {};
             return;
         }
 
-        var top_metric_id = metric.column;
+        var top_metric_id = metric.divid;
         var div_graph = '';
         var new_div = '';
         // new_div += "<div class='info-pill'>";
