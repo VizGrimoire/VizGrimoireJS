@@ -389,7 +389,7 @@ describe( "VizGrimoireJS library", function () {
                 Report.convertPeople(people_id,'');
             });
             waitsFor(function() {
-                return (document.getElementsByClassName('flotr-canvas').length>=nds);
+                return (document.getElementsByClassName('flotr-canvas').length>=ncanvas+nds);
             }, "It took too long to load data", 100);               
             runs(function() {
                 var new_ncanvas = document.getElementsByClassName

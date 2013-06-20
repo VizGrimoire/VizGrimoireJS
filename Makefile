@@ -62,6 +62,10 @@ vizgrimoire%js: Makefile
 jshint: vizgrimoire.core.js
 	@echo "JSHINT Checking ..."
 	@$(JSHINT) $(filter %.js,$^)
+	
+test: all
+	cd test/jasmine; jasmine-headless-webkit -j jasmine.yml -c
+	cd ../..
 
 vizgrimoire%css: Makefile
 	@rm -f $@
