@@ -50,6 +50,7 @@ var Report = {};
     Report.convertTop = convertTop;
     Report.convertBubbles = convertBubbles;
     Report.convertDemographics = convertDemographics;
+    Report.convertPeople = convertPeople;
     Report.convertRepos = convertRepos;
     Report.convertSelectors = convertSelectors;
     Report.createDataSources = createDataSources;
@@ -735,13 +736,12 @@ var Report = {};
         });
     }
     
-    function convertPeople() {
+    function convertPeople(upeople_id, upeople_identifier) {
         var config_metric = {};                
         config_metric.show_desc = false;
         config_metric.show_title = false;
         config_metric.show_labels = true;
 
-        var upeople_id = null;
         var querystr = window.location.search.substr(1);
         if (querystr  &&
                 querystr.split("&")[0].split("=")[0] === "id") {
@@ -750,6 +750,8 @@ var Report = {};
             upeople_identifier = 
                 decodeURIComponent(querystr.split("&")[1].split("=")[1]);
         }
+        
+        if (upeople_id === undefined) return;
         
         $.each(Report.getDataSources(), function(index, DS) {            
             var divid = DS.getName()+"-refcard-people";
