@@ -52,13 +52,19 @@ function DataSource(name, basic_metrics) {
     };
     
     function nameSpaceMetrics(plain_metrics, ds) {
-        // If array, empty data
+        // If array, no data available
         if (plain_metrics instanceof Array) 
             return plain_metrics;
         var metrics = {};
         $.each(plain_metrics, function (name, value) {
+            var basic_name = name;
+            // commits_7, commits_30 ....
+            var aux = name.split("_");
+            if (isNaN(aux[aux.length-1]) === false)
+                basic_name = aux.slice(0,aux.length-1).join("_"); 
+            var ns_basic_name = ds.getName()+"_"+basic_name;
             var ns_name = ds.getName()+"_"+name;
-            if (ds.getMetrics()[ns_name] === undefined)
+            if (ds.getMetrics()[ns_basic_name] === undefined)
                 metrics[name] = value;
             else metrics[ns_name] = value;
         });
