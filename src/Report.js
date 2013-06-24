@@ -461,6 +461,22 @@ var Report = {};
                 var file = $('#treemap').data('file');
                 Viz.displayTreeMap('treemap', file);
             }
+        },
+        "microdash": {
+            convert: function() {
+                var divs = $(".microdash");
+                if (divs.length > 0) {
+                    $.each(divs, function(id, div) {
+                        var metric = $(this).data('metric');
+                        var ds = getMetricDS(metric)[0];
+                        var total = ds.getGlobalData()[metric];
+                        divs.append('<h1>'+total+'</h1>');
+                        $.each({7:'week',30:'month',365:'year'}, function(period, name) {
+                            divs.append(name+":"+ds.getGlobalData()[metric+"_"+period]+"&nbsp;");
+                        });
+                    });
+                }
+            }
         }
     };
 
@@ -1032,7 +1048,8 @@ var Report = {};
     
     function convertBasicDivs() {
         $.each (basic_divs, function(divid, value) {
-            if ($("#"+divid).length > 0) value.convert(); 
+            if ($("#"+divid).length > 0) value.convert();
+            if ($("."+divid).length > 0) value.convert();
         });
     }
     
