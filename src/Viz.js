@@ -266,8 +266,8 @@ var Viz = {};
         $('#'+div_id).before(help);
     }
 
-    function displayMetricsLines(div_id, metrics, history, title, config) {        
-        showHelp(div_id, metrics);
+    function displayMetricsLines(div_id, metrics, history, title, config) {
+        if (!(config && config.help === false)) showHelp(div_id, metrics);
         var lines_data = [];
         $.each(metrics, function(id, metric) {
             if (!history[metric]) return;
@@ -332,7 +332,6 @@ var Viz = {};
                     return parseInt(y, 10) + "";
                 }
             },
-
             grid : {
                 show : false
             },
@@ -358,9 +357,17 @@ var Viz = {};
             if (config_metric.lines && config_metric.lines.stacked)
                 config.lines =
                     {stacked:true, fill:true, fillOpacity: 1, fillBorder:true, lineWidth:0.01};
-            if (! config_metric.show_labels) {
+            if (!config_metric.show_labels) {
                 config.xaxis.showLabels = false;
                 config.yaxis.showLabels = false;
+            }
+            if (config_metric.show_grid === false) {
+                config.grid.verticalLines = false;
+                config.grid.horizontalLines = false;
+                config.grid.outlineWidth = 0;
+            }
+            if (config_metric.show_mouse === false) {
+                config.mouse.track = false;
             }
         }
         graph = Flotr.draw(container, lines_data, config);
