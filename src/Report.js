@@ -316,6 +316,37 @@ var Report = {};
         
         return true;
     }
+
+    // Include divs to be convertad later
+    var template_divs = {
+        "microdash": {
+            convert: function() {
+                var divs = $(".microdash");
+                if (divs.length > 0) {
+                    $.each(divs, function(id, div) {
+                        var metric = $(this).data('metric');
+                        var ds = getMetricDS(metric)[0];
+                        var total = ds.getGlobalData()[metric];
+                        var html = '<div>';
+                        html += '<div style="float:left">';
+                        html += '<h4>'+total+' '+ds.getMetrics()[metric].name+'</h4>';
+                        html += '</div>';
+                        html += '<div id="microdash" '+
+                                'class="scm-flotr2-metrics-min" data-metrics="'+
+                                metric+'" style="margin-left:10px; float:left;width:100px; height:25px;"></div>';
+                        html += '<div style="clear:both"></div><div>';
+                        $.each({7:'week',30:'month',365:'year'}, function(period, name) {
+                            html += "<em>"+name+"</em>:"+ds.getGlobalData()[metric+"_"+period]+"&nbsp;";
+                            html += '<i class="icon-circle-arrow-up"></i>';
+                        });
+                        html += '</div>';
+                        html += '<div>';
+                        $(div).append(html);
+                    });
+                }
+            }
+        }
+    };
         
     var basic_divs = {
         "navigation": {
@@ -461,22 +492,6 @@ var Report = {};
                 var file = $('#treemap').data('file');
                 Viz.displayTreeMap('treemap', file);
             }
-        },
-        "microdash": {
-            convert: function() {
-                var divs = $(".microdash");
-                if (divs.length > 0) {
-                    $.each(divs, function(id, div) {
-                        var metric = $(this).data('metric');
-                        var ds = getMetricDS(metric)[0];
-                        var total = ds.getGlobalData()[metric];
-                        divs.append('<h3>'+total+' '+ds.getMetrics()[metric].name+'</h3>');
-                        $.each({7:'week',30:'month',365:'year'}, function(period, name) {
-                            divs.append(name+":"+ds.getGlobalData()[metric+"_"+period]+"&nbsp;");
-                        });
-                    });
-                }
-            }
         }
     };
 
@@ -563,7 +578,7 @@ var Report = {};
                     config_metric.show_legend = false;
                     var metrics = $(this).data('metrics');
                     if ($(this).data('legend')) config_metric.show_legend = true;
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company";
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-company-"+$(this).id;
                     DS.displayBasicMetricsCompany(company, metrics.split(","),
                             div.id, config_metric);
                 });
@@ -859,11 +874,29 @@ var Report = {};
                     config_metric.show_legend = false;
                     if ($(this).data('legend'))
                         config_metric.show_legend = true;
-                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics";                    
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-"+this.id;
                     DS.displayBasicMetrics(metrics.split(","),div.id,
                             config_metric, $(this).data('convert'));
                 });
             }
+
+            // Multiparam min
+            div_param = DS.getName()+"-flotr2-metrics-min";
+            divs = $("."+div_param);
+            if (divs.length > 0) {
+                $.each(divs, function(id, div) {
+                    var metrics = $(this).data('metrics');
+                    config_metric.show_legend = false;
+                    config_metric.show_labels = false;
+                    config_metric.show_grid = false;
+                    config_metric.show_mouse = false;
+                    config_metric.help = false;
+                    div.id = metrics.replace(/,/g,"-")+"-flotr2-metrics-"+this.id;
+                    DS.displayBasicMetrics(metrics.split(","),div.id,
+                            config_metric, $(this).data('convert'));
+                });
+            }
+
             
            // Time to fix
             var div_ttfix = DS.getName()+"-time-to-fix";
@@ -1046,6 +1079,13 @@ var Report = {};
         });
     }
     
+    function convertTemplateDivs() {
+        $.each (template_divs, function(divid, value) {
+            if ($("#"+divid).length > 0) value.convert();
+            if ($("."+divid).length > 0) value.convert();
+        });
+    }
+
     function convertBasicDivs() {
         $.each (basic_divs, function(divid, value) {
             if ($("#"+divid).length > 0) value.convert();
@@ -1090,6 +1130,7 @@ var Report = {};
 
     function convertGlobal() {
         configDataSources();
+        convertTemplateDivs();
         convertBasicDivs();
         convertBubbles();        
         convertEnvision();
