@@ -470,7 +470,7 @@ var Report = {};
                         var metric = $(this).data('metric');
                         var ds = getMetricDS(metric)[0];
                         var total = ds.getGlobalData()[metric];
-                        divs.append('<h1>'+total+'</h1>');
+                        divs.append('<h3>'+total+' '+ds.getMetrics()[metric].name+'</h3>');
                         $.each({7:'week',30:'month',365:'year'}, function(period, name) {
                             divs.append(name+":"+ds.getGlobalData()[metric+"_"+period]+"&nbsp;");
                         });
