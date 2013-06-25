@@ -412,54 +412,6 @@ var Report = {};
                 });
             }
         },
-        "activity":  {
-            convert: function() {
-                var html = "<h1>Last Week</h1>";
-                $.each(Report.getDataSources(), function(index, DS) {
-                    $.each(getProjectsData(), function (key,val) {
-                        // 7, 30, 90, 365
-                        var suffix = "_7"; 
-                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
-                            var metric = key.substring(0, key.length - suffix.length);
-                            html += metric + ":" + data[key] + "<br>";
-                        }
-                    });
-                });
-                $("#activity").html(html);
-            }
-        },
-        "activitymonth":  {
-            convert: function() {
-                var html = "<h1>Last Month</h1>";
-                $.each(Report.getDataSources(), function(index, DS) {
-                    $.each(getProjectsData(), function (key,val) {
-                        // 7, 30, 90, 365
-                        var suffix = "_30";
-                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
-                            var metric = key.substring(0, key.length - suffix.length);
-                            html += metric + ":" + data[key] + "<br>";
-                        }
-                    });
-                });
-                $("#activitymonth").html(html);
-            }
-        },
-        "activityquarter":  {
-            convert: function() {
-                var html = "<h1>Last Quarter</h1>";
-                $.each(Report.getDataSources(), function(index, DS) {
-                    $.each(getProjectsData(), function (key,val) {
-                        // 7, 30, 90, 365
-                        var suffix = "_90";
-                        if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
-                            var metric = key.substring(0, key.length - suffix.length);
-                            html += metric + ":" + data[key] + "<br>";
-                        }
-                    });
-                });
-                $("#activityquarter").html(html);
-            }
-        },
         // Reference card with info from all data sources
         "refcard": {
             convert: convertRefcard
@@ -494,7 +446,32 @@ var Report = {};
             }
         }
     };
-
+    
+    function convertActivity() {        
+        function activityInfo(div, period, label) {
+            var html = "<h5>Last "+ label + "</h5>";
+            $.each(Report.getDataSources(), function(index, DS) {
+                var data = DS.getGlobalData();
+                $.each(data, function (key,val) {
+                    var suffix = "_"+period; 
+                    if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
+                        var metric = key.substring(0, key.length - suffix.length);
+                        html += metric + ":" + data[key] + "<br>";
+                    }
+                });
+            });  
+            $(div).append(html);
+        }        
+        var divs = $(".activity");
+        var period = null;
+        var days = {"Week":7,"Month":30,"Quarter":90,"Year":365};
+        if (divs.length > 0)
+            $.each(divs, function(id, div) {
+                period = $(div).data('period');
+                activityInfo(div, days[period], period);
+            });
+    }
+        
     function convertSummary() {
         $.each(Report.getDataSources(), function(index, DS) {
             var div_summary = DS.getName()+"-summary";
@@ -1137,6 +1114,7 @@ var Report = {};
         convertFlotr2(config);
         convertTop();
         convertSummary();
+        convertActivity();
         convertPeople(); // using on demand file loading
     }
     
