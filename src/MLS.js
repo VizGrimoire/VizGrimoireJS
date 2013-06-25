@@ -168,9 +168,9 @@ function MLS() {
 
         $(div_id + ' #mlsFirst').text(data.first_date);
         $(div_id + ' #mlsLast').text(data.last_date);
-        $(div_id + ' #mlsMessages').text(data.sent);
-        $(div_id + ' #mlsSenders').text(data.senders);
-        $(div_id + ' #mlsRepositories').text(data.repositories);
+        $(div_id + ' #mlsMessages').text(data.mls_sent);
+        $(div_id + ' #mlsSenders').text(data.mls_senders);
+        $(div_id + ' #mlsRepositories').text(data.mls_repositories);
         if (data.repositories === 1)
             $(div_id + ' #mlsRepositories').hide();
     };

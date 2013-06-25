@@ -449,7 +449,7 @@ var Report = {};
     
     function convertActivity() {        
         function activityInfo(div, period, label) {
-            var html = "<h5>Last "+ label + "</h5>";
+            var html = "<h4>Last "+ label + "</h4>";
             $.each(Report.getDataSources(), function(index, DS) {
                 var data = DS.getGlobalData();
                 $.each(data, function (key,val) {

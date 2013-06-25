@@ -200,7 +200,7 @@ function SCR() {
 
         $(div_id + ' #scrFirst').text(data.first_date);
         $(div_id + ' #scrLast').text(data.last_date);
-        $(div_id + ' #scrReviews').text(data.opened);
+        $(div_id + ' #scrReviews').text(data.scr_opened);
     };
 
     this.displayBubbles = function(divid, radius) {

@@ -186,9 +186,9 @@ function ITS() {
 
         $(div_id + ' #itsFirst').text(data.first_date);
         $(div_id + ' #itsLast').text(data.last_date);
-        $(div_id + ' #itsTickets').text(data.tickets);
-        $(div_id + ' #itsOpeners').text(data.openers);
-        $(div_id + ' #itsRepositories').text(data.repositories);
+        $(div_id + ' #itsTickets').text(data.its_opened);
+        $(div_id + ' #itsOpeners').text(data.its_openers);
+        $(div_id + ' #itsRepositories').text(data.its_repositories);
         if (data.repositories === 1)
             $(div_id + ' #itsRepositories').hide();
     };

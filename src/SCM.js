@@ -226,12 +226,12 @@ function SCM() {
         }
         $(div_id + ' #scmFirst').text(data.first_date);
         $(div_id + ' #scmLast').text(data.last_date);
-        $(div_id + ' #scmCommits').text(data.commits);
-        $(div_id + ' #scmAuthors').text(data.authors);
+        $(div_id + ' #scmCommits').text(data.scm_commits);
+        $(div_id + ' #scmAuthors').text(data.scm_authors);
         if (data.reviewers)
-            $(div_id + ' #scmReviewers').text(data.reviewers);
-        $(div_id + ' #scmCommitters').text(data.committers);
-        $(div_id + ' #scmRepositories').text(data.repositories);
+            $(div_id + ' #scmReviewers').text(data.scm_reviewers);
+        $(div_id + ' #scmCommitters').text(data.scm_committers);
+        $(div_id + ' #scmRepositories').text(data.scm_repositories);
         if (data.repositories === 1)
             $(div_id + ' #scmRepositories').hide();
     };
