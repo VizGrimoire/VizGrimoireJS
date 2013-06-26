@@ -2,7 +2,7 @@ var Dashboard = {};
 
 (function() {
     
-    default_metrics = ['authors','closers','senders'];
+    default_metrics = ['scm_authors','its_closers','mls_senders'];
     default_selection = 'companies';
     default_companies = ['Rackspace', 'Nebula','Red Hat'];
     
