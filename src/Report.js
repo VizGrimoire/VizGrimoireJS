@@ -447,7 +447,9 @@ var Report = {};
         }
     };
     
-    function convertActivity() {        
+    function convertActivity() {
+        var all_metrics = Report.getAllMetrics();
+        var label = null;
         function activityInfo(div, period, label) {
             var html = "<h4>Last "+ label + "</h4>";
             $.each(Report.getDataSources(), function(index, DS) {
@@ -456,7 +458,9 @@ var Report = {};
                     var suffix = "_"+period; 
                     if (key.indexOf(suffix, key.length - suffix.length) !== -1) {
                         var metric = key.substring(0, key.length - suffix.length);
-                        html += metric + ":" + data[key] + "<br>";
+                        label = metric;
+                        if (all_metrics[metric]) label = all_metrics[metric].name;
+                        html += label + ":" + data[key] + "<br>";
                     }
                 });
             });  

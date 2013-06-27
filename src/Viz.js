@@ -275,7 +275,10 @@ var Viz = {};
             $.each(history[metric], function (i, value) {
                 mdata[i] = [history.id[i], history[metric][i]];
             });
-            lines_data.push({label:metric, data:mdata});
+            var label = metric;
+            if (Report.getAllMetrics()[metric]) 
+                label = Report.getAllMetrics()[metric].name;
+            lines_data.push({label:label, data:mdata});
         });
         displayDSLines(div_id, history, lines_data, title, config);
 
@@ -872,8 +875,12 @@ var Viz = {};
             main_metric : "sent"
         };
 
+        var all_metrics = Report.getAllMetrics();
+        var label = null;
         for (var metric in history) {
-            options.data[metric] = [{label:metric, data:[history.id,history[metric]]}];
+            label = metric;
+            if (all_metrics[metric]) label = all_metrics[metric].name;
+            options.data[metric] = [{label:label, data:[history.id,history[metric]]}];
         }
         
         options.trackFormatter = function(o) {
