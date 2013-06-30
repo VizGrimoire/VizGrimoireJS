@@ -6,6 +6,7 @@ JSHINT = jshint
 
 all: \
 	vizgrimoire.js \
+	jshint \
 	vizgrimoire.min.js \
 	vizgrimoire.css
 	
@@ -33,6 +34,7 @@ vizgrimoire.core.js: \
     src/ITS.js \
     src/MLS.js \
     src/SCM.js \
+    src/SCR.js \
     src/Identity.js
     
 vizgrimoire.deps.css: \
@@ -49,13 +51,25 @@ vizgrimoire.core.css: \
 	$(JS_UGLIFY) -o $@ $<  
 
 vizgrimoire%js: Makefile
+	echo $@
 	@rm -f $@
-	# @$(JSHINT) $(filter %.js,$^)
 	@cat $(filter %.js,$^) > $@
 	# @cat $(filter %.js,$^) > $@.tmp
 	# $(JS_UGLIFY) -o $@  $@.tmp
 	# @rm $@.tmp
 	@chmod a-w $@
+
+jshint: vizgrimoire.core.js
+	@echo "JSHINT Checking ..."
+	@$(JSHINT) $(filter %.js,$^)
+	
+test: all
+	cd test/jasmine; jasmine-headless-webkit -j jasmine.yml -c
+	cd ../..
+
+testci: all
+	cd test/jasmine; xvfb-run jasmine-headless-webkit -j jasmine.yml -c
+	cd ../..
 
 vizgrimoire%css: Makefile
 	@rm -f $@

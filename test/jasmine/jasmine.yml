@@ -1,11 +1,17 @@
 src_files:
-  - "src/jquery-1.7.1.min.js"
+  - "lib/jquery-1.7.1.min.js"
+  - "bootstrap/js/bootstrap.min.js"
+  - "src/d3-treemap.min.js"
   - "src/jquery.gridster.js"
   - "src/envision.js"
-  - "src/Report.js"
+  - "src/DataSource.js"
+  - "src/DataProcess.js"
   - "src/ITS.js"
   - "src/MLS.js"
   - "src/SCM.js"
+  - "src/SCR.js"
+  - "src/Loader.js"
+  - "src/Report.js"
   - "src/Envision_Report.js"
   - "src/Viz.js"
 helpers:
@@ -14,3 +20,6 @@ spec_files:
   - "vizgrimoireSpec.js"
 src_dir: "../../"
 spec_dir: "spec/"
+stylesheets: 
+  - "vizgrimoire.css"
+  - "browser/custom.css"

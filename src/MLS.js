@@ -25,37 +25,55 @@ function MLS() {
     
     var self = this;
     
-    var basic_metrics = {
-        'repositories' : {
-            'divid' : "mls-repos",
-            'column' : "repositories",
-            'name' : "Repositories",
-            'desc' : "Number of mailing lists"
-        },
-        'responses' : {
-            'divid' : "mls-responses",
+    this.basic_metrics = {
+        'mls_responses' : {
+            'divid' : "mls_responses",
             'column' : "responses",
             'name' : "Responses",
             'desc' : "Number of messages that are responses"
         },
-        'sent' : {
-            'divid' : "mls-sent",
+        'mls_sent' : {
+            'divid' : "mls_sent",
             'column' : "sent",
             'name' : "Sent",
             'desc' : "Number of messages"
         },
-        'senders' : {
-            'divid' : "mls-senders",
+        'mls_senders' : {
+            'divid' : "mls_senders",
             'column' : "senders",
             'name' : "Senders",
             'desc' : "Number of unique message senders",
             'action' : "sent"
         },
-        'threads' : {
-            'divid' : "mls-threads",
+        'mls_threads' : {
+            'divid' : "mls_threads",
             'column' : "threads",
             'name' : "Threads",
             'desc' : "Number of messages threads"
+        },
+        'mls_companies' : {
+            'divid' : 'mls_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'mls_countries' : {
+            'divid' : 'mls_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'mls_repositories' : {
+            'divid' : 'mls_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'mls_people' : {
+            'divid' : 'mls_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
         }
     };
         
@@ -75,11 +93,11 @@ function MLS() {
     };
 
     this.getMainMetric = function() {
-        return "sent";
+        return "mls_sent";
     };
-    this.getMetrics = function() {return basic_metrics;};
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {
+    this.displaySummary = function(report, divid, item, ds) {
+        if (!item) item = "";
         var label = item;
         if (item.lastIndexOf("http") === 0) {
             var aux = item.split("_");
@@ -88,26 +106,28 @@ function MLS() {
         }
         var html = "<h4>" + label + "</h4>";
         var id_label = {
-            sent: "Sent",
-            senders: "Senders",
             first_date : "Start",
-            last_date : "End",
-            repositories: "Repositories"
+            last_date : "End"
         };
         var global_data = null;
         if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
+            global_data = ds.getCompaniesGlobalData()[item];
         if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
+            global_data = ds.getCountriesGlobalData()[item];
         else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
-        else return;
+            global_data = ds.getReposGlobalData()[item];
+        else global_data = ds.getGlobalData();
         
-        $.each(global_data[item],function(id,value) {
-            if (id_label[id]) 
+        if (!global_data) return;
+        
+        var self = this;
+        $.each(global_data,function(id,value) {
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id]) 
                 html += id_label[id] + ": " + value + "<br>";
             else
-                html += id + ": " + value + "<br>";
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };
@@ -148,15 +168,15 @@ function MLS() {
 
         $(div_id + ' #mlsFirst').text(data.first_date);
         $(div_id + ' #mlsLast').text(data.last_date);
-        $(div_id + ' #mlsMessages').text(data.sent);
-        $(div_id + ' #mlsSenders').text(data.senders);
-        $(div_id + ' #mlsRepositories').text(data.repositories);
+        $(div_id + ' #mlsMessages').text(data.mls_sent);
+        $(div_id + ' #mlsSenders').text(data.mls_senders);
+        $(div_id + ' #mlsRepositories').text(data.mls_repositories);
         if (data.repositories === 1)
             $(div_id + ' #mlsRepositories').hide();
     };
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "sent", "senders", radius);
+        Viz.displayBubbles(divid, "mls_sent", "mls_senders", radius);
     };
         
     // http:__lists.webkit.org_pipermail_squirrelfish-dev_
@@ -175,7 +195,7 @@ function MLS() {
             list_name = list_name_tokens[0];
         }
         return list_name;
-    }
+    };
 
     function getUserLists() {
         var form = document.getElementById('form_mls_selector');
@@ -475,7 +495,7 @@ function MLS() {
             $("#" + div_id_sel).append("Not supported in multiproject");
             $('#' + div_id_sel + ' :input').attr('disabled', true);
         }
-    }
+    };
 
     // history values should be always arrays
     function filterHistory(history) {
@@ -514,5 +534,4 @@ function MLS() {
         new envision.templates.Envision_Report(options, [ this ]);
     };
 }
-var aux = new MLS();
-MLS.prototype = new DataSource("mls", aux.getMetrics());
+MLS.prototype = new DataSource("mls");

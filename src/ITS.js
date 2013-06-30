@@ -23,9 +23,9 @@
 
 function ITS() {
 
-    var basic_metrics = {
-        'opened' : {
-            'divid' : 'its-opened',
+    this.basic_metrics = {
+        'its_opened' : {
+            'divid' : 'its_opened',
             'column' : "opened",
             'name' : "Opened",
             'desc' : "Number of opened tickets",
@@ -34,8 +34,8 @@ function ITS() {
                 show_markers : true
             }
         },
-        'openers' : {
-            'divid' : 'its-openers',
+        'its_openers' : {
+            'divid' : 'its_openers',
             'column' : "openers",
             'name' : "Openers",
             'desc' : "Unique identities opening tickets",
@@ -44,14 +44,14 @@ function ITS() {
                 gtype : 'whiskers'
             }
         },
-        'closed' : {
-            'divid' : 'its-closed',
+        'its_closed' : {
+            'divid' : 'its_closed',
             'column' : "closed",
             'name' : "Closed",
             'desc' : "Number of closed tickets"
         },
-        'closers' : {
-            'divid' : 'its-closers',
+        'its_closers' : {
+            'divid' : 'its_closers',
             'column' : "closers",
             'name' : "Closers",
             'desc' : "Number of identities closing tickets",
@@ -60,14 +60,14 @@ function ITS() {
                 gtype : 'whiskers'
             }
         },
-        'changed' : {
-            'divid' : 'its-changed',
+        'its_changed' : {
+            'divid' : 'its_changed',
             'column' : "changed",
             'name' : "Changed",
             'desc' : "Number of changes to the state of tickets"
         },
-        'changers' : {
-            'divid' : 'its-changers',
+        'its_changers' : {
+            'divid' : 'its_changers',
             'column' : "changers",
             'name' : "Changers",
             'desc' : "Number of identities changing the state of tickets",
@@ -75,13 +75,35 @@ function ITS() {
             'envision' : {
                 gtype : 'whiskers'
             }
-        }
+        },
+        'its_companies' : {
+            'divid' : 'its_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'its_countries' : {
+            'divid' : 'its_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'its_repositories' : {
+            'divid' : 'its_repositories',
+            'column' : "repositories",
+            'name' : "Respositories",
+            'desc' : "Number of active respositories"
+        },
+        'its_people' : {
+            'divid' : 'its_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
+        }  
     };       
     
-    this.getMetrics = function() {return basic_metrics;};
-    
     this.getMainMetric = function() {
-        return "opened";
+        return "its_opened";
     };
     
     this.setReposData = function(repos_name, self) {
@@ -90,12 +112,13 @@ function ITS() {
         var repos = [];
         // convert http://issues.liferay.com/browse/AUI, change "/" by "_"
         for (var i=0; i<repos_name.length; i++) {
-        	repos.push(repos_name[i].replace(/\//g,"_"));
+            repos.push(repos_name[i].replace(/\//g,"_"));
         }
         self.repos = repos;
     };
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {
+    this.displaySummary = function(report, divid, item, ds) {
+        if (!item) item = "";
         var label = item;
         if (item.lastIndexOf("http") === 0) {
             label = item.substr(item.lastIndexOf("_") + 1);
@@ -103,32 +126,30 @@ function ITS() {
         }
         var html = "<h4>" + label + "</h4>";
         var id_label = {
-            opened : "Opened",
-            openers : "Openers",
             first_date : "Start",
             last_date : "End",
-            closers : "Closers",
-            closed : "Closed",
-            changers : "Changers",
-    		changed: "Changed",
-    		tickets: "Tickets",
-    		trackers: "Trackers"
-    		    
+            tickets : "Tickets",
+            trackers : "Trackers"
         };
         var global_data = null;
         if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
+            global_data = ds.getCompaniesGlobalData()[item];
         else if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
+            global_data = ds.getCountriesGlobalData()[item];
         else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
-        else return;
+            global_data = ds.getReposGlobalData()[item];
+        else global_data = ds.getGlobalData();
         
-        $.each(global_data[item],function(id,value) {
-        	if (id_label[id]) 
-        		html += id_label[id] + ": " + value + "<br>";
-        	else
-        		html += id + ": " + value + "<br>";
+        if (!global_data) return;
+
+        var self = this;
+        $.each(global_data,function(id,value) {
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id]) 
+                html += id_label[id] + ": " + value + "<br>";
+            else
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };
@@ -147,6 +168,7 @@ function ITS() {
         } else {
             url = Report.getProjectData().its_url;
         }
+        if (url === undefined) url = '';
         if (this.global_data.type === "allura")
             url = url.replace("rest/","");
         else if (this.global_data.type === "github") {
@@ -164,9 +186,9 @@ function ITS() {
 
         $(div_id + ' #itsFirst').text(data.first_date);
         $(div_id + ' #itsLast').text(data.last_date);
-        $(div_id + ' #itsTickets').text(data.tickets);
-        $(div_id + ' #itsOpeners').text(data.openers);
-        $(div_id + ' #itsRepositories').text(data.repositories);
+        $(div_id + ' #itsTickets').text(data.its_opened);
+        $(div_id + ' #itsOpeners').text(data.its_openers);
+        $(div_id + ' #itsRepositories').text(data.its_repositories);
         if (data.repositories === 1)
             $(div_id + ' #itsRepositories').hide();
     };
@@ -174,9 +196,8 @@ function ITS() {
     this.getTitle = function() {return "Tickets";};
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "opened", "openers", radius);
+        Viz.displayBubbles(divid, "its_opened", "its_openers", radius);
     };
     
 }
-var aux = new ITS();
-ITS.prototype = new DataSource("its", aux.getMetrics());
+ITS.prototype = new DataSource("its");

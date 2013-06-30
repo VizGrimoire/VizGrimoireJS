@@ -23,9 +23,9 @@
 
 function SCM() {
 
-    var basic_metrics = {
-        'commits' : {
-            'divid' : "scm-commits",
+    this.basic_metrics = {
+        'scm_commits' : {
+            'divid' : "scm_commits",
             'column' : "commits",
             'name' : "Commits",
             'desc' : "Evolution of the number of commits (aggregating branches)",
@@ -34,8 +34,8 @@ function SCM() {
                 show_markers : true
             }
         },
-        'committers' : {
-            'divid' : "scm-committers",
+        'scm_committers' : {
+            'divid' : "scm_committers",
             'column' : "committers",
             'name' : "Committers",
             'desc' : "Unique committers making changes to the source code",
@@ -44,8 +44,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'authors' : {
-            'divid' : "scm-authors",
+        'scm_authors' : {
+            'divid' : "scm_authors",
             'column' : "authors",
             'name' : "Authors",
             'desc' : "Unique authors making changes to the source code",
@@ -54,8 +54,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'authors_rev' : {
-            'divid' : "scm-authors-rev",
+        'scm_authors_rev' : {
+            'divid' : "scm_authors-rev",
             'column' : "authors_rev",
             'name' : "Authors",
             'desc' : "Unique authors making changes reviewed to the source code",
@@ -64,8 +64,8 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'commits_rev' : {
-            'divid' : "scm-commits-rev",
+        'scm_commits_rev' : {
+            'divid' : "scm_commits-rev",
             'column' : "commits_rev",
             'name' : "Commits Reviewed",
             'desc' : "Evolution of the number of commits reviewed (aggregating branches)",
@@ -74,8 +74,8 @@ function SCM() {
                 show_markers : true
             }
         },
-        'reviewers' : {
-            'divid' : "scm-reviewers",
+        'scm_reviewers' : {
+            'divid' : "scm_reviewers",
             'column' : "reviewers",
             'name' : "Reviewers",
             'desc' : "Unique reviewers making reviews to the source code changes",
@@ -84,51 +84,61 @@ function SCM() {
                 gtype : 'whiskers'
             }
         },
-        'branches' : {
-            'divid' : "scm-branches",
+        'scm_branches' : {
+            'divid' : "scm_branches",
             'column' : "branches",
             'name' : "Branches",
             'desc' : "Evolution of the number of branches"
         },
-        'files' : {
-            'divid' : "scm-files",
+        'scm_files' : {
+            'divid' : "scm_files",
             'column' : "files",
             'name' : "Files",
             'desc' : "Evolution of the number of unique files handled by the community"
         },
-        'files' : {
-            'divid' : "scm-files",
-            'column' : "files",
-            'name' : "Files",
-            'desc' : "Evolution of the number of unique files handled by the community"
-        },
-        'added_lines' : {
-            'divid' : "scm-added-lines",
+        'scm_added_lines' : {
+            'divid' : "scm_added_lines",
             'column' : "added_lines",
             'name' : "Lines Added",
             'desc' : "Evolution of the source code lines added"
         },
-        'removed_lines' : {
-            'divid' : "scm-removed-lines-",
+        'scm_removed_lines' : {
+            'divid' : "scm_removed_lines",
             'column' : "removed_lines",
             'name' : "Lines Removed",
             'desc' : "Evolution of the source code lines removed"
         },
-        'repositories' : {
-            'divid' : "scm-repositories",
+        'scm_repositories' : {
+            'divid' : "scm_repositories",
             'column' : "repositories",
             'name' : "Repositories",
             'desc' : "Evolution of the number of repositories",
             'envision' : {
                 gtype : 'whiskers'
             }
+        },
+        'scm_companies' : {
+            'divid' : 'scm_companies',
+            'column' : "companies",
+            'name' : "Companies",
+            'desc' : "Number of active companies"
+        },
+        'scm_countries' : {
+            'divid' : 'scm_countries',
+            'column' : "countries",
+            'name' : "Countries",
+            'desc' : "Number of active countries"
+        },
+        'scm_people' : {
+            'divid' : 'scm_people',
+            'column' : "people",
+            'name' : "People",
+            'desc' : "Number of active people"
         }
     };
     
-    this.getMetrics = function() {return basic_metrics;};
-    
     this.getMainMetric = function() {
-        return "commits";
+        return "scm_commits";
     };
     
     this.setITS = function(its) {
@@ -141,7 +151,8 @@ function SCM() {
     
     this.getTitle = function() {return "Change sets (commits to source code)";};
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {
+    this.displaySummary = function(report, divid, item, ds) {
+        if (!item) item = "";
         var label = item;
         if (item.lastIndexOf("http") === 0) {
             var aux = item.split("_");
@@ -151,12 +162,8 @@ function SCM() {
 
         var html = "<h4>"+label+"</h4>";
         var id_label = {    
-            commits:'Commits',
-            committers:'Committers',
-            authors:'Authors',
             first_date:'Start',
             last_date:'End',
-            files:'Files',
             actions:'Files actions',
             avg_commits_month:'Commits/month',
             avg_files_month:'Files/month',
@@ -171,20 +178,23 @@ function SCM() {
         };
         var global_data = null;
         if (report === "companies")
-            global_data = ds.getCompaniesGlobalData();
+            global_data = ds.getCompaniesGlobalData()[item];
         else if (report === "repositories")
-            global_data = ds.getReposGlobalData();
+            global_data = ds.getReposGlobalData()[item];
         else if (report === "countries")
-            global_data = ds.getCountriesGlobalData();
-        else return;
+            global_data = ds.getCountriesGlobalData()[item];
+        else global_data = ds.getGlobalData();
         
-        if (!global_data[item]) return;
+        if (!global_data) return;
         
-        $.each(global_data[item],function(id,value) {
-            if (id_label[id])
+        var self = this;
+        $.each(global_data,function(id,value) {
+            if (self.getMetrics()[id])
+                html += self.getMetrics()[id].name + ": " + value + "<br>";
+            else if (id_label[id])
                 html += id_label[id] + ": " + value + "<br>";
             else
-                html += id + ": " + value + "<br>";
+                if (report) html += id + ": " + value + "<br>";
         });
         $("#"+divid).append(html);
     };
@@ -216,19 +226,18 @@ function SCM() {
         }
         $(div_id + ' #scmFirst').text(data.first_date);
         $(div_id + ' #scmLast').text(data.last_date);
-        $(div_id + ' #scmCommits').text(data.commits);
-        $(div_id + ' #scmAuthors').text(data.authors);
+        $(div_id + ' #scmCommits').text(data.scm_commits);
+        $(div_id + ' #scmAuthors').text(data.scm_authors);
         if (data.reviewers)
-            $(div_id + ' #scmReviewers').text(data.reviewers);
-        $(div_id + ' #scmCommitters').text(data.committers);
-        $(div_id + ' #scmRepositories').text(data.repositories);
+            $(div_id + ' #scmReviewers').text(data.scm_reviewers);
+        $(div_id + ' #scmCommitters').text(data.scm_committers);
+        $(div_id + ' #scmRepositories').text(data.scm_repositories);
         if (data.repositories === 1)
             $(div_id + ' #scmRepositories').hide();
     };
 
     this.displayBubbles = function(divid, radius) {
-        Viz.displayBubbles(divid, "commits", "committers", radius);
+        Viz.displayBubbles(divid, "scm_commits", "scm_committers", radius);
     };
 }
-var aux = new SCM();
-SCM.prototype = new DataSource("scm", aux.getMetrics());
+SCM.prototype = new DataSource("scm");

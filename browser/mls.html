@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)http://twitter.github.io/bootstrap/examples/fluid.html# -->
+
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -37,28 +37,31 @@
     <div id="navbar"></div>
     <div class="container-fluid">    
       <div class="row-fluid">
-        <div class="span9">
+        <div class="span2">
+            <div id="mls-summary"></div>
+        </div>            
+        <div class="span7">
             <div class="row-fluid">
                <div class="span12">
                     <div class="span6">
                     <!-- <div id="mls-flotr2"></div> -->
 	                <div class="mls-flotr2-metrics"
-	                    data-metrics="sent,sent_init,sent_response" data-legend="true"></div>
+	                    data-metrics="mls_sent,mls_sent_init,mls_sent_response" data-legend="true"></div>
 	                </div>
 	                <div class="span6">
 		                <div class="mls-flotr2-metrics"
-		                    data-metrics="senders,senders_init,senders_response" data-legend="true"></div>
+		                    data-metrics="mls_senders,mls_senders_init,mls_senders_response" data-legend="true"></div>
                     </div>                  
                 </div>
             </div>
             <div class="row-fluid">
                 <div class="span6">
                    <div class="mls-flotr2-metrics"
-                       data-metrics="threads" data-legend="true"></div>
+                       data-metrics="mls_threads" data-legend="true"></div>
                 </div>
                 <div class="span6">
                    <div class="mls-flotr2-metrics"
-                       data-metrics="sent,threads" data-convert="aggregate" data-legend="true"></div>
+                       data-metrics="mls_sent,mls_threads" data-convert="aggregate" data-legend="true"></div>
                 </div>                
             </div>
             <div class="row-fluid">
@@ -78,7 +81,7 @@
             </div>           
         </div>
         <div class="span3">
-          <div id="mls-top" data-metric="senders" data-show_all="true"></div>
+          <div id="mls-top" data-show_all="true"></div>
         </div>
        </div>
       <footer>

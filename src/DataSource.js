@@ -30,9 +30,12 @@ function DataSource(name, basic_metrics) {
         return this.top_data_file;
     };
     
-    this.basic_metrics = basic_metrics;
-    this.getMetrics = function() {
-        return this.basic_metrics;
+    this.getMetrics = function() {return this.basic_metrics;};
+    this.setMetrics = function(metrics) {this.basic_metrics = metrics;};
+    
+    this.setMetricsDefinition = function(metrics) {
+        if (metrics === undefined) return;
+        this.setMetrics(metrics);
     };
     
     this.data_file = this.data_dir + '/'+this.name+'-evolutionary.json';
@@ -47,9 +50,30 @@ function DataSource(name, basic_metrics) {
     this.getData = function() {
         return this.data;
     };
+    
+    function nameSpaceMetrics(plain_metrics, ds) {
+        // If array, no data available
+        if (plain_metrics instanceof Array) 
+            return plain_metrics;
+        var metrics = {};
+        $.each(plain_metrics, function (name, value) {
+            var basic_name = name;
+            // commits_7, commits_30 ....
+            var aux = name.split("_");
+            if (isNaN(aux[aux.length-1]) === false)
+                basic_name = aux.slice(0,aux.length-1).join("_"); 
+            var ns_basic_name = ds.getName()+"_"+basic_name;
+            var ns_name = ds.getName()+"_"+name;
+            if (ds.getMetrics()[ns_basic_name] === undefined)
+                metrics[name] = value;
+            else metrics[ns_name] = value;
+        });
+        return metrics;
+    }
+    
     this.setData = function(load_data, self) {
         if (self === undefined) self = this;
-        self.data = load_data;
+        self.data = nameSpaceMetrics(load_data, self);
     };
     
     
@@ -95,7 +119,7 @@ function DataSource(name, basic_metrics) {
     };
     this.setGlobalData = function(data, self) {
         if (self === undefined) self = this;
-        self.global_data = data;
+        self.global_data = nameSpaceMetrics(data, self);
     };
     
     this.global_top_data = null;
@@ -190,7 +214,7 @@ function DataSource(name, basic_metrics) {
     this.companies_metrics_data = {};
     this.addCompanyMetricsData = function(company, data, self) {
         if (self === undefined) self = this;
-        self.companies_metrics_data[company] = data;
+        self.companies_metrics_data[company] = nameSpaceMetrics(data, self);
     };
     this.getCompaniesMetricsData = function() {
         return this.companies_metrics_data;
@@ -199,7 +223,7 @@ function DataSource(name, basic_metrics) {
     this.companies_global_data = {};
     this.addCompanyGlobalData = function(company, data, self) {
         if (self === undefined) self = this;
-        self.companies_global_data[company] = data;
+        self.companies_global_data[company] = nameSpaceMetrics(data, self);
     };
     this.getCompaniesGlobalData = function() {
         return this.companies_global_data;
@@ -241,7 +265,7 @@ function DataSource(name, basic_metrics) {
     this.repos_metrics_data = {};
     this.addRepoMetricsData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repos_metrics_data[repo] = data;
+        self.repos_metrics_data[repo] = nameSpaceMetrics(data, self);
     };
     this.getReposMetricsData = function() {
         return this.repos_metrics_data;
@@ -250,7 +274,7 @@ function DataSource(name, basic_metrics) {
     this.repos_global_data = {};
     this.addRepoGlobalData = function(repo, data, self) {
         if (self === undefined) self = this;
-        self.repos_global_data[repo] = data;
+        self.repos_global_data[repo] =  nameSpaceMetrics(data, self);
     };
     this.getReposGlobalData = function() {
         return this.repos_global_data;
@@ -275,7 +299,7 @@ function DataSource(name, basic_metrics) {
     this.countries_metrics_data = {};
     this.addCountryMetricsData = function(country, data, self) {
         if (self === undefined) self = this;
-        self.countries_metrics_data[country] = data;
+        self.countries_metrics_data[country] = nameSpaceMetrics(data, self);
     };
     this.getCountriesMetricsData = function() {
         return this.countries_metrics_data;
@@ -284,7 +308,7 @@ function DataSource(name, basic_metrics) {
     this.countries_global_data = {};
     this.addCountryGlobalData = function(country, data, self) {
         if (self === undefined) self = this;
-        self.countries_global_data[country] = data;
+        self.countries_global_data[country] = nameSpaceMetrics(data, self);
     };
     this.getCountriesGlobalData = function() {
         return this.countries_global_data;
@@ -420,6 +444,7 @@ function DataSource(name, basic_metrics) {
         else return;
         if (limit) {
             var sorted = null;
+            var item = null;
             if (report=="companies")
                 sorted = DataProcess.sortCompanies(this, order_by);
             else if (report=="repos")
@@ -429,15 +454,15 @@ function DataSource(name, basic_metrics) {
             if (limit > sorted.length) limit = sorted.length; 
             var data_limit = {};
             for (var i=0; i<limit; i++) {
-                var item = sorted[i];
+                item = sorted[i];
                 data_limit[item] = data[item];
             }
 
             // Add a final companies_data for the sum of other values
             if (show_others) {
                 var others = 0;
-                for (var i=limit; i<sorted.length; i++) {
-                    var item = sorted[i];
+                for (var j=limit; j<sorted.length; j++) {
+                    item = sorted[j];
                     others += data[item][metric_id];
                 }
                 data_limit.others = {};
@@ -463,7 +488,9 @@ function DataSource(name, basic_metrics) {
     
     this.displayBasicMetricsPeople = function (upeople_id, upeople_identifier, metrics, div_id, config) {
         var json_file = "people-"+upeople_id+"-"+this.getName()+"-evolutionary.json";
+        var self = this;
         $.when($.getJSON(this.getDataDir()+"/"+json_file)).done(function(history) {
+            history = nameSpaceMetrics(history, self);
             Viz.displayBasicMetricsPeople(upeople_identifier, metrics, history, div_id, config);
         }).fail(function() {
             $("#people").empty();
@@ -617,14 +644,14 @@ function DataSource(name, basic_metrics) {
             if (report === "companies") 
                 list += "<a href='company.html?company="+item+"'>";
             else if (report === "repos") {
-        		list += "<a href='";
-        		// Show together SCM and ITS
-        		if ((ds.getName() === "scm" || ds.getName() === "its") &&
-        		     (Report.getReposMap().length === undefined)) ;
-        		else 
-        		    list += ds.getName()+"-";
-        		list += "repository.html";
-        		list += "?repository="+encodeURIComponent(item);
+                list += "<a href='";
+                // Show together SCM and ITS
+                if ((ds.getName() === "scm" || ds.getName() === "its")
+                        && (Report.getReposMap().length === undefined));
+                else
+                    list += ds.getName() + "-";
+                list += "repository.html";
+                list += "?repository=" + encodeURIComponent(item);
                 list += "&data_dir=" + Report.getDataDir();
                 list += "'>";
             }
@@ -675,22 +702,26 @@ function DataSource(name, basic_metrics) {
                 var div_id = item+"-"+metric;
                 var items = {};
                 items[item] = item_data;
-                var title = metric;
+                var title = ds.getMetrics()[metric].name;
                 Viz.displayMetricSubReportLines(div_id, metric, items, title);
             });
         });
     };
+
+    this.displayGlobalSummary = function(divid) {
+        this.displaySummary(null, divid, null, this);
+    };
     
     this.displayCompanySummary = function(divid, company, ds) {
-        this.displaySubReportSummary("companies",divid, company, ds);
+        this.displaySummary("companies",divid, company, ds);
     };
     
     this.displayRepoSummary = function(divid, repo, ds) {
-        this.displaySubReportSummary("repositories",divid, repo, ds);
+        this.displaySummary("repositories",divid, repo, ds);
     };
     
     this.displayCountrySummary = function(divid, repo, ds) {
-        this.displaySubReportSummary("countries",divid, repo, ds);
+        this.displaySummary("countries",divid, repo, ds);
     };
     
     // On demand file loading for people
@@ -722,12 +753,12 @@ function DataSource(name, basic_metrics) {
         $("#"+divid).append(html);
     };
     
-    this.displaySubReportSummary = function(report, divid, item, ds) {};
+    this.displaySummary = function(report, divid, item, ds) {};
     
     this.displayReposSummary = function(divid, ds) {
         var html = "";
         var data = ds.getGlobalData();
-        html += "Total repositories: " + data.repositories +"<br>";
+        html += "Total repositories: " + data[ds.getName()+"_repositories"] +"<br>";
         $("#"+divid).append(html);
     };
     
@@ -743,14 +774,14 @@ function DataSource(name, basic_metrics) {
     };
 
     this.displayTimeToAttention = function(div_id, column, labels, title) {
-        var labels = true;
-        var title = "Time to Attention " + column;
+        labels = true;
+        title = "Time to Attention " + column;
         Viz.displayTimeToAttention(div_id, this.getTimeToAttentionData(), column, labels, title);
     };
     
     this.displayTimeToFix = function(div_id, column, labels, title) {
-        var labels = true;
-        var title = "Time to Fix " + column;
+        labels = true;
+        title = "Time to Fix " + column;
         Viz.displayTimeToFix(div_id, this.getTimeToFixData(), column, labels, title);
     };
     

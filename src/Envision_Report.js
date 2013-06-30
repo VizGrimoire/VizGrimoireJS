@@ -56,7 +56,7 @@
                     show: false,
                     backgroundColor : '#FFFFFF',
                     backgroundOpacity : 0
-                },
+                }
             }
         };
 
@@ -91,6 +91,8 @@
     }
 
     function getDefaultsMetrics(DS, viz, metrics, default_config) {
+        var all_metrics = Report.getAllMetrics();
+        var label = null;
         $.each(metrics, function(metric, value) {
             config = default_config;
             if (value.envision)
@@ -99,13 +101,15 @@
             if ($.inArray(metric, global_data.envision_hide) === -1) {
                 viz[metric] = getEnvisionDefaultsGraph
                     ('report-' + DS.getName() + '-' + metric, config);
-                viz[metric].config.subtitle = metric;
+                label = metric;
+                if (all_metrics[metric]) label = all_metrics[metric].name;
+                viz[metric].config.subtitle = label;
                 if (DS.getMainMetric() == metric) {
                     // Create graph also for relative data
                     viz[metric+"_relative"] = getEnvisionDefaultsGraph
                         ('report-' + DS.getName() + '-' + metric+"_relative", config);
                     viz[metric].config['lite-lines'] = {show:false};
-                    viz[metric].config['lines'] = {
+                    viz[metric].config.lines = {
                             lineWidth : 1,
                             show : true,
                             stacked: true,

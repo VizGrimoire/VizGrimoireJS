@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)http://twitter.github.io/bootstrap/examples/fluid.html# -->
+
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -41,21 +41,22 @@
       </div><!--/row-->
       <div id="summary-static-stacked" class="row-fluid">
         <div class="span6">
-            <div class="scm-flotr2-companies" data-metric="commits" data-limit="10" data-stacked="true"></div>
+            <div class="scm-flotr2-companies" data-metric="scm_commits" data-limit="10" data-stacked="true"></div>
             <i><b>Commits per company (monthly)</b></i><a href="notes.html#note:charts:summary:commits"><img src="qm_15.png"></a>
        </div>
         <div class="span6">
-	        <div class="scm-flotr2-companies" data-metric="authors" data-limit="10" data-stacked="true" data-order-by="commits"></div>
+	        <div class="scm-flotr2-companies" data-metric="scm_authors" data-limit="10" data-stacked="true" data-order-by="scm_commits"></div>
 	        <i><b>Active authors per company (monthly)</b></i><a href="notes.html#note:charts:summary:authors"><img src="qm_15.png"></a>
         </div>
       </div><!--/row-->
       <div id="summary-static-pie" class="row-fluid">
         <div class="span6">
-            <div class="scm-flotr2-companies-static" data-metric="authors" data-limit="5" data-show-others="true" data-graph="pie" data-order-by="commits" ></div>
+            <div class="scm-flotr2-companies-static" data-metric="scm_authors" data-limit="5" 
+            data-show-others="true" data-graph="pie" data-order-by="scm_commits" ></div>
             <i><b>Authors per company</b></i><a href="notes.html#note:charts:summary:authors_pie"><img src="qm_15.png"></a>        
        </div>
         <div class="span6">
-	           <div class="scm-flotr2-companies-static" data-metric="commits" data-limit="5" data-show-others="true" data-graph="pie"></div>
+	           <div class="scm-flotr2-companies-static" data-metric="scm_commits" data-limit="5" data-show-others="true" data-graph="pie"></div>
 	           <i><b>Reviewed commits per company</b></i><a href="notes.html#note:charts:summary:commits_pie"><img src="qm_15.png"></a>
         </div>
       </div><!--/row-->      

@@ -2,7 +2,7 @@ var Dashboard = {};
 
 (function() {
     
-    default_metrics = ['authors','closers','senders'];
+    default_metrics = ['scm_authors','its_closers','mls_senders'];
     default_selection = 'companies';
     default_companies = ['Rackspace', 'Nebula','Red Hat'];
     
@@ -30,7 +30,7 @@ var Dashboard = {};
     
     function getAllMetrics(limit) {
         var metrics = {};
-        var not_metrics = ['id','date','month','year','week'];
+        var not_metrics = ['id','date','month','year','week','unixtime'];
         $.each(Report.getDataSources(), function(index, ds) {
             var metrics_ds = [];
             for (key in ds.getData()) {
