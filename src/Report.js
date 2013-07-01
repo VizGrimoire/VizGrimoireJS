@@ -336,8 +336,18 @@ var Report = {};
                                 metric+'" style="margin-left:10px; float:left;width:100px; height:25px;"></div>';
                         html += '<div style="clear:both"></div><div>';
                         $.each({7:'week',30:'month',365:'year'}, function(period, name) {
-                            html += "<em>"+name+"</em>:"+ds.getGlobalData()[metric+"_"+period]+"&nbsp;";
-                            html += '<i class="icon-circle-arrow-up"></i>';
+                            var value = ds.getGlobalData()[metric+"_"+period];
+                            var value2 = ds.getGlobalData()[metric+"_"+(period*2)];
+                            html += "<em>"+name+"</em>:"+value+"&nbsp;";
+                            if (value === (value2-value)) {
+                                html += '';
+                            }
+                            else if (value > (value2-value)) { 
+                                html += '<i class="icon-circle-arrow-up"></i>';
+                            } else {
+                                html += '<i class="icon-circle-arrow-down"></i>';
+                            }
+                            
                         });
                         html += '</div>';
                         html += '<div>';
