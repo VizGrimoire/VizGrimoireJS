@@ -137,7 +137,7 @@ var Viz = {};
         var top_metric_id = metric.divid;
         var div_graph = '';
         var new_div = '';
-        // new_div += "<div class='info-pill'>";
+        new_div += "<div class='top-table'>";
         new_div += "<h4>";
         // if (project) new_div += project +" ";
         new_div += "Top " + top_metric_id + " " + metric_period + " </h4>";
@@ -149,7 +149,7 @@ var Viz = {};
         }
 
         new_div += table;
-        // new_div += "</div>";
+        new_div += "</div>";
 
         div = $("#" + div_id);
         div.append(new_div);
