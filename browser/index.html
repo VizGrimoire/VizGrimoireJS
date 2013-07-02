@@ -45,9 +45,15 @@
         </div><!--/span-->
         <div class="span10">
           <div class="row-fluid">
-	          <div class="hero-unit" style="height:400px;">
-	            <h4>General activity</h4>
-	            <div id="all-envision" data-legend-show="false"></div>
+	          <div class="hero-unit1" style="height:400px;">
+                <div class="span4">
+                  <div class="microdash" data-metric="scm_commits" ></div>              
+                  <div class="microdash" data-metric="its_opened" ></div>
+                  <div class="microdash" data-metric="mls_sent" ></div>                    
+                </div>            
+                <div class="span8">
+    	            <div id="all-envision" data-legend-show="false"></div>
+                </div>
 	          </div>
 	          <div class="row-fluid">
 	            <div class="span3">
@@ -60,27 +66,13 @@
 	                <div id="mls-top"></div>
 	            </div><!--/span-->
 	          </div><!--/row-->
-	          <div class="row-fluid">
-	            <div class="span3">
-		            <div id="scm_commits-flotr2"></div>
-		            <div id="scm_authors-flotr2"></div>            
-	            </div><!--/span-->
-	            <div class="span3">
-		            <div id="its_closed-flotr2"></div>
-		            <div id="its_closers-flotr2"></div>            
-	            </div><!--/span-->
-	            <div class="span3">
-	                <div id="mls_sent-flotr2"></div>
-	                <div id="mls_senders-flotr2"></div>
-	            </div><!--/span-->
-	          </div><!--/row-->
 	     </div><!--/row -->     
         </div><!--/span-->
       </div><!--/row-->
+      </div>
       <footer>
         <div id="footer"></div>
       </footer>
-    </div><!--/.fluid-container-->
 
     <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
     <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
