@@ -332,7 +332,7 @@ var Report = {};
                         html += '<h4>'+total+' '+ds.getMetrics()[metric].name+'</h4>';
                         html += '</div>';
                         html += '<div id="microdash" '+
-                                'class="scm-flotr2-metrics-min" data-metrics="'+
+                                'class="'+ds.getName()+'-flotr2-metrics-min" data-metrics="'+
                                 metric+'" style="margin-left:10px; float:left;width:100px; height:25px;"></div>';
                         html += '<div style="clear:both"></div><div>';
                         $.each({7:'week',30:'month',365:'year'}, function(period, name) {
