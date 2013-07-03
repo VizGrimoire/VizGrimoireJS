@@ -345,11 +345,9 @@ var Report = {};
                             }
                             else if (value > (value2-value)) { 
                                 html += '<i class="icon-circle-arrow-up"></i>';
-                                // html += '<span style="font-size:small">('+inc+'%)</span>';
                                 html += '<small>('+inc+'%)</small>';
                             } else {
-                                html += '<i class="icon-circle-arrow-down"></i>('+inc+'%)';
-                                // html += '<span style="font-size:small">('+inc+'%)</span>';
+                                html += '<i class="icon-circle-arrow-down"></i>';
                                 html += '<small>('+inc+'%)</small>';
                             }
                             
