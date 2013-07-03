@@ -493,8 +493,8 @@ function DataSource(name, basic_metrics) {
             history = nameSpaceMetrics(history, self);
             Viz.displayBasicMetricsPeople(upeople_identifier, metrics, history, div_id, config);
         }).fail(function() {
-            $("#people").empty();
-            $("#people").html('No data available for people');
+            $("#"+div_id).hide();
+            // $("#people").html('No data available for people');
         });
     };
     
