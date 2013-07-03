@@ -339,7 +339,7 @@ var Report = {};
                             var value = ds.getGlobalData()[metric+"_"+period];
                             var value2 = ds.getGlobalData()[metric+"_"+(period*2)];
                             html += "<em>"+name+"</em>:"+value+"&nbsp;";
-                            var inc = parseInt(((value2-value)/value)*100,null);
+                            var inc = parseInt((value/(value2-value))*100,null);
                             if (value === (value2-value)) {
                                 html += '';
                             }
