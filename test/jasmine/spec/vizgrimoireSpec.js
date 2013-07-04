@@ -13,10 +13,27 @@ describe("VizGrimoireJS data", function() {
                 expect(Loader.check_data_loaded()).toBeTruthy();
             });
         });
-        // We can start testing the data
         it("exist data sources", function() {
             var ds_data = Report.getDataSources()[0].data;
             expect(ds_data instanceof Array).toBeFalsy();
+        });
+        it("data update", function() {
+            var update = null;
+            var data_sources = Report.getDataSources();
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "scm") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var max_days_old = 2;
+            var now = new Date();
+            var update_time = new Date(update);
+            var day_mseconds = 60*60*24*1000;
+            var days_old = parseInt(
+                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+            
         });
     });
     
