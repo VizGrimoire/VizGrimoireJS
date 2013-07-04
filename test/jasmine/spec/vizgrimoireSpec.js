@@ -14,5 +14,9 @@ describe("VizGrimoireJS data", function() {
             });
         });
         // We can start testing the data
+        it("exist data sources", function() {
+            var ds_data = Report.getDataSources()[0].data;
+            expect(ds_data instanceof Array).toBeFalsy();
+        });
     });
 });

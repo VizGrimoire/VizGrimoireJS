@@ -1,1 +1,0 @@
-{"VizGrimoireJS data":[1],"Report":[7],"data files should be loaded":[8]}
