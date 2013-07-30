@@ -134,6 +134,21 @@
         "desc" : "Number of active people"
     }
 },
+"irc": {
+    "irc_sent" : {
+        "divid" : "irc_sent",
+        "column" : "sent",
+        "name" : "Sent",
+        "desc" : "Messages sent"
+    },
+    "irc_senders" : {
+        "divid" : "irc_senders",
+        "column" : "senders",
+        "name" : "Senders",
+        "desc" : "Messages senders",
+        "action" : "sent"
+    }
+},
 "scm": {
     "scm_commits" : {
         "divid" : "scm_commits",
