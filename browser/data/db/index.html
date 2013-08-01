@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link rel="stylesheet" type="text/css" id="theme"
+  href="VizGrimoireJS/vizgrimoire.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+}
+
+.sidebar-nav {
+	padding: 9px 0;
+}
+</style>
+<link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
+  rel="stylesheet">
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="../assets/js/html5shiv.js"></script>
+    <![endif]-->
+
+<!-- Fav and touch icons -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144"
+  href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114"
+  href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72"
+  href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-72-precomposed.png">
+<link rel="apple-touch-icon-precomposed"
+  href="http://twitter.github.io/bootstrap/assets/ico/apple-touch-icon-57-precomposed.png">
+<link rel="shortcut icon" href="favicon.png">
+</head>
+
+<body>
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container-fluid">
+        <button type="button" class="btn btn-navbar"
+          data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span> <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <!--        <a class="brand" href="./"><span class='report_name'></span></a> -->
+        <div style="float: left; margin-right: 10px">
+          <a href="./"><img src="200px-Wikimedia-logo.svg.png"
+            alt="MediaWiki" id="logo" height="50" width="50" border=0></a>
+        </div>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="summary-menu"><a href="../../">Summary</a></li>
+            <li class="dropdown scm-menu"><a
+              class="dropdown-toggle" data-toggle="dropdown" href="">Source
+                Code <b class="caret"></b>
+            </a>
+              <ul class="dropdown-menu">
+                <li><a href="../scm.html">basic</a></li>
+                <!--               <li><a href="scm-companies.html">by companies</a></li>
+              <li><a href="scm-countries.html">by countries</a></li>
+ -->
+                <li><a href="../scm-repos.html">by repositories</a></li>
+                <!--               <li><a href="scm-companies-summary.html">by companies summary</a></li> -->
+              </ul></li>
+            <li class="dropdown its-menu"><a
+              class="dropdown-toggle" data-toggle="dropdown" href="">Issues
+                <b class="caret"></b>
+            </a>
+              <ul class="dropdown-menu">
+                <li><a href="../its.html">basic</a></li>
+                <!--               <li><a href="its-companies.html">by companies</a></li>
+              <li><a href="its-countries.html">by countries</a></li>
+ -->
+                <li><a href="../its-repos.html">by repositories</a></li>
+              </ul></li>
+            <li class="dropdown mls-menu"><a
+              class="dropdown-toggle" data-toggle="dropdown" href="">Mailing
+                <b class="caret"></b>
+            </a>
+              <ul class="dropdown-menu">
+                <li><a href="../mls.html">basic</a></li>
+                <!--               <li><a href="mls-companies.html">by companies</a></li>
+              <li><a href="mls-countries.html">by countries</a></li>
+ -->
+                <li><a href="../mls-repos.html">by repositories</a></li>
+              </ul></li>
+            <li class="dropdown scr-menu"><a
+              class="dropdown-toggle" data-toggle="dropdown" href="">Code
+                Review <b class="caret"></b>
+            </a>
+              <ul class="dropdown-menu">
+                <li><a href="../scr.html">basic</a></li>
+              </ul></li>
+            <li class="dropdown irc-menu"><a
+              class="dropdown-toggle" data-toggle="dropdown" href="">IRC<b
+                class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <li><a href="../irc.html">basic</a></li>
+              </ul></li>
+            <li class="demographics-menu"><a
+              href="../demographics.html">Demographics</a></li>
+          </ul>
+        </div>
+        <!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+  <div class="container-fluid">
+    Full databases used to generate all the information for the project. Daily updated. 
+    <ul>
+    <li><a href="mailing_lists.mysql.7z">DB with Mailing List information</a></li>     
+    <li><a href="reviews.mysql.7z">DB with Code Reviews information</a></li>     
+    <li><a href="source_code.mysql.7z">DB with Source Code Activity information</a></li>    
+    <li><a href="tickets.mysql.7z">DB with Tickets activity information</a></li>
+    </ul>
+    In order to use them just uncompresss the file using 7zip and load the database in MySQL.
+  </div>
+  <!--/.fluid-container-->
+  <hr>
+  <footer>
+  <div id="about">
+    <p>
+        &#169; 2011-2013 Bitergia
+        <a href="http://creativecommons.org/licenses/by-sa/3.0/es/deed.es"><img src="cc-by-sa.png" border=0 alt="CC by-sa"></a>
+        Powered by <a href="http://metricsgrimoire.github.com/">MetricsGrimoire</a> and <a href="http://vizgrimoire.bitergia.org/">VizGrimoire</a>
+        <span id="vizjs-lib-version"></span>
+        and <a href="http://twitter.github.io/bootstrap/">Bootstrap</a>
+
+    </p>
+    </div>
+  </footer>
+  <script type="text/javascript"
+    src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript"
+    src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+</body>
+</html>
