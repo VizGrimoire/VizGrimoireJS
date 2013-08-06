@@ -9,7 +9,7 @@
 }
 
 .basic-metric-html {
-	width: 250px;
+	width: 150px;
 }
 
 .m0-box-div {
@@ -19,9 +19,9 @@
 }
 
 .scm-flotr2-metrics,
-.scr-flotr2-metrics,
 .its-flotr2-metrics,
-.mls-flotr2-metrics
+.mls-flotr2-metrics,
+.irc-flotr2-metrics
 {
 	height: 130px;
 }
@@ -36,8 +36,9 @@
 .mls-flotr2-companies-static,
 .mls-flotr2-repos-static,
 .its-time-to-fix,
-.mls-time-to-attention
- {
+.mls-time-to-attention,
+.irc-flotr2-repos-static
+{
     height: 200px;
 }
 
@@ -47,6 +48,7 @@
 .scm-flotr2-metrics-repo,
 .its-flotr2-metrics-repo,
 .mls-flotr2-metrics-repo,
+.irc-flotr2-metrics-repo,
 .scm-flotr2-metrics-company,
 .its-flotr2-metrics-company,
 .mls-flotr2-metrics-company,
@@ -76,11 +78,6 @@
 
 .subreport-list-item {
     margin: 5px;
-}
-
-.top-table {
-    float: left;
-    margin: 20px;
 }
 
 /* Bootstrap */ 
