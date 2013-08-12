@@ -1,212 +1,123 @@
-describe( "VizGrimoireJS library", function () {    
+describe("VizGrimoireJS data", function() {
     beforeEach(function() {
         waitsFor(function() {
-            return Report.check_data_loaded();
+            return Loader.check_data_loaded();
         }, "It took too long to load data", 100);
-      });
-    
-    describe( "Report", function () {
-        it("data files should be loaded", function () {
+    });
+    describe("Basic Data", function() {
+        it("data files should be loaded", function() {
             waitsFor(function() {
-                return Report.check_data_loaded();
+                return Loader.check_data_loaded();
             }, "It took too long to load data", 100);
             runs(function() {
-                expect(Report.check_data_loaded()).toBeTruthy();
+                expect(Loader.check_data_loaded()).toBeTruthy();
             });
         });
-        
-        var blocks = ["navigation","refcard","header","footer"];
-        it(blocks.join() + " should be loaded from file", function () {
-            runs(function() {
-                $.each(blocks, function(index, value) {buildNode(value);});
-                $.each(blocks, function(index, value) {
-                    Report.getBasicDivs()[value].convert();});
-            });
-            waitsFor(function() {
-                var loaded = document.getElementsByClassName('info-pill');
-                return (loaded.length > 1);
-            }, "It took too long to convert " + blocks.join(), 500);
-            runs(function() {
-                $.each(blocks, function(index, value) {
-                    expect(document.getElementById(value).childNodes.length)
-                    .toBeGreaterThan(0);});
-            });
+        it("exist data sources", function() {
+            var ds_data = Report.getDataSources()[0].data;
+            expect(ds_data instanceof Array).toBeFalsy();
         });
-        
-        describe( "html report should be converted", function () {        
-            it("html envision should be displayed", function () {
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        buildNode(DS.getName()+"-envision");
-                    });
-                    Report.convertEnvision();
-                    var envisionCreated = document.getElementsByClassName
-                        ('envision-visualization');
-                    expect(envisionCreated.length).toEqual
-                        (Report.getDataSources().length);
-                });        
-            });
-            it("html flotr2 should be displayed", function () {
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        $.each(DS.getMetrics(), function(i, metric) {
-                            buildNode(metric.divid+"-flotr2");
-                        });
-                    });
-                    Report.convertFlotr2();
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        $.each(DS.getMetrics(), function(i, metric) {
-                            expect(document.getElementById("flotr2_"+i)
-                                    .childNodes.length).toBeGreaterThan(0);
-                        });
-                    });
-                        
-                });        
-            });
-            it("html top should be displayed", function () {               
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        buildNode(DS.getName()+"-top");
-                        buildNode(DS.getName()+"-top-pie");
-                        buildNode(DS.getName()+"-top-bars");
-                    });
-                    Report.convertTop();
-                });
-                // TODO: JSON files for top should be loaded. 
-                //       Change this load to global data loading
-                waitsFor(function() {
-                    return (document.getElementById("its-top-bars")
-                    .childNodes.length > 0);
-                }, "It took too long to load data", 100);
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        if (DS.getName() === "mls") return;
-                        expect(document.getElementById(DS.getName()+"-top")
-                                .childNodes.length).toBeGreaterThan(0);
-                        expect(document.getElementById(DS.getName()+"-top-pie")
-                                .childNodes.length).toBeGreaterThan(0);
-                        expect(document.getElementById(DS.getName()+"-top-bars")
-                                .childNodes.length).toBeGreaterThan(0);
-                    });
-                });        
-            });
-            it("html bubbles should be displayed", function () {
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        buildNode(DS.getName()+"-time-bubbles","bubbles");
-                    });
-                    var ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    Report.convertBubbles();
-                    var new_ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    expect(new_ncanvas-ncanvas).toEqual
-                        (Report.getDataSources().length);
-                });        
-            });
-            it("html demographics should be displayed", function () {
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        // TODO: ITS and MLS demographics not supported yet
-                        if (DS.getName() === "scm")
-                            buildNode(DS.getName()+"-demographics",
-                                        "demographics");
-                    });
-                    var ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    Report.convertDemographics();
-                    var new_ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    expect(new_ncanvas-ncanvas).toEqual(1);
-                });        
-            });
-            it("html selectors should be displayed", function () {
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        // TODO: SCM and ITS selectors not supported yet
-                        if (DS.getName() === "mls")
-                            buildNode(DS.getName()+"-selector");
-                            buildNode(DS.getName()+"-flotr2-lists", "mls-dyn-list");
-                            buildNode(DS.getName()+"-envision-lists");
-                    });
-                    Report.convertSelectors();
-                });
-                // TODO: Move JSON loading to global loading
-                waitsFor(function() {
-                        return (document.getElementById("form_mls_selector") != null);
-                    }, "It took too long to load data", 100);               
-                runs(function() {
-                    $.each(Report.getDataSources(), function(index, DS) {
-                        if (DS.getName() === "mls")
-                            expect(document.getElementById
-                                ("form_"+DS.getName()+"_selector")
-                                .childNodes.length).toBeGreaterThan(0);
-                    });
-                });
-            });
-            it("html radar should be displayed", function () {
-                runs(function() {
-                    buildNode("radar-activity","radar");
-                    buildNode("radar-community","radar");
-                    var ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    Report.convertBasicDivs();
-                    var new_ncanvas = document.getElementsByClassName
-                        ('flotr-canvas').length;
-                    expect(new_ncanvas-ncanvas).toEqual(2);
-                });        
-            });
-            it("html gridster should be displayed", function () {
-                runs(function() {
-                    buildNode("gridster","gridster");
-                    Report.getBasicDivs()["gridster"].convert(); 
-                    var grids = document.getElementsByClassName
-                        ('gs_w').length;
-                    expect(grids).toEqual(18);
-                });        
-            });
-            it("html treemap should be displayed", function () {               
-                runs(function() {
-                    buildNode("treemap","treemap",
-                            {'data-file':'data/json/treemap.json'});
-                    Report.getBasicDivs()["treemap"].convert();
-                });
-                waitsFor(function() {
-                    return (document.getElementsByClassName("treemap-node").length>0);
-                }, "It took too long to load treemap data", 100);
-                runs(function() {
-                    var nodes = document.getElementsByClassName
-                        ('treemap-node').length;
-                    expect(nodes).toEqual(252);
-                });        
-            });
-
-        });        
-    });
-    describe("VizGrimoireJS loaded", function() {
-        it("should be present in the global namespace", function () {
-            expect(Report).toBeDefined();
-            expect(Viz).toBeDefined();
+        it("data update", function() {
+            var update = null;
             var data_sources = Report.getDataSources();
             $.each(data_sources, function(index, DS) {
-                expect(DS).toBeDefined();
+                if (DS.getName() === "scm") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
             });
+            var max_days_old = 2;
+            var now = new Date();
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var day_mseconds = 60*60*24*1000;
+            var days_old = parseInt(
+                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            // Data is only updated periodically in production
+            // expect(days_old).toBeLessThan(max_days_old+1);
         });
     });
     
-    function buildNode (id, div_class, attr_map) {
-        if (document.getElementById(id)) return;
-        var node = document.createElement('div');
-        document.body.appendChild(node);
-        if (div_class)
-            node.className = div_class;
-        node.id = id;
-        if (attr_map)
-            $('#'+id).attr(attr_map);
-        return node;
-      }
+    describe("Data checking", function() {
+        it("Evol metrics should be present in the Global metrics", function () {
+            var data_sources = Report.getDataSources();
+            $.each(data_sources, function(index, DS) {
+                var global = DS.getGlobalData();
+                var evol = DS.getData();
+                for (field in evol) {
+                    if (DS.getMetrics()[field]) {
+                        expect(global[field]).toBeDefined();
+                    }
+                }
+            });
+        });
+        it("Summable Evol metrics should sum Global metrics", function () {
+            var data_sources = Report.getDataSources();
+            // var summable_metrics= ['its_opened','its_closed','mls_sent','scm_commits','scr_sent'];
+            var summable_metrics= ['its_opened','mls_sent','scm_commits'];
+            $.each(data_sources, function(index, DS) {
+                var global = DS.getGlobalData();
+                var evol = DS.getData();
+                for (field in evol) {
+                    if (DS.getMetrics()[field]) {
+                        if ($.inArray(field,summable_metrics)===-1) continue;
+                        var metric_evol = evol[field];
+                        var metric_total = 0;
+                        for (var i=0; i<metric_evol.length;i++) {
+                            metric_total += metric_evol[i];
+                        }
+                        // if (window.console) console.log('Checking ' + field);
+                        expect(metric_total).toEqual(global[field]);
+                    }
+                }
+            });            
+        });
+    });
 
-      function destroyNode (node) {
-        document.body.removeChild(node);
-      }
+    function checkDataReport(report) {
+        if ($.inArray(report,['repos','companies','countries'])===-1) 
+            return;
+        var data_sources = Report.getDataSources();
+        var repos = 0, repos_global = {}, repos_metrics = {};
+        $.each(data_sources, function(index, DS) {
+            if (report === "repos") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            else if (report === "companies") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            else if (report === "countries") {
+                repos = DS.getReposData();
+                repos_global = DS.getReposGlobalData();
+                repos_metrics = DS.getReposMetricsData();
+            }
+            if (repos.length === 0) return;
+            for (var i=0; i<repos.length; i++) {
+                for (field in repos_metrics[repos[i]]) {
+                    if (DS.getMetrics()[field]) {
+                        expect(repos_global[repos[i]][field]).toBeDefined();
+                    }
+                }
+            }
+        });        
+    }
+    describe("Repositories checking", function() {
+        it("All repositories should have Evol and Global metrics", function () {
+            checkDataReport('repos');
+        });
+    });
+    describe("Companies checking", function() {
+        it("All companies should have Evol and Global metrics", function () {
+            checkDataReport('companies');
+        });
+    });
+    describe("Countries checking", function() {
+        it("All countries should have Evol and Global metrics", function () {
+            checkDataReport('countries');
+        });
+    });
+
 });

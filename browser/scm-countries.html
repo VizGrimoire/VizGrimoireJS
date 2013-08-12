@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<!-- saved from url=(0055)http://twitter.github.io/bootstrap/examples/fluid.html# -->
+
 <html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta charset="utf-8">
-    <title>Bootstrap, from Twitter</title>
+    <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -43,7 +43,7 @@
       </div><!--/row-->
       <div id="summary-evol" class="row-fluid">
         <div class="span6">
-		<div class="scm-flotr2-metrics" data-metrics="countries" data-legend="false"></div>
+		<div class="scm-flotr2-metrics" data-metrics="scm_countries" data-legend="false"></div>
 		<i><b>Active Committers Countries per month</b></i><a href="notes.html#note:charts:countries"><img src="qm_15.png"></a>
 		</div>
 		<div class="span6">       		
@@ -53,24 +53,24 @@
       <div id="summary-static" class="row-fluid">
         <div class="span6">
 	        <div class="scm-flotr2-countries-static" 
-	            data-metric="commits" data-limit="10" data-order-by="commits"></div>
+	            data-metric="scm_commits" data-limit="10" data-order-by="scm_commits"></div>
 	        <i><b>Commits per country (aggregated)</b><a href="notes.html#note:charts:countries:commits">
 	        <img src="qm_15.png"></a></i>
         </div>
         <div class="span6">
             <div class="scm-flotr2-countries-static"
-            data-metric="authors" data-limit="10" data-order-by="commits"></div>
+            data-metric="scm_authors" data-limit="10" data-order-by="scm_commits"></div>
             <i><b>Authors per country (aggregated)</b><a href="notes.html#note:charts:countries:authors">
             <img src="qm_15.png"></a></i>        
         </div>
       </div><!--/row-->
       <div id="nav" class="row-fluid">
         <h4 style="font-weight: bold;">List of countries</h4>
-        <div id="scm-flotr2-countries-nav" data-order-by="commits"></div>      
+        <div id="scm-flotr2-countries-nav" data-order-by="scm_commits"></div>      
       </div><!--/row-->
       <div id="list" class="row-fluid">
         <div class="scm-flotr2-countries-list" 
-        data-metrics="commits,authors" data-order-by="commits""></div>
+        data-metrics="scm_commits,scm_authors" data-order-by="scm_commits""></div>
       </div><!--/row-->      
       <footer>
         <div id="footer"></div>
