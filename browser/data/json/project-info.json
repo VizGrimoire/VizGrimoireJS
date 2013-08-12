@@ -1,0 +1,17 @@
+{
+"date":"",
+"project_name" :"Wikimedia", 
+"project_url" :"http://wikimediafoundation.org",
+"scm_url":"https://gerrit.wikimedia.org/r/p/mediawiki/core.git",
+"scm_name":"MediaWiki git",
+"scm_type":"git",
+"its_url":"https://bugzilla.wikimedia.org/",
+"its_name":"Mediawiki Product in Bugzilla",
+"its_type":"bugzilla",
+"mls_url":"https://www.mediawiki.org/wiki/Mailing_lists",
+"mls_name":"Mailing lists",
+"mls_type":"mailman",
+"producer":"",
+"blog_url":"",
+"title":"Wikimedia Community Metrics"
+}

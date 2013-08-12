@@ -21,7 +21,8 @@
 .scm-flotr2-metrics,
 .its-flotr2-metrics,
 .mls-flotr2-metrics,
-.irc-flotr2-metrics
+.irc-flotr2-metrics,
+.scr-flotr2-metrics,
 {
 	height: 130px;
 }
@@ -37,7 +38,8 @@
 .mls-flotr2-repos-static,
 .its-time-to-fix,
 .mls-time-to-attention,
-.irc-flotr2-repos-static
+.irc-flotr2-repos-static,
+.scr-flotr2-repos-static
 {
     height: 200px;
 }
@@ -49,6 +51,7 @@
 .its-flotr2-metrics-repo,
 .mls-flotr2-metrics-repo,
 .irc-flotr2-metrics-repo,
+.scr-flotr2-metrics-repo,
 .scm-flotr2-metrics-company,
 .its-flotr2-metrics-company,
 .mls-flotr2-metrics-company,
