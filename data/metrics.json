@@ -134,21 +134,6 @@
         "desc" : "Number of active people"
     }
 },
-"irc": {
-    "irc_sent" : {
-        "divid" : "irc_sent",
-        "column" : "sent",
-        "name" : "Sent",
-        "desc" : "Messages sent"
-    },
-    "irc_senders" : {
-        "divid" : "irc_senders",
-        "column" : "senders",
-        "name" : "Senders",
-        "desc" : "Messages senders",
-        "action" : "sent"
-    }
-},
 "scm": {
     "scm_commits" : {
         "divid" : "scm_commits",
@@ -269,6 +254,12 @@
     }
 },
 "scr": {
+    "scr_merged" : {
+        "divid" : "scr_merged",
+        "column" : "merged",
+        "name" : "merged",
+        "desc" : ""
+    },
     "scr_opened" : {
         "divid" : "scr_opened",
         "column" : "opened",
@@ -279,12 +270,6 @@
         "divid" : "scr_closed",
         "column" : "closed",
         "name" : "closed",
-        "desc" : ""
-    },
-    "scr_merged" : {
-        "divid" : "scr_merged",
-        "column" : "merged",
-        "name" : "merged",
         "desc" : ""
     },
     "scr_new" : {
@@ -364,6 +349,20 @@
         "column" : "people",
         "name" : "People",
         "desc" : "Number of active people"
-    }
+    },
+    'scr_closers' : {
+        'divid' : "scr_closers",
+        'column' : "closers",
+        'name' : "Closers",
+        'desc' : "Reviews closers",
+        'action' : 'closed'
+    },
+    'scr_openers' : {
+        'divid' : "scr_openers",
+        'column' : "openers",
+        'name' : "Openers",
+        'desc' : "Reviews openers",
+        'action' : 'opened'
+    }    
 }
 }
