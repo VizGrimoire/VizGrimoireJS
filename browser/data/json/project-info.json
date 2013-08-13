@@ -1,6 +1,6 @@
 {
-"date":"Jan 2013",
-"project_name" :"Allura", 
+"date":"",
+"project_name" :"Automator Test", 
 "project_url" :"http://incubator.apache.org/allura/",
 "scm_url":"https://github.com/apache/incubator-allura",
 "scm_name":"git://git.apache.org/incubator-allura.git",
