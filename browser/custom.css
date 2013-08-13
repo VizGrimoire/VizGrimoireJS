@@ -21,8 +21,8 @@
 .scm-flotr2-metrics,
 .its-flotr2-metrics,
 .mls-flotr2-metrics,
-.irc-flotr2-metrics,
 .scr-flotr2-metrics,
+.irc-flotr2-metrics
 {
 	height: 130px;
 }
@@ -57,6 +57,8 @@
 .mls-flotr2-metrics-company,
 .scm-flotr2-metrics-people,
 .its-flotr2-metrics-people,
+.irc-flotr2-metrics-people,
+.scr-flotr2-metrics-people,
 .mls-flotr2-metrics-people
 {
 	height: 200px;
