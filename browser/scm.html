@@ -21,15 +21,17 @@
     <div class="row-fluid">
       <div class="span12">
         <div class="row-fluid">
-          <div class="span3">
-            <div class="microdash" data-metric="scm_commits"></div>
-            <div class="microdash" data-metric="scm_authors"></div>
-            <div class="microdash" data-metric="scm_files"></div>
+          <div class="span6">
+            <div class="well">
+              <div class="microdash" data-metric="scm_commits"></div>
+              <div class="microdash" data-metric="scm_authors"></div>
+              <div class="microdash" data-metric="scm_files"></div>
+            </div>
             <div class="scm-flotr2-metrics"
               data-metrics="scm_added_lines,scm_removed_lines"
               data-legend="true"></div>
           </div>
-          <div class="span7">
+          <div class="span6">
             <div id="scm-envision" data-legend-show="false"
               data-summary-graph="false"></div>
           </div>
@@ -37,8 +39,8 @@
       </div>
     </div>
     <footer>
-        <div id="footer"></div>
-    </footer>    
+      <div id="footer"></div>
+    </footer>
   </div>
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
