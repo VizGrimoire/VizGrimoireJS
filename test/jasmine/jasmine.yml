@@ -6,6 +6,7 @@ helpers:
   - "helpers/jquery-1.7.1.min.js"
 spec_files:
   - "vizgrimoireSpec.js"
+  - "DataValiditySpec.js"
 src_dir: "../../"
 spec_dir: "spec/"
 stylesheets: 
