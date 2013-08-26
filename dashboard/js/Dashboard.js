@@ -89,8 +89,7 @@ var Dashboard = {};
                     }                
                 } else if (name === "projects") {
                     if (ds.getReposData().length === 0 ||
-                            ds.getName() === "mls"//HACK until projects DS join
-                                ) {
+                            ds.getName() === "mls" || ds.getName() === "irc") {
                         cleanSelector("metrics_"+ds.getName());
                         disableSelector("metrics_"+ds.getName(),true);
                     }             
@@ -223,6 +222,7 @@ var Dashboard = {};
                 else {
                     config_metric.show_title = false;
                     var data = ds.getData();
+                    config_metric.help = false;
                     if (year || release) data = DataProcess.filterDates(start, end, data);
                     Viz.displayBasicMetricsHTML([metric], data, 
                             metric_div, config_metric);
@@ -329,7 +329,11 @@ var Dashboard = {};
             convert: function() {
                 var name = "year";
                 var div = $('#filter_year');
-                var years = ['2010','2011','2012','2013'];
+                var years = [];
+                var year_start = '2002', year_end='2013';
+                for (var i=year_start;i<=year_end;i++) {
+                    years.push(i);
+                }
                 var html = "<form id='form_dashboard_"+name+"'>";
                 html += "<select name='year' ";
                 html += "onChange=\"Dashboard.selection(\''+name+'\');\">";

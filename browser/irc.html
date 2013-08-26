@@ -23,12 +23,16 @@
           <div id="irc-summary"></div>
         </div>
       </div>
-
       <div class="span6">
-        <div class="irc-flotr2-metrics" data-metrics="irc_sent"
-          data-legend="true" data-frame-time="true"></div>
-        <div class="irc-flotr2-metrics" data-metrics="irc_senders"
-          data-legend="true" data-frame-time="true"></div>          
+        <div class="well">
+          <div class="irc-flotr2-metrics" data-metrics="irc_sent"
+            data-legend="true" data-frame-time="true"></div>
+          <div class="irc-flotr2-metrics" data-metrics="irc_senders"
+            data-legend="true" data-frame-time="true"></div>
+        </div>
+        <div class="irc-flotr2-metrics" data-metrics="irc_sent,irc_senders"
+          data-legend="false" data-help="false" data-convert="divide"></div>
+        <em>Messages per sender</em>
       </div>
       <div class="span3">
         <div id="irc-top"></div>
