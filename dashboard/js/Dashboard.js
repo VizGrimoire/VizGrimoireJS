@@ -294,23 +294,22 @@ var Dashboard = {};
                 var div = $('#filter_releases');
                 var msec = 1000;
                 var releases = {
-                        // Apr 2011-Sep 2011
-                        diablo: {
+                        "1.18": {
                             // start: 2011*12+4,
-                            start: (new Date('2011-04').getTime())/(msec),
-                            end: (new Date('2011-09').getTime())/(msec),                            
+                            start: (new Date('2011-05').getTime())/(msec),
+                            end: (new Date('2011-11').getTime())/(msec),
                         },
-                        essex: {
-                            start: (new Date('2011-09').getTime())/(msec),
-                            end: (new Date('2012-04').getTime())/(msec),                            
+                        "1.19": {
+                            start: (new Date('2011-11').getTime())/(msec),
+                            end: (new Date('2012-05').getTime())/(msec),
                         },
-                        folsom: {
-                            start: (new Date('2012-04').getTime())/(msec),
-                            end: (new Date('2012-09').getTime())/(msec),                            
+                        "1.20": {
+                            start: (new Date('2012-05').getTime())/(msec),
+                            end: (new Date('2012-11').getTime())/(msec),
                         },
-                        grizzly: {
-                            start: (new Date('2012-09').getTime())/(msec),
-                            end: (new Date('2013-04').getTime())/(msec),
+                        "1.21": {
+                            start: (new Date('2012-11').getTime())/(msec),
+                            end: (new Date('2013-05').getTime())/(msec),
                         }
                 };                
                 var html = "<form id='form_dashboard_"+name+"'>";
