@@ -16,40 +16,121 @@
 
 <body>
   <div id="navbar"></div>
-  <div class="container-fluid">
+
+  <div class="container-narrow">
+  <div class="row-fluid">
+  <div class="span8">
+    <!--SCM information-->
     <div class="row-fluid">
-      <div class="span2">
-        <div class="well sidebar-nav">
-          <div id="refcard"></div>
-        </div>
-      </div>
-      <div class="span10">
-        <div class="row-fluid">
-          <div class="hero-unit1" style="height: 400px;">
-            <div class="span4">
-              <div class="microdash" data-metric="scm_commits"></div>
-              <div class="microdash" data-metric="its_opened"></div>
-              <div class="microdash" data-metric="mls_sent"></div>
-            </div>
-            <div class="span8">
-              <div id="all-envision" data-legend-show="false"
+      <div class="span8" style="background-color:#F2F2F2;">
+         <h4> Git Activity Summary</h4>
+         <div class="row-fluid">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="scm_commits_7"></span> commits</span>
+             <span class="date"><span class="global-data" data-field="scm_commits"></span> commits in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="scm_commits"></div>
+           </div>
+         </div>
+         <div class="row-fluid" style="margin-top:30px;">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="scm_authors_7"></span> authors</span>
+             <span class="date"><span class="global-data" data-field="scm_authors"></span> authors in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="scm_authors"></div>
+           </div>
+         </div>
+      </div> <!--span6-->
+      <div class="span4" >
+        <h4>Tendencies</h4>
+        <div class="scm-flotr2-metrics" data-metrics="scm_commits"
+          data-legend="false"></div>
+      </div> <!--span4-->
+    </div> <!--row-->  
+
+    <!--ITS information-->
+    <div class="row-fluid" style="margin-top:40px;">
+      <div class="span8" style="background-color:#F2F2F2;">
+         <h4> Tickets Activity Summary</h4>
+         <div class="row-fluid">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="its_closed_7"></span> tickets closed</span>
+             <span class="date"><span class="global-data" data-field="its_closed"></span> closed tickets in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="its_closed"></div>
+           </div>
+         </div>
+         <div class="row-fluid" style="margin-top:30px;">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="its_closers_7"></span> closers</span>
+             <span class="date"><span class="global-data" data-field="its_closers"></span> closers in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="its_closed"></div>
+           </div>
+         </div>
+      </div> <!--span6-->
+      <div class="span4" >
+        <h4>Tendencies</h4>
+        <div class="its-flotr2-metrics" data-metrics="its_closed"
+          data-legend="false"></div>
+      </div> <!--span4-->
+    </div> <!--row-->  
+
+    <!--MLS information-->
+    <div class="row-fluid" style="margin-top:40px;">
+      <div class="span8" style="background-color:#F2F2F2;">
+         <h4> Mailing Lists Summary</h4>
+         <div class="row-fluid">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="mls_sent_7"></span> posts sent</span>
+             <span class="date"><span class="global-data" data-field="mls_sent"></span> sent post in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="mls_sent"></div>
+           </div>
+         </div>
+         <div class="row-fluid" style="margin-top:30px;">
+           <div class="span3">
+             <span class="num"><span class="global-data" data-field="mls_senders_7"></span> senders</span>
+             <span class="date"><span class="global-data" data-field="mls_senders"></span> senders in total</span>
+           </div>
+           <div class="span9">
+             <div class="microdash" data-metric="mls_senders"></div>
+           </div>
+         </div>
+      </div> <!--span6-->
+      <div class="span4" >
+        <h4>Tendencies</h4>
+        <div class="mls-flotr2-metrics" data-metrics="mls_sent"
+          data-legend="false"></div>
+      </div> <!--span4-->
+    </div> <!--row-->
+  </div> <!--span8-->
+
+  <!--Historical information-->
+  <div class="span4">
+    <h4>History</h4>
+    <div id="all-envision" data-legend-show="false"
                 data-summary-graph="false"></div>
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="span3">
-              <div id="scm-top" data-limit="10"></div>
-            </div>
-            <div class="span3">
-              <div id="its-top" data-metric="openers" data-limit="10"></div>
-            </div>
-            <div class="span3">
-              <div id="mls-top" data-limit="10"></div>
-            </div>
-          </div>
-        </div>
+  </div>
+  </div><!--row-fluid-->
+  
+<!--
+    <div class="row-fluid">
+      <div class="span12">
+        <div id="refcard"></div>
       </div>
     </div>
+  </div>
+-->
+
+
+  </div>
+
     <footer>
       <div id="footer"></div>
     </footer>
