@@ -224,4 +224,50 @@ color: #555555;
 .stats { 
     display: table;
     padding: 0 11px 0 0;
+width: 100%;
          }
+
+
+/* from gb*/
+
+.overall-summary { 
+    border-bottom: medium none;
+    border-radius: 3px 3px 0 0;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    margin-bottom: 0;
+    position: relative;
+                   }     
+.capped-box { 
+    -moz-box-sizing: border-box;
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 3px 3px 3px 3px;
+    margin-bottom: 20px;
+              }
+.stats-switcher-viewport { 
+    height: 25px;
+    overflow: hidden;
+                           }
+.stats-switcher-viewport .numbers-summary { 
+    transition: margin 0.25s ease-in-out 0s;
+                                            }                                   
+.overall-summary .numbers-summary li { 
+    color: #999999;
+    display: table-cell;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    white-space: nowrap;
+    width: 1%;
+                                       }
+.overall-summary .numbers-summary li .num { 
+    color: #000000;
+    display: inline;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 0;
+                                            }
+
+/* end from gb*/
+
