@@ -227,8 +227,35 @@ color: #555555;
 width: 100%;
          }
 
+.invisible-box{ 
+     border-radius: 3px 3px 0 0;
+     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+     margin-bottom: 20px;
+}
+.thin-border{
+     border-bottom: 1px solid;
+     text-align:left;
+}
+
+.grey-border{
+     border-bottom: 3px solid #E3E3E3;
+     text-align:center;
+     padding:12px 0px 0px 0px;
+}
+
+.big-fp-number{
+     font-size:3em;
+     text-align:center;
+}
+
+.medium-fp-number{
+     font-size:1.5em;
+     padding:5px 0px 0px 0px;
+}
 
 /* from gb*/
+
+
 
 .overall-summary { 
     border-bottom: medium none;
