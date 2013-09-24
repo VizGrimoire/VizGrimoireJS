@@ -62,7 +62,9 @@
 /*.gridster .player {
   opacity:0;
 }*/
-/* Auto resize the image to fit with no scrolls */
+.MetricsEvol {
+	   height:150px;
+}/* Auto resize the image to fit with no scrolls */
 img {
 	max-width: 100%;
 	height: auto;
