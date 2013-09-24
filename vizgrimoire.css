@@ -62,9 +62,11 @@
 /*.gridster .player {
   opacity:0;
 }*/
-.MetricsEvol {
+.MetricsEvol,
+.PeopleMetrics {
 	   height:150px;
-}/* Auto resize the image to fit with no scrolls */
+}
+/* Auto resize the image to fit with no scrolls */
 img {
 	max-width: 100%;
 	height: auto;
