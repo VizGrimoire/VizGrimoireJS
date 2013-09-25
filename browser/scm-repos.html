@@ -36,14 +36,14 @@
     </div>
     <div id="summary-static" class="row-fluid">
       <div class="span6">
-        <div class="scm-flotr2-repos-static" data-metric="scm_commits"
+        <div class="ReposGlobal" data-data-source="scm" data-metric="scm_commits"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Commits per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:commits"> <img
             src="qm_15.png"></a></i>
       </div>
       <div class="span6">
-        <div class="scm-flotr2-repos-static" data-metric="scm_authors"
+        <div class="ReposGlobal" data-data-source="scm" data-metric="scm_authors"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Authors per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:authors"> <img
@@ -51,11 +51,10 @@
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <h4 style="font-weight: bold;">List of repositories</h4>
-      <div id="scm-flotr2-repos-nav" data-order-by="scm_commits"></div>
+      <div class="ReposNav" data-data-source="scm" data-order-by="scm_commits"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="scm-flotr2-repos-list" data-metrics="scm_commits,scm_authors"
+      <div class="ReposList" data-data-source="scm" data-metrics="scm_commits,scm_authors"
         data-order-by="scm_commits""></div>
     </div>
     <footer>
@@ -65,6 +64,6 @@
 
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.js"></script>
 </body>
 </html>
