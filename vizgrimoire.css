@@ -67,8 +67,12 @@
 	   height:150px;
 }
 .ReposGlobal,
+.RepoMetrics,
 .CountriesGlobal,
-.RepoMetrics {
+.CountryMetrics,
+.CompaniesGlobal,
+.CompanyMetrics
+ {
     height:200px;
 }
 /* Auto resize the image to fit with no scrolls */

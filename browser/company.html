@@ -38,38 +38,38 @@
     <div class="container-fluid">
       <div class="row-fluid">
 	      <div class="span2">
-	        <div id="scm-refcard-company"></div>
+	        <div class="CompanyRefcard" data-data-source="scm"></div>
 	      </div>
 	      <div class="span3">
 	        <div class="row-fluid">
-	          <div class="scm-flotr2-metrics-company" data-metrics="scm_commits" data-legend="false"></div>
+	          <div class="CompanyMetrics" data-data-source="scm" data-metrics="scm_commits" data-legend="false"></div>
 	       </div>
 	        <div class="row-fluid">
-	            <div class="scm-flotr2-metrics-company" data-metrics="scm_authors" data-legend="false"></div>
+	            <div class="CompanyMetrics" data-data-source="scm" data-metrics="scm_authors" data-legend="false"></div>
 	        </div>
 	        <div class="row-fluid">
-	            <div class="scm-flotr2-metrics-company" data-metrics="scm_added_lines,scm_removed_lines" data-legend="true"></div>
+	            <div class="CompanyMetrics" data-data-source="scm" data-metrics="scm_added_lines,scm_removed_lines" data-legend="true"></div>
 	        </div>
 	      </div>
 	      <div class="span3">
 		      <div class="row-fluid">
-	                <div class="its-flotr2-metrics-company" data-metrics="its_closed,its_opened" data-legend="true"></div>
+	                <div class="CompanyMetrics" data-data-source="its" data-metrics="its_closed,its_opened" data-legend="true"></div>
 	           </div>
 	           <div class="row-fluid">
-                    <div class="its-flotr2-metrics-company" data-metrics="its_closers,its_openers" data-legend="false"></div>
+                    <div class="CompanyMetrics" data-data-source="its" data-metrics="its_closers,its_openers" data-legend="false"></div>
                </div>
 	      </div>
 	      <div class="span2">
               <div class="row-fluid">
-                    <div class="mls-flotr2-metrics-company" data-metrics="mls_sent" data-legend="false"></div>
+                    <div class="CompanyMetrics" data-data-source="mls" data-metrics="mls_sent" data-legend="false"></div>
                </div>
                <div class="row-fluid">
-                    <div class="mls-flotr2-metrics-company" data-metrics="mls_senders" data-legend="false"></div>
+                    <div class="CompanyMetrics" data-data-source="mls" data-metrics="mls_senders" data-legend="false"></div>
                </div>
           </div>
 	      <div class="span2">
 	            <h4>Top authors (total)<a href="notes.html#note:tables:company:authors"><img src="qm_15.png"></a></h4>
-	            <div class="scm-flotr2-top-company" data-metric="scm_authors" data-period="all" data-titles="false"></div>
+	            <div class="CompanyTop" data-data-source="scm" data-metric="scm_authors" data-period="all" data-titles="false"></div>
 	      </div>
       </div><!--/row-->
       <footer>
