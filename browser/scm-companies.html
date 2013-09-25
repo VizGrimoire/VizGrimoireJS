@@ -15,41 +15,48 @@
 </head>
 
 <body>
-  <div id="navbar"></div>
-  <div class="container-fluid">
-    <div id="info" class="row-fluid">
-      <h4>Information about all companies</h4>
-      Some charts and tables for top companies in the project, and a summary of
-      the evolution of their participation with links to more detailed
-      information per company.
-    </div>
-    <div id="summary-evol" class="row-fluid">
+  <div class="container-narrow">
+    <div id="navbar"></div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <h4>Information about all companies</h4>
+        Some charts and tables for top companies in the project, and a summary of
+        the evolution of their participation with links to more detailed
+        information per company.
+      </div>
+    </div><!--row-fluid-->
+
+    <div class="row-fluid">
       <div class="span6">
         <div class="scm-flotr2-metrics" data-metrics="scm_companies"
           data-legend="false"></div>
-        <i><b>Active Companies with committers per month</b></i><a
-          href="notes.html#note:charts:companies"><img src="qm_15.png"></a>
+        <i><b>Active Companies with authors</b></i>
       </div>
       <div class="span6">
-        <div id="scm-companies-summary"></div>
+        <div class="row-fluid">
+          <div class="span1"><strong class="count"><span class="global-data" data-field="scm_companies"></span></strong></div>
+          <div class="span4">companies</div>
+          <div class="span1"></div>
+          <div class="span2"></div>
+          <div class="span3"></div>
+         </div>
+
       </div>
-    </div>
+    </div><!--row-fluid-->
+
     <div id="summary-static" class="row-fluid">
       <div class="span5">
         <div class="scm-flotr2-companies-static" data-metric="scm_commits"
           data-limit="10" data-order-by="scm_commits"
           data-legend-div='companies_legend'></div>
-        <i><b>Commits per company (aggregated)</b><a
-          href="notes.html#note:charts:companies:commits"> <img
-            src="qm_15.png"></a></i>
+        <i><b>Commits per company (aggregated)</b></i>
       </div>
       <div class="span2" id="companies_legend"></div>
       <div class="span5">
         <div class="scm-flotr2-companies-static" data-metric="scm_authors"
           data-limit="10" data-order-by="scm_commits" data-legend='false'></div>
-        <i><b>Authors per company (aggregated)</b> <a
-          href="notes.html#note:charts:companies:authors"> <img
-            src="qm_15.png"></a></i>
+        <i><b>Authors per company (aggregated)</b></i>
       </div>
     </div>
     <div id="nav" class="row-fluid">
