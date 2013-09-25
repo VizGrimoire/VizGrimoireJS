@@ -66,10 +66,13 @@
 .PeopleMetrics {
 	   height:150px;
 }
+.ReposCompare,
 .ReposGlobal,
 .RepoMetrics,
+.CountriesCompare,
 .CountriesGlobal,
 .CountryMetrics,
+.CompaniesCompare,
 .CompaniesGlobal,
 .CompanyMetrics
  {
