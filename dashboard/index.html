@@ -15,18 +15,22 @@
 <link rel="shortcut icon" href="favicon.png">
 </head>
 <body>
-  <div id="navbar"></div>
-  <div class="container-fluid">
+  <div class="container-narrow">
+    <div id="navbar"></div>
     <div class="row-fluid">
       <div id="filter_year" style="float: left"></div>
       <div id="filter_releases" style="float: left"></div>
     </div>
     <div class="row-fluid">
       <div class="span2">
-        <div id="filter_projects" data-ds="scm" data-limit="10"
+        <div id="filter_companies" data-ds="scm" data-limit="20"
           data-order="scm_commits" class="box"></div>
       </div>
-      <div class="span8">
+      <div class="span2">
+        <div id="filter_projects" data-ds="scm" data-limit="20"
+          data-order="scm_commits" class="box"></div>
+      </div>
+      <div class="span6">
         <div id="dashboard_viz"></div>
       </div>
       <div class="span2">
