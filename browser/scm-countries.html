@@ -31,19 +31,19 @@
           href="notes.html#note:charts:countries"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div id="scm-countries-summary"></div>
+        <div class="CountriesSummary" data-data-source="scm"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
       <div class="span6">
-        <div class="scm-flotr2-countries-static" data-metric="scm_commits"
+        <div class="CountriesGlobal" data-data-source="scm" data-metric="scm_commits"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Commits per country (aggregated)</b><a
           href="notes.html#note:charts:countries:commits"> <img
             src="qm_15.png"></a></i>
       </div>
       <div class="span6">
-        <div class="scm-flotr2-countries-static" data-metric="scm_authors"
+        <div class="CountriesGlobal" data-data-source="scm" data-metric="scm_authors"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Authors per country (aggregated)</b><a
           href="notes.html#note:charts:countries:authors"> <img
@@ -52,10 +52,10 @@
     </div>
     <div id="nav" class="row-fluid">
       <h4 style="font-weight: bold;">List of countries</h4>
-      <div id="scm-flotr2-countries-nav" data-order-by="scm_commits"></div>
+      <div class="CountriesNav" data-data-source="scm" data-order-by="scm_commits"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="scm-flotr2-countries-list"
+      <div class="CountriesList" data-data-source="scm"
         data-metrics="scm_commits,scm_authors" data-order-by="scm_commits""></div>
     </div>
     <footer>
