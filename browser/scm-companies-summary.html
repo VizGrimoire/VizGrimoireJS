@@ -15,42 +15,39 @@
 </head>
 
 <body>
-  <div id="navbar"></div>
-  <div class="container-fluid">
-    <div id="info" class="row-fluid">
-      <h4>Summary of companies activity</h4>
-    </div>
-    <div id="summary-static-stacked" class="row-fluid">
-      <div class="span6">
+  <div class="container-narrow">
+    <div id="navbar"></div>
+    <h4>Summary of companies activity</h4>
+    <div class="row-fluid">
+      <div class="span12">
+        <b>Commits</b>
         <div class="scm-flotr2-companies" data-metric="scm_commits"
           data-limit="10" data-stacked="true"></div>
-        <i><b>Commits per company (monthly)</b></i><a
-          href="notes.html#note:charts:summary:commits"><img src="qm_15.png"></a>
       </div>
-      <div class="span6">
+    </div>
+
+    <div class="row-fluid">
+      <div class="span12">
+        <b>Authors</b>
         <div class="scm-flotr2-companies" data-metric="scm_authors"
           data-limit="10" data-stacked="true" data-order-by="scm_commits"></div>
-        <i><b>Active authors per company (monthly)</b></i><a
-          href="notes.html#note:charts:summary:authors"><img src="qm_15.png"></a>
       </div>
     </div>
-    <div id="summary-static-pie" class="row-fluid">
+
+    <div class="row-fluid">
       <div class="span6">
+        <b>Commits</b>
+        <div class="scm-flotr2-companies-static" data-metric="scm_commits"
+          data-limit="5" data-show-others="true" data-graph="pie" data-legend="true"></div>
+      </div>
+      <div class="span6">
+        <b>Authors</b>
         <div class="scm-flotr2-companies-static" data-metric="scm_authors"
           data-limit="5" data-show-others="true" data-graph="pie"
-          data-order-by="scm_commits"></div>
-        <i><b>Authors per company</b></i><a
-          href="notes.html#note:charts:summary:authors_pie"><img
-          src="qm_15.png"></a>
-      </div>
-      <div class="span6">
-        <div class="scm-flotr2-companies-static" data-metric="scm_commits"
-          data-limit="5" data-show-others="true" data-graph="pie"></div>
-        <i><b>Reviewed commits per company</b></i><a
-          href="notes.html#note:charts:summary:commits_pie"><img
-          src="qm_15.png"></a>
+          data-order-by="scm_commits" data-legend="true"></div>
       </div>
     </div>
+
     <footer>
       <div id="footer"></div>
     </footer>
