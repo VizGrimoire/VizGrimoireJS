@@ -20,22 +20,25 @@
     <div class="row-fluid">
       <div class="span2">
         <div class="well">
-          <div id="irc-summary"></div>
+          <div class="Summary" data-data-source="irc"></div>
         </div>
       </div>
       <div class="span6">
         <div class="well">
-          <div class="irc-flotr2-metrics" data-metrics="irc_sent"
+          <div class="MetricsEvol" data-metrics="irc_sent"
+            data-data-source="irc"
             data-legend="true" data-frame-time="true"></div>
-          <div class="irc-flotr2-metrics" data-metrics="irc_senders"
+          <div class="MetricsEvol" data-metrics="irc_senders"
+            data-data-source="irc"
             data-legend="true" data-frame-time="true"></div>
         </div>
-        <div class="irc-flotr2-metrics" data-metrics="irc_sent,irc_senders"
-          data-legend="false" data-help="false" data-convert="divide"></div>
+        <div class="MetricsEvol" data-metrics="irc_sent,irc_senders"
+            data-data-source="irc"
+            data-legend="false" data-help="false" data-convert="divide"></div>
         <em>Messages per sender</em>
       </div>
       <div class="span3">
-        <div id="irc-top"></div>
+        <div class="Top" data-data-source="irc"></div>
       </div>
     </div>
     <footer>

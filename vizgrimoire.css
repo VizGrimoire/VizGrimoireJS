@@ -63,9 +63,12 @@
   opacity:0;
 }*/
 .MetricsEvol,
-.PeopleMetrics {
+.PeopleMetrics,
+.TimeToFix,
+.TimeToAttention {
 	   height:150px;
 }
+
 .ReposCompare,
 .ReposGlobal,
 .RepoMetrics,
