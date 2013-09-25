@@ -34,44 +34,54 @@
   </head>
 
   <body>
-    <div id="navbar"></div>
-    <div class="container-fluid">
+    <div class="container-narrow">
+      <div id="navbar"></div>
       <div class="row-fluid">
-	      <div class="span2">
-	        <div id="scm-refcard-company"></div>
-	      </div>
-	      <div class="span3">
-	        <div class="row-fluid">
-	          <div class="scm-flotr2-metrics-company" data-metrics="scm_commits" data-legend="false"></div>
-	       </div>
-	        <div class="row-fluid">
-	            <div class="scm-flotr2-metrics-company" data-metrics="scm_authors" data-legend="false"></div>
-	        </div>
-	        <div class="row-fluid">
-	            <div class="scm-flotr2-metrics-company" data-metrics="scm_added_lines,scm_removed_lines" data-legend="true"></div>
-	        </div>
-	      </div>
-	      <div class="span3">
-		      <div class="row-fluid">
-	                <div class="its-flotr2-metrics-company" data-metrics="its_closed,its_opened" data-legend="true"></div>
-	           </div>
-	           <div class="row-fluid">
-                    <div class="its-flotr2-metrics-company" data-metrics="its_closers,its_openers" data-legend="false"></div>
-               </div>
-	      </div>
-	      <div class="span2">
-              <div class="row-fluid">
-                    <div class="mls-flotr2-metrics-company" data-metrics="mls_sent" data-legend="false"></div>
-               </div>
-               <div class="row-fluid">
-                    <div class="mls-flotr2-metrics-company" data-metrics="mls_senders" data-legend="false"></div>
-               </div>
-          </div>
-	      <div class="span2">
-	            <h4>Top authors (total)<a href="notes.html#note:tables:company:authors"><img src="qm_15.png"></a></h4>
-	            <div class="scm-flotr2-top-company" data-metric="scm_authors" data-period="all" data-titles="false"></div>
-	      </div>
-      </div><!--/row-->
+
+        <div class="span2">
+          <div id="scm-refcard-company"></div>
+          <h4>Top authors (total)</h4>
+           <div class="scm-flotr2-top-company" data-metric="scm_authors" data-period="all" data-titles="false"></div>
+        </div>
+
+        <div class="span10">
+          <div class="row-fluid">
+            <div class="span4">
+              <div class="scm-flotr2-metrics-company" data-metrics="scm_commits" data-legend="true"></div>
+            </div>
+            <div class="span4">
+              <div class="scm-flotr2-metrics-company" data-metrics="scm_authors" data-legend="true"></div>
+            </div>
+            <div class="span4">
+              <div class="scm-flotr2-metrics-company" data-metrics="scm_added_lines,scm_removed_lines" data-legend="true"></div>
+            </div>
+          </div><!--row-fluid-->
+
+          <div class="row-fluid">
+            <div class="span4">
+              <div class="its-flotr2-metrics-company" data-metrics="its_closed,its_opened" data-legend="true"></div>
+            </div>
+            <div class="span4">
+              <div class="its-flotr2-metrics-company" data-metrics="its_closers,its_openers" data-legend="true"></div>
+            </div>
+            <div class="span4">
+            </div>
+          </div><!--row-fluid-->
+
+          <div class="row-fluid">
+            <div class="span4">
+              <div class="mls-flotr2-metrics-company" data-metrics="mls_sent" data-legend="true"></div>
+            </div>
+            <div class="span4">
+              <div class="mls-flotr2-metrics-company" data-metrics="mls_senders" data-legend="true"></div> 
+            </div>
+            <div class="span4">
+            </div>
+          </div><!--row-fluid-->
+        </div><!--span10-->
+
+      </div> <!--row-fluid-->
+
       <footer>
         <div id="footer"></div>
       </footer>
