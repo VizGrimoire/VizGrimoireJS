@@ -81,6 +81,11 @@
  {
     height:200px;
 }
+
+.Bubbles,
+.Radar {
+    height:200px;
+}
 /* Auto resize the image to fit with no scrolls */
 img {
 	max-width: 100%;
