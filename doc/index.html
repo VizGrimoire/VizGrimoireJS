@@ -16,36 +16,11 @@
   <div id="Navbar"></div>
   <div class="container-fluid">
     <div class="row-fluid">
-      <h1>
-        <a name="Layout">Layout</a>
-      </h1>
-      <div>
-        <button class="btn">Navbar</button>
-        <button class="btn">Footer</button>
-        <button class="btn">Refcard</button>
-        <div class="well" id="Navbar"></div>
-      </div>
-      <div>
-        <h4>Footer</h4>
-        <div class="well" id="Footer"></div>
-      </div>
-      <div>
-        <h4>Refcard</h4>
-        <div class="well" id="Refcard"></div>
-      </div>
+      <div class="well" id="display" style="height:200px;overflow:auto;"></div>
+      <div class="well" id="display" style="height:10px;">Params: </div>
     </div>
     <div class="row-fluid">
-      <h1>
-        <a name="Graph">Graph</a>
-      </h1>
-      <div>
-        <h4>RadarActivity</h4>
-        <div id="RadarActivity" class='Radar'></div>
-      </div>
-      <div>
-        <h4>RadarCommunity</h4>
-        <div id="RadarCommunity" class='Radar'></div>
-      </div>      
+      <div id="sections"></div>
     </div>
   </div>
   <div id="Footer"></div>
@@ -53,5 +28,8 @@
   <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" src="../vizgrimoire2.min.js"></script>
   <script type="text/javascript" src="js/vizjsDoc.js"></script>
+  <script>
+  vizjsDoc.showSections('sections','display');
+  </script>
 </body>
 </html>
