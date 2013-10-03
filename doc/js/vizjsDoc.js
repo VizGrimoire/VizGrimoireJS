@@ -4,10 +4,13 @@ var vizjsDoc = {};
     // Build a new div with method info and convert it
     vizjsDoc.showDiv = function(divDisplay, method) {
         var new_div = "<div id='"+method+"'>"+method+"</div>";
+        var convertFn = Report["convert"+method];
+        if (!convertFn) return;
         $("#"+divDisplay).empty();
         $("#"+divDisplay).append(new_div);
-        Report.convertGlobal();
-        Report.convertStudies();
+        convertFn();
+        // Report.convertGlobal();
+        // Report.convertStudies();
     };
     
     vizjsDoc.showSections = function(divid, divdisplay) {
