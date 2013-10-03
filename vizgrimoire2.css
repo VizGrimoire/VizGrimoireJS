@@ -68,16 +68,10 @@
 	   height:150px;
 }
 
-.ReposMetricsEvol,
-.ReposGlobal,
-.RepoMetricsEvol,
-.CountriesMetricsEvol,
-.CountriesGlobal,
-.CountryMetricsEvol,
-.CompaniesMetricsEvol,
-.CompaniesGlobal,
-.CompanyMetricsEvol
- {
+.FilterItemsMetricsEvol,
+.FilterItemsGlobal,
+.FilterItemMetricsEvol
+{
     height:200px;
 }
 

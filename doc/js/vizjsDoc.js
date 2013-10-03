@@ -43,6 +43,12 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"1");
             if (param === "person_name")
                 $("#"+divid).attr("data-"+param,"Person1");
+            if (param === "filter")
+                $("#"+divid).attr("data-"+param,"repos");
+            if (param === "page")
+                $("#"+divid).attr("data-"+param,"1");
+            if (param === "item")
+                $("#"+divid).attr("data-"+param,"DonationInterface.git");
         });    
     }
 

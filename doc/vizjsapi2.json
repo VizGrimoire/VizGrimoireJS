@@ -115,15 +115,17 @@
             }        
         }
     },
-    "ReposStudy":{
-        "ReposSummary":{
-            "params":{
-                "data-source":{}
-            }
-        },
-        "ReposMetricsEvol":{
+    "FilterStudy":{
+        "FilterItemsSummary":{
             "params":{
                 "data-source":{},
+                "filter":{}
+            }
+        },
+        "FilterItemsMetricsEvol":{
+            "params":{
+                "data-source":{},
+                "filter":{},
                 "limit":{},
                 "metric":{},
                 "order_by":{},
@@ -131,9 +133,10 @@
                 
             }
         },
-        "ReposGlobal":{
+        "FilterItemsGlobal":{
             "params":{
                 "data-source":{},
+                "filter":{},
                 "limit":{},
                 "metric":{},
                 "order_by":{},
@@ -142,140 +145,48 @@
                 "legend-div":{}
             }
         },                        
-        "ReposNav":{
+        "FilterItemsNav":{
             "params":{
                 "data-source":{},
+                "filter":{},
+                "page":{},
                 "scm_and_its":{},
                 "order_by":{}
             }
         },
-        "ReposMiniCharts":{
+        "FilterItemsMiniCharts":{
             "params":{
                 "data-source":{},
+                "filter":{},
+                "page":{},
                 "scm_and_its":{},
                 "order_by":{},
                 "metrics":{},
                 "show_links":{}
             }        
         },
-        "RepoSummary":{
-            "params":{
-                "data-source":{}
-            }
-        },
-        "RepoMetricsEvol":{
+        "FilterItemSummary":{
             "params":{
                 "data-source":{},
-                "frame_time":{},
-                "metrics":{},
-                "show_legend":{}
-            }
-        }
-    },
-    "CountriesStudy":{
-        "CountriesSummary":{
-            "params":{
-                "data-source":{}
+                "filter":{},
+                "item":{}
             }
         },
-        "CountriesGlobal":{
+        "FilterItemMetricsEvol":{
             "params":{
                 "data-source":{},
-                "limit":{},
-                "metric":{},
-                "order_by":{},
-                "show_others":{},
-                "graph":{},
-                "legend-div":{}
-            }
-        },                        
-        "CountriesNav":{
-            "params":{
-                "data-source":{},
-                "order_by":{}
-            }
-        },
-        "CountriesMiniCharts":{
-            "params":{
-                "data-source":{},
-                "order_by":{},
-                "metrics":{},
-                "show_links":{}
-            }        
-        },
-        "CountrySummary":{
-            "params":{
-                "data-source":{}
-            }
-        },
-        "CountryMetricsEvol":{
-            "params":{
-                "data-source":{},
-                "frame_time":{},
-                "metrics":{},
-                "show_legend":{}
-            }
-        }
-    },
-    "CompaniesStudy":{
-        "CompaniesSummary":{
-            "params":{
-                "data-source":{}
-            }
-        },
-        "CompaniesMetricsEvol":{
-            "params":{
-                "data-source":{},
-                "limit":{},
-                "metric":{},
-                "order_by":{},
-                "stacked":{}
-                
-            }
-        },
-        "CompaniesGlobal":{
-            "params":{
-                "data-source":{},
-                "limit":{},
-                "metric":{},
-                "order_by":{},
-                "show_others":{},
-                "graph":{},
-                "legend-div":{}
-            }
-        },                        
-        "CompaniesNav":{
-            "params":{
-                "data-source":{},
-                "scm_and_its":{},
-                "order_by":{}
-            }
-        },
-        "CompaniesMiniCharts":{
-            "params":{
-                "data-source":{},
-                "scm_and_its":{},
-                "order_by":{},
-                "metrics":{},
-                "show_links":{}
-            }        
-        },
-        "CompanySummary":{
-            "params":{
-                "data-source":{}
-            }
-        },
-        "CompanyMetricsEvol":{
-            "params":{
-                "data-source":{},
+                "filter":{},
+                "item":{},
                 "frame_time":{},
                 "metrics":{},
                 "show_legend":{}
             }
         },
-        "CompanyTop":{
+        "FilterItemTop":{
             "params":{
                 "titles":{},
+                "filter":{},
+                "item":{},
                 "period":{},
                 "metric":{}
             }
