@@ -2,7 +2,7 @@ var vizjsDoc = {};
 
 (function() {
 
-    var div_sectios, div_display;
+    var div_sectios, div_display, div_syntax, div_params;
     
     function getMethodDesc(method_name) {
         var method_desc;
@@ -16,7 +16,9 @@ var vizjsDoc = {};
 
     // Fills params with default values
     function addParamsDiv(divid, params) {
+        $("#"+div_params).append("<ul>");
         $.each(params, function(param, desc) {
+            $("#"+div_params).append("<li>"+param+"</li>");
             if (param === "data-source")
                 $("#"+divid).attr("data-"+param,"scm");
             if (param === "data-source" && divid === "TimeTo")
@@ -49,7 +51,17 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"1");
             if (param === "item")
                 $("#"+divid).attr("data-"+param,"DonationInterface.git");
-        });    
+        });
+        $("#"+div_params).append("</ul>");
+    }
+    
+    function htmlEscape(str) {
+        return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
     }
 
     // Build a new div with method info and convert it
@@ -62,12 +74,15 @@ var vizjsDoc = {};
         new_div += "'></div>";
         var convertFn = Report["convert"+method];
         if (!convertFn) return;
+        $("#"+div_params).empty();
         $("#"+div_display).empty();
+        $("#"+div_syntax).empty();
         $("#"+div_display).append(new_div);
         if (desc.params) {
             $("#"+method).addClass(method);
             addParamsDiv(method, desc.params);
         }
+        $("#"+div_syntax).append(htmlEscape($("#"+method).parent().html()));
         convertFn();
     };
     
@@ -84,9 +99,11 @@ var vizjsDoc = {};
         $("#"+div_sections).append(sections);
     };
     
-    vizjsDoc.show = function(divid, divdisplay) {
+    vizjsDoc.show = function(divid, divdisplay, divSyntax, divParams) {
         div_sections = divid;
         div_display = divdisplay;
+        div_syntax = divSyntax;
+        div_params = divParams;
         $.getJSON("vizjsapi2.json", null, function(apidata) {
             vizjsDoc.API = apidata;
             vizjsDoc.build();
