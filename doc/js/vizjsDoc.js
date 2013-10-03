@@ -19,6 +19,8 @@ var vizjsDoc = {};
         $.each(params, function(param, desc) {
             if (param === "data-source")
                 $("#"+divid).attr("data-"+param,"scm");
+            if (param === "data-source" && divid === "TimeTo")
+                $("#"+divid).attr("data-"+param,"its");                
             if (param === "radius")
                 $("#"+divid).attr("data-"+param,"0.5");
             if (param === "file" && divid === "Treemap")
@@ -31,6 +33,10 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"Year");
             if (param === "field")
                 $("#"+divid).attr("data-"+param,"scm_commits");
+            if (param === "type")
+                $("#"+divid).attr("data-"+param,"fix");
+            if (param === "quantil")
+                $("#"+divid).attr("data-"+param,"X0.99,X0.95");
         });    
     }
 
@@ -51,8 +57,6 @@ var vizjsDoc = {};
             addParamsDiv(method, desc.params);
         }
         convertFn();
-        // Report.convertGlobal();
-        // Report.convertStudies();
     };
     
     vizjsDoc.build = function() {
