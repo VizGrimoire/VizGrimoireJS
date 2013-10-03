@@ -13,7 +13,7 @@ var vizjsDoc = {};
         });
         return method_desc;
     }
-    
+
     // Fills params with default values
     function addParamsDiv(divid, params) {
         $.each(params, function(param, desc) {
@@ -27,6 +27,8 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"treemap.json");
             if (param === "metric")
                 $("#"+divid).attr("data-"+param,"scm_commits");
+            if (param === "metric" && divid === "Top")
+                $("#"+divid).attr("data-"+param,"authors");
             if (param === "metrics")
                 $("#"+divid).attr("data-"+param,"scm_commits");
             if (param === "period")
@@ -37,6 +39,10 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"fix");
             if (param === "quantil")
                 $("#"+divid).attr("data-"+param,"X0.99,X0.95");
+            if (param === "person_id")
+                $("#"+divid).attr("data-"+param,"1");
+            if (param === "person_name")
+                $("#"+divid).attr("data-"+param,"Person1");
         });    
     }
 

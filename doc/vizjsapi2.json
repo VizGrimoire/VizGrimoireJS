@@ -102,12 +102,16 @@
             "params":{
                 "data-source":{},
                 "legend":{},
-                "metrics":{}
+                "metrics":{},
+                "person_id":{},
+                "person_name":{}
             }
         },
         "PersonSummary":{
             "params":{
-                "data-source":{}
+                "data-source":{},
+                "person_id":{},
+                "person_name":{}
             }        
         }
     },
