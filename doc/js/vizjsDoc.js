@@ -23,6 +23,14 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"0.5");
             if (param === "file" && divid === "Treemap")
                 $("#"+divid).attr("data-"+param,"treemap.json");
+            if (param === "metric")
+                $("#"+divid).attr("data-"+param,"scm_commits");
+            if (param === "metrics")
+                $("#"+divid).attr("data-"+param,"scm_commits");
+            if (param === "period")
+                $("#"+divid).attr("data-"+param,"Year");
+            if (param === "field")
+                $("#"+divid).attr("data-"+param,"scm_commits");
         });    
     }
 
@@ -33,7 +41,7 @@ var vizjsDoc = {};
         new_div += " id='"+method+"'";
         new_div += " class='"+method;
         if (desc.classCSS) new_div += " " + desc.classCSS;
-        new_div += "'>"+method+"</div>";
+        new_div += "'></div>";
         var convertFn = Report["convert"+method];
         if (!convertFn) return;
         $("#"+div_display).empty();

@@ -36,7 +36,12 @@
                 "period":{}
             }
         },
-        "GlobalData":{},
+        "GlobalData":{
+            "params":{
+                "data-source":{},
+                "field":{}
+            }
+        },
         "Summary":{
             "params":{
                 "data-source":{}
