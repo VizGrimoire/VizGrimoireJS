@@ -6,14 +6,24 @@
         "Refcard":{}
     },
     "Graph":{
-        "RadarActivity":{},
-        "RadarCommunity":{},
+        "RadarActivity":{
+            "classCSS":"Radar"
+        },
+        "RadarCommunity":{
+            "classCSS":"Radar"
+        },
         "Treemap":{
             "params":{
                 "file":{}
-            }
+            },
+            "classCSS":"treemap"
         },
-        "Bubbles":{}
+        "Bubbles":{
+            "params":{
+                "radius":{},
+                "data-source":{}
+            }        
+        }
     },
     "GlobalMetrics":{
         "MicrodashText":{

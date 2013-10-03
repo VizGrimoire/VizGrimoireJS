@@ -13,20 +13,34 @@ var vizjsDoc = {};
         });
         return method_desc;
     }
+    
+    // Fills params with default values
+    function addParamsDiv(divid, params) {
+        $.each(params, function(param, desc) {
+            if (param === "data-source")
+                $("#"+divid).attr("data-"+param,"scm");
+            if (param === "radius")
+                $("#"+divid).attr("data-"+param,"0.5");
+            if (param === "file" && divid === "Treemap")
+                $("#"+divid).attr("data-"+param,"treemap.json");
+        });    
+    }
 
     // Build a new div with method info and convert it
     vizjsDoc.showDiv = function(method) {
         var desc = getMethodDesc(method);
-        var new_div = "<div id='"+method+"'>"+method+"</div>";
+        var new_div = "<div";
+        new_div += " id='"+method+"'";
+        new_div += " class='"+method;
+        if (desc.classCSS) new_div += " " + desc.classCSS;
+        new_div += "'>"+method+"</div>";
         var convertFn = Report["convert"+method];
         if (!convertFn) return;
         $("#"+div_display).empty();
         $("#"+div_display).append(new_div);
         if (desc.params) {
             $("#"+method).addClass(method);
-            $.each(desc.params, function(param, desc) {
-                $("#"+method).attr("data-"+param,"scm");
-            });
+            addParamsDiv(method, desc.params);
         }
         convertFn();
         // Report.convertGlobal();
