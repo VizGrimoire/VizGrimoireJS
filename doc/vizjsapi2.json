@@ -1,8 +1,7 @@
 {
 "sections":{
     "Layout":{
-        "Navbar":{
-        },
+        "Navbar":{},
         "Footer":{},
         "Refcard":{}
     },
