@@ -31,12 +31,12 @@
           href="notes.html#note:charts:companies"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div class="CompaniesSummary" data-data-source="scm"></div>
+        <div class="FilterItemsSummary" data-data-source="scm" data-filter="companies"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
       <div class="span5">
-        <div class="CompaniesGlobal" data-data-source="scm" data-metric="scm_commits"
+        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_commits" data-filter="companies"
           data-limit="10" data-order-by="scm_commits"
           data-legend-div='companies_legend'></div>
         <i><b>Commits per company (aggregated)</b><a
@@ -45,7 +45,7 @@
       </div>
       <div class="span2" id="companies_legend"></div>
       <div class="span5">
-        <div class="CompaniesGlobal" data-data-source="scm" data-metric="scm_authors"
+        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_authors" data-filter="companies"
           data-limit="10" data-order-by="scm_commits" data-legend='false'></div>
         <i><b>Authors per company (aggregated)</b> <a
           href="notes.html#note:charts:companies:authors"> <img
@@ -53,10 +53,10 @@
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <div class="CompaniesNav" data-data-source="scm" data-order-by="scm_commits"></div>
+      <div class="FilterItemsNav" data-data-source="scm" data-order-by="scm_commits" data-filter="companies"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="CompaniesMiniCharts" data-data-source="scm"
+      <div class="FilterItemsMiniCharts" data-data-source="scm" data-filter="companies"
         data-metrics="scm_commits,scm_authors" data-order-by="scm_commits""></div>
     </div>
     <Footer>

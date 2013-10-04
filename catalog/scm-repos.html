@@ -31,19 +31,19 @@
           href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div class="ReposSummary" data-data-source="scm"></div>
+        <div class="FilterItemsSummary" data-data-source="scm"  data-filter="repos"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
       <div class="span6">
-        <div class="ReposGlobal" data-data-source="scm" data-metric="scm_commits"
+        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_commits"  data-filter="repos"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Commits per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:commits"> <img
             src="qm_15.png"></a></i>
       </div>
       <div class="span6">
-        <div class="ReposGlobal" data-data-source="scm" data-metric="scm_authors"
+        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_authors" data-filter="repos"
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Authors per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:authors"> <img
@@ -51,10 +51,10 @@
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <div class="ReposNav" data-data-source="scm" data-order-by="scm_commits"></div>
+      <div class="FilterItemsNav" data-data-source="scm" data-order-by="scm_commits" data-filter="repos"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="ReposMiniCharts" data-data-source="scm" data-metrics="scm_commits,scm_authors"
+      <div class="FilterItemsMiniCharts" data-data-source="scm" data-metrics="scm_commits,scm_authors" data-filter="repos"
         data-order-by="scm_commits""></div>
     </div>
     <Footer>

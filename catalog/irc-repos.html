@@ -36,14 +36,14 @@
  -->
     <div id="summary-static" class="row-fluid">
       <div class="span6">
-        <div class="ReposGlobal" data-metric="irc_sent" data-limit="10"
+        <div class="FilterItemsGlobal" data-metric="irc_sent" data-limit="10" data-filter="repos"
           data-data-source="irc" data-order-by="irc_sent"></div>
         <i><b>Sent per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:sent"> <img
             src="qm_15.png"></a></i>
       </div>
       <div class="span6">
-        <div class="ReposGlobal" data-metric="irc_senders" data-limit="10"
+        <div class="FilterItemsGlobal" data-metric="irc_senders" data-limit="10" data-filter="repos"
           data-data-source="irc" data-order-by="irc_sent"></div>
         <i><b>Senders per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:senders"> <img
@@ -51,11 +51,11 @@
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <div class="ReposNav" data-order-by="irc_sent" data-data-source="irc"></div>
+      <div class="FilterItemsNav" data-order-by="irc_sent" data-data-source="irc" data-filter="repos"></div>
     </div>
     <!--/row-->
     <div id="list" class="row-fluid">
-      <div class="ReposMiniCharts" data-metrics="irc_sent,irc_senders"
+      <div class="FilterItemsMiniCharts" data-metrics="irc_sent,irc_senders" data-filter="repos"
         data-data-source="irc" data-order-by="irc_sent"></div>
     </div>
     <Footer>
