@@ -1,34 +1,44 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css" />
-    <link rel="stylesheet" type="text/css" href="dashboard.css" />
-    <title>Metrics Dashboard</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" id="theme"
+  href="VizGrimoireJS/vizgrimoire.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="../browser/custom.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
+  rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="dashboard.css" />
+<link rel="shortcut icon" href="favicon.png">
 </head>
 <body>
-    <div style="float:left; width:15%; height:100%">
-		<div id="filter_projects" data-ds="scm" data-limit="10" data-order="scm_commits" 
-		    class="box">
-		</div>
-        <div id="filter_companies" data-ds="scm" data-limit="10" data-order="scm_commits" 
-            class="box">
-        </div>		
-	</div>
-	<div id="main" style="float:left; width:65%; height:100%" class="box">
-       <div style="height:5%">
-	        <div id="filter_year" style="float:left"></div>
-	        <div id="filter_releases" style="float:left"></div>
-       </div>
-	   <div id="dashboard_viz"></div>
-	</div>
-	<div id="filter_metrics" 
-	   style="float:left; width:15%; height:100%" class="box">
-	</div>
-
-   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
-   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-   <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
-   <script type="text/javascript" src="js/Dashboard.js"></script>
+  <div id="navbar"></div>
+  <div class="container-fluid">
+    <div class="row-fluid">
+      <div id="filter_year" style="float: left"></div>
+      <div id="filter_releases" style="float: left"></div>
+    </div>
+    <div class="row-fluid">
+      <div class="span2">
+        <div id="filter_projects" data-ds="scm" data-limit="10"
+          data-order="scm_commits" class="box"></div>
+      </div>
+      <div class="span8">
+        <div id="dashboard_viz"></div>
+      </div>
+      <div class="span2">
+        <div id="filter_metrics" class="box"></div>
+      </div>
+      <footer>
+        <div id="footer"></div>
+      </footer>
+    </div>
+    <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+    <script type="text/javascript" src="js/Dashboard.js"></script>
 </body>
 </html>

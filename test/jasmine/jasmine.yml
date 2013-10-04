@@ -2,10 +2,10 @@ src_files:
   - "lib/jquery-1.7.1.min.js"
   - "bootstrap/js/bootstrap.min.js"
   - "vizgrimoire.min.js"
-helpers:
-  - "helpers/jquery-1.7.1.min.js"
+  - "test/jasmine/helpers/simple_statistics.min.js"
 spec_files:
   - "vizgrimoireSpec.js"
+  - "DataValiditySpec.js"
 src_dir: "../../"
 spec_dir: "spec/"
 stylesheets: 
