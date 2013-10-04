@@ -72,7 +72,7 @@ var vizjsDoc = {};
         new_div += " class='"+method;
         if (desc.classCSS) new_div += " " + desc.classCSS;
         new_div += "'></div>";
-        var convertFn = Report["convert"+method];
+        var convertFn = Convert["convert"+method];        
         if (!convertFn) return;
         $("#"+div_params).empty();
         $("#"+div_display).empty();
