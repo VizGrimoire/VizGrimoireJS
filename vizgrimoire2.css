@@ -62,6 +62,23 @@
 /*.gridster .player {
   opacity:0;
 }*/
+.MetricsEvol,
+.PersonMetrics,
+.TimeTo {
+	   height:150px;
+}
+
+.FilterItemsMetricsEvol,
+.FilterItemsGlobal,
+.FilterItemMetricsEvol
+{
+    height:200px;
+}
+
+.Bubbles,
+.Radar {
+    height:200px;
+}
 /* Auto resize the image to fit with no scrolls */
 img {
 	max-width: 100%;

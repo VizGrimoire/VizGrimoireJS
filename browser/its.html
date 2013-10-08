@@ -6,7 +6,7 @@
 <title></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" id="theme"
-  href="VizGrimoireJS/vizgrimoire.css" />
+  href="VizGrimoireJS/vizgrimoire2.css" />
 <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="custom.css" />
 <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
@@ -15,7 +15,7 @@
 </head>
 
 <body>
-  <div id="navbar"></div>
+  <div id="Navbar"></div>
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span6">
@@ -23,11 +23,11 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="span6">
-                <div class="microdash" data-metric="its_opened"></div>
-                <div class="microdash" data-metric="its_closed"></div>
+                <div class="Microdash" data-metric="its_opened"></div>
+                <div class="Microdash" data-metric="its_closed"></div>
               </div>
               <div class="span6">
-                <div class="its-flotr2-metrics"
+                <div class="MetricsEvol" data-data-source="its"
                   data-metrics="its_openers,its_closers" data-legend="true"></div>
               </div>
             </div>
@@ -38,21 +38,21 @@
             <h4>Time to Fix</h4>
             <div>X% of tickets open during the corresponding month were
               closed in less than n days</div>
-            <div class="its-time-to-fix" data-quantil='X0.99,X0.95,X0.5,X0.25'></div>
+            <div class="TimeTo" data-type="fix" data-data-source="its" data-quantil='X0.99,X0.95,X0.5,X0.25'></div>
           </div>
         </div>
       </div>
       <div class="span4">
-        <div id="its-envision" data-legend-show="false"></div>
+        <div class="MetricsEvolSet" data-data-source="its" data-legend-show="false"></div>
       </div>
     </div>
-    <footer>
-      <div id="footer"></div>
-    </footer>
+    <Footer>
+      <div id="Footer"></div>
+    </Footer>
   </div>
 
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
 </body>
 </html>

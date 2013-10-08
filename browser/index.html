@@ -6,7 +6,7 @@
 <title></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" type="text/css" id="theme"
-  href="VizGrimoireJS/vizgrimoire.css" />
+  href="VizGrimoireJS/vizgrimoire2.css" />
 <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="custom.css" />
 <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
@@ -15,47 +15,47 @@
 </head>
 
 <body>
-  <div id="navbar"></div>
+  <div id="Navbar"></div>
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <div class="well sidebar-nav">
-          <div id="refcard"></div>
+          <div id="Refcard"></div>
         </div>
       </div>
       <div class="span10">
         <div class="row-fluid">
           <div class="hero-unit1" style="height: 400px;">
             <div class="span4">
-              <div class="microdash" data-metric="scm_commits"></div>
-              <div class="microdash" data-metric="its_opened"></div>
-              <div class="microdash" data-metric="mls_sent"></div>
+              <div class="Microdash" data-metric="scm_commits"></div>
+              <div class="Microdash" data-metric="its_opened"></div>
+              <div class="Microdash" data-metric="mls_sent"></div>
             </div>
             <div class="span8">
-              <div id="all-envision" data-legend-show="false"
+              <div class="MetricsEvolSet" data-legend-show="false" data-all="true"
                 data-summary-graph="false"></div>
             </div>
           </div>
           <div class="row-fluid">
             <div class="span3">
-              <div id="scm-top" data-limit="10"></div>
+              <div class="Top" data-data-source="scm" data-limit="10"></div>
             </div>
             <div class="span3">
-              <div id="its-top" data-metric="openers" data-limit="10"></div>
+              <div class="Top" data-data-source="its" data-metric="openers" data-limit="10"></div>
             </div>
             <div class="span3">
-              <div id="mls-top" data-limit="10"></div>
+              <div class="Top" data-data-source="mls" data-limit="10"></div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <footer>
-      <div id="footer"></div>
-    </footer>
+    <Footer>
+      <div id="Footer"></div>
+    </Footer>
   </div>
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
 </body>
 </html>
