@@ -24,19 +24,23 @@
       information per repository.
     </div>
     <div id="summary-static" class="row-fluid">
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-data-source="scr" data-metric="scr_submitted" data-filter="repos"
-          data-limit="10" data-order-by="scr_submitted"></div>
+      <div class="span10">
+        <div class="FilterItemsGlobal" data-data-source="scr"
+          data-metric="scr_submitted" data-filter="repos" data-limit="10"
+          data-order-by="scr_submitted" data-legend-div='repos_legend'></div>
         <i><b>Sent per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:submitted"> <img
             src="qm_15.png"></a></i>
       </div>
+      <div class="span2" id="repos_legend"></div>
     </div>
     <div id="nav" class="row-fluid">
-      <div class="FilterItemsNav" data-data-source="scr" data-order-by="scr_submitted" data-filter="repos"></div>
+      <div class="FilterItemsNav" data-data-source="scr"
+        data-order-by="scr_submitted" data-filter="repos"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="FilterItemsMiniCharts" data-data-source="scr" data-metrics="scr_submitted,scr_merged" data-filter="repos"
+      <div class="FilterItemsMiniCharts" data-data-source="scr"
+        data-metrics="scr_submitted,scr_merged" data-filter="repos"
         data-order-by="scr_submitted" data-show_links="true"></div>
     </div>
     <Footer>

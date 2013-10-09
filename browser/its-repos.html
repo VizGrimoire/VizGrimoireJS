@@ -35,15 +35,16 @@
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-metric="its_closed" data-data-source="its"  data-filter="repos"
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-metric="its_closed" data-data-source="its"  data-filter="repos" data-legend='false'
           data-limit="10" data-order-by="its_closed"></div>
         <i><b>Closed per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:closed"> <img
             src="qm_15.png"></a></i>
       </div>
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-metric="its_closers"  data-filter="repos"
+      <div class="span2" id="repos_legend"></div>
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-metric="its_closers"  data-filter="repos" data-legend-div='repos_legend'
           data-data-source="its" data-limit="10" data-order-by="its_closed"></div>
         <i><b>Closers per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:closers"> <img
@@ -65,6 +66,6 @@
 
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
 </body>
 </html>
