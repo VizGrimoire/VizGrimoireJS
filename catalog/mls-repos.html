@@ -31,32 +31,37 @@
           href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div class="FilterItemsSummary" data-data-source="mls" data-filter="repos"></div>
+        <div class="FilterItemsSummary" data-data-source="mls"
+          data-filter="repos"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-data-source="mls" data-metric="mls_sent" data-filter="repos"
-          data-limit="10" data-order-by="mls_sent"></div>
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-data-source="mls"
+          data-metric="mls_sent" data-filter="repos" data-limit="10"
+          data-order-by="mls_sent" data-legend="false"></div>
         <i><b>Sent per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:sent"> <img
             src="qm_15.png"></a></i>
       </div>
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-data-source="mls" data-filter="repos"
-          data-metric="mls_senders" data-limit="10" data-order-by="mls_sent"></div>
+      <div class="span2" id="repos_legend"></div>
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-data-source="mls"
+          data-filter="repos" data-metric="mls_senders" data-limit="10"
+          data-order-by="mls_sent" data-legend-div='repos_legend'></div>
         <i><b>Senders per repository (aggregated)</b><a
           href="notes.html#note:charts:repositories:senders"> <img
             src="qm_15.png"></a></i>
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <h4 style="font-weight: bold;">MiniCharts of repositories</h4>
-      <div class="FilterItemsNav" data-data-source="mls" data-order-by="mls_sent" data-filter="repos"></div>
+      <div class="FilterItemsNav" data-data-source="mls"
+        data-order-by="mls_sent" data-filter="repos"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="FilterItemsMiniCharts" data-data-source="mls" data-filter="repos"
-        data-metrics="mls_sent,mls_senders" data-order-by="mls_sent""></div>
+      <div class="FilterItemsMiniCharts" data-data-source="mls"
+        data-filter="repos" data-metrics="mls_sent,mls_senders"
+        data-order-by="mls_sent""></div>
     </div>
     <Footer>
       <div id="Footer"></div>

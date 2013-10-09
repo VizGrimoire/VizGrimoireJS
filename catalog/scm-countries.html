@@ -25,38 +25,46 @@
     </div>
     <div id="summary-evol" class="row-fluid">
       <div class="span6">
-        <div class="MetricsEvol" data-data-source="scm" data-metrics="scm_countries"
-          data-legend="false"></div>
+        <div class="MetricsEvol" data-data-source="scm"
+          data-metrics="scm_countries" data-legend="false"></div>
         <i><b>Active Committers Countries per month</b></i><a
           href="notes.html#note:charts:countries"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div class="FilterItemsSummary" data-data-source="scm" data-filter="countries"></div>
+        <div class="FilterItemsSummary" data-data-source="scm"
+          data-filter="countries"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_commits" data-filter="countries"
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-data-source="scm"
+          data-metric="scm_commits" data-filter="countries" data-legend='false'
           data-limit="10" data-order-by="scm_commits"></div>
         <i><b>Commits per country (aggregated)</b><a
           href="notes.html#note:charts:countries:commits"> <img
             src="qm_15.png"></a></i>
       </div>
-      <div class="span6">
-        <div class="FilterItemsGlobal" data-data-source="scm" data-metric="scm_authors" data-filter="countries"
-          data-limit="10" data-order-by="scm_commits"></div>
+      <div class="span2" id="countries_legend"></div>
+      <div class="span5">
+        <div class="FilterItemsGlobal" data-data-source="scm"
+          data-metric="scm_authors" data-filter="countries"
+          data-legend-div='countries_legend' data-limit="10"
+          data-order-by="scm_commits"></div>
         <i><b>Authors per country (aggregated)</b><a
           href="notes.html#note:charts:countries:authors"> <img
             src="qm_15.png"></a></i>
       </div>
-    </div> data-filter="countries"
+    </div>
+    data-filter="countries"
     <div id="nav" class="row-fluid">
       <h4 style="font-weight: bold;">MiniCharts of countries</h4>
-      <div class="FilterItemsNav" data-data-source="scm" data-order-by="scm_commits" data-filter="countries"></div>
+      <div class="FilterItemsNav" data-data-source="scm"
+        data-order-by="scm_commits" data-filter="countries"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="FilterItemsMiniCharts" data-data-source="scm" data-filter="countries"
-        data-metrics="scm_commits,scm_authors" data-order-by="scm_commits""></div>
+      <div class="FilterItemsMiniCharts" data-data-source="scm"
+        data-filter="countries" data-metrics="scm_commits,scm_authors"
+        data-order-by="scm_commits""></div>
     </div>
     <Footer>
       <div id="Footer"></div>
