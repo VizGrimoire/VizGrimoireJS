@@ -260,6 +260,13 @@
         "name" : "merged",
         "desc" : ""
     },
+    "scr_mergers" : {
+        "divid" : "scr_mergers",
+        "column" : "mergers",
+        "name" : "mergers",
+        "action" : "merged",
+        "desc" : ""
+    },
     "scr_opened" : {
         "divid" : "scr_opened",
         "column" : "opened",
