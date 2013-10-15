@@ -34,7 +34,7 @@ var vizjsDoc = {};
             if (param === "metric" && divid === "Top")
                 $("#"+divid).attr("data-"+param,"authors");
             if (param === "metrics")
-                $("#"+divid).attr("data-"+param,"scm_commits");
+                $("#"+divid).attr("data-"+param,"scm_commits,scm_authors");
             if (param === "period")
                 $("#"+divid).attr("data-"+param,"Year");
             if (param === "period" && divid === "Demographics")
@@ -55,10 +55,14 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"1");
             if (param === "item")
                 $("#"+divid).attr("data-"+param,"DonationInterface.git");
+            if (param === "graph")
+                $("#"+divid).attr("data-"+param,"bars");
+            if (param === "people_links")
+                $("#"+divid).attr("data-"+param,"false");
         });
         $("#"+div_params).append("</ul>");
     }
-    
+
     function htmlEscape(str) {
         return String(str)
                 .replace(/&/g, '&amp;')
@@ -81,7 +85,11 @@ var vizjsDoc = {};
         $("#"+div_params).empty();
         $("#"+div_display).empty();
         $("#"+div_syntax).empty();
+        $("#"+div_syntax_help).empty();
         $("#"+div_display).append(new_div);
+        if (desc.help) {
+            $("#"+div_syntax_help).append(desc.help);       
+        }
         if (desc.params) {
             $("#"+method).addClass(method);
             addParamsDiv(method, desc.params);
@@ -103,10 +111,12 @@ var vizjsDoc = {};
         $("#"+div_sections).append(sections);
     };
     
-    vizjsDoc.show = function(divid, divdisplay, divSyntax, divParams) {
+    vizjsDoc.show = function(divid, divdisplay, divSyntax, 
+            divSyntaxHelp, divParams) {
         div_sections = divid;
         div_display = divdisplay;
         div_syntax = divSyntax;
+        div_syntax_help = divSyntaxHelp;
         div_params = divParams;
         $.getJSON("vizjsapi2.json", null, function(apidata) {
             vizjsDoc.API = apidata;
