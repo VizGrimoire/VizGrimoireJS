@@ -113,7 +113,14 @@
                 "person_id":{},
                 "person_name":{}
             }        
-        }
+        },
+        "Demographics":{
+            "params":{
+                "data-source":{},
+                "file":{},
+                "period":{}
+            }        
+        }        
     },
     "FilterStudy":{
         "FilterItemsSummary":{
