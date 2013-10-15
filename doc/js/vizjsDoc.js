@@ -28,7 +28,7 @@ var vizjsDoc = {};
             if (param === "file" && divid === "Treemap")
                 $("#"+divid).attr("data-"+param,"treemap.json");
             if (param === "file" && divid === "Demographics")
-                $("#"+divid).attr("data-"+param,"scm-demographics-aging.json");
+                $("#"+divid).attr("data-"+param,"data/json/scm-demographics-aging.json");
             if (param === "metric")
                 $("#"+divid).attr("data-"+param,"scm_commits");
             if (param === "metric" && divid === "Top")
