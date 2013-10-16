@@ -16,9 +16,11 @@ var vizjsDoc = {};
 
     // Fills params with default values
     function addParamsDiv(divid, params) {
-        $("#"+div_params).append("<ul>");
+        var contents = "<ul>";
         $.each(params, function(param, desc) {
-            $("#"+div_params).append("<li>"+param+"</li>");
+            contents += "<li>"+param;
+            if (desc.help) contents += ": "+desc.help;            
+            contents += "</li>";
             if (param === "data-source")
                 $("#"+divid).attr("data-"+param,"scm");
             if (param === "data-source" && divid === "TimeTo")
@@ -60,7 +62,8 @@ var vizjsDoc = {};
             if (param === "people_links")
                 $("#"+divid).attr("data-"+param,"false");
         });
-        $("#"+div_params).append("</ul>");
+        contents += "</ul>";
+        $("#"+div_params).append(contents);
     }
 
     function htmlEscape(str) {

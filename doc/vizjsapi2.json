@@ -23,15 +23,21 @@
         "Treemap":{
             "help": "Show a Treemap using data in JSON file with a specific format (<a href='treemap.json'>sample</a>).",
             "params":{
-                "file":{}
+                "file":{
+                    "help":"File URL with treemap data."
+                }
             },
             "classCSS":"treemap"
         },
         "Bubbles":{
             "help": "Show a bubble map with specific evolution metrics for each data source. For SCM scm_commits and scm_committers.",
             "params":{
-                "radius":{},
-                "data-source":{}
+                "radius":{
+                    "help":"Radius of the bubbles. Make it smaller if bubbles overlaps."
+                },
+                "data-source":{
+                    "help":"Data Source to be used"
+                }
             }        
         }
     },
@@ -39,26 +45,36 @@
         "MicrodashText":{
             "help": "Show global and tendency data for a metric for last week, month and year",
             "params":{
-                "metric":{}
+                "metric":{
+                    "help":"Metric to be shown"
+                }
             }
         },
         "LastActivity":{
-            "help": "Global data for all data sources for a period (Year, Month, Week).",
+            "help": "Global data for all data sources for a period.",
             "params":{
-                "period":{}
+                "period":{
+                    "help":"period of time (Year, Month, Week)."
+                }
             }
         },
         "GlobalData":{
             "help": "Show a specific global data for a data source.",
             "params":{
-                "data-source":{},
-                "field":{}
+                "data-source":{
+                    "help":"Data Source to be used."
+                },
+                "field":{
+                    "help":"Specific global metric (field) to be shown."
+                }
             }
         },
         "Summary":{
             "help": "Show a summary with all global data for a data source.",
             "params":{
-                "data-source":{}
+                "data-source":{
+                    "help":"Data Source to be used."
+                }
             }
         }
         
@@ -67,41 +83,70 @@
         "MetricsEvol":{
             "help": "Show time evolution of metrics",
             "params":{
-                "metrics":{},
-                "data-source":{},
-                "help":{},
-                "show_legend":{},
-                "frame-time":{},
-                "min":{},
-                "convert":{}
+                "metrics":{
+                    "help":"Metrics to be shown."
+                },
+                "data-source":{
+                    "help":"Data Source to be used."
+                },
+                "help":{
+                    "help":"Show button to open help dialog."
+                },
+                "show_legend":{
+                    "help":"Show legend in the graph."
+                },
+                "frame-time":{
+                    "help":"Show only the time frame with activity."
+                },
+                "min":{
+                    "help":"Minimized version of the graph."
+                },
+                "convert":{
+                    "help":"Convert metrics values (aggregate, substract, divide)."
+                }
             }
         },
         "TimeTo":{
             "help": "Show time to fix/attention using quantiles evolution specified",
             "params":{
-                "data-source":{},
-                "quantil":{},
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "quantil":{
+                    "help":"Quantiles to show separated by commas (X0.99,X0.95)."
+                },
                 "type":{
-                    "values":["fix","attention"]
+                    "values":["fix","attention"],
+                    "help":"fix or attention time to."
                 }
             }
         },
         "MetricsEvolSet":{
             "help": "Show time evolution of all metrics of a data source. Some metrics could be hidden with <a href='data/json/viz_cfg.json'>viz_cfg.json file</a>.",
             "params":{
-                "data-source":{},
-                "relative":{},
-                "legend":{},
-                "summary_graph":{},
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "relative":{
+                    "help":"Show relative values useful for relative area charts."
+                },
+                "legend":{
+                    "help":"Show legend."
+                },
+                "summary_graph":{
+                    "help":"Show summary graph background."
+                },
                 "all":{
-                    "desc":"Show all data sources"
+                    "help":"Show all data sources"
                 }
             }
         },
         "Microdash":{
             "help": "Show global, evolution viz and tendency data for a metric",
             "params":{
-                "metric":{}
+                "metric":{
+                    "help":"Metric to be shown."
+                }
             }
         }
     },
@@ -109,38 +154,72 @@
         "Top":{
             "help": "Show Top contributors for a data source, using graphs and linking to people pages if not disabled.",
             "params":{
-                "data-source":{},
-                "show-all":{},
-                "metric":{},
-                "limit":{},
-                "graph":{},
-                "people_links":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "show-all":{
+                    "help":"Show all periods of time available."
+                },
+                "metric":{
+                    "help":"Top metric to be shown."
+                },
+                "limit":{
+                    "help":"Max number of top items to show."
+                },
+                "graph":{
+                    "help":"Add to report table a graph with the data."
+                },
+                "people_links":{
+                    "help":"Show URL links to people pages."
+                }
             }
         },
         "PersonMetrics":{
             "help": "Show time evolution metric for a person.",
             "params":{
-                "data-source":{},
-                "legend":{},
-                "metrics":{},
-                "person_id":{},
-                "person_name":{}
+                "data-source":{
+                    "help":"Data Source to be used."
+                },
+                "legend":{
+                    "help":"Show legend."
+                },
+                "metrics":{
+                    "help":"Metrics to be shown."
+                },
+                "person_id":{
+                    "help":"Person id according to JSON data."
+                },
+                "person_name":{
+                    "help":"Person name to be used in labels."
+                }
             }
         },
         "PersonSummary":{
             "help": "Show global metrics for a person and a data source.",
             "params":{
-                "data-source":{},
-                "person_id":{},
-                "person_name":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "person_id":{
+                    "help":"Person id according to JSON data."
+                },
+                "person_name":{
+                    "help":"Person name to be used in labels."
+                }
             }        
         },
         "Demographics":{
             "help": "Show a bars graph with the demography data in JSON file, grouping using period of times (years)",
             "params":{
-                "data-source":{},
-                "file":{},
-                "period":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "file":{
+                    "help":"JSON file URL with the data about demographics."
+                },
+                "period":{
+                    "help":"Number of years to group items together (0.25 for quarters)."
+                }
             }        
         }        
     },
@@ -148,84 +227,168 @@
         "FilterItemsSummary":{
             "help": "Show global metrics for a data source and a filter study (companies, repos, countries)",
             "params":{
-                "data-source":{},
-                "filter":{}
+                "data-source":{
+                    "help":"Data Source to be used."
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                }
             }
         },
         "FilterItemsMetricsEvol":{
             "help": "Show together one time evolution metric for all items (companies, repos, countries) in a filter study.",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "limit":{},
-                "metric":{},
-                "order_by":{},
-                "stacked":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "limit":{
+                    "help":""
+                },
+                "metric":{
+                    "help":""
+                },
+                "order_by":{
+                    "help":"Deprecated. Don't use."
+                },
+                "stacked":{
+                    "help":"Show lines overlapped or stacked."
+                }
                 
             }
         },
         "FilterItemsGlobal":{
             "help": "Show a metric for all items (companies, repos, countries) in a filter study using a bars or pie graph.",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "limit":{},
-                "metric":{},
-                "order_by":{},
-                "show_others":{},
-                "graph":{},
-                "legend-div":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "limit":{
+                    "help":"Max number of items to be shown."
+                },
+                "metric":{
+                    "help":"Metric to be shown."
+                },
+                "order_by":{
+                    "help":"Deprecated. Don't use."
+                },
+                "show_others":{
+                    "help":"Show aggregate data with the rest out of limit."
+                },
+                "graph":{
+                    "help":"pie or bar chart."
+                },
+                "legend-div":{
+                    "help":"div where the legend should be shown."
+                }
             }
         },                        
         "FilterItemsNav":{
             "help": "Show a navigation bar with links to items (companies, repos, countries) details.",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "page":{},
-                "scm_and_its":{},
-                "order_by":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "page":{
+                    "help":"Page to be shown."
+                },
+                "scm_and_its":{
+                    "help":"Experimental: Mix SCM and ITS data sources metrics."
+                },
+                "order_by":{
+                    "help":"Deprecated. Don't use."
+                }
             }
         },
         "FilterItemsMiniCharts":{
             "help": "Show a list of time evolution metrics graph for all items (companies, repos, countries) in a filter study.",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "page":{},
-                "scm_and_its":{},
-                "order_by":{},
-                "metrics":{},
-                "show_links":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "page":{
+                    "help":"Page to be shown."
+                },
+                "scm_and_its":{
+                    "help":"Experimental: Mix SCM and ITS data sources metrics."
+                },
+                "order_by":{
+                    "help":"Deprecated. Don't use."
+                },
+                "metrics":{
+                    "help":"Metrics to be shown."
+                },
+                "show_links":{
+                    "help":"Show URL links to items specific pages."
+                }
             }        
         },
         "FilterItemSummary":{
             "help": "Show all global metrics for an item (company, repo, country)",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "item":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "item":{
+                    "help":"Identifier of item to be shown (<a href='data/json/scm-repos.json'>repos identifiers</a>)"
+                }
             }
         },
         "FilterItemMetricsEvol":{
             "help": "Show together time evolution metrics for an item (company, repo, country)",
             "params":{
-                "data-source":{},
-                "filter":{},
-                "item":{},
-                "frame_time":{},
-                "metrics":{},
-                "show_legend":{}
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "item":{
+                    "help":"Identifier of item to be shown (<a href='data/json/scm-repos.json'>repos identifiers</a>)"
+                },
+                "frame-time":{
+                    "help":"Show only the time frame with activity."
+                },
+                "metrics":{
+                    "help":"Metric to be shown."
+                },
+                "show_legend":{
+                    "help":"Show legend."
+                }
             }
         },
         "FilterItemTop":{
             "help": "Show Top contributors for a data source and item (company, repo, country) using graphs.",
             "params":{
-                "titles":{},
-                "filter":{},
-                "item":{},
-                "period":{},
-                "metric":{}
+                "titles":{
+                    "help":"Show titles or just table data."
+                },
+                "filter":{
+                    "help":"Filter to be used (companies, countries, repos)."
+                },
+                "item":{
+                    "help":"Identifier of item to be shown (<a href='data/json/scm-repos.json'>repos identifiers</a>)"
+                },
+                "period":{
+                    "help":"Period of time in which top is computed."
+                },
+                "metric":{
+                    "help":"Top metric to be shown."
+                }
             }
         }
     }   
