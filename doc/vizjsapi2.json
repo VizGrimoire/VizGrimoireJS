@@ -300,9 +300,6 @@
                 "page":{
                     "help":"Page to be shown."
                 },
-                "scm_and_its":{
-                    "help":"Experimental: Mix SCM and ITS data sources metrics."
-                },
                 "order_by":{
                     "help":"Deprecated. Don't use."
                 }
@@ -319,9 +316,6 @@
                 },
                 "page":{
                     "help":"Page to be shown."
-                },
-                "scm_and_its":{
-                    "help":"Experimental: Mix SCM and ITS data sources metrics."
                 },
                 "order_by":{
                     "help":"Deprecated. Don't use."
