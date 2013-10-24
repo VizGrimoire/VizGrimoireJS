@@ -1,7 +1,62 @@
 var Mediawiki = {};
 
 (function() {
+
+    var top100 = [];
+    var actor = "mergers";
+    var action = "merged";
+
+    Mediawiki.getTop100 = function() {
+        return top100;
+    };
     
+    function getIdByName(item) {
+        var id = 0;
+        var data = Mediawiki.getTop100();
+        for (var i = 0; i<data.id.length;i++) {
+            if (data[actor][i] === item) {
+                id = data.id[i];
+                break;
+            }
+        }
+        return id;
+    }
+
+    function displayTopLarge(div) {
+        var top_file = Report.getDataDir()+"/scr-top-100.json";
+        var html = "", table = "";
+        table += "<table class='table-hover'>";
+        $.getJSON(top_file, function(top_data) {
+            top100 = top_data;
+            var id, name, activity;
+            for (var i = 0; i<top_data.id.length;i++) {
+               name = top_data[actor][i];
+               activity = top_data[action][i];
+               id = top_data.id[i];
+               table += "<tr><td>";
+               table += "<a href='people.html?id="+id+"&name="+name+"'>";
+               table += name;
+               table += "</a></td><td>"+activity;
+               table += "</td></tr>";
+            }
+            table += "</table>";
+            html +="<FORM>Search ";
+            html +='<input type="text" class="typeahead">';
+            html += "</FORM>";
+            html += table;
+            $("#"+div).append(html);
+            $('.typeahead').typeahead({
+                source: top100[actor],
+                updater: function (item) {
+                    var id = getIdByName(item);
+                    var url = "people.html?id="+id+"&name="+item;
+                    window.open(url,"_self");
+                    return item;
+                }
+            });
+        });
+    }
+
     function displayTopList(div, ds, limit) {
         var top_file = ds.getTopDataFile();
         var basic_metrics = ds.getMetrics();
@@ -51,9 +106,22 @@ var Mediawiki = {};
         });
     }
     
+    function convertTopLarge() {
+        var mark = "TopLarge";
+        var divs = $("."+mark);
+        if (divs.length > 0) {
+            var unique = 0;
+            $.each(divs, function(id, div) {
+                div.id = mark + (unique++);
+                // var metric = $(this).data('metric');
+                displayTopLarge(div.id);
+            });
+        }
+    }
+
     Mediawiki.build = function() {
-        convertTop();
-    };    
+        convertTopLarge();
+    };
 })();
 
 Loader.data_ready(function() {
