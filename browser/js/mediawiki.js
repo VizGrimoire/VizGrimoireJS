@@ -2,19 +2,28 @@ var Mediawiki = {};
 
 (function() {
 
-    var top100 = [];
-    var actor = "mergers";
-    var action = "merged";
+    var contribs_people = [];
+    var contribs_companies = [];
 
-    Mediawiki.getTop100 = function() {
-        return top100;
+    Mediawiki.getContribsPeople = function() {
+        return contribs_people;
     };
-    
-    function getIdByName(item) {
+
+    Mediawiki.getContribsCompanies = function() {
+        return contribs_companies;
+    };
+
+    function getIdByName(item, type) {
         var id = 0;
-        var data = Mediawiki.getTop100();
+        var data = null; 
+        if (type === "companies")
+            data = Mediawiki.getContribsCompanies();
+        else if (type === "people")
+            data = Mediawiki.getContribsPeople();
+        else return id;
+
         for (var i = 0; i<data.id.length;i++) {
-            if (data[actor][i] === item) {
+            if (data.name[i] === item) {
                 id = data.id[i];
                 break;
             }
@@ -22,21 +31,31 @@ var Mediawiki = {};
         return id;
     }
 
-    function displayTopLarge(div) {
-        var top_file = Report.getDataDir()+"/scr-top-100.json";
+    function displayContribs(div, type) {
+        var contribs_file = "";
+        if (type === "companies")
+            contribs_file = Report.getDataDir()+"/scr-companies-all.json";
+        else if (type === "people") 
+            contribs_file = Report.getDataDir()+"/scr-people-all.json";
+        else return;
+
         var html = "", table = "";
         table += "<table class='table-hover'>";
-        $.getJSON(top_file, function(top_data) {
-            top100 = top_data;
-            var id, name, activity;
-            for (var i = 0; i<top_data.id.length;i++) {
-               name = top_data[actor][i];
-               activity = top_data[action][i];
-               id = top_data.id[i];
+        $.getJSON(contribs_file, function(contribs_data) {
+            if (type === "people") contribs_people = contribs_data;
+            if (type === "companies") contribs_companies = contribs_data;
+            var id, name, total;
+            for (var i = 0; i<contribs_data.id.length;i++) {
+               name = contribs_data.name[i];
+               total = contribs_data.total[i];
+               id = contribs_data.id[i];
                table += "<tr><td>";
-               table += "<a href='people.html?id="+id+"&name="+name+"'>";
+               if (type === "people")
+                   table += "<a href='people.html?id="+id+"&name="+name+"'>";
+               if (type === "companies")
+                   table += "<a href='company.html?id="+id+"&name="+name+"'>";
                table += name;
-               table += "</a></td><td>"+activity;
+               table += "</a></td><td>"+total;
                table += "</td></tr>";
             }
             table += "</table>";
@@ -45,14 +64,29 @@ var Mediawiki = {};
             html += "</FORM>";
             html += table;
             $("#"+div).append(html);
-            $('.typeahead').typeahead({
-                source: top100[actor],
-                updater: function (item) {
-                    var id = getIdByName(item);
+            var data_source = null, updater = null;
+            
+            if (type === "people") {
+                data_source = contribs_people.name;
+                updater = function(item) {
+                    var id = getIdByName(item, type);
                     var url = "people.html?id="+id+"&name="+item;
                     window.open(url,"_self");
-                    return item;
-                }
+                    return item;                
+                };
+            }
+            else if (type === "companies") {
+                data_source = contribs_companies.name;
+                updater = function(item) {
+                    var id = getIdByName(item, type);
+                    var url = "company.html?id="+id+"&name="+item;
+                    window.open(url,"_self");
+                    return item;                
+                };
+            }
+            $('.typeahead').typeahead({
+                source: data_source,
+                updater: updater
             });
         });
     }
@@ -91,7 +125,7 @@ var Mediawiki = {};
 
         
     }
-    
+
     function convertTop() {
         $.each(Report.getDataSources(), function(index, ds) {
             if (ds.getData().length === 0) return;
@@ -105,22 +139,23 @@ var Mediawiki = {};
             }
         });
     }
-    
-    function convertTopLarge() {
-        var mark = "TopLarge";
+
+    function convertContribs() {
+        var mark = "Contribs";
         var divs = $("."+mark);
         if (divs.length > 0) {
             var unique = 0;
             $.each(divs, function(id, div) {
                 div.id = mark + (unique++);
                 // var metric = $(this).data('metric');
-                displayTopLarge(div.id);
+                var type = $(this).data('type');
+                displayContribs(div.id, type);
             });
         }
     }
 
     Mediawiki.build = function() {
-        convertTopLarge();
+        convertContribs();
     };
 })();
 

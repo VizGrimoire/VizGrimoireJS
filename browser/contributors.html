@@ -17,8 +17,16 @@
 <body>
   <div id="Navbar"></div>
   <div class="container-fluid">
+    <div class="row-fluid">People and Organizations contributions during project lifetime</div>
     <div id="contribs" class="row-fluid">
-        <div class="TopLarge"></div>
+      <div class="span6">
+        <h4>People</h4>
+        <div class="Contribs" data-type="people"></div>
+      </div>
+      <div class="span6">
+        <h4>Organizations</h4>
+        <div class="Contribs" data-type="companies"></div>
+      </div>
     </div>
     <Footer>
       <div id="Footer"></div>
@@ -27,6 +35,6 @@
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
-  <script type="text/javascript" src="js/mediawiki.js"></script>  
+  <script type="text/javascript" src="js/mediawiki.js"></script>
 </body>
 </html>
