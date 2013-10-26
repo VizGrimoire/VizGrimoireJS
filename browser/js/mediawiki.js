@@ -66,10 +66,13 @@ var Mediawiki = {};
         return id;
     }
     
-    function showContribs(div, type, quarters) {
-        var contribs_data = Mediawiki.getContribs(type, quarters); 
+    function showContribs(div, type, quarter, search) {
+        var quarters = false;
+        if (quarter) quarters = true;
+        var contribs_data = Mediawiki.getContribs(type, quarters);
+        if (quarter) contribs_data = contribs_data[quarter];
         var html = "", table = "";
-        
+
         table += "<table class='table-hover'>";
         var id, name, total;
         for (var i = 0; i<contribs_data.id.length;i++) {
@@ -86,9 +89,11 @@ var Mediawiki = {};
            table += "</td></tr>";
         }
         table += "</table>";
-        html +="<FORM>Search ";
-        html +='<input type="text" class="typeahead">';
-        html += "</FORM>";
+        if (search) {
+            html +="<FORM>Search ";
+            html +='<input type="text" class="typeahead">';
+            html += "</FORM>";
+        }
         html += table;
         $("#"+div).append(html);
         var data_source = null, updater = null;
@@ -117,21 +122,25 @@ var Mediawiki = {};
         });
     }
     
-    function loadContribsShow (type, quarters, div) {
+    function loadContribsShow (type, div, quarter, search) {
+        var quarters = false;
+        if (quarter) quarters = true;
         var contribs_file = Mediawiki.getContribsFile(type, quarters);
         if (contribs_file === null) return;
 
         $.getJSON(contribs_file, function(contribs_data) {
             Mediawiki.setContribs(type, quarters, contribs_data);
-            showContribs(div, type, quarters);
-        });    
+            showContribs(div, type, quarter, search);
+        });
     }
 
-    function displayContribs(div, type, quarters) {
+    function displayContribs(div, type, quarter, search) {
+        var quarters = false;
+        if (quarter) quarters = true;
         if (!Mediawiki.getContribs(type, quarters)) {
-            loadContribsShow (type, quarters, div);
+            loadContribsShow (type, div, quarter, search);
         }
-        else showContribs(div, type, quarters);
+        else showContribs(div, type, quarter, search);
     }
 
     // All sample function
@@ -191,9 +200,11 @@ var Mediawiki = {};
             var unique = 0;
             $.each(divs, function(id, div) {
                 div.id = mark + (unique++);
-                // var metric = $(this).data('metric');
                 var type = $(this).data('type');
-                displayContribs(div.id, type);
+                var quarter = $(this).data('quarter');
+                var search = $(this).data('search');
+                if (search === undefined) search = true;
+                displayContribs(div.id, type, quarter, search);
             });
         }
     }
