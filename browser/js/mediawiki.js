@@ -2,9 +2,9 @@ var Mediawiki = {};
 
 (function() {
 
-    var contribs_people = [];
-    var contribs_companies = [];
-
+    var contribs_people = null, contribs_people_quarters = null;
+    var contribs_companies = null, contribs_companies_quarters = null;
+    
     Mediawiki.getContribsPeople = function() {
         return contribs_people;
     };
@@ -12,6 +12,41 @@ var Mediawiki = {};
     Mediawiki.getContribsCompanies = function() {
         return contribs_companies;
     };
+
+    Mediawiki.getContribs = function(type, quarters) {
+        var contribs_data = null;
+        
+        if (type === "companies" && !quarters) 
+            contribs_data = contribs_companies;
+        else if (type === "companies" && quarters) 
+            contribs_data = contribs_companies_quarters;
+        else if (type === "people" && !quarters) 
+            contribs_data = contribs_people;
+        else if (type === "people" && quarters) 
+            contribs_data = contribs_people_quarters;
+        return contribs_data;
+    };
+    
+    Mediawiki.getContribsFile = function(type, quarters) {
+        var filename = null;
+        if (type === "companies" && !quarters)
+            filename = Report.getDataDir()+"/scr-companies-all.json";
+        else if (type === "companies" && quarters)
+            filename = Report.getDataDir()+"/scr-companies-quarters.json";
+        else if (type === "people" && !quarters) 
+            filename = Report.getDataDir()+"/scr-people-all.json";
+        else if (type === "people" && quarters)
+            filename = Report.getDataDir()+"/scr-people-quarters.json";
+        return filename;    
+    };
+    
+    Mediawiki.setContribs = function (type, quarters, data) {
+        if (type === "people" && !quarters) contribs_people = data;
+        if (type === "people" && quarters) contribs_people_quarters = data;
+        if (type === "companies" && !quarters) contribs_companies = data;
+        if (type === "companies" && quarters) contribs_companies_quarters = data;
+    };
+
 
     function getIdByName(item, type) {
         var id = 0;
@@ -30,67 +65,76 @@ var Mediawiki = {};
         }
         return id;
     }
-
-    function displayContribs(div, type) {
-        var contribs_file = "";
-        if (type === "companies")
-            contribs_file = Report.getDataDir()+"/scr-companies-all.json";
-        else if (type === "people") 
-            contribs_file = Report.getDataDir()+"/scr-people-all.json";
-        else return;
-
+    
+    function showContribs(div, type, quarters) {
+        var contribs_data = Mediawiki.getContribs(type, quarters); 
         var html = "", table = "";
+        
         table += "<table class='table-hover'>";
-        $.getJSON(contribs_file, function(contribs_data) {
-            if (type === "people") contribs_people = contribs_data;
-            if (type === "companies") contribs_companies = contribs_data;
-            var id, name, total;
-            for (var i = 0; i<contribs_data.id.length;i++) {
-               name = contribs_data.name[i];
-               total = contribs_data.total[i];
-               id = contribs_data.id[i];
-               table += "<tr><td>";
-               if (type === "people")
-                   table += "<a href='people.html?id="+id+"&name="+name+"'>";
-               if (type === "companies")
-                   table += "<a href='company.html?id="+id+"&name="+name+"'>";
-               table += name;
-               table += "</a></td><td>"+total;
-               table += "</td></tr>";
-            }
-            table += "</table>";
-            html +="<FORM>Search ";
-            html +='<input type="text" class="typeahead">';
-            html += "</FORM>";
-            html += table;
-            $("#"+div).append(html);
-            var data_source = null, updater = null;
-            
-            if (type === "people") {
-                data_source = contribs_people.name;
-                updater = function(item) {
-                    var id = getIdByName(item, type);
-                    var url = "people.html?id="+id+"&name="+item;
-                    window.open(url,"_self");
-                    return item;                
-                };
-            }
-            else if (type === "companies") {
-                data_source = contribs_companies.name;
-                updater = function(item) {
-                    var id = getIdByName(item, type);
-                    var url = "company.html?id="+id+"&name="+item;
-                    window.open(url,"_self");
-                    return item;                
-                };
-            }
-            $('.typeahead').typeahead({
-                source: data_source,
-                updater: updater
-            });
+        var id, name, total;
+        for (var i = 0; i<contribs_data.id.length;i++) {
+           name = contribs_data.name[i];
+           total = contribs_data.total[i];
+           id = contribs_data.id[i];
+           table += "<tr><td>";
+           if (type === "people")
+               table += "<a href='people.html?id="+id+"&name="+name+"'>";
+           if (type === "companies")
+               table += "<a href='company.html?id="+id+"&name="+name+"'>";
+           table += name;
+           table += "</a></td><td>"+total;
+           table += "</td></tr>";
+        }
+        table += "</table>";
+        html +="<FORM>Search ";
+        html +='<input type="text" class="typeahead">';
+        html += "</FORM>";
+        html += table;
+        $("#"+div).append(html);
+        var data_source = null, updater = null;
+        
+        if (type === "people") {
+            data_source = contribs_people.name;
+            updater = function(item) {
+                var id = getIdByName(item, type);
+                var url = "people.html?id="+id+"&name="+item;
+                window.open(url,"_self");
+                return item;                
+            };
+        }
+        else if (type === "companies") {
+            data_source = contribs_companies.name;
+            updater = function(item) {
+                var id = getIdByName(item, type);
+                var url = "company.html?id="+id+"&name="+item;
+                window.open(url,"_self");
+                return item;                
+            };
+        }
+        $('.typeahead').typeahead({
+            source: data_source,
+            updater: updater
         });
     }
+    
+    function loadContribsShow (type, quarters, div) {
+        var contribs_file = Mediawiki.getContribsFile(type, quarters);
+        if (contribs_file === null) return;
 
+        $.getJSON(contribs_file, function(contribs_data) {
+            Mediawiki.setContribs(type, quarters, contribs_data);
+            showContribs(div, type, quarters);
+        });    
+    }
+
+    function displayContribs(div, type, quarters) {
+        if (!Mediawiki.getContribs(type, quarters)) {
+            loadContribsShow (type, quarters, div);
+        }
+        else showContribs(div, type, quarters);
+    }
+
+    // All sample function
     function displayTopList(div, ds, limit) {
         var top_file = ds.getTopDataFile();
         var basic_metrics = ds.getMetrics();
