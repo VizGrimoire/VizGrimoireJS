@@ -18,45 +18,45 @@
   <div id="Navbar"></div>
   <div class="container-fluid">
     <div id="info" class="row-fluid">
-      <h4>Information about all repositories</h4>
-      Some charts and tables for top repositories in the project, and a summary
-      of the evolution of their participation with links to more detailed
-      information per repository.
+      <h4>Information about Bugzilla products and components</h4>
+      Some charts and tables for top products and components in the project, and
+      a summary of the evolution of their participation with links to more
+      detailed information per product and component.
     </div>
     <div id="summary-evol" class="row-fluid">
       <div class="span6">
         <div class="MetricsEvol" data-metrics="its_repositories"
           data-data-source="its" data-legend="false"></div>
-        <i><b>Active repositories per month</b></i><a
+        <i><b>Active Products and Components per month</b></i><a
           href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
       </div>
       <div class="span6">
-        <div class="FilterItemsSummary" data-data-source="its" data-filter="repos"></div>
+        <div class="FilterItemsSummary" data-data-source="its"
+          data-filter="repos"></div>
       </div>
     </div>
     <div id="summary-static" class="row-fluid">
       <div class="span5">
-        <div class="FilterItemsGlobal" data-metric="its_closed" data-data-source="its"  data-filter="repos" data-legend='false'
+        <div class="FilterItemsGlobal" data-metric="its_closed"
+          data-data-source="its" data-filter="repos" data-legend='false'
           data-limit="10" data-order-by="its_closed"></div>
-        <i><b>Closed per repository (aggregated)</b><a
-          href="notes.html#note:charts:repositories:closed"> <img
-            src="qm_15.png"></a></i>
+        <i><b>Closed per product/component (aggregated)</b></i>
       </div>
       <div class="span2" id="repos_legend"></div>
       <div class="span5">
-        <div class="FilterItemsGlobal" data-metric="its_closers"  data-filter="repos" data-legend-div='repos_legend'
+        <div class="FilterItemsGlobal" data-metric="its_closers"
+          data-filter="repos" data-legend-div='repos_legend'
           data-data-source="its" data-limit="10" data-order-by="its_closed"></div>
-        <i><b>Closers per repository (aggregated)</b><a
-          href="notes.html#note:charts:repositories:closers"> <img
-            src="qm_15.png"></a></i>
+        <i><b>Closers per product/component (aggregated)</b></i>
       </div>
     </div>
     <div id="nav" class="row-fluid">
-      <div class="FilterItemsNav" data-order-by="its_closed" data-data-source="its" data-filter="repos"></div>
+      <div class="FilterItemsNav" data-order-by="its_closed"
+        data-data-source="its" data-filter="repos"></div>
     </div>
     <div id="list" class="row-fluid">
-      <div class="FilterItemsMiniCharts" data-metrics="its_closed,its_closers" data-filter="repos"
-        data-data-source="its" data-order-by="its_closed""></div>
+      <div class="FilterItemsMiniCharts" data-metrics="its_closed,its_closers"
+        data-filter="repos" data-data-source="its" data-order-by="its_closed""></div>
     </div>
     <Footer>
       <div id="Footer"></div>
