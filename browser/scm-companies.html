@@ -19,86 +19,79 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
+            <div class="row-fluid"><h4>Information about all companies</h4></div>
             <!-- info text -->
-            <div class="row-fluid">
-                <div class="span12">
-                    <h4>Information about all companies</h4>
-                    Some charts and tables for top companies in the project, and a summary of
-                    the evolution of their participation with links to more detailed
+            <div id="info" class="row-fluid">
+                <div class="span5">
+                    Some charts and tables for top companies in the project, and a summary
+                    of the evolution of their participation with links to more detailed
                     information per company.
                 </div>
-            </div>
-            <!-- end info text -->
-
-            <!-- evolution #companies -->
-            <div class="row-fluid">
-                <!-- graph -->
-                <div class="span6">
-                    <div class="MetricsEvol" data-data-source="scm" data-metrics="scm_companies"
-                         data-legend="false" data-help="true"></div>
-                    <i><b>Active Companies with authors</b></i>
-                </div>
-                <!-- end graph -->
-
-                <div class="span6">
-                    <div class="row-fluid">
-                        <div class="span1">
-                            <strong class="count">
-                                <span class="GlobalData" data-data-source="scm" data-field="scm_companies"></span>
-                            </strong>
-                        </div>
-                        <div class="span4">companies</div>
-                        <div class="span1"></div>
-                        <div class="span2"></div>
-                        <div class="span3"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- evolution #companies -->
-
-            <!-- commits,authors companies -->
-            <div id="summary-static" class="row-fluid">
-                <!-- commits -->
-                <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="scm"
-                         data-metric="scm_commits" data-filter="companies" data-limit="10"
-                         data-order-by="scm_commits" data-legend-div="companies_legend"></div>
+                <div class="span7">
+                    <!-- evolution #companies -->
                     <i>
-                      <b>Commits per company (aggregated)</b>
-                      <a href="notes.html#note:charts:companies:commits"><img src="qm_15.png"></a>
+                        <b>Active Companies per month</b>
                     </i>
+                    <div class="MetricsEvol" data-data-source="scm"
+                         data-metrics="scm_companies" data-legend="false" style="height: 80px;"></div>
                 </div>
-                <!-- end commits -->
-
-                <div class="span2" id="companies_legend"></div>
-
-                <!-- authors -->
-                <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="scm"
-                         data-metric="scm_authors" data-filter="companies" data-limit="10"
-                         data-order-by="scm_commits" data-legend="false"></div>
-                    <i>
-                        <b>Authors per company (aggregated)</b>
-                        <a href="notes.html#note:charts:companies:authors"><img src="qm_15.png"></a></i>
-                </div>
-                <!-- end authors -->
             </div>
-            <!-- commits,authors companies -->
+            <!-- end info text -->           
+
 
             <!-- list of companies -->
             <div id="nav" class="row-fluid">
-                 <div class="FilterItemsNav" data-data-source="scm"
-                      data-filter="companies" data-order-by="scm_commits"></div>
+                <div class="FilterItemsNav" data-data-source="scm"
+                     data-order-by="scm_commits" data-filter="companies" style="align: center"></div>                  
             </div>
-             <!-- end list of companies -->
+            <!-- end list of companies -->
 
-            <!-- companies commits per repository -->
+
+            <!-- commits, authors company -->
+            <div class="well">
+                <div id="summary-static" class="row-fluid">
+                    <!-- commits -->
+                    <div class="span1"></div>
+                    <div class="span4">
+                        <i>
+                            <b>Commits per company (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="scm"
+                             data-metric="scm_commits" data-filter="companies"
+                             data-legend-div="companies_legend" data-limit="10"
+                             data-order-by="scm_commits">
+                        </div>
+                    </div>
+                    <!-- end commits -->
+
+                    <div class="span2" id="companies_legend"></div>
+
+                    <!-- authors -->
+                    <div class="span4">
+                        <i>
+                            <b>Authors per company (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="scm"
+                             data-metric="scm_authors" data-filter="companies"
+                             data-legend="false" data-limit="10"
+                             data-order-by="scm_commits"></div>
+                    </div>
+                    <!-- end authors -->
+                    <div class="span1"></div>
+                </div>
+            </div>
+            <!-- end commits, authors company -->
+            
+            <div id="summary-static" class="row-fluid"></div>
+
+            <!-- commits per company -->
             <div id="list" class="row-fluid">
                 <div class="FilterItemsMiniCharts" data-data-source="scm"
-                     data-filter="companies" data-metrics="scm_commits,scm_authors"
-                     data-order-by="scm_commits"></div>
+                     data-metrics="scm_commits,scm_authors" data-filter="companies"
+                     data-order-by="scm_commits">
+                </div>
             </div>
-            <!-- end companies commits per repository -->
+            <!-- end commits per company -->
 
             <footer>
                 <div id="Footer"></div>
