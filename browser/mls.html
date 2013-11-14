@@ -55,60 +55,66 @@
                 <!-- right column -->
                 <div class="span6">
                     <!-- stats -->
-                    <div class="stats" style="padding:20px 11px 0 0;">
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="mls_repositories"></span>
-                                </strong>
-                            </div>
-                            <div class="span4">mailing lists</div>
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="mls_threads"></span>
-                                </strong>
-                            </div>
-                            <div class="span4">threads</div>
-                        </div>
-
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="thread_size_avg"></span>
-                                </strong>
-                            </div>
-                            <div class="span3">number of messages per thread</div>
-                            <div class="span1"></div>
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="mls_sent"></span>
-                                </strong>
-                            </div>
-                            <div class="span3">emails sent</div>
-                        </div>
-
-                        <div class="row-fluid">
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="thread_persons_avg"></span>
-                                </strong>
-                            </div>
-                            <div class="span3">people per thread in avg.</div>
-                            <div class="span1"></div>
-                            <div class="span2">
-                                <strong class="count">
-                                    <span class="GlobalData" data-data-source="mls"
-                                          data-field="mls_senders"></span>
-                                </strong>
-                            </div>
-                            <div class="span3">total people sending emails</div>
-                        </div>
+                    <div class="row-fluid">
+                        <table class="table table-striped">
+                            <tr><td><strong>Mailing lists</strong> (updated on <span class="GlobalData" data-data-source="mls"
+                                                                                     data-field="last_date"></span>)</td></tr>
+                        </table>               
                     </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        <span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_repositories"></span>
+                                    </td>
+                                    <td>
+                                        mailing lists
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+					<span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_threads"></span>                                		
+                                    </td>
+                                    <td>threads</td>			                                
+                                </tr>
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="mls"
+                                              data-field="thread_size_avg"></span>                                		
+                                    </td>
+                                    <td>messages/thread</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="span6">
+                            <table class="table table-striped">
+                                <tr>
+	                            <td><span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_companies"></span></td>
+                                    <td>companies</td>
+                                </tr>                                
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_senders"></span>                                		
+                                    </td>
+                                    <td>total people sending messages</td>
+                                </tr>                                
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_senders_7"></span>                                		
+                                    </td>
+                                    <td>people sending messages last week</td>
+                                </tr>
+                            </table>
+                        </div>                        
+                    </div>
+
                     <!-- end stats -->
 
                     <!-- top senders -->
@@ -135,6 +141,12 @@
                 <div class="span6"></div>
             </div>
             <!-- end time to attention -->
+
+            <div class="row-fluid" style="margin-top:10px;">
+                <div class="span12">
+                    <div id="Refcard"></div>
+                </div>
+            </div>
 
             <footer>
                 <div id="Footer"></div>
