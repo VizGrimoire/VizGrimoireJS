@@ -33,7 +33,6 @@ var Dashboard = {};
         var projects = {};
         $.each(Report.getDataSources(), function(index, ds) {
             var repos = ds.getReposData();
-            // if (order) repos = DataProcess.sortRepos(ds,order);
             if (limit) repos = repos.slice(0,limit-1);
             projects[ds.getName()] = repos;
         });
