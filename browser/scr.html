@@ -19,127 +19,140 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
-            <!-- summary, reviews, patches -->
+            <!-- commits, authors, stats, top authors -->
             <div class="row-fluid">
 
-                <!-- summary -->
-                <div class="span2">
-                    <h4>Source Code Review: Gerrit</h4>
-                    <div class="Summary" data-data-source="scr"></div>
-                </div>
-                <!-- end summary -->
+                <!-- left column -->
+                <div class="span6">
 
-                <!-- reviews, patches -->
-                <div class="span10">
                     <div class="row-fluid">
-
-                        <!-- left column - reviews -->
-                        <div class="span6">
-                            <h4>REVIEWS</h4>
-
-                            <!-- submissions -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_submitted"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Submissions per week</b></i>
-                            </div>
-                            <!-- end submissions -->
-
-                            <!-- opened -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_opened"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Remaining Opened</b></i>
-                            </div>
-                            <!-- end opened -->
-
-                            <!-- merged -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_merged"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Merged</b></i>
-                            </div>
-                            <!-- end merged -->
-
-                            <!-- abandoned -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_abandoned"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Abandoned</b></i>
-                            </div>
-                            <!-- end abandoned -->
-
-                            <!-- closed -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_closed"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Closed</b></i>
-                            </div>
-                            <!-- end closed -->
-
+                        <div class="well">
+                            <div class="MetricsEvol" data-data-source="scr"
+                                 data-metrics="scr_submitted,scr_merged"
+                                 data-min="true" data-legend="true" style="height:120px;"
+                                 data-frame-time="true" data-help="true"></div>
+                            <div class="MicrodashText" data-metric="scr_submitted"></div>
+                            <div class="MicrodashText" data-metric="scr_merged"></div>
                         </div>
-                        <!-- end left column - reviews -->
-
-                        <!-- right column - patches -->
-                        <div class="span6">
-                            <h4>PATCHES</h4>
-
-                            <!-- verified -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_verified"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Verified</b></i>
-                            </div>
-                            <!-- end verified -->
-
-                            <!-- approved -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_approved"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Approved</b></i>
-                            </div>
-                            <!-- end approved -->
-
-                            <!-- code review -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_codereview"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Code Review</b></i>
-                            </div>
-                            <!-- end code review -->
-
-                            <!-- sent patches -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_sent"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Sent</b></i>
-                            </div>
-                            <!-- end sent patches -->
-
-                            <!-- waiting for reviewer -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_WaitingForReviewer"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Waiting For Reviewer</b></i>
-                            </div>
-                            <!-- end waiting for reviewer -->
-
-                            <!-- waiting for submitter -->
-                            <div class="stats">
-                                <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_WaitingForSubmitter"
-                                     data-legend="false" data-help="true"></div>
-                                <i><b>Waiting for submitter</b></i>
-                            </div>
-                            <!-- end waiting for submitter -->
-
-                        </div>
-                         <!-- end right column - patches -->
                     </div>
-                </div>
-                <!-- end reviews, patches -->
 
+                    <div class="row-fluid">
+                        <div class="well">
+                            <div class="MetricsEvol" data-data-source="scr" data-metrics="scr_opened"
+                                 data-min="true" data-legend="true" style="height:120px;"                             
+                                 data-frame-time="true"></div>
+                            <div class="MicrodashText" data-metric="scr_opened"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- end left column -->
+
+                <!-- right column -->
+                <div class="span6">
+
+                    <div class="row-fluid">
+                        <table class="table table-striped">
+                            <tr><td><strong>Source code review</strong> (updated on <span class="GlobalData" data-data-source="scr"
+                                                                                          data-field="last_date"></span>)</td></tr>
+                        </table>               
+                    </div>
+
+                    <div class="row-fluid">
+                        <div class="span6">
+                            <table class="table table-striped">
+                                <tr>
+                                    <td>
+                                        <span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_repositories"></span>
+                                    </td>
+                                    <td>
+                                        repositories
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+					<span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_new"></span>                                		
+                                    </td>
+                                    <td>new code reviews</td>			                                
+                                </tr>
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_WaitingForReviewer"></span>                                		
+                                    </td>
+                                    <td>code reviews waiting for reviewer</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="scr"
+                                              data-field="reviewers"></span>                                		
+                                    </td>
+                                    <td>total code reviewers</td>
+                                </tr>                                
+                            </table>
+                        </div>
+                        
+                        <div class="span6">
+
+                            <table class="table table-striped">
+                                <tr>
+	                            <td><span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_companies"></span></td>
+                                    <td>companies</td>
+                                </tr>                                
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_merged"></span>                                		
+                                    </td>
+                                    <td>accepted contributions</td>
+                                </tr>                                
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_WaitingForSubmitter"></span>                                		
+                                    </td>
+                                    <td>code reviews waiting for submitter</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                	<span class="GlobalData" data-data-source="scr"
+                                              data-field="scr_reviewers_7"></span>                                		
+                                    </td>
+                                    <td>code reviewers last week</td>
+                                </tr>  
+                            </table>
+                        </div>                        
+                    </div>
+                    
+                    <!-- end stats -->
+
+                    <!-- top authors -->
+                    <!--<div class="Top" data-data-source="scm" data-graph="bars"
+                        data-metric="authors" data-limit="10"
+                        data-people_links="false" ></div>-->
+                    <div class="row-fluid">
+                    	<div class="span6">
+                    	    <div class="Top" data-data-source="scr" data-metric="openers"></div>                    		
+                    	</div>
+                        <div class="span6">                    		
+                    	    <div class="Top" data-data-source="scr" data-metric="mergers"></div>                    		
+                    	</div>
+                    </div>
+                    <!-- end top authors -->
+
+                </div>
+                <!-- end right column -->
             </div>
-            <!-- end summary, reviews, patches -->
+            <!-- end commits, authors, stats, top authors -->
+
+            <div class="row-fluid" style="margin-top:10px;">
+                <div class="span12">
+                    <div id="Refcard"></div>
+                </div>
+            </div>
 
             <footer>
                 <div id="Footer"></div>

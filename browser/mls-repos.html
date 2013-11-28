@@ -19,79 +19,85 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
+            <div class="row-fluid"><h4>Information about all repositories</h4></div>
             <!-- info text -->
             <div id="info" class="row-fluid">
-            <h4>Information about all repositories</h4>
-            Some charts and tables for top repositories in the project, and a summary
-            of the evolution of their participation with links to more detailed
-            information per repository.
-            </div>
-           <!-- end info text -->
-
-            <!-- evolution #repositories -->
-            <div id="summary-evol" class="row-fluid">
-                <!-- graph -->
-                <div class="span6">
-                    <div class="MetricsEvol" data-data-source="mls" data-metrics="mls_repositories"
-                         data-legend="false" data-help="true"></div>
-                    <i><b>Active Repositories per month</b></i>
-                    <a href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
-                </div>
-                <!-- end graph -->
-
-                <div class="span6">
-                    <div class="FilterItemsSummary" data-filter="repos"
-                         data-data-source="mls"></div>
-                </div>
-            </div>
-            <!-- end evolution #repositories -->
-
-            <!-- sent msgs, senders per repositories -->
-            <div id="summary-static" class="row-fluid">
-
-                <!-- sent messages -->
                 <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="mls" data-metric="mls_sent"
-                         data-filter="repos" data-legend-div="repos_legend"
-                         data-limit="10" data-order-by="mls_sent"></div>
-                    <i>
-                        <b>Sent per repository (aggregated)</b>
-                        <a href="notes.html#note:charts:repositories:sent"> <img src="qm_15.png"></a>
-                    </i>
+                    Some charts and tables for top repositories in the project, and a summary
+                    of the evolution of their participation with links to more detailed
+                    information per repository.
                 </div>
-                <!-- end sent messages -->
-
-                <div class="span2" id="repos_legend"></div>
-
-                <!-- senders -->
-                <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="mls" data-metric="mls_senders"
-                         data-filter="repos" data-legend="false"
-                         data-limit="10" data-order-by="mls_sent"></div>
+                <div class="span7">
+                    <!-- evolution #repositories -->
                     <i>
-                        <b>Senders per repository (aggregated)</b>
-                        <a href="notes.html#note:charts:repositories:senders"><img src="qm_15.png"></a>
+                        <b>Active Repositories per month</b>
                     </i>
+                    <div class="MetricsEvol" data-data-source="mls"
+                         data-metrics="mls_repositories" data-legend="false" style="height: 80px;"></div>
                 </div>
-                <!-- end senders -->
-
             </div>
-            <!-- end sent msgs, senders per repositories -->
+            <!-- end info text -->           
+
 
             <!-- list of repositories -->
             <div id="nav" class="row-fluid">
                 <div class="FilterItemsNav" data-data-source="mls"
-                     data-order-by="mls_sent" data-filter="repos"></div>
+                     data-order-by="mls_sent" data-filter="repos" style="align: center"></div>                  
             </div>
             <!-- end list of repositories -->
 
-            <!-- repositories charts -->
+
+            <!-- sent, senders repository -->
+            <div class="well">
+                <div id="summary-static" class="row-fluid">
+                    <!-- sent -->
+                    <div class="span1"></div>
+                    <div class="span4">
+                        <i>
+                            <b>Messages per repository (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="mls"
+                             data-metric="mls_sent" data-filter="repos"
+                             data-legend-div="repos_legend" data-limit="10"
+                             data-order-by="mls_sent">
+                        </div>
+                    </div>
+                    <!-- end sent -->
+
+                    <div class="span2" id="repos_legend"></div>
+
+                    <!-- senders -->
+                    <div class="span4">
+                        <i>
+                            <b>Senders per repository (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="mls"
+                             data-metric="mls_senders" data-filter="repos"
+                             data-legend="false" data-limit="10"
+                             data-order-by="mls_sent"></div>
+                    </div>
+                    <!-- end senders -->
+                    <div class="span1"></div>
+                </div>
+            </div>
+            <!-- end sent, senders repository -->
+            
+            <div id="summary-static" class="row-fluid"></div>
+
+            <!-- sent per repository -->
             <div id="list" class="row-fluid">
                 <div class="FilterItemsMiniCharts" data-data-source="mls"
                      data-metrics="mls_sent,mls_senders" data-filter="repos"
-                     data-order-by="mls_sent"></div>
+                     data-order-by="mls_sent">
+                </div>
             </div>
-            <!-- end repositories charts -->
+            <!-- end sent per repository -->
+
+            <div class="row-fluid" style="margin-top:10px;">
+                <div class="span12">
+                    <div id="Refcard"></div>
+                </div>
+            </div>
 
             <footer>
                 <div id="Footer"></div>

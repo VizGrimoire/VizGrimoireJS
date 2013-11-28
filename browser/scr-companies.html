@@ -19,79 +19,79 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
-            <div class="row-fluid"><h4>Information about all repositories</h4></div>
+            <div class="row-fluid"><h4>Information about all companies</h4></div>
             <!-- info text -->
             <div id="info" class="row-fluid">
                 <div class="span5">
-                    Some charts and tables for top repositories in the project, and a summary
+                    Some charts and tables for top companies in the project, and a summary
                     of the evolution of their participation with links to more detailed
-                    information per repository.
+                    information per company.
                 </div>
                 <div class="span7">
-                    <!-- evolution #repositories -->
+                    <!-- evolution #companies -->
                     <i>
-                        <b>Active Repositories per month</b>
+                        <b>Active Companies per month</b>
                     </i>
-                    <div class="MetricsEvol" data-data-source="scm"
-                         data-metrics="scm_repositories" data-legend="false" style="height: 80px;"></div>
+                    <div class="MetricsEvol" data-data-source="scr"
+                         data-metrics="scr_companies" data-legend="false" style="height: 80px;"></div>
                 </div>
             </div>
             <!-- end info text -->           
 
 
-            <!-- list of repositories -->
+            <!-- list of companies -->
             <div id="nav" class="row-fluid">
-                <div class="FilterItemsNav" data-data-source="scm"
-                     data-order-by="scm_commits" data-filter="repos" style="align: center"></div>                  
+                <div class="FilterItemsNav" data-data-source="scr"
+                     data-order-by="scr_submitted" data-filter="companies" style="align: center"></div>                  
             </div>
-            <!-- end list of repositories -->
+            <!-- end list of companies -->
 
 
-            <!-- commits, authors repository -->
+            <!-- submitted, merged company -->
             <div class="well">
                 <div id="summary-static" class="row-fluid">
-                    <!-- commits -->
+                    <!-- submitted -->
                     <div class="span1"></div>
                     <div class="span4">
                         <i>
-                            <b>Commits per repository (aggregated)</b>
+                            <b>Submitted per company (aggregated)</b>
                         </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_commits" data-filter="repos"
-                             data-legend-div="repos_legend" data-limit="10"
-                             data-order-by="scm_commits">
+                        <div class="FilterItemsGlobal" data-data-source="scr"
+                             data-metric="scr_submitted" data-filter="companies"
+                             data-legend-div="companies_legend" data-limit="10"
+                             data-order-by="scr_submitted">
                         </div>
                     </div>
-                    <!-- end commits -->
+                    <!-- end submitted -->
 
-                    <div class="span2" id="repos_legend"></div>
+                    <div class="span2" id="companies_legend"></div>
 
-                    <!-- authors -->
+                    <!-- merged -->
                     <div class="span4">
                         <i>
-                            <b>Authors per repository (aggregated)</b>
+                            <b>Merged per company (aggregated)</b>
                         </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_authors" data-filter="repos"
+                        <div class="FilterItemsGlobal" data-data-source="scr"
+                             data-metric="scr_merged" data-filter="companies"
                              data-legend="false" data-limit="10"
-                             data-order-by="scm_commits"></div>
+                             data-order-by="scr_submitted"></div>
                     </div>
-                    <!-- end authors -->
+                    <!-- end merged -->
                     <div class="span1"></div>
                 </div>
             </div>
-            <!-- end commits, authors repository -->
+            <!-- end submitted, merged company -->
             
             <div id="summary-static" class="row-fluid"></div>
 
-            <!-- commits per repository -->
+            <!-- submitted per company -->
             <div id="list" class="row-fluid">
-                <div class="FilterItemsMiniCharts" data-data-source="scm"
-                     data-metrics="scm_commits,scm_authors" data-filter="repos"
-                     data-order-by="scm_commits">
+                <div class="FilterItemsMiniCharts" data-data-source="scr"
+                     data-metrics="scr_submitted,scr_merged" data-filter="companies"
+                     data-order-by="scr_submitted">
                 </div>
             </div>
-            <!-- end commits per repository -->
+            <!-- end submitted per company -->
 
             <div class="row-fluid" style="margin-top:10px;">
                 <div class="span12">

@@ -1,126 +1,129 @@
 <!DOCTYPE html>
 
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta charset="utf-8"/>
-        <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" type="text/css" id="theme"
-              href="VizGrimoireJS/vizgrimoire2.css"/>
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" type="text/css" href="custom.css"/>
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
-              rel="stylesheet"/>
-        <link rel="shortcut icon" href="favicon.png"/>
-    </head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" id="theme"
+  href="VizGrimoireJS/vizgrimoire2.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="custom.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
+  rel="stylesheet" />
+<link rel="shortcut icon" href="favicon.png" />
+</head>
 
-    <body>
-        <div class="container-narrow">
-            <div id="Navbar"></div>
+<body>
+  <div class="container-narrow">
+    <div id="Navbar"></div>
 
-            <div class="row-fluid">
+    <div class="row-fluid">
 
-                <!-- summary, tops -->
-                <div class="span2">
-                    <div class="FilterItemSummary" data-data-source="scm" data-filter="companies"></div>
-                    <h4>Top authors (total)<a href="notes.html#note:tables:company:authors"><img src="qm_15.png"></a></h4>
-                    <div class="FilterItemTop" data-data-source="scm"
-                         data-metric="scm_authors" data-period="all"
-                         data-titles="false" data-filter="companies"></div>
-                </div>
-                <!-- end summary, tops -->
+      <!-- summary, tops -->
+      <div class="span2">
+        <div class="FilterItemSummary" data-data-source="scm"
+          data-filter="companies"></div>
+        <h4>
+          Top authors (total)<a href="notes.html#note:tables:company:authors"><img
+            src="qm_15.png"></a>
+        </h4>
+        <div class="FilterItemTop" data-data-source="scm"
+          data-metric="scm_authors" data-period="all" data-titles="false"
+          data-filter="companies"></div>
+      </div>
+      <!-- end summary, tops -->
 
-                <!-- charts -->
-                <div class="span10">
+      <!-- charts -->
+      <div class="span10">
 
-                    <!-- scm charts -->
-                    <div class="row-fluid">
+        <!-- scm charts -->
+        <div class="row-fluid">
 
-                        <!-- commits -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="scm"
-                                 data-metrics="scm_commits" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-                        <!-- end commits -->
+          <!-- commits -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scm"
+              data-metrics="scm_commits" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+          <!-- end commits -->
 
-                        <!-- authors -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="scm"
-                                 data-metrics="scm_authors" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-                        <!-- end authors -->
+          <!-- authors -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scm"
+              data-metrics="scm_authors" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+          <!-- end authors -->
 
-                        <!-- end added, removed lines -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="scm"
-                                 data-metrics="scm_added_lines,scm_removed_lines"
-                                 data-legend="true" data-filter="companies"></div>
-                        </div>
-                        <!-- end added,removed lines -->
+          <!-- end added, removed lines -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scm"
+              data-metrics="scm_added_lines,scm_removed_lines"
+              data-legend="true" data-filter="companies"></div>
+          </div>
+          <!-- end added,removed lines -->
 
-                    </div>
-                    <!-- end scm charts -->
-
-                    <!-- its charts -->
-                    <div class="row-fluid">
-
-                        <!-- end closed, opened tickets -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="its"
-                                 data-metrics="its_closed,its_opened" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-                        <!-- end closed, opened tickets -->
-
-                        <!-- closers, openers -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="its"
-                                 data-metrics="its_closers,its_openers" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-                        <!-- end closers, openers -->
-
-                        <div class="span4"></div>
-                    </div>
-                    <!-- end its charts -->
-
-                    <!-- mls charts -->
-                    <div class="row-fluid">
-
-                        <!-- sent msgs -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="mls"
-                                 data-metrics="mls_sent" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-
-                        <!-- senders -->
-                        <div class="span4">
-                            <div class="FilterItemMetricsEvol" data-data-source="mls"
-                                 data-metrics="mls_senders" data-legend="true"
-                                 data-filter="companies"></div>
-                        </div>
-                        <!-- end senders -->
-
-                        <div class="span4"></div>
-                    </div>
-                    <!-- end mls charts -->
-
-                </div>
-                <!-- end charts -->
-
-            </div>
-
-            <footer>
-                <div id="Footer"></div>
-            </footer>
         </div>
+        <!-- end scm charts -->
 
-        <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
-    </body>
+        <!-- its charts -->
+        <div class="row-fluid">
+
+          <!-- end closed, opened tickets -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="its"
+              data-metrics="its_closed,its_opened" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+          <!-- end closed, opened tickets -->
+
+          <!-- closers, openers -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="its"
+              data-metrics="its_closers,its_openers" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+          <!-- end closers, openers -->
+
+          <div class="span4"></div>
+        </div>
+        <!-- end its charts -->
+
+        <!-- mls charts -->
+        <div class="row-fluid">
+
+          <!-- sent msgs -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="mls"
+              data-metrics="mls_sent" data-legend="true" data-filter="companies"></div>
+          </div>
+
+          <!-- senders -->
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="mls"
+              data-metrics="mls_senders" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+          <!-- end senders -->
+
+          <div class="span4"></div>
+        </div>
+        <!-- end mls charts -->
+
+      </div>
+      <!-- end charts -->
+
+    </div>
+
+    <footer>
+      <div id="Footer"></div>
+    </footer>
+  </div>
+
+  <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire2.min.js"></script>
+</body>
 </html>

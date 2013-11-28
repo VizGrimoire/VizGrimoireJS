@@ -19,79 +19,85 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
+            <div class="row-fluid"><h4>Information about all repositories</h4></div>
             <!-- info text -->
             <div id="info" class="row-fluid">
-                <h4>Information about all repositories</h4>
-                Some charts and tables for top repositories in the project, and a summary
-                of the evolution of their participation with links to more detailed
-                information per repository.
-            </div>
-            <!-- end info text -->
-
-            <!-- evolution #repositories -->
-            <div id="summary-evol" class="row-fluid">
-                <!-- graph -->
-                <div class="span6">
-                    <div class="MetricsEvol" data-data-source="its" data-metrics="its_repositories"
-                         data-legend="false" data-help="true"></div>
-                    <i><b>Active Repositories per month</b></i>
-                    <a href="notes.html#note:charts:repositories"><img src="qm_15.png"></a>
-                </div>
-                <!-- end graph -->
-
-                <div class="span6">
-                    <div class="FilterItemsSummary" data-filter="repos"
-                         data-data-source="its"></div>
-                </div>
-            </div>
-            <!-- end evolution #repositories -->
-
-            <!-- closed tickets, closers per repositories -->
-            <div id="summary-static" class="row-fluid">
-
-                <!-- closed tickets -->
                 <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="its" data-metric="its_closed"
-                         data-filter="repos" data-legend-div="repos_legend"
-                         data-limit="10" data-order-by="its_closed"></div>
-                    <i>
-                        <b>Closed per repository (aggregated)</b>
-                        <a href="notes.html#note:charts:repositories:closed"> <img src="qm_15.png"></a>
-                    </i>
+                    Some charts and tables for top repositories in the project, and a summary
+                    of the evolution of their participation with links to more detailed
+                    information per repository.
                 </div>
-                <!-- end closed tickets -->
-
-                <div class="span2" id="repos_legend"></div>
-
-                <!-- closers -->
-                <div class="span5">
-                    <div class="FilterItemsGlobal" data-data-source="its" data-metric="its_closers"
-                         data-filter="repos" data-legend="false"
-                         data-limit="10" data-order-by="its_closed"></div>
+                <div class="span7">
+                    <!-- evolution #repositories -->
                     <i>
-                        <b>Closers per repository (aggregated)</b>
-                        <a href="notes.html#note:charts:repositories:closers"><img src="qm_15.png"></a>
+                        <b>Active Repositories per month</b>
                     </i>
+                    <div class="MetricsEvol" data-data-source="its"
+                         data-metrics="its_repositories" data-legend="false" style="height: 80px;"></div>
                 </div>
-                <!-- end closers -->
-
             </div>
-            <!-- end closed tickets, closers per repositories -->
+            <!-- end info text -->           
+
 
             <!-- list of repositories -->
             <div id="nav" class="row-fluid">
                 <div class="FilterItemsNav" data-data-source="its"
-                     data-order-by="its_closed" data-filter="repos"></div>
+                     data-order-by="its_commits" data-filter="repos" style="align: center"></div>                  
             </div>
             <!-- end list of repositories -->
 
-            <!-- repositories charts -->
+
+            <!-- commits, closers repository -->
+            <div class="well">
+                <div id="summary-static" class="row-fluid">
+                    <!-- closed -->
+                    <div class="span1"></div>
+                    <div class="span4">
+                        <i>
+                            <b>Closed per repository (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="its"
+                             data-metric="its_closed" data-filter="repos"
+                             data-legend-div="repos_legend" data-limit="10"
+                             data-order-by="its_closed">
+                        </div>
+                    </div>
+                    <!-- end closed -->
+
+                    <div class="span2" id="repos_legend"></div>
+
+                    <!-- closers -->
+                    <div class="span4">
+                        <i>
+                            <b>Closers per repository (aggregated)</b>
+                        </i>
+                        <div class="FilterItemsGlobal" data-data-source="its"
+                             data-metric="its_closers" data-filter="repos"
+                             data-legend="false" data-limit="10"
+                             data-order-by="its_closed"></div>
+                    </div>
+                    <!-- end closers -->
+                    <div class="span1"></div>
+                </div>
+            </div>
+            <!-- end closed, closers repository -->
+            
+            <div id="summary-static" class="row-fluid"></div>
+
+            <!-- closed per repository -->
             <div id="list" class="row-fluid">
                 <div class="FilterItemsMiniCharts" data-data-source="its"
                      data-metrics="its_closed,its_closers" data-filter="repos"
-                     data-order-by="its_closed"></div>
+                     data-order-by="its_closed">
+                </div>
             </div>
-            <!-- end repositories charts -->
+            <!-- end closed per repository -->
+
+            <div class="row-fluid" style="margin-top:10px;">
+                <div class="span12">
+                    <div id="Refcard"></div>
+                </div>
+            </div>
 
             <footer>
                 <div id="Footer"></div>
