@@ -197,10 +197,7 @@ h3 {
 
 
 /* BOOTSTRAP */
-
-/* Menu overlap */
 body {
-  padding-top: 60px;
   padding-bottom: 40px;
 }
 .sidebar-nav {
@@ -243,12 +240,6 @@ body {
 
 .basic-metric-html {
     width: 150px;
-}
-
-.m0-box-div {
-    height: 130px;
-    float: left;
-    margin-bottom: 20px;
 }
 
 .scm-flotr2-metrics,
