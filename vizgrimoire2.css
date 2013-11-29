@@ -350,7 +350,7 @@ h3 {
 
 .subreport-list {height:120px;}
 
-.subreport-list-item {float:right;height:100px;width:40%;}/* Shared CSS Style in all Envision Bitergia Reports */
+.subreport-list-item {float:right;height:80px;width:100%;}/* Shared CSS Style in all Envision Bitergia Reports */
 
 .envision-component-container {
     width: 325px;
@@ -424,3 +424,20 @@ h3 {
     height: 40px;
   }
 } */
+
+.table td.respository-name{ 
+  padding: 30px 0 0 10px;                           
+}
+
+.table-repositories{ 
+  margin-top: 30px;
+}
+
+.pagination{ 
+  margin-top: 10px;
+  float: left;
+}
+.pagination-text{ 
+  padding: 25px 0 0 20px; 
+  float: left;
+}
