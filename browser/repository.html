@@ -31,8 +31,20 @@
           <div class="FilterItemSummary" data-data-source="its"
             data-filter="repos"></div>
         </div>
+        <div class="row-fluid">
+          <div class="FilterItemSummary" data-data-source="scr"
+            data-filter="repos"></div>
+        </div>
+        <div class="row-fluid">
+          <div class="FilterItemSummary" data-data-source="irc"
+            data-filter="repos"></div>
+        </div>
+        <div class="row-fluid">
+          <div class="FilterItemSummary" data-data-source="mls"
+            data-filter="repos"></div>
+        </div>
       </div>
-      <!-- end scm, its summaries-->
+      <!-- end summaries-->
 
       <!-- charts -->
       <div class="span10">
@@ -92,6 +104,46 @@
 
         </div>
         <!-- end its-->
+
+        <!-- scr -->
+        <div class="row-fluid">
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scr"
+              data-metrics="scr_submitted,scr_merged,scr_abandoned"
+              data-legend="true" data-filter="repos" data-frame-time="true"></div>
+          </div>
+        </div>
+        <!-- end scr-->
+
+        <!-- irc -->
+        <div class="row-fluid">
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="irc"
+              data-metrics="irc_sent"
+              data-legend="true" data-filter="repos" data-frame-time="true"></div>
+          </div>
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="irc"
+              data-metrics="irc_senders"
+              data-legend="true" data-filter="repos" data-frame-time="true"></div>
+          </div>
+        </div>
+        <!-- end irc-->
+
+        <!-- mls -->
+        <div class="row-fluid">
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="mls"
+              data-metrics="mls_sent"
+              data-legend="true" data-filter="repos" data-frame-time="true"></div>
+          </div>
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="mls"
+              data-metrics="mls_senders"
+              data-legend="true" data-filter="repos" data-frame-time="true"></div>
+          </div>
+        </div>
+        <!-- end mls-->
 
       </div>
       <!-- end charts -->
