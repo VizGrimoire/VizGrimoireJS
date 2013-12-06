@@ -25,6 +25,25 @@
       <!-- left column -->
       <div class="span6">
 
+         <div class="row-fluid">
+            <div class="well">
+              <div class="MetricsEvol" data-data-source="scr"
+              data-metrics="pending" data-min="true"
+              data-legend="true" data-convert="aggregate"
+              style="height: 120px;" data-frame-time="true"></div>
+              <div class="MicrodashText" data-metric="pending"></div>
+            </div>
+         </div>
+
+         <div class="row-fluid">
+            <div class="well">
+               <div class="MetricsEvol" data-data-source="scr"
+               data-metrics="review_time_days_avg" data-min="true"
+               data-legend="true" data-frame-time="true"></div>
+            </div>
+            <div class="MicrodashText" data-metric="review_time_days_avg"></div>
+         </div>
+
         <div class="row-fluid">
           <div class="well">
             <div class="MetricsEvol" data-data-source="scr"
@@ -33,20 +52,21 @@
               data-help="true"></div>
             <div class="MicrodashText" data-metric="scr_submitted"></div>
             <div class="MicrodashText" data-metric="scr_merged"></div>
+            <div class="MicrodashText" data-metric="scr_abandoned"></div>
           </div>
         </div>
 
         <div class="row-fluid">
           <div class="well">
             <div class="MetricsEvol" data-data-source="scr"
-              data-metrics="scr_opened" data-min="true" data-legend="true"
-              style="height: 120px;" data-frame-time="true"></div>
-            <div class="MicrodashText" data-metric="scr_opened"></div>
-            <div class="MetricsEvol" data-data-source="scr"
-              data-metrics="pending" data-legend="true" data-convert="aggregate"
-              style="height: 120px;" data-frame-time="true"></div>
+              data-metrics="new_changes,merged_changes,abandoned_changes" data-min="true"
+              data-legend="true" data-frame-time="true"></div>
+            <div class="MicrodashText" data-metric="new_changes"></div>
+            <div class="MicrodashText" data-metric="merged_changes"></div>
+            <div class="MicrodashText" data-metric="abandoned_changes"></div>
           </div>
         </div>
+
 
       </div>
       <!-- end left column -->
