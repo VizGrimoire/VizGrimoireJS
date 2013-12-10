@@ -21,25 +21,15 @@
 
     <div class="row-fluid">
 
-      <!-- summary, tops -->
-      <div class="span2">
-        <div class="FilterItemSummary" data-data-source="scm"
-          data-filter="companies"></div>
-        <h4>
-          Top authors (total)<a href="notes.html#note:tables:company:authors"><img
-            src="qm_15.png"></a>
-        </h4>
-        <div class="FilterItemTop" data-data-source="scm"
-          data-metric="scm_authors" data-period="all" data-titles="false"
-          data-filter="companies"></div>
-      </div>
-      <!-- end summary, tops -->
-
       <!-- charts -->
-      <div class="span10">
+      <div class="span12">
 
         <!-- scm charts -->
         <div class="row-fluid">
+          <div class="span2">
+            <div class="FilterItemSummary" data-data-source="scm"
+              data-filter="companies"></div>
+          </div>
 
           <!-- commits -->
           <div class="span4">
@@ -58,18 +48,29 @@
           <!-- end authors -->
 
           <!-- end added, removed lines -->
-          <div class="span4">
+          <!--           <div class="span3">
             <div class="FilterItemMetricsEvol" data-data-source="scm"
               data-metrics="scm_added_lines,scm_removed_lines"
               data-legend="true" data-filter="companies"></div>
           </div>
+ -->
           <!-- end added,removed lines -->
+
+          <div class="span2">
+            <div class="FilterItemTop" data-data-source="scm"
+              data-metric="scm_authors" data-period="all" data-titles="false"
+              data-filter="companies"></div>
+          </div>
 
         </div>
         <!-- end scm charts -->
 
         <!-- its charts -->
         <div class="row-fluid">
+          <div class="span2">
+            <div class="FilterItemSummary" data-data-source="its"
+              data-filter="companies"></div>
+          </div>
 
           <!-- end closed, opened tickets -->
           <div class="span4">
@@ -85,14 +86,23 @@
               data-metrics="its_closers,its_openers" data-legend="true"
               data-filter="companies"></div>
           </div>
-          <!-- end closers, openers -->
 
-          <div class="span4"></div>
+          <div class="span2">
+            <div class="FilterItemTop" data-data-source="its"
+              data-metric="its_closers" data-period="all" data-titles="false"
+              data-filter="companies"></div>
+
+            <!-- end closers, openers -->
+          </div>
         </div>
         <!-- end its charts -->
 
         <!-- mls charts -->
         <div class="row-fluid">
+          <div class="span2">
+            <div class="FilterItemSummary" data-data-source="mls"
+              data-filter="companies"></div>
+          </div>
 
           <!-- sent msgs -->
           <div class="span4">
@@ -108,19 +118,52 @@
           </div>
           <!-- end senders -->
 
-          <div class="span4"></div>
+          <div class="span2">
+            <div class="FilterItemTop" data-data-source="mls"
+              data-metric="mls_senders" data-period="all" data-titles="false"
+              data-filter="companies"></div>
+          </div>
+
         </div>
         <!-- end mls charts -->
+
+        <div class="row-fluid">
+          <div class="span2">
+            <div class="FilterItemSummary" data-data-source="scr"
+              data-filter="companies"></div>
+          </div>
+
+          <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scr"
+              data-metrics="scr_submitted,scr_merged" data-legend="true" data-filter="companies"></div>
+          </div>
+
+<!--           <div class="span4">
+            <div class="FilterItemMetricsEvol" data-data-source="scr"
+              data-metrics="scr_mergers" data-legend="true"
+              data-filter="companies"></div>
+          </div>
+ -->
+
+<!--           <div class="span2">
+            <div class="FilterItemTop" data-data-source="scr"
+              data-metric="scr_senders" data-period="all" data-titles="false"
+              data-filter="companies"></div>
+          </div>
+ -->
+        </div>
+        <!-- end mls charts -->
+
+
 
       </div>
       <!-- end charts -->
 
     </div>
-
-    <footer>
-      <div id="Footer"></div>
-    </footer>
   </div>
+  <footer>
+    <div id="Footer"></div>
+  </footer>
 
   <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
   <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
