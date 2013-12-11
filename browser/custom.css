@@ -1,4 +1,6 @@
-.FilterItemSummary {
+.FilterItemSummary,
+.PersonSummary
+ {
     font-size:0.875em;
 }
 
