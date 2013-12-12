@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<title></title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="stylesheet" type="text/css" id="theme"
+  href="VizGrimoireJS/vizgrimoire.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="custom.css" />
+<link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
+  rel="stylesheet" />
+<link rel="shortcut icon" href="favicon.png" />
+</head>
+
+<body>
+  <div class="container-narrow">
+    <div id="Navbar"></div>
+
+    <!--  SCM -->
+    <div class="row-fluid">
+      <div class="span2">
+        <div class="span2">
+          <div class="FilterItemSummary" data-data-source="scm"
+            data-filter="countries"></div>
+        </div>
+      </div>
+      <div class="span10">
+        <div class="span5">
+          <div class="row-fluid">
+            <div class="FilterItemMetricsEvol" data-data-source="scm"
+              data-metrics="scm_commits" data-filter="countries"
+              data-legend="false" data-help="false"></div>
+          </div>
+        </div>
+        <div class="span5">
+          <div class="FilterItemMetricsEvol" data-data-source="scm"
+            data-metrics="scm_authors" data-filter="countries"
+            data-legend="false" data-help="false"></div>
+        </div>
+      </div>
+    </div>
+    <!--  end SCM -->
+
+    <!--  ITS -->
+    <div class="row-fluid">
+      <div class="span2">
+        <div class="span2">
+          <div class="FilterItemSummary" data-data-source="its"
+            data-filter="countries"></div>
+        </div>
+      </div>
+      <div class="span10">
+        <div class="span5">
+          <div class="row-fluid">
+            <div class="FilterItemMetricsEvol" data-data-source="its"
+              data-metrics="its_closed" data-filter="countries"
+              data-legend="false" data-help="false"></div>
+          </div>
+        </div>
+        <div class="span5">
+          <div class="FilterItemMetricsEvol" data-data-source="its"
+            data-metrics="its_closers" data-filter="countries"
+            data-legend="false" data-help="false"></div>
+        </div>
+      </div>
+    </div>
+    <!--  end ITS -->
+
+    <!--  MLS -->
+    <div class="row-fluid">
+      <div class="span2">
+        <div class="span2">
+          <div class="FilterItemSummary" data-data-source="mls"
+            data-filter="countries"></div>
+        </div>
+      </div>
+      <div class="span10">
+        <div class="span5">
+          <div class="row-fluid">
+            <div class="FilterItemMetricsEvol" data-data-source="mls"
+              data-metrics="mls_sent" data-filter="countries"
+              data-legend="false" data-help="false"></div>
+          </div>
+        </div>
+        <div class="span5">
+          <div class="FilterItemMetricsEvol" data-data-source="mls"
+            data-metrics="mls_senders" data-filter="countries"
+            data-legend="false" data-help="false"></div>
+        </div>
+      </div>
+    </div>
+    <!--  end MLS -->
+
+    <footer>
+      <div id="Footer"></div>
+    </footer>
+  </div>
+
+  <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
+  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+</body>
+</html>
