@@ -244,19 +244,18 @@
                 "filter":{
                     "help":"Filter to be used (companies, countries, repos)."
                 },
-                "limit":{
-                    "help":""
-                },
                 "metric":{
                     "help":""
                 },
-                "order_by":{
-                    "help":"Deprecated. Don't use."
+                "start":{
+                    "help":"Start date in unixtime."
+                },
+                "end":{
+                    "help":"End date in unixtime."
                 },
                 "stacked":{
                     "help":"Show lines overlapped or stacked."
                 }
-                
             }
         },
         "FilterItemsGlobal":{
