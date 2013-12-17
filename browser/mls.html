@@ -74,43 +74,32 @@
                                         mailing lists
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-					<span class="GlobalData" data-data-source="mls"
-                                              data-field="mls_threads"></span>                                		
-                                    </td>
-                                    <td>threads</td>			                                
-                                </tr>
-                                <tr>
-                                    <td>
-                                	<span class="GlobalData" data-data-source="mls"
-                                              data-field="thread_size_avg"></span>                                		
-                                    </td>
-                                    <td>messages/thread</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="span6">
-                            <table class="table table-striped">
-                                <tr>
-	                            <td><span class="GlobalData" data-data-source="mls"
-                                              data-field="mls_companies"></span></td>
-                                    <td>companies</td>
-                                </tr>                                
-                                <tr>
+										<tr>
                                     <td>
                                 	<span class="GlobalData" data-data-source="mls"
                                               data-field="mls_senders"></span>                                		
                                     </td>
-                                    <td>total people sending messages</td>
-                                </tr>                                
+                                    <td>total partipants</td>
+                                </tr>                              
+                            </table>
+                        </div>
+                        <div class="span6">
+                            <table class="table table-striped">
+                            		<tr>
+                                <td>
+                                	<span class="GlobalData" data-data-source="mls"
+                                              data-field="mls_sent_7"></span>                                		
+                                    </td>
+                                    <td>messages last week</td>
+                                </tr>
                                 <tr>
-                                    <td>
+                                <td>
                                 	<span class="GlobalData" data-data-source="mls"
                                               data-field="mls_senders_7"></span>                                		
                                     </td>
-                                    <td>people sending messages last week</td>
-                                </tr>
+                                    <td>participants last week</td>
+                                </tr>                                                      
+                                
                             </table>
                         </div>                        
                     </div>
@@ -118,9 +107,9 @@
                     <!-- end stats -->
 
                     <!-- top senders -->
-                    <div class="Top" data-data-source="mls" data-graph="bars"
-                         data-metric="senders" data-limit="10"
-                         data-people_links="false" ></div>
+                    <div class="Top" data-data-source="mls" data-period="last month"
+                         data-metric="senders" data-limit="9"
+                         data-people_links="true" ></div>
                     <!-- end senders-->
 
                 </div>
@@ -134,8 +123,9 @@
                 <div class="span6">
                     <div class="well">
                         <h4>Time to Attention of Messages</h4>
+                        * (in hours)
                         <div class="TimeTo" data-data-source="mls" data-type="attention"
-                             data-quantil="X0.99,X0.95,X0.5,X0.25"></div>
+                             data-quantil="X0.95,X0.5"></div>
                     </div>
                 </div>
                 <div class="span6"></div>
