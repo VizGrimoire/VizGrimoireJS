@@ -89,6 +89,9 @@
                 "data-source":{
                     "help":"Data Source to be used."
                 },
+                "graph":{
+                    "help":"Use bars to change from lines to bars."
+                },
                 "help":{
                     "help":"Show button to open help dialog."
                 },
