@@ -303,7 +303,8 @@ body {
 
 .demographic-bars,
 .Demographics {
-    width:400px;height:200px;
+    width:250px;
+    height:200px;
 }
 
 .subreport-list-item {
@@ -525,7 +526,8 @@ width: 100%;
     font-weight: bold;
     padding: 0;
                                             }
-/* end from gb*//* Shared CSS Style in all Envision Bitergia Reports */
+/* end from gb*/
+/* Shared CSS Style in all Envision Bitergia Reports */
 
 .envision-component-container {
     width: 325px;
