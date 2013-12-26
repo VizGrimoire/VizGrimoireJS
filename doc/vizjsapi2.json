@@ -304,9 +304,6 @@
                 },
                 "page":{
                     "help":"Page to be shown."
-                },
-                "order_by":{
-                    "help":"Deprecated. Don't use."
                 }
             }
         },
