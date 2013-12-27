@@ -292,7 +292,7 @@
                     "help":"div where the legend should be shown."
                 }
             }
-        },                        
+        },
         "FilterItemsNav":{
             "help": "Show a navigation bar with links to items (companies, repos, countries) details.",
             "params":{
@@ -328,7 +328,10 @@
                 "show_links":{
                     "help":"Show URL links to items specific pages."
                 }
-            }        
+            }
+        },
+        "FilterItemData":{
+            "help": "Show global data (name) for an item (company, repo, country)"
         },
         "FilterItemSummary":{
             "help": "Show all global metrics for an item (company, repo, country)",
