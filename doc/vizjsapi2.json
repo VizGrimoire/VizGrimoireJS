@@ -327,6 +327,12 @@
                 },
                 "show_links":{
                     "help":"Show URL links to items specific pages."
+                },
+                "start":{
+                    "help":"Start date for the charts."
+                },
+                "end":{
+                    "help":"End date for the charts."
                 }
             }
         },
