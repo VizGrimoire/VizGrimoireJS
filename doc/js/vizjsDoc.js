@@ -3,7 +3,7 @@ var vizjsDoc = {};
 (function() {
 
     var div_sectios, div_display, div_syntax, div_params;
-    
+
     function getMethodDesc(method_name) {
         var method_desc;
         $.each(vizjsDoc.API.sections, function(section, contents) {
@@ -19,12 +19,12 @@ var vizjsDoc = {};
         var contents = "<ul>";
         $.each(params, function(param, desc) {
             contents += "<li>"+param;
-            if (desc.help) contents += ": "+desc.help;            
+            if (desc.help) contents += ": "+desc.help;
             contents += "</li>";
             if (param === "data-source")
                 $("#"+divid).attr("data-"+param,"scm");
             if (param === "data-source" && divid === "TimeTo")
-                $("#"+divid).attr("data-"+param,"its");                
+                $("#"+divid).attr("data-"+param,"its");
             if (param === "radius")
                 $("#"+divid).attr("data-"+param,"0.5");
             if (param === "file" && divid === "Treemap")
@@ -39,6 +39,8 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"scm_commits,scm_authors");
             if (param === "period")
                 $("#"+divid).attr("data-"+param,"Year");
+            if (param === "period" && divid === "Top")
+                $("#"+divid).attr("data-"+param,"last year");
             if (param === "period" && divid === "Demographics")
                 $("#"+divid).attr("data-"+param,"0.25");
             if (param === "field")
@@ -83,7 +85,7 @@ var vizjsDoc = {};
         new_div += " class='"+method;
         if (desc.classCSS) new_div += " " + desc.classCSS;
         new_div += "'></div>";
-        var convertFn = Convert["convert"+method];        
+        var convertFn = Convert["convert"+method];
         if (!convertFn) return;
         $("#"+div_params).empty();
         $("#"+div_display).empty();
@@ -91,7 +93,7 @@ var vizjsDoc = {};
         $("#"+div_syntax_help).empty();
         $("#"+div_display).append(new_div);
         if (desc.help) {
-            $("#"+div_syntax_help).append(desc.help);       
+            $("#"+div_syntax_help).append(desc.help);
         }
         if (desc.params) {
             $("#"+method).addClass(method);
@@ -100,7 +102,7 @@ var vizjsDoc = {};
         $("#"+div_syntax).append(htmlEscape($("#"+method).parent().html()));
         convertFn();
     };
-    
+
     vizjsDoc.build = function() {
         var sections = "";
         $.each(vizjsDoc.API.sections, function(section, contents) {
@@ -113,7 +115,7 @@ var vizjsDoc = {};
         });
         $("#"+div_sections).append(sections);
     };
-    
+
     vizjsDoc.show = function(divid, divdisplay, divSyntax, 
             divSyntaxHelp, divParams) {
         div_sections = divid;

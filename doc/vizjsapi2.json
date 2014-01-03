@@ -38,7 +38,7 @@
                 "data-source":{
                     "help":"Data Source to be used"
                 }
-            }        
+            }
         }
     },
     "GlobalMetrics":{
@@ -77,7 +77,6 @@
                 }
             }
         }
-        
     },
     "EvolMetrics":{
         "MetricsEvol":{
@@ -212,7 +211,7 @@
                 "person_name":{
                     "help":"Person name to be used in labels."
                 }
-            }        
+            }
         },
         "Demographics":{
             "help": "Show a bars graph with the demography data in JSON file, grouping using period of times (years)",
@@ -226,8 +225,8 @@
                 "period":{
                     "help":"Number of years to group items together (0.25 for quarters)."
                 }
-            }        
-        }        
+            }
+        }
     },
     "FilterStudy":{
         "FilterItemsSummary":{
@@ -396,7 +395,7 @@
                 }
             }
         }
-    }   
-}, 
-"api_ver":"2.0"
+    }
+},
+"api_ver":"2.1"
 }
