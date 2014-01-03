@@ -179,6 +179,9 @@
                 }
             }
         },
+        "PersonData":{
+            "help": "Show name, email and identities for a person."
+        },
         "PersonMetrics":{
             "help": "Show time evolution metric for a person.",
             "params":{
