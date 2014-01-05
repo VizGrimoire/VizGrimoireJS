@@ -117,6 +117,10 @@ var vizjsDoc = {};
             // Temporal hack because FilterItem functions are called one time
             convertFn(filter, item);
         }
+        else if (method.indexOf("Microdash") === 0) {
+            convertFn();
+            Convert.convertMetricsEvol();
+        }
         else
             convertFn();
     };
