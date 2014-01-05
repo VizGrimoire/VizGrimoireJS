@@ -32,8 +32,6 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"0.5");
             if (param === "file" && divid === "Treemap")
                 $("#"+divid).attr("data-"+param,"treemap.json");
-            if (param === "file" && divid === "Demographics")
-                $("#"+divid).attr("data-"+param,"data/json/scm-demographics-aging.json");
             if (param === "metric")
                 $("#"+divid).attr("data-"+param,"scm_commits");
             if (param === "metric" && divid === "Top")
@@ -50,6 +48,8 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"scm_commits");
             if (param === "type")
                 $("#"+divid).attr("data-"+param,"fix");
+            if (param === "type" && divid === "Demographics")
+            $("#"+divid).attr("data-"+param,"aging");
             if (param === "quantil")
                 $("#"+divid).attr("data-"+param,"X0.99,X0.95");
             if (param === "person_id")

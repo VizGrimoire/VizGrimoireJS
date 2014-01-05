@@ -219,10 +219,10 @@
             "help": "Show a bars graph with the demography data in JSON file, grouping using period of times (years)",
             "params":{
                 "data-source":{
-                    "help":"Data Source to be used"
+                    "help":"Data Source to be used."
                 },
-                "file":{
-                    "help":"JSON file URL with the data about demographics."
+                "type":{
+                    "help":"aging or birth."
                 },
                 "period":{
                     "help":"Number of years to group items together (0.25 for quarters)."
