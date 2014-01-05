@@ -4,6 +4,9 @@ var vizjsDoc = {};
 
     var div_sectios, div_display, div_syntax, div_params;
 
+    // Items to show as example. Depends on tests data to be available.
+    var upeople_id = "13";
+
     function getMethodDesc(method_name) {
         var method_desc;
         $.each(vizjsDoc.API.sections, function(section, contents) {
@@ -50,9 +53,7 @@ var vizjsDoc = {};
             if (param === "quantil")
                 $("#"+divid).attr("data-"+param,"X0.99,X0.95");
             if (param === "person_id")
-                $("#"+divid).attr("data-"+param,"1");
-            if (param === "person_name")
-                $("#"+divid).attr("data-"+param,"Person1");
+                $("#"+divid).attr("data-"+param, upeople_id);
             if (param === "filter")
                 $("#"+divid).attr("data-"+param,"repos");
             if (param === "page")
@@ -100,7 +101,11 @@ var vizjsDoc = {};
             addParamsDiv(method, desc.params);
         }
         $("#"+div_syntax).append(htmlEscape($("#"+method).parent().html()));
-        convertFn();
+        if (method === "PersonMetrics" || method === "PersonSummary")
+            // Data need to be loaded first
+            Convert.convertPeople(upeople_id)
+        else
+            convertFn();
     };
 
     vizjsDoc.build = function() {

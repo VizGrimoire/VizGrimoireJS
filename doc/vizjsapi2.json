@@ -180,7 +180,12 @@
             }
         },
         "PersonData":{
-            "help": "Show name, email and identities for a person."
+            "help": "Show name, email and identities for a person.",
+            "params":{
+                "person_id":{
+                    "help":"Person id according to JSON data."
+                }
+            }
         },
         "PersonMetrics":{
             "help": "Show time evolution metric for a person.",
@@ -196,9 +201,6 @@
                 },
                 "person_id":{
                     "help":"Person id according to JSON data."
-                },
-                "person_name":{
-                    "help":"Person name to be used in labels."
                 }
             }
         },
@@ -210,9 +212,6 @@
                 },
                 "person_id":{
                     "help":"Person id according to JSON data."
-                },
-                "person_name":{
-                    "help":"Person name to be used in labels."
                 }
             }
         },
