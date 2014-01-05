@@ -383,6 +383,9 @@
                 "titles":{
                     "help":"Show titles or just table data."
                 },
+                "data-source":{
+                    "help":"Data Source to be used"
+                },
                 "filter":{
                     "help":"Filter to be used (companies, countries, repos)."
                 },

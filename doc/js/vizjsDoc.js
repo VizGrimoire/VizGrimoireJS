@@ -6,6 +6,10 @@ var vizjsDoc = {};
 
     // Items to show as example. Depends on tests data to be available.
     var upeople_id = "13";
+    // var filter = "repos";
+    var filter = "companies";
+    // var item = "DonationInterface.git";
+    var item = "users";
 
     function getMethodDesc(method_name) {
         var method_desc;
@@ -34,13 +38,15 @@ var vizjsDoc = {};
                 $("#"+divid).attr("data-"+param,"treemap.json");
             if (param === "metric")
                 $("#"+divid).attr("data-"+param,"scm_commits");
+            if (param === "metric" && divid === "FilterItemTop")
+                $("#"+divid).attr("data-"+param,"scm_authors");
             if (param === "metric" && divid === "Top")
                 $("#"+divid).attr("data-"+param,"authors");
             if (param === "metrics")
                 $("#"+divid).attr("data-"+param,"scm_commits,scm_authors");
             if (param === "period")
                 $("#"+divid).attr("data-"+param,"Year");
-            if (param === "period" && divid === "Top")
+            if (param === "period" && (divid === "Top" || divid === "FilterItemTop"))
                 $("#"+divid).attr("data-"+param,"last year");
             if (param === "period" && divid === "Demographics")
                 $("#"+divid).attr("data-"+param,"0.25");
@@ -55,11 +61,11 @@ var vizjsDoc = {};
             if (param === "person_id")
                 $("#"+divid).attr("data-"+param, upeople_id);
             if (param === "filter")
-                $("#"+divid).attr("data-"+param,"repos");
+                $("#"+divid).attr("data-"+param, filter);
             if (param === "page")
                 $("#"+divid).attr("data-"+param,"1");
             if (param === "item")
-                $("#"+divid).attr("data-"+param,"DonationInterface.git");
+                $("#"+divid).attr("data-"+param,item);
             if (param === "graph")
                 $("#"+divid).attr("data-"+param,"bars");
             if (param === "people_links")
@@ -101,9 +107,16 @@ var vizjsDoc = {};
             addParamsDiv(method, desc.params);
         }
         $("#"+div_syntax).append(htmlEscape($("#"+method).parent().html()));
+        // Some widgets needs data to be loaded first
         if (method === "PersonMetrics" || method === "PersonSummary")
-            // Data need to be loaded first
             Convert.convertPeople(upeople_id)
+        else if (method.indexOf("FilterItems") === 0)
+            Convert.convertFilterStudy(filter);
+        else if (method.indexOf("FilterItem") === 0) {
+            Convert.convertFilterStudyItem(filter, item);
+            // Temporal hack because FilterItem functions are called one time
+            convertFn(filter, item);
+        }
         else
             convertFn();
     };
