@@ -221,9 +221,6 @@
                 "data-source":{
                     "help":"Data Source to be used."
                 },
-                "type":{
-                    "help":"aging or birth."
-                },
                 "period":{
                     "help":"Number of years to group items together (0.25 for quarters)."
                 }
@@ -402,5 +399,5 @@
         }
     }
 },
-"api_ver":"2.1"
+"api_ver":"2.2"
 }
