@@ -149,7 +149,7 @@ body {
 }
 
 
-/* 
+/*
         FOOTER COMPONENTS
 */
 
@@ -161,7 +161,7 @@ body {
 
 
 /*
-        TEXT 
+        TEXT
 */
 
 h1 {
@@ -218,12 +218,12 @@ body {
    height: 28px;
    width: 28px;
 }this does not work... this takes a bigger area in the png...*/
-.icon-circle-arrow-up{
-    background-color:#9FF781;
+.fa-angle-up{
+    color:green;
 }
 
-.icon-circle-arrow-down{
-    background-color:#F78181;
+.fa-angle-down{
+    color:red;
 }
 
 /* General viz sizes */
@@ -359,20 +359,20 @@ body {
 
 .subreport-list-item {float:right;height:80px;width:100%;}
 
-.table td.respository-name{ 
+.table td.respository-name{
   padding: 30px 0 0 10px;
 }
 
-.table-repositories{ 
+.table-repositories{
   margin-top: 30px;
 }
 
-.pagination{ 
+.pagination{
   margin-top: 10px;
   float: left;
 }
-.pagination-text{ 
-  padding: 25px 0 0 20px; 
+.pagination-text{
+  padding: 25px 0 0 20px;
   float: left;
 }
 
@@ -421,7 +421,7 @@ body {
     color: #555555;
 }
 
-.fppercent{ 
+.fppercent{
     font-size: 1.1em;
 }
 
@@ -531,12 +531,12 @@ width: 100%;
 
 .envision-component-container {
     width: 325px;
-    height : 50px;	
+    height : 50px;
 }
 
 .envision-component-container.envision-first {
     width: 325px;
-    height : 200px;			
+    height : 200px;
 }
 
 .envision-component {
@@ -559,7 +559,7 @@ width: 100%;
   border-top: 0px;
 }
  */
- 
+
 /* Connection overlay */
 .milestone0-connection .canvas {
   z-index: 10;
@@ -579,7 +579,7 @@ width: 100%;
 /* Mouse Tracker */
 .envision-component-container.envision-first .flotr-mouse-value {
     font-size: 12px;
-    display:inline;    
+    display:inline;
 }
 
 .envision-component-container .flotr-mouse-value
@@ -590,9 +590,9 @@ width: 100%;
 /* @media screen and (max-width: 600px) {
   .milestone0-scm-commits {
     width: 100%;
-  }  
- 
-  .milestone0-scm-commits .envision-component 
+  }
+
+  .milestone0-scm-commits .envision-component
    {
     height: 120px;
   }
