@@ -1,0 +1,12 @@
+.GlobalData, .medium-fp-number {
+    font-weight: bold;
+}
+.summary_box .span4, .summary_box .span6 {
+    font-size: .85em;
+    text-align: center;
+}
+
+.fppercent {
+    font-size: .8em;
+    display: block;
+}
