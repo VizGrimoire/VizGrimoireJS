@@ -3,7 +3,7 @@
     "its_opened" : {
         "divid" : "its_opened",
         "column" : "opened",
-        "name" : "Opened",
+        "name" : "Opened tickets",
         "desc" : "Number of opened tickets",
         "envision" : {
             "y_labels" : true,
@@ -13,7 +13,7 @@
     "its_openers" : {
         "divid" : "its_openers",
         "column" : "openers",
-        "name" : "Openers",
+        "name" : "Ticket submitters",
         "desc" : "Unique identities opening tickets",
         "action" : "opened",
         "envision" : {
@@ -23,13 +23,13 @@
     "its_closed" : {
         "divid" : "its_closed",
         "column" : "closed",
-        "name" : "Closed",
+        "name" : "Closed tickets",
         "desc" : "Number of closed tickets"
     },
     "its_closers" : {
         "divid" : "its_closers",
         "column" : "closers",
-        "name" : "Closers",
+        "name" : "People closing tickets",
         "desc" : "Number of identities closing tickets",
         "action" : "closed",
         "envision" : {
@@ -39,13 +39,13 @@
     "its_changed" : {
         "divid" : "its_changed",
         "column" : "changed",
-        "name" : "Changed",
+        "name" : "Changed tickets",
         "desc" : "Number of changes to the state of tickets"
     },
     "its_changers" : {
         "divid" : "its_changers",
         "column" : "changers",
-        "name" : "Changers",
+        "name" : "People changing tickets",
         "desc" : "Number of identities changing the state of tickets",
         "action" : "changed",
         "envision" : {
@@ -264,7 +264,7 @@
         "divid" : "scr_mergers",
         "column" : "mergers",
         "name" : "mergers",
-        "action" : "merged"
+        "action" : "merged",
         "desc" : ""
     },
     "scr_opened" : {
