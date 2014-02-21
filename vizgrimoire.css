@@ -69,7 +69,7 @@
 .MetricsEvol,
 .PersonMetrics,
 .TimeTo {
-	   height:150px;
+	   height:250px;
 }
 
 .FilterItemsMetricsEvol,
@@ -424,8 +424,26 @@ body {
 .fppercent{ 
     font-size: 1.1em;
 }
+.zeropercent{ 
+    font-size: 1.1em;
+}
+.pospercent{ 
+    font-size: 1.1em;
+    color: green;
+}
+.negpercent{ 
+    font-size: 1.1em;
+    color: red;
+}
+.fa-arrow-circle-down{
+     color: red;}
+.fa-arrow-circle-up{
+     color:green;  }
 
-.dayschange{ font-size: 0.85em; }
+.MicrodashText { /*trends*/
+  text-align: center;}
+
+.dayschange{ font-size: 0.75em; }
 
 .wellmin { ;modify .well from Bootstrap
   min-height: 20px;
@@ -586,6 +604,10 @@ width: 100%;
  {
   display: none;
 }
+
+.flotr-title{ 
+  float: left;
+ }
 
 /* @media screen and (max-width: 600px) {
   .milestone0-scm-commits {
