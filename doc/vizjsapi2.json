@@ -277,17 +277,11 @@
                 "filter":{
                     "help":"Filter to be used (companies, countries, repos)."
                 },
-                "limit":{
-                    "help":"Max number of items to be shown."
-                },
                 "metric":{
                     "help":"Metric to be shown."
                 },
                 "order_by":{
-                    "help":"Deprecated. Don't use."
-                },
-                "show_others":{
-                    "help":"Show aggregate data with the rest out of limit."
+                    "help":"Order by a supported metric. All widgets for a data source and filter must have the same order."
                 },
                 "graph":{
                     "help":"pie or bar chart."
