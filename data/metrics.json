@@ -94,7 +94,7 @@
         "divid" : "mls_senders",
         "column" : "senders",
         "name" : "Message posters",
-        "desc" : "Number of people posting messages in mailing list(s)",
+        "desc" : "Number of persons posting messages in mailing list(s)",
         "action" : "sent"
     },
     "mls_threads" : {
@@ -202,7 +202,7 @@
         "divid" : "scm_people",
         "column" : "people",
         "name" : "Persons",
-        "desc" : "Number of people active in changing code (authors, committers)"
+        "desc" : "Number of persons active in changing code (authors, committers)"
     }
 },
 "scr": {
@@ -217,7 +217,7 @@
         "column" : "mergers",
         "name" : "Successful submitters",
         "action" : "merged",
-        "desc" : "Number of people submitting changes that got accepted"
+        "desc" : "Number of persons submitting changes that got accepted"
     },
     "scr_opened" : {
         "divid" : "scr_opened",
@@ -240,87 +240,81 @@
     "scr_abandoned" : {
         "divid" : "scr_abandoned",
         "column" : "abandoned",
-        "name" : "Abandoned reviews",
+        "name" : "Abandoned",
         "desc" : "Number of abandoned review processes"
     },
     "scr_verified" : {
         "divid" : "scr_verified",
         "column" : "verified",
-        "name" : "Verified changes",
+        "name" : "Verified,
         "desc" : "Number of verified changes"
     },
     "scr_approved" : {
         "divid" : "scr_approved",
         "column" : "approved",
-        "name" : "Approved changes",
-        "desc" : "Number of approved changes"
+        "name" : "Approved",
+        "desc" : "Number of code review processes in approved state"
     },
     "scr_codereview" : {
         "divid" : "scr_codereview",
         "column" : "codereview",
-        "name" : "code review",
-        "desc" : ""
+        "name" : "Code review",
+        "desc" : "Number of code review processes in code review state"
     },
     "scr_WaitingForReviewer" : {
         "divid" : "scr_WaitingForReviewer",
         "column" : "WaitingForReviewer",
-        "name" : "Waiting for Reviewer",
-        "desc" : ""
+        "name" : "Waiting for reviewer",
+        "desc" : "Number of code review processes waiting for reviewer"
     },        
     "scr_WaitingForSubmitter" : {
         "divid" : "scr_WaitingForSubmitter",
         "column" : "WaitingForSubmitter",
-        "name" : "Waiting for Submitter",
-        "desc" : ""
+        "name" : "Waiting for submitter",
+        "desc" : "Number of code review processes waiting for submitter"
     },
     "scr_submitted" : {
         "divid" : "scr_submitted",
         "column" : "submitted",
         "name" : "submitted",
-        "desc" : ""
-    },
-    "scr_sent" : {
-        "divid" : "scr_sent",
-        "column" : "sent",
-        "name" : "sent",
-        "desc" : ""
+        "desc" : "Number of submitted code review processes"
     },
     "scr_companies" : {
         "divid" : "scr_companies",
         "column" : "companies",
-        "name" : "Companies",
-        "desc" : "Number of active companies"
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
     },
     "scr_countries" : {
         "divid" : "scr_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of active countries"
+        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
     },
     "scr_repositories" : {
         "divid" : "scr_repositories",
         "column" : "repositories",
-        "name" : "Respositories",
-        "desc" : "Number of active respositories"
+        "name" : "Repositories",
+        "desc" : "Number of respositories with active code review activities"
     },
     "scr_people" : {
         "divid" : "scr_people",
         "column" : "people",
         "name" : "People",
-        "desc" : "Number of active people"
+        "desc" : "Number of persons active in code review activities"
     },
     "scr_closers" : {
         "divid" : "scr_closers",
         "column" : "closers",
         "name" : "Closers",
-        "desc" : "Reviews closers",
+        "desc" : "Number of persons closing code review processes",
         "action" : "closed"
     },
     "scr_openers" : {
         "divid" : "scr_openers",
         "column" : "openers",
         "name" : "Openers",
-        "desc" : "Reviews openers",
+        "desc" : "Number of persons closing code review processes",
         "action" : "opened"
     }    
 }
