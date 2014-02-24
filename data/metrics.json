@@ -14,7 +14,7 @@
         "divid" : "its_openers",
         "column" : "openers",
         "name" : "Ticket submitters",
-        "desc" : "Unique identities opening tickets",
+        "desc" : "Number of persons submitting new tickets",
         "action" : "opened",
         "envision" : {
             "gtype" : "whiskers"
@@ -29,8 +29,8 @@
     "its_closers" : {
         "divid" : "its_closers",
         "column" : "closers",
-        "name" : "People closing tickets",
-        "desc" : "Number of identities closing tickets",
+        "name" : "Ticket closers",
+        "desc" : "Number of persons closing tickets",
         "action" : "closed",
         "envision" : {
             "gtype" : "whiskers"
@@ -45,8 +45,8 @@
     "its_changers" : {
         "divid" : "its_changers",
         "column" : "changers",
-        "name" : "People changing tickets",
-        "desc" : "Number of identities changing the state of tickets",
+        "name" : "Ticket state changers",
+        "desc" : "Number of persons changing the state of tickets",
         "action" : "changed",
         "envision" : {
             "gtype" : "whiskers"
@@ -55,91 +55,79 @@
     "its_companies" : {
         "divid" : "its_companies",
         "column" : "companies",
-        "name" : "Companies",
-        "desc" : "Number of active companies"
+        "name" : "Organziations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in the ticketing system"
     }, 
     "its_countries" : {
         "divid" : "its_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of active countries"
+        "desc" : "Number of countries with persons active in the ticketing system"
     },
     "its_repositories" : {
         "divid" : "its_repositories",
         "column" : "repositories",
-        "name" : "Respositories",
-        "desc" : "Number of active respositories"
+        "name" : "Trackers",
+        "desc" : "Number of active trackers"
     },
     "its_people" : {
         "divid" : "its_people",
         "column" : "people",
-        "name" : "People",
-        "desc" : "Number of active people"
+        "name" : "Active persons",
+        "desc" : "Number of persons active in the ticketing system"
     }
 },
 "mls": {
-    "mls_repositories" : {
-        "divid" : "mls_repos",
-        "column" : "repositories",
-        "name" : "Repositories",
-        "desc" : "Number of mailing lists"
-    },
     "mls_responses" : {
         "divid" : "mls_responses",
         "column" : "responses",
-        "name" : "Responses",
-        "desc" : "Number of messages that are responses"
+        "name" : "Reply messages",
+        "desc" : "Number of messages that are resplies (not first in thread) in mailing list(s)"
     },
     "mls_sent" : {
         "divid" : "mls_sent",
         "column" : "sent",
-        "name" : "Sent",
-        "desc" : "Number of messages"
+        "name" : "Posted messages",
+        "desc" : "Number of messages posted to mailing list(s)"
     },
     "mls_senders" : {
         "divid" : "mls_senders",
         "column" : "senders",
-        "name" : "Senders",
-        "desc" : "Number of unique message senders",
+        "name" : "Message posters",
+        "desc" : "Number of persons posting messages in mailing list(s)",
         "action" : "sent"
     },
     "mls_threads" : {
         "divid" : "mls_threads",
         "column" : "threads",
-        "name" : "Threads",
-        "desc" : "Number of messages threads"
+        "name" : "Message threads",
+        "desc" : "Number of messages threads in mailing lists"
     },
     "mls_companies" : {
         "divid" : "mls_companies",
         "column" : "companies",
-        "name" : "Companies",
-        "desc" : "Number of active companies"
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in mailing list(s)"
     },
     "mls_countries" : {
         "divid" : "mls_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of active countries"
+        "desc" : "Number of countries (companies, etc.) with persons active in mailing list(s)"
     },
     "mls_repositories" : {
         "divid" : "mls_repositories",
         "column" : "repositories",
-        "name" : "Respositories",
-        "desc" : "Number of active respositories"
+        "name" : "Mailing lists",
+        "desc" : "Number of active mailing lists"
     },
-    "mls_people" : {
-        "divid" : "mls_people",
-        "column" : "people",
-        "name" : "People",
-        "desc" : "Number of active people"
-    }
 },
 "scm": {
     "scm_commits" : {
         "divid" : "scm_commits",
         "column" : "commits",
         "name" : "Commits",
-        "desc" : "Number of commits (aggregating branches)",
+        "desc" : "Number of commits (changes to source code), aggregating all branches",
         "envision" : {
             "y_labels" : true,
             "show_markers" : true
@@ -149,7 +137,7 @@
         "divid" : "scm_committers",
         "column" : "committers",
         "name" : "Committers",
-        "desc" : "Unique committers making changes to the source code",
+        "desc" : "Number of persons committing (merging changes to source code)",
         "action" : "commits",
         "envision" : {
             "gtype" : "whiskers"
@@ -159,38 +147,8 @@
         "divid" : "scm_authors",
         "column" : "authors",
         "name" : "Authors",
-        "desc" : "Unique authors making changes to the source code",
+        "desc" : "Number of persons authoring commits (changes to source code)",
         "action" : "commits",
-        "envision" : {
-            "gtype" : "whiskers"
-        }
-    },
-    "scm_authors_rev" : {
-        "divid" : "scm_authors_rev",
-        "column" : "authors_rev",
-        "name" : "Authors",
-        "desc" : "Unique authors making changes reviewed to the source code",
-        "action" : "commits_rev",
-        "envision" : {
-            "gtype" : "whiskers"
-        }
-    },
-    "scm_commits_rev" : {
-        "divid" : "scm_commits_rev",
-        "column" : "commits_rev",
-        "name" : "Commits Reviewed",
-        "desc" : "Evolution of the number of commits reviewed (aggregating branches)",
-        "envision" : {
-            "y_labels" : true,
-            "show_markers" : true
-        }
-    },
-    "scm_reviewers" : {
-        "divid" : "scm_reviewers",
-        "column" : "reviewers",
-        "name" : "Reviewers",
-        "desc" : "Unique reviewers making reviews to the source code changes",
-        "action" : "commits-rev",
         "envision" : {
             "gtype" : "whiskers"
         }
@@ -199,31 +157,31 @@
         "divid" : "scm_branches",
         "column" : "branches",
         "name" : "Branches",
-        "desc" : "Evolution of the number of branches"
+        "desc" : "Number of active branches"
     },
     "scm_files" : {
         "divid" : "scm_files",
         "column" : "files",
         "name" : "Files",
-        "desc" : "Evolution of the number of unique files handled by the community"
+        "desc" : "Number of files modified by at least one commit"
     },
     "scm_added_lines" : {
         "divid" : "scm_added_lines",
         "column" : "added_lines",
-        "name" : "Lines Added",
-        "desc" : "Source code lines added"
+        "name" : "Lines added",
+        "desc" : "Addition of lines added in all commits"
     },
     "scm_removed_lines" : {
         "divid" : "scm_removed_lines",
         "column" : "removed_lines",
-        "name" : "Lines Removed",
-        "desc" : "Source code lines removed"
+        "name" : "Lines removed",
+        "desc" : "Addition of lines removed in all commits"
     },
     "scm_repositories" : {
         "divid" : "scm_repositories",
         "column" : "repositories",
         "name" : "Repositories",
-        "desc" : "Evolution of the number of repositories",
+        "desc" : "Evolution of the number of source code repositories",
         "envision" : {
             "gtype" : "whiskers"
         }
@@ -231,144 +189,132 @@
     "scm_companies" : {
         "divid" : "scm_companies",
         "column" : "companies",
-        "name" : "Companies",
-        "desc" : "Number of active companies"
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code"
     },
     "scm_countries" : {
         "divid" : "scm_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of active countries"
-    },
-    "scm_repositories" : {
-        "divid" : "scm_repositories",
-        "column" : "repositories",
-        "name" : "Respositories",
-        "desc" : "Number of active respositories"
+        "desc" : "Number of countries (companies, etc.) with persons active in changing code"
     },
     "scm_people" : {
         "divid" : "scm_people",
         "column" : "people",
-        "name" : "People",
-        "desc" : "Number of active people"
+        "name" : "Persons",
+        "desc" : "Number of persons active in changing code (authors, committers)"
     }
 },
 "scr": {
     "scr_merged" : {
         "divid" : "scr_merged",
         "column" : "merged",
-        "name" : "merged",
-        "desc" : ""
+        "name" : "Merged changes",
+        "desc" : "Number of changes merged into the source code"
     },
     "scr_mergers" : {
         "divid" : "scr_mergers",
         "column" : "mergers",
-        "name" : "mergers",
+        "name" : "Successful submitters",
         "action" : "merged",
-        "desc" : ""
+        "desc" : "Number of persons submitting changes that got accepted"
     },
     "scr_opened" : {
         "divid" : "scr_opened",
         "column" : "opened",
-        "name" : "opened",
-        "desc" : ""
+        "name" : "Opened reviews",
+        "desc" : "Number of review processes opened"
     },
     "scr_closed" : {
         "divid" : "scr_closed",
         "column" : "closed",
-        "name" : "closed",
-        "desc" : ""
+        "name" : "Closed reviews",
+        "desc" : "Number of closed review processes (merged or abandoned)"
     },
     "scr_new" : {
         "divid" : "scr_new",
         "column" : "new",
-        "name" : "new",
-        "desc" : ""
+        "name" : "New reviews",
+        "desc" : "Number of new review processes"
     },
     "scr_abandoned" : {
         "divid" : "scr_abandoned",
         "column" : "abandoned",
-        "name" : "abandoned",
-        "desc" : ""
+        "name" : "Abandoned",
+        "desc" : "Number of abandoned review processes"
     },
     "scr_verified" : {
         "divid" : "scr_verified",
         "column" : "verified",
-        "name" : "verified",
-        "desc" : ""
+        "name" : "Verified,
+        "desc" : "Number of verified changes"
     },
     "scr_approved" : {
         "divid" : "scr_approved",
         "column" : "approved",
-        "name" : "approved",
-        "desc" : ""
+        "name" : "Approved",
+        "desc" : "Number of code review processes in approved state"
     },
     "scr_codereview" : {
         "divid" : "scr_codereview",
         "column" : "codereview",
-        "name" : "code review",
-        "desc" : ""
+        "name" : "Code review",
+        "desc" : "Number of code review processes in code review state"
     },
     "scr_WaitingForReviewer" : {
         "divid" : "scr_WaitingForReviewer",
         "column" : "WaitingForReviewer",
-        "name" : "Waiting for Reviewer",
-        "desc" : ""
+        "name" : "Waiting for reviewer",
+        "desc" : "Number of code review processes waiting for reviewer"
     },        
     "scr_WaitingForSubmitter" : {
         "divid" : "scr_WaitingForSubmitter",
         "column" : "WaitingForSubmitter",
-        "name" : "Waiting for Submitter",
-        "desc" : ""
+        "name" : "Waiting for submitter",
+        "desc" : "Number of code review processes waiting for submitter"
     },
     "scr_submitted" : {
         "divid" : "scr_submitted",
         "column" : "submitted",
         "name" : "submitted",
-        "desc" : ""
-    },
-    "scr_sent" : {
-        "divid" : "scr_sent",
-        "column" : "sent",
-        "name" : "sent",
-        "desc" : ""
+        "desc" : "Number of submitted code review processes"
     },
     "scr_companies" : {
         "divid" : "scr_companies",
         "column" : "companies",
-        "name" : "Companies",
-        "desc" : "Number of active companies"
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
     },
     "scr_countries" : {
         "divid" : "scr_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of active countries"
+        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
     },
     "scr_repositories" : {
         "divid" : "scr_repositories",
         "column" : "repositories",
-        "name" : "Respositories",
-        "desc" : "Number of active respositories"
+        "name" : "Repositories",
+        "desc" : "Number of respositories with active code review activities"
     },
     "scr_people" : {
         "divid" : "scr_people",
         "column" : "people",
         "name" : "People",
-        "desc" : "Number of active people"
+        "desc" : "Number of persons active in code review activities"
     },
     "scr_closers" : {
         "divid" : "scr_closers",
         "column" : "closers",
         "name" : "Closers",
-        "desc" : "Reviews closers",
+        "desc" : "Number of persons closing code review processes",
         "action" : "closed"
     },
     "scr_openers" : {
         "divid" : "scr_openers",
         "column" : "openers",
         "name" : "Openers",
-        "desc" : "Reviews openers",
+        "desc" : "Number of persons closing code review processes",
         "action" : "opened"
     }    
 }
