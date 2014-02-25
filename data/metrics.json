@@ -120,7 +120,7 @@
         "column" : "repositories",
         "name" : "Mailing lists",
         "desc" : "Number of active mailing lists"
-    },
+    }
 },
 "scm": {
     "scm_commits" : {
@@ -246,7 +246,7 @@
     "scr_verified" : {
         "divid" : "scr_verified",
         "column" : "verified",
-        "name" : "Verified,
+        "name" : "Verified",
         "desc" : "Number of verified changes"
     },
     "scr_approved" : {
