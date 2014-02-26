@@ -445,6 +445,17 @@ body {
 
 .dayschange{ font-size: 0.75em; }
 
+
+.wellmin2 { 
+    background-color: #F5F5F5;
+    border: 1px solid #E3E3E3;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05) inset;
+    margin-bottom: 15px;
+    min-height: 15px;
+    padding: 15px;
+}
+
 .wellmin { ;modify .well from Bootstrap
   min-height: 20px;
   padding: 8px;
@@ -486,15 +497,10 @@ width: 100%;
      text-align:left;
 }
 
-.grey-border{
-     border-bottom: 3px solid #E3E3E3;
-     text-align:center;
-     padding:12px 0px 0px 0px;
-}
-
 .big-fp-number{
-     font-size:3em;
+     font-size:2em;
      text-align:center;
+     padding:10px 0px 10px 0px;
 }
 
 .medium-fp-number{
@@ -609,6 +615,13 @@ width: 100%;
   float: left;
  }
 
+.text-center{ 
+  text-align: center;
+ }
+
+.text-big{ 
+  font-size: 1.1em;
+ }
 /* @media screen and (max-width: 600px) {
   .milestone0-scm-commits {
     width: 100%;
