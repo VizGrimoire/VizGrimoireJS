@@ -82,11 +82,20 @@
         "MetricsEvol":{
             "help": "Show time evolution of metrics",
             "params":{
-                "metrics":{
-                    "help":"Metrics to be shown."
+                "convert":{
+                    "help":"Convert metrics values (aggregate, substract, divide)."
+                },
+                "custom-title":{
+                    "help":"(optional:text) Shows a customized title."
                 },
                 "data-source":{
                     "help":"Data Source to be used."
+                },
+                "end":{
+                    "help":"End date in unixtime."
+                },
+                "frame-time":{
+                    "help":"Show only the time frame with activity."
                 },
                 "graph":{
                     "help":"Use bars to change from lines to bars."
@@ -94,29 +103,20 @@
                 "help":{
                     "help":"Show button to open help dialog."
                 },
-                "show_legend":{
-                    "help":"Show legend in the graph."
+                "light-style":{
+                    "help":"(optional:boolean) Shows a lighter chart (using grey colors, without legend, etc ..)."
                 },
-                "frame-time":{
-                    "help":"Show only the time frame with activity."
-                },
-                "start":{
-                    "help":"Start date in unixtime."
-                },
-                "end":{
-                    "help":"End date in unixtime."
+                "metrics":{
+                    "help":"Metrics to be shown."
                 },
                 "min":{
                     "help":"Minimized version of the graph."
                 },
-                "convert":{
-                    "help":"Convert metrics values (aggregate, substract, divide)."
+                "show_legend":{
+                    "help":"Show legend in the graph."
                 },
-                "light-style":{
-                    "help":"(optional) Show a lighter chart (using grey colors, without legend, etc ..)."
-                },
-                "custom-title":{
-                    "help":"(optional) Show a customized title."
+                "start":{
+                    "help":"Start date in unixtime."
                 }
             }
         },
