@@ -111,6 +111,9 @@
                 },
                 "convert":{
                     "help":"Convert metrics values (aggregate, substract, divide)."
+                },
+                "light-style":{
+                    "help":"Show a lighter chart (using grey colors, without legend, etc ..)."
                 }
             }
         },
