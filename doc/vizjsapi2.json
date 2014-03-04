@@ -88,6 +88,9 @@
                 "custom-title":{
                     "help":"(optional:text) Shows a customized title."
                 },
+                "custom-help":{
+                    "help":"(optional:text) Shows a customized help message."
+                },
                 "data-source":{
                     "help":"Data Source to be used."
                 },
