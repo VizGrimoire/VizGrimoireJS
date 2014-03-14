@@ -105,9 +105,12 @@
     },
     "mls_threads" : {
         "divid" : "mls_threads",
-        "column" : "threads",
+        "column" : "message_id",
         "name" : "Message threads",
-        "desc" : "Number of messages threads in mailing lists"
+        "desc" : "Number of messages threads in mailing lists 3",
+        "action" : "length",
+        "initiator_name" : "Initiator",
+        "length" : "Messages"
     },
     "mls_companies" : {
         "divid" : "mls_companies",
