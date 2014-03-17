@@ -64,6 +64,12 @@
         "name" : "Countries",
         "desc" : "Number of countries with persons active in the ticketing system"
     },
+    "its_domains" : {
+        "divid" : "its_domains",
+        "column" : "domains",
+        "name" : "Domains",
+        "desc" : "Number of distinct domains with persons active in the ticketing system"
+    },
     "its_repositories" : {
         "divid" : "its_repositories",
         "column" : "repositories",
@@ -116,7 +122,13 @@
         "divid" : "mls_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of countries (companies, etc.) with persons active in mailing list(s)"
+        "desc" : "Number of countries with persons active in mailing list(s)"
+    },
+    "mls_domains" : {
+        "divid" : "mls_domains",
+        "column" : "domains",
+        "name" : "Domains",
+        "desc" : "Number of distinct domains with persons active in mailing list(s)"
     },
     "mls_repositories" : {
         "divid" : "mls_repositories",
@@ -199,7 +211,13 @@
         "divid" : "scm_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of countries (companies, etc.) with persons active in changing code"
+        "desc" : "Number of countries with persons active in changing code"
+    },
+    "scm_domains" : {
+        "divid" : "scm_domains",
+        "column" : "domains",
+        "name" : "Domains",
+        "desc" : "Number of distinct domains with persons active in changing code"
     },
     "scm_people" : {
         "divid" : "scm_people",
@@ -292,7 +310,13 @@
         "divid" : "scr_countries",
         "column" : "countries",
         "name" : "Countries",
-        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
+        "desc" : "Number of countries with persons active in code review"
+    },
+    "scr_domains" : {
+        "divid" : "scr_domains",
+        "column" : "domains",
+        "name" : "Domains",
+        "desc" : "Number of domains with persons active in code review"
     },
     "scr_repositories" : {
         "divid" : "scr_repositories",

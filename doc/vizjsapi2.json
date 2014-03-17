@@ -120,6 +120,9 @@
                 },
                 "start":{
                     "help":"Start date in unixtime."
+                },
+                "remove-last-point":{
+                    "help":"Remove last data point from graph."
                 }
             }
         },
@@ -340,6 +343,9 @@
                 },
                 "end":{
                     "help":"End date for the charts."
+                },
+                "remove-last-point":{
+                    "help":"Remove last data point from graph."
                 }
             }
         },
@@ -380,6 +386,9 @@
                 },
                 "show_legend":{
                     "help":"Show legend."
+                },
+                "remove-last-point":{
+                    "help":"Remove last data point from graph."
                 }
             }
         },
