@@ -177,23 +177,23 @@
                 "data-source":{
                     "help":"Data Source to be used"
                 },
-                "show-all":{
-                    "help":"Show all periods of time available."
-                },
-                "metric":{
-                    "help":"Top metric to be shown."
+                "graph":{
+                    "help":"Add to report table a graph with the data."
                 },
                 "limit":{
                     "help":"Max number of top items to show."
                 },
-                "graph":{
-                    "help":"Add to report table a graph with the data."
+                "metric":{
+                    "help":"Top metric to be shown."
                 },
                 "people_links":{
                     "help":"Show URL links to people pages."
                 },
                 "period":{
                     "help":"Select data from period."
+                },
+                "show-all":{
+                    "help":"Show all periods of time available."
                 }
             }
         },
