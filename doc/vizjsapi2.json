@@ -194,6 +194,9 @@
                 },
                 "show-all":{
                     "help":"Show all periods of time available."
+                },
+                "threads_links":{
+                    "help":"Link the subject of the threads using Google search"
                 }
             }
         },
