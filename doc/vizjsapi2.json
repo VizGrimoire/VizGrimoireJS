@@ -192,6 +192,9 @@
                 "period":{
                     "help":"Select data from period."
                 },
+                "period_all":{
+                    "help":"Boolean. Show all period of time available with tabs"
+                },
                 "show-all":{
                     "help":"Show all periods of time available."
                 },
