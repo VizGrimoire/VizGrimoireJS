@@ -122,16 +122,18 @@
                     <!-- end stats -->
 
                     <!-- top senders -->
-                    <div class="Top" data-data-source="mls" data-period="last month"
-                         data-metric="senders" data-limit="10"
+                    <div class="Top" data-data-source="mls" data-period_all="true"
+                         data-metric="senders" data-limit="5"
                          data-people_links="true" ></div>
                     <!-- end senders-->
 
                     <div class="Top" data-data-source="mls"
                          data-metric="threads"
-                         data-period="last month" <!-- "last year" or ""-->
-                         data-limit="10"
-                         data-people_links="true"></div>
+                         data-period="last year"
+                         data-limit="5"
+                         data-people_links="true"
+                      data-threads_links="true"
+                      ></div>
 
                 </div>
                 <!-- end right column -->
@@ -152,6 +154,6 @@
 
         <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
         <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.js"></script>
     </body>
 </html>
