@@ -69,7 +69,7 @@
 .MetricsEvol,
 .PersonMetrics,
 .TimeTo {
-	   height:250px;
+	   height:150px;
 }
 
 .FilterItemsMetricsEvol,
@@ -421,6 +421,7 @@ body {
     color: #555555;
 }
 
+/* trends/momentos */
 .fppercent{ 
     font-size: 1.1em;
 }
@@ -440,11 +441,12 @@ body {
 .fa-arrow-circle-up{
      color:green;  }
 
-.MicrodashText { /*trends*/
+.MicrodashText {
   text-align: center;}
 
-.dayschange{ font-size: 0.75em; }
+/* end trends */
 
+.dayschange{ font-size: 0.75em; }
 
 .wellmin2 { 
     background-color: #F5F5F5;
@@ -494,19 +496,31 @@ width: 100%;
 }
 .thin-border{
      border-bottom: 1px solid;
-     text-align:left;
+     text-align: center;
+}
+
+.grey-border{
+     border-bottom: 3px solid #E3E3E3;
+     text-align:center;
+     padding:6px 0px 0px 0px;
 }
 
 .big-fp-number{
-     font-size:2em;
+     font-size:3em;
      text-align:center;
      padding:10px 0px 10px 0px;
 }
 
 .medium-fp-number{
      font-size:1.5em;
+     text-align:center;
      padding:5px 0px 0px 0px;
 }
+
+.medium-text{ 
+     font-size: 0.8em;
+}
+
 
 /* from gb*/
 
@@ -551,7 +565,24 @@ width: 100%;
     padding: 0;
                                             }
 /* end from gb*/
-/* Shared CSS Style in all Envision Bitergia Reports */
+
+.flotr-title{ 
+  float: left;
+ }
+
+.text-center{ 
+  text-align: center;
+ }
+
+.text-big{ 
+  font-size: 1.1em;
+ }
+
+/* Bootstrap tabs */
+
+.nav{ 
+  margin-bottom: 2px !important;
+}/* Shared CSS Style in all Envision Bitergia Reports */
 
 .envision-component-container {
     width: 325px;
@@ -611,17 +642,6 @@ width: 100%;
   display: none;
 }
 
-.flotr-title{ 
-  float: left;
- }
-
-.text-center{ 
-  text-align: center;
- }
-
-.text-big{ 
-  font-size: 1.1em;
- }
 /* @media screen and (max-width: 600px) {
   .milestone0-scm-commits {
     width: 100%;
