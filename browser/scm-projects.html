@@ -47,46 +47,46 @@
     <!-- end list of projects -->
 
 
-    <!-- submitted, merged project -->
+    <!-- commits, authors project -->
     <div class="well">
       <div id="summary-static" class="row-fluid">
-        <!-- submitted -->
+        <!-- commits -->
         <div class="span1"></div>
         <div class="span4">
-          <i> <b>Submitted per project (aggregated)</b>
+          <i> <b>Commits per project (aggregated)</b>
           </i>
           <div class="FilterItemsGlobal" data-data-source="scm"
             data-metric="scm_commits" data-filter="projects"
             data-legend-div="projects_legend" data-limit="10"
             data-order-by="scm_commits"></div>
         </div>
-        <!-- end submitted -->
+        <!-- end commits -->
 
         <div class="span2" id="projects_legend"></div>
 
-        <!-- merged -->
+        <!-- authors -->
         <div class="span4">
-          <i> <b>Senders per project (aggregated)</b>
+          <i> <b>Authors per project (aggregated)</b>
           </i>
           <div class="FilterItemsGlobal" data-data-source="scm"
             data-metric="scm_authors" data-filter="projects" data-legend="false"
             data-limit="10" data-order-by="scm_commits"></div>
         </div>
-        <!-- end merged -->
+        <!-- end authors -->
         <div class="span1"></div>
       </div>
     </div>
-    <!-- end submitted, merged project -->
+    <!-- end commits, authors project -->
 
     <div id="summary-static" class="row-fluid"></div>
 
-    <!-- submitted per project -->
+    <!-- commits per project -->
     <div id="list" class="row-fluid">
       <div class="FilterItemsMiniCharts" data-data-source="scm"
         data-metrics="scm_commits,scm_authors"
         data-filter="projects"></div>
     </div>
-    <!-- end submitted per project -->
+    <!-- end commits per project -->
 
     <div class="row-fluid" style="margin-top: 10px;">
       <div class="span12">
