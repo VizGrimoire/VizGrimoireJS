@@ -19,33 +19,14 @@
         <div class="container-narrow">
             <div id="Navbar"></div>
 
-            <div class="row-fluid"><h4>Information about all repositories</h4></div>
-            <!-- info text -->
-            <div id="info" class="row-fluid">
-                <div class="span5">
-                    Some charts and tables for top repositories in the project, and a summary
-                    of the evolution of their participation with links to more detailed
-                    information per repository.
-                </div>
-                <div class="span7">
-                    <!-- evolution #repositories -->
-                    <i>
-                        <b>Active Repositories per month</b>
-                    </i>
-                    <div class="MetricsEvol" data-data-source="scm"
-                         data-metrics="scm_repositories" data-legend="false" style="height: 80px;"></div>
-                </div>
-            </div>
-            <!-- end info text -->           
-
-
+            <div class="row-fluid"><h4>Information about tags used</h4></div>
+            
             <!-- list of repositories -->
             <div id="nav" class="row-fluid">
-                <div class="FilterItemsNav" data-data-source="scm"
-                     data-order-by="scm_commits" data-filter="repos" style="align: center"></div>                  
+                <div class="FilterItemsNav" data-data-source="qaforums"
+                     data-order-by="qaforums_qsent" data-filter="repos" style="align: center"></div>                  
             </div>
             <!-- end list of repositories -->
-
 
             <!-- commits, authors repository -->
             <div class="well">
@@ -54,12 +35,12 @@
                     <div class="span1"></div>
                     <div class="span4">
                         <i>
-                            <b>Commits per repository (aggregated)</b>
+                            <b>Questions per tag (aggregated)</b>
                         </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_commits" data-filter="repos"
+                        <div class="FilterItemsGlobal" data-data-source="qaforums"
+                             data-metric="qaforums_qsent" data-filter="repos"
                              data-legend-div="repos_legend" data-limit="10"
-                             data-order-by="scm_commits">
+                             data-order-by="qaforums_qsent">
                         </div>
                     </div>
                     <!-- end commits -->
@@ -69,12 +50,12 @@
                     <!-- authors -->
                     <div class="span4">
                         <i>
-                            <b>Authors per repository (aggregated)</b>
+                            <b>Authors per tag (aggregated)</b>
                         </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_authors" data-filter="repos"
+                        <div class="FilterItemsGlobal" data-data-source="qaforums"
+                             data-metric="qsenders" data-filter="repos"
                              data-legend="false" data-limit="10"
-                             data-order-by="scm_commits"></div>
+                             data-order-by="qsenders"></div>
                     </div>
                     <!-- end authors -->
                     <div class="span1"></div>
@@ -82,13 +63,13 @@
             </div>
             <!-- end commits, authors repository -->
             
+
             <div id="summary-static" class="row-fluid"></div>
 
             <!-- commits per repository -->
             <div id="list" class="row-fluid">
-                <div class="FilterItemsMiniCharts" data-data-source="scm"
-                     data-metrics="scm_commits,scm_authors" data-filter="repos"
-                     data-order-by="scm_commits">
+                <div class="FilterItemsMiniCharts" data-data-source="qaforums"
+                     data-metrics="qaforums_qsent,qsenders" data-filter="repos">
                 </div>
             </div>
             <!-- end commits per repository -->

@@ -106,6 +106,9 @@
                 "help":{
                     "help":"Show button to open help dialog."
                 },
+                "legend":{
+                    "help":"(optional:boolean) Show legend in the graph."
+                },
                 "light-style":{
                     "help":"(optional:boolean) Shows a lighter chart (using grey colors, without legend, etc ..)."
                 },
@@ -114,9 +117,6 @@
                 },
                 "min":{
                     "help":"Minimized version of the graph."
-                },
-                "show_legend":{
-                    "help":"Show legend in the graph."
                 },
                 "start":{
                     "help":"Start date in unixtime."

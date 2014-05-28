@@ -20,73 +20,79 @@
     <div id="Navbar"></div>
 
     <div class="row-fluid">
-      <h4>Information about all companies</h4>
+      <h4>Information about all projects</h4>
     </div>
     <!-- info text -->
     <div id="info" class="row-fluid">
-      <div class="span5">Some charts and tables for top companies in the
-        project, and a summary of the evolution of their participation with
-        links to more detailed information per company.</div>
+      <div class="span5">Some charts and tables for top projects in
+        the project, and a summary of the evolution of their participation with
+        links to more detailed information per project.</div>
       <div class="span7">
-        <!-- evolution #companies -->
-        <i> <b>Active Companies per month</b>
+        <!-- evolution #projects -->
+        <i> <b>Active Projects per month</b>
         </i>
-        <div class="MetricsEvol" data-data-source="scr"
-          data-metrics="scr_companies" data-legend="false" style="height: 80px;"></div>
+        <div class="MetricsEvol" data-data-source="its"
+          data-metrics="its_projects" data-legend="false"
+          style="height: 80px;"></div>
       </div>
     </div>
     <!-- end info text -->
 
 
-    <!-- list of companies -->
+    <!-- list of projects -->
     <div id="nav" class="row-fluid">
-      <div class="FilterItemsNav" data-data-source="scr"
-        data-order-by="scr_submitted" data-filter="companies"
-        style="align: center"></div>
+      <div class="FilterItemsNav" data-data-source="its"
+        data-order-by="its_closed" data-filter="projects" style="align: center"></div>
     </div>
-    <!-- end list of companies -->
+    <!-- end list of projects -->
 
 
-    <!-- submitted, merged company -->
+    <!-- submitted, merged project -->
     <div class="well">
       <div id="summary-static" class="row-fluid">
         <!-- submitted -->
         <div class="span1"></div>
         <div class="span4">
-          <i> <b>Submitted per company (aggregated)</b>
+          <i> <b>Submitted per project (aggregated)</b>
           </i>
-          <div class="FilterItemsGlobal" data-data-source="scr"
-            data-metric="scr_submitted" data-filter="companies"
-            data-legend-div="companies_legend" data-limit="10"
-            data-order-by="scr_submitted"></div>
+          <div class="FilterItemsGlobal" data-data-source="its"
+            data-metric="its_closed" data-filter="projects"
+            data-legend-div="projects_legend" data-limit="10"
+            data-order-by="its_closed"></div>
         </div>
         <!-- end submitted -->
 
-        <div class="span2" id="companies_legend"></div>
+        <div class="span2" id="projects_legend"></div>
 
         <!-- merged -->
         <div class="span4">
-          <i> <b>Merged per company (aggregated)</b>
+          <i> <b>Senders per project (aggregated)</b>
           </i>
-          <div class="FilterItemsGlobal" data-data-source="scr"
-            data-metric="scr_merged" data-filter="companies" data-legend="false"
-            data-limit="10" data-order-by="scr_submitted"></div>
+          <div class="FilterItemsGlobal" data-data-source="its"
+            data-metric="its_closers" data-filter="projects" data-legend="false"
+            data-limit="10" data-order-by="its_closed"></div>
         </div>
         <!-- end merged -->
         <div class="span1"></div>
       </div>
     </div>
-    <!-- end submitted, merged company -->
+    <!-- end submitted, merged project -->
 
     <div id="summary-static" class="row-fluid"></div>
 
-    <!-- submitted per company -->
+    <!-- submitted per project -->
     <div id="list" class="row-fluid">
-      <div class="FilterItemsMiniCharts" data-data-source="scr"
-        data-metrics="scr_submitted,scr_merged" data-filter="companies"
-        data-order-by="scr_submitted"></div>
+      <div class="FilterItemsMiniCharts" data-data-source="its"
+        data-metrics="its_closed,its_closers"
+        data-filter="projects"></div>
     </div>
-    <!-- end submitted per company -->
+    <!-- end submitted per project -->
+
+    <div class="row-fluid" style="margin-top: 10px;">
+      <div class="span12">
+        <div id="Refcard"></div>
+      </div>
+    </div>
 
     <footer>
       <div id="Footer"></div>
