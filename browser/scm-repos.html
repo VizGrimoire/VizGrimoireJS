@@ -1,105 +1,173 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <meta charset="utf-8"/>
-        <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" type="text/css" id="theme"
-              href="VizGrimoireJS/vizgrimoire.css"/>
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet"/>
-        <link rel="stylesheet" type="text/css" href="custom.css"/>
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
-              rel="stylesheet"/>
-        <link rel="shortcut icon" href="favicon.png"/>
-    </head>
+    <title>Grimoire Dashboard for Eclipse</title>
 
-    <body>
-        <div class="container-narrow">
-            <div id="Navbar"></div>
+    <!-- Bootstrap core CSS -->
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 
-            <div class="row-fluid"><h4>Information about all repositories</h4></div>
-            <!-- info text -->
-            <div id="info" class="row-fluid">
-                <div class="span5">
-                    Some charts and tables for top repositories in the project, and a summary
-                    of the evolution of their participation with links to more detailed
-                    information per repository.
-                </div>
-                <div class="span7">
-                    <!-- evolution #repositories -->
-                    <i>
-                        <b>Active Repositories per month</b>
-                    </i>
-                    <div class="MetricsEvol" data-data-source="scm"
-                         data-metrics="scm_repositories" data-legend="false" style="height: 80px;"></div>
-                </div>
-            </div>
-            <!-- end info text -->           
+    <!-- Custom styles for this template -->
+    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+    
+    <!-- icons -->
+    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+
+    <!-- custom -->
+    <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+  </head>
+<body>
+
+   <div id="Navbar"></div>
+  
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="nav nav-tabs nav-justified">
+                    <li class="active"><a href="scm.html" data-toggle="tab">
+                    		<strong class="GlobalData" data-data-source="scm" data-field="scm_authors"></strong>
+                        <i class="fa fa-users"></i> in<br>
+                        <strong class="GlobalData" data-data-source="scm" data-field="scm_commits"></strong> commits
+                    </a>
+                    </li>
+                    <li><a href="tickets.html" data-toggle="tab">
+                        <strong> - </strong><i class="fa fa-users"></i> in<br>
+                        <strong> - </strong> issues
+                    </a>
+                    </li>
+                    <li><a href="mls.html" data-toggle="tab">
+                        <strong> - </strong><i class="fa fa-users"></i> in<br>
+                        <strong> - </strong> emails
+                    </a>
+                    </li>
+                    <li><a href="scr.html" data-toggle="tab">
+                        <strong> - </strong><i class="fa fa-users"></i> in<br>
+                        <strong> - </strong> reviews
+                    </a>
+                    </li>
+                    <li><a href="irc.html" data-toggle="tab">
+                        <strong> - </strong><i class="fa fa-users"></i> in<br>
+                        <strong> - </strong> messages
+                    </a>
+                    </li>
+                </ul>
+                <!-- Tab panes -->
+                <div class="tab-content">
+                	  <!-- scm tab -->
+                    <div class="tab-pane active" id="code">                   
+                        
+    
 
 
-            <!-- list of repositories -->
-            <div id="nav" class="row-fluid">
-                <div class="FilterItemsNav" data-data-source="scm"
-                     data-order-by="scm_commits" data-filter="repos" style="align: center"></div>                  
-            </div>
-            <!-- end list of repositories -->
 
 
-            <!-- commits, authors repository -->
-            <div class="well">
-                <div id="summary-static" class="row-fluid">
-                    <!-- commits -->
-                    <div class="span1"></div>
-                    <div class="span4">
-                        <i>
-                            <b>Commits per repository (aggregated)</b>
-                        </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_commits" data-filter="repos"
-                             data-legend-div="repos_legend" data-limit="10"
-                             data-order-by="scm_commits">
-                        </div>
-                    </div>
-                    <!-- end commits -->
 
-                    <div class="span2" id="repos_legend"></div>
 
-                    <!-- authors -->
-                    <div class="span4">
-                        <i>
-                            <b>Authors per repository (aggregated)</b>
-                        </i>
-                        <div class="FilterItemsGlobal" data-data-source="scm"
-                             data-metric="scm_authors" data-filter="repos"
-                             data-legend="false" data-limit="10"
-                             data-order-by="scm_commits"></div>
-                    </div>
-                    <!-- end authors -->
-                    <div class="span1"></div>
-                </div>
-            </div>
-            <!-- end commits, authors repository -->
-            
-            <div id="summary-static" class="row-fluid"></div>
+    <div class="row">
+      <h4>Information about all repositories</h4>
+    </div>
+    <!-- info text -->
+    <div id="info" class="row">
+      <div class="col-md-5">Some charts and tables for top repositories in
+        the project, and a summary of the evolution of their participation with
+        links to more detailed information per repository.</div>
+      <div class="col-md-7">
+        <!-- evolution #repositories -->
+        <i> <b>Active Repositories per month</b>
+        </i>
+        <div class="MetricsEvol" data-data-source="scm"
+          data-metrics="scm_repositories" data-legend="false"
+          style="height: 80px;"></div>
+      </div>
+    </div>
+    <!-- end info text -->
 
-            <!-- commits per repository -->
-            <div id="list" class="row-fluid">
-                <div class="FilterItemsMiniCharts" data-data-source="scm"
-                     data-metrics="scm_commits,scm_authors" data-filter="repos"
-                     data-order-by="scm_commits">
-                </div>
-            </div>
-            <!-- end commits per repository -->
 
-            <footer>
-                <div id="Footer"></div>
-            </footer>
+    <!-- list of repositories -->
+    <div id="nav" class="row">
+      <div class="FilterItemsNav" data-data-source="scm"
+        data-order-by="scm_commits" data-filter="repos" style="align: center"></div>
+    </div>
+    <!-- end list of repositories -->
+
+
+    <!-- commits, authors repository -->
+    <div class="well">
+      <div id="summary-static" class="row">
+        <!-- commits -->
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+          <i> <b>Commits per repository (aggregated)</b>
+          </i>
+          <div class="FilterItemsGlobal" data-data-source="scm"
+            data-metric="scm_commits" data-filter="repos"
+            data-legend-div="repos_legend" data-limit="50"
+            data-order-by="scm_commits"></div>
         </div>
+        <!-- end commits -->
 
-        <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
-    </body>
+        <div class="col-md-2" id="repos_legend"></div>
+
+        <!-- authors -->
+        <div class="col-md-4">
+          <i> <b>Authors per repository (aggregated)</b>
+          </i>
+          <div class="FilterItemsGlobal" data-data-source="scm"
+            data-metric="scm_authors" data-filter="repos" data-legend="false"
+            data-limit="50" data-order-by="scm_commits"></div>
+        </div>
+        <!-- end authors -->
+        <div class="col-md-1"></div>
+      </div>
+    </div>
+    <!-- end commits, authors repository -->
+
+    <div id="summary-static" class="row"></div>
+
+    <!-- commits per repository -->
+    <div id="list" class="row">
+      <div class="FilterItemsMiniCharts" data-data-source="scm"
+        data-metrics="scm_commits,scm_authors" data-filter="repos"
+        data-order-by="scm_commits"></div>
+    </div>
+    <!-- end commits per repository -->
+    
+ 
+                    </div>
+                    <!-- end of scm tab -->
+                    <!-- tickets tab -->
+                    <div class="tab-pane" id="issuetracking">                    
+                    </div>
+                    <!-- end of tickets tab -->
+                    <div class="tab-pane" id="messages">
+                    </div>
+                    <div class="tab-pane" id="codereviews">
+                    </div>
+                    <div class="tab-pane" id="irc">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+      <div id="Footer"></div>
+    </footer>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>    
+</body>
 </html>

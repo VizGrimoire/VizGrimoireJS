@@ -1,25 +1,39 @@
 <!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-<html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <meta charset="utf-8" />
-        <title></title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" type="text/css" id="theme"
-              href="VizGrimoireJS/vizgrimoire.css" />
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet" />
-        <link rel="stylesheet" type="text/css" href="custom.css" />
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
-              rel="stylesheet" />
-        <link rel="shortcut icon" href="favicon.png" />
-        <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
-    </head>
+    <title>Grimoire Dashboard for Eclipse</title>
 
-    <body>
-        <div class="container-narrow">
-            <div id="Navbar"></div>
+    <!-- Bootstrap core CSS -->
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 
+    <!-- Custom styles for this template -->
+    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+    
+    <!-- icons -->
+    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+
+    <!-- custom -->
+    <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+  </head>
+<body>
+
+   <div id="Navbar"></div>
+    <div class="container-fluid">
+    <div class="container alert alert-info">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+        <p><i class="fa fa-icon fa-info-circle"></i> <strong>Evolution charts support ZOOM IN</strong></p>
+        <p>Just click, hold and drag on the chart to select the are to zoom in. You can go as deep as you want. Click on the chart to go back to initial overview</p>
+    </div>
+    
             <!-- summary bar -->
             <div class="capped-box overall-summary ">
                 <div class="stats-switcher-viewport js-stats-switcher-viewport">
@@ -40,58 +54,55 @@
             <!-- end of summary bar -->
 
             
-            <!-- scm, its, mls, refcard -->
-            <div class="row-fluid" style="margin-top: 20px;">
-
                 <!-- scm -->
-                <div class="row-fluid invisible-box">
+                <div class="row invisible-box">
 
                     <!-- scm summary box -->
-                    <div class="span2">
-                        <div class="wellmin">
-                            <div class="row-fluid thin-border">
-                                <div class="span12">Code Developers</div>
+                    <div class="col-md-2">
+                        <div class="well well-small">
+                            <div class="row thin-border">
+                                <div class="col-md-12">Code Developers</div>
                             </div>
 
-                            <div class="row-fluid grey-border">
-                                <div class="span12 big-fp-number">
+                            <div class="row grey-border">
+                                <div class="col-md-12 big-fp-number">
                                     <a href="scm.html"> <span class="GlobalData"
                                                               data-data-source="scm" data-field="scm_authors"></span>
                                     </a>
                                 </div>
                             </div>
 
-                            <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                                <div class="span4">
-                                    <div class="row-fluid thin-border">
-                                        <div class="span12">Core</div>
+                            <div class="row" style="padding: 5px 0px 0px 0px;">
+                                <div class="col-md-4">
+                                    <div class="row thin-border">
+                                        <div class="col-md-12">Core</div>
                                     </div>
-                                    <div class="row-fluid">
-                                        <div class="span12 medium-fp-number">
+                                    <div class="row">
+                                        <div class="col-md-12 medium-fp-number">
                                             <a href="scm.html"> <span class="GlobalData"
                                                                       data-data-source="scm" data-field="core"></span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-				<div class="span4">                                                
-                                    <div class="row-fluid thin-border">
-                                        <div class="span12">Regular</div>
+				<div class="col-md-4">                                                
+                                    <div class="row thin-border">
+                                        <div class="col-md-12">Regular</div>
                                     </div>
-                                    <div class="row-fluid">
-                                        <div class="span12 medium-fp-number">
+                                    <div class="row">
+                                        <div class="col-md-12 medium-fp-number">
                                             <a href="scm.html"> <span class="GlobalData"
                                                                       data-data-source="scm" data-field="regular"></span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="span4">
-                                    <div class="row-fluid thin-border">
-                                        <div class="span12">Occasional</div>
+                                <div class="col-md-4">
+                                    <div class="row thin-border">
+                                        <div class="col-md-12">Occasional</div>
                                     </div>
-                                    <div class="row-fluid">
-                                        <div class="span12 medium-fp-number">
+                                    <div class="row">
+                                        <div class="col-md-12 medium-fp-number">
                                             <a href="scm.html"> <span class="GlobalData"
                                                                       data-data-source="scm" data-field="occasional"></span>
                                             </a>
@@ -104,8 +115,8 @@
                     
                     <!-- end scm summary box -->
                     
-                    <div class="span5">
-                        <div class="wellmin">
+                    <div class="col-md-5">
+                        <div class="well well-small">
                             <div class="MetricsEvol" data-data-source="scm"
                                  data-metrics="scm_commits" data-min="true" style="height: 100px;"
                                  data-light-style="true"></div>
@@ -115,8 +126,8 @@
                         </div>
                     </div>
                     
-                    <div class="span5">
-                        <div class="wellmin">
+                    <div class="col-md-5">
+                        <div class="well well-small">
                             <div class="MetricsEvol" data-data-source="scm"
                                  data-metrics="scm_authors" data-min="true" style="height: 100px;"
                                  data-light-style="true"></div>
@@ -128,43 +139,43 @@
                     
                 </div>
                 <!-- end scm -->
-            </div>
+
 
             <!-- its -->
-            <div class="row-fluid invisible-box">
+            <div class="row invisible-box">
 
                 <!-- its summary box -->
-                <div class="span2">
-                    <div class="wellmin">
-                        <div class="row-fluid thin-border">
-                            <div class="span12">Ticket Participants</div>
+                <div class="col-md-2">
+                    <div class="well well-small">
+                        <div class="row thin-border">
+                            <div class="col-md-12">Ticket Participants</div>
                         </div>
-                        <div class="row-fluid grey-border">
-                            <div class="span12 big-fp-number">
+                        <div class="row grey-border">
+                            <div class="col-md-12 big-fp-number">
                                 <a href="its.html"> <span class="GlobalData"
                                                           data-data-source="its" data-field="allhistory_participants"></span>
                                 </a>
                             </div>
                         </div>
-                        <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Fixers</div>
+                        <div class="row" style="padding: 5px 0px 0px 0px;">
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Fixers</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="its.html"> <span class="GlobalData"
                                                                   data-data-source="its" data-field="its_closers"></span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Submitters</div>
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Submitters</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="its.html"> <span class="GlobalData"
                                                                   data-data-source="its" data-field="its_openers"></span>
                                         </a>
@@ -176,8 +187,8 @@
                 </div>
                 <!-- end its summary box -->
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="its"
                              data-metrics="its_closed" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -187,8 +198,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="its"
                              data-metrics="its_closers" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -201,40 +212,40 @@
             <!-- end its -->
 
             <!-- mls -->
-            <div class="row-fluid invisible-box">
+            <div class="row invisible-box">
 
                 <!-- mls summary box-->
-                <div class="span2">
-                    <div class="wellmin">
-                        <div class="row-fluid thin-border">
-                            <div class="span12">Discussion Participants</div>
+                <div class="col-md-2">
+                    <div class="well well-small">
+                        <div class="row thin-border">
+                            <div class="col-md-12">Discussion Participants</div>
                         </div>
-                        <div class="row-fluid grey-border">
-                            <div class="span12 big-fp-number">
+                        <div class="row grey-border">
+                            <div class="col-md-12 big-fp-number">
                                 <a href="mls.html"> <span class="GlobalData"
                                                           data-data-source="mls" data-field="mls_senders"></span>
                                 </a>
                             </div>
                         </div>
-                        <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Thread Initiators</div>
+                        <div class="row" style="padding: 5px 0px 0px 0px;">
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Thread Initiators</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="mls.html"> <span class="GlobalData"
                                                                   data-data-source="mls" data-field="senders_init"></span>
                                         </a>
                                     </div>
                                 </div>
                             </div>
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">First Repliers</div>
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">First Repliers</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="mls.html"> <span class="GlobalData"
                                                                   data-data-source="mls" data-field="senders_response"></span>
                                         </a>
@@ -246,8 +257,8 @@
                 </div>
                 <!-- end mls summary box -->
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="mls"
                              data-metrics="mls_sent" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -257,8 +268,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="mls"
                              data-metrics="mls_senders" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -274,33 +285,33 @@
 
 
             <!-- irc -->
-            <div class="row-fluid invisible-box">
+            <div class="row invisible-box">
 
                 <!-- irc summary box-->
-                <div class="span2">
-                    <div class="wellmin">
-                        <div class="row-fluid thin-border">
-                            <div class="span12">IRC Participants</div>
+                <div class="col-md-2">
+                    <div class="well well-small">
+                        <div class="row thin-border">
+                            <div class="col-md-12">IRC Participants</div>
                         </div>
-                        <div class="row-fluid grey-border">
-                            <div class="span12 big-fp-number">
+                        <div class="row grey-border">
+                            <div class="col-md-12 big-fp-number">
                                 <a href="mls.html"> <span class="GlobalData"
                                                           data-data-source="irc" data-field="irc_senders"></span>
                                 </a>
                             </div>
                         </div>
-                        <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                            <div class="span6">
+                        <div class="row" style="padding: 5px 0px 0px 0px;">
+                            <div class="col-md-6">
                             </div>
-                            <div class="span6">
+                            <div class="col-md-6">
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- end irc summary box -->
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="irc"
                              data-metrics="irc_sent" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -310,8 +321,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="irc"
                              data-metrics="irc_senders" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -325,28 +336,28 @@
             <!-- end irc -->
 
             <!--
-            <div class="row-fluid">
-                <div class="span2">
-                    <div class="wellmin">
-                        <div class="row-fluid thin-border">
-                            <div class="span12"><abbr title="Questions and Answers">Q&amp;A</abbr> Participants</div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="well well-small">
+                        <div class="row thin-border">
+                            <div class="col-md-12"><abbr title="Questions and Answers">Q&amp;A</abbr> Participants</div>
                         </div>
                         
-                        <div class="row-fluid grey-border">
-                            <div class="span12 big-fp-number">
+                        <div class="row grey-border">
+                            <div class="col-md-12 big-fp-number">
                                 <a href="scm.html"> <span class="GlobalData"
                                                           data-data-source="qaforums" data-field="qaforums_senders"></span>
                                 </a>
                             </div>
                         </div>
 
-                        <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Askers</div>
+                        <div class="row" style="padding: 5px 0px 0px 0px;">
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Askers</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="qaforums.html"> <span class="GlobalData"
                                                                        data-data-source="qaforums" data-field="qaforums_qsenders"></span>
                                         </a>
@@ -354,12 +365,12 @@
                                 </div>
                             </div>
 
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Answerers</div>
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Answerers</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="qaforums.html"> <span class="GlobalData"
                                                                        data-data-source="qaforums" data-field="qaforums_asenders"></span>
                                         </a>
@@ -370,8 +381,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="qaforums"
                              data-metrics="qaforums_qsent" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -383,8 +394,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="qaforums"
                              data-metrics="qaforums_senders" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -398,15 +409,15 @@
 
             <!-- forge -->
             <!--
-            <div class="row-fluid">
-                <div class="span2">
-                    <div class="wellmin">
-                        <div class="row-fluid thin-border">
-                            <div class="span12">Module authors</div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="well well-small">
+                        <div class="row thin-border">
+                            <div class="col-md-12">Module authors</div>
                         </div>
                         
-                        <div class="row-fluid grey-border">
-                            <div class="span12 big-fp-number">
+                        <div class="row grey-border">
+                            <div class="col-md-12 big-fp-number">
                                 <a href="forge.html"> <span class="GlobalData"
                                                           data-data-source="releases"
                               data-field="authors"></span>
@@ -414,13 +425,13 @@
                             </div>
                         </div>
 
-                        <div class="row-fluid" style="padding: 5px 0px 0px 0px;">
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Modules</div>
+                        <div class="row" style="padding: 5px 0px 0px 0px;">
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Modules</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="releases.html"> <span class="GlobalData"
                                                                        data-data-source="releases" data-field="releases_modules"></span>
                                         </a>
@@ -428,12 +439,12 @@
                                 </div>
                             </div>
 
-                            <div class="span6">
-                                <div class="row-fluid thin-border">
-                                    <div class="span12">Releases</div>
+                            <div class="col-md-6">
+                                <div class="row thin-border">
+                                    <div class="col-md-12">Releases</div>
                                 </div>
-                                <div class="row-fluid">
-                                    <div class="span12 medium-fp-number">
+                                <div class="row">
+                                    <div class="col-md-12 medium-fp-number">
                                         <a href="releases.html"> <span class="GlobalData"
                                                                        data-data-source="releases" data-field="releases"></span>
                                         </a>
@@ -444,8 +455,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="releases"
                              data-metrics="releases_modules" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -457,8 +468,8 @@
                     </div>
                 </div>
 
-                <div class="span5">
-                    <div class="wellmin">
+                <div class="col-md-5">
+                    <div class="well well-small">
                         <div class="MetricsEvol" data-data-source="releases"
                              data-metrics="authors" data-min="true" style="height: 100px;"
                              data-light-style="true"></div>
@@ -473,39 +484,22 @@
             <!-- end forge -->
 
 
-
-            
-
-
-        </div>
+       
         <!-- end scm, its, mls -->
-
-        <div class="row-fluid" style="margin-top: 10px;">
-            <div class="span12">
-                <div id="Refcard"></div>
-            </div>
-        </div>
 
         <footer>
             <div id="Footer"></div>
         </footer>
-</div>
-
-</div>
-<!-- end irc -->
-
-
-</div>
-<!-- end scm, its, mls -->
-
-<footer>
-    <div id="Footer"></div>
-</footer>
 
 </div>
 
-<script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
-<script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+    
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script> 
 </body>
 </html>
