@@ -1,0 +1,84 @@
+html, body {
+  height: 100%;
+}
+
+body {
+  padding: 50px 0 0 0;
+}
+
+/*.navbar-toggle {
+  float: left;
+  margin-left: 15px;
+}*/
+
+@media (min-width: 0) {
+  .navbar-toggle {
+    display: block;
+    float: left; 
+    margin-left: 15px;
+  }
+}
+
+@media (min-width: 992px) {
+  body {
+    padding: 0;
+  }
+/*  .navbar {
+    right: auto;
+    background: none;
+    border: none;
+  }*/
+}
+
+.container-fluid { 
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 65px;
+}
+
+/*
+does not work
+#ProjectNavbar .breadcrumb li
+{ 
+  font-size: 1.2em;
+}*/
+
+/*.breadcrumb { 
+    border-radius: 4px 4px 4px 4px !important;
+    list-style: none outside none;
+    padding: 0 0 0 0;
+    margin-top: 15px;
+    background-color: transparent;
+    font-size: 1.1em;
+}*/
+/* this style is used to display the project nav bar*/
+.breadcrumbtitle {
+    background-color: transparent;
+    border-radius: 4px 4px 4px 4px;
+    list-style: none outside none;
+    margin-bottom: 20px;
+    padding: none;
+}
+.breadcrumbtitle > li {
+    display: inline-block;
+}
+.breadcrumbtitle > li + li:before {
+    color: #CCCCCC;
+    content: "/ ";
+    padding: 0 5px;
+}
+.breadcrumbtitle > .active {
+    color: #999999;
+}
+
+
+.ol { 
+    margin-bottom: 10px;
+    margin-top: 15px;
+}
+
+.FilterItemMicrodashText { 
+    text-align: center;
+}
