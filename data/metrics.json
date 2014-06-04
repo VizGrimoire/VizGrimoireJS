@@ -343,7 +343,13 @@
         "name" : "Openers",
         "desc" : "Number of persons closing code review processes",
         "action" : "opened"
-    }    
+    },
+    "scr_submitters" : {
+         "divid" : "scr_submitters",
+         "column" : "submitters",
+         "name" : "Reviews submitters",
+         "desc" : "Number of people submitting review processes."
+     }
 },
 "qaforums": {
     "qaforums_sent" : {
