@@ -1,130 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Luis" >
-        <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-        <title>Grimoire Dashboard for Eclipse</title>
+    <title></title>
 
-        <!-- Bootstrap core CSS -->
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
-              rel="stylesheet">
-        <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 
-        <!-- Custom styles for this template -->
-        <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
 
-        <!-- icons -->
-        <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+    <!-- icons -->
+    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
 
-        <!-- custom -->
-        <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
-        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
-    </head>
-    <body>
+    <!-- custom -->
+    <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+  </head>
+  <body>
 
-        <div id="Navbar"></div>
+    <div id="Navbar"></div>
 
-        <div class="container-fluid">
+    <div class="container-fluid">
+      <span class="SectionBreadcrumb"></span>
+      <div class="row">
+        <div class="col-md-12">
+          
+          <!-- commits, authors, stats, top authors -->
+          <div class="row">
+            
+            <div class="col-md-12">
+              <div class="well">
+                <div class="MetricsEvol" data-data-source="scm" data-metrics="scm_authors"
+                     data-min="true" style="height:120px;"></div>
+                <div class="MicrodashText" data-metric="scm_authors"></div>
+              </div>
+            </div>
 
             <div class="row">
-                <div class="col-md-12">
-                    <ul class="nav nav-tabs nav-justified">
-                        <li class="active"><a href="scm.html" data-toggle="tab">
-                                <strong class="GlobalData" data-data-source="scm" data-field="scm_authors"></strong>
-                                <i class="fa fa-users"></i> in<br>
-                                <strong class="GlobalData" data-data-source="scm" data-field="scm_commits"></strong> commits
-                            </a>
-                        </li>
-                        <li><a href="tickets.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> issues
-                            </a>
-                        </li>
-                        <li><a href="mls.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> emails
-                            </a>
-                        </li>
-                        <li><a href="scr.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> reviews
-                            </a>
-                        </li>
-                        <li><a href="irc.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> messages
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                        <!-- scm tab -->
-                        <div class="tab-pane active" id="code">                   
-                            
-                            
-
-
-
-
-
-                            <!-- info text -->
-                            <div id="info" class="row">
-                                <div class="col-md-6">
-                                    <span class="SectionBreadcrumb"></span>    
-                                    
-                                </div>
-
-                            </div>
-                            <!-- end info text -->
-
-                            <!-- commits, authors, stats, top authors -->
-                            <div class="row">
-                                
-                                <div class="col-md-12">
-                                    <div class="well">
-                                        <div class="MetricsEvol" data-data-source="scm" data-metrics="scm_authors"
-                                             data-min="true" style="height:120px;"></div>
-                                        <div class="MicrodashText" data-metric="scm_authors"></div>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md-4">                         
-                                        <div class="Top" data-data-source="scm" data-metric="authors" data-period="last month" data-limit="100" data-people_links="true"></div>
-                                    </div>
-                                    
-                                    <div class="col-md-4">                         
-                                        <div class="Top" data-data-source="scm" data-metric="authors" data-period="last year" data-limit="100" data-people_links="true"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div class="Top" data-data-source="scm" data-metric="authors" data-period="" data-limit="100" data-people_links="true"></div>
-                                    </div>
-                                </div>
-                                
-
-                            </div>
-                            <!-- end files, lines -->
-
-                            </div>
-                    </div>
-                </div>
+              <div class="col-md-4">                         
+                <div class="Top" data-data-source="scm" data-metric="authors" data-period="last month" data-limit="100" data-people_links="true"></div>
+              </div>
+              
+              <div class="col-md-4">                         
+                <div class="Top" data-data-source="scm" data-metric="authors" data-period="last year" data-limit="100" data-people_links="true"></div>
+              </div>
+              <div class="col-md-4">
+                <div class="Top" data-data-source="scm" data-metric="authors" data-period="" data-limit="100" data-people_links="true"></div>
+              </div>
             </div>
-            <footer>
-                <div id="Footer"></div>
-            </footer>
+            
+
+          </div>
+          <!-- end files, lines -->
+
         </div>
-        <!-- Bootstrap core JavaScript
-             ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
-        <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
-        <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+
+      </div>
+      <footer>
+        <div id="Footer"></div>
+      </footer>
+    </div>
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
 
 
-    </body>
+  </body>
 </html>

@@ -1,166 +1,126 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="Luis" >
-        <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-        <title>Grimoire Dashboard for Eclipse</title>
+    <title></title>
 
-        <!-- Bootstrap core CSS -->
-        <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
-              rel="stylesheet">
-        <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap core CSS -->
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 
-        <!-- Custom styles for this template -->
-        <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
-        
-        <!-- icons -->
-        <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+    <!-- Custom styles for this template -->
+    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+    
+    <!-- icons -->
+    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
 
-        <!-- custom -->
-        <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
-        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
-    </head>
-    <body>
+    <!-- custom -->
+    <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+  </head>
+  <body>
 
-        <div id="Navbar"></div>
-        
-        <div class="container-fluid">
+    <div id="Navbar"></div>
+    
+    <div class="container-fluid">
 
-            <div class="row">
-                <div class="col-md-12">
-                    <ul class="nav nav-tabs nav-justified">
-                        <li class="active"><a href="scm.html" data-toggle="tab">
-                    		<strong class="GlobalData" data-data-source="scm" data-field="scm_authors"></strong>
-                                <i class="fa fa-users"></i> in<br>
-                                <strong class="GlobalData" data-data-source="scm" data-field="scm_commits"></strong> commits
-                            </a>
-                        </li>
-                        <li><a href="tickets.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> issues
-                            </a>
-                        </li>
-                        <li><a href="mls.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> emails
-                            </a>
-                        </li>
-                        <li><a href="scr.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> reviews
-                            </a>
-                        </li>
-                        <li><a href="irc.html" data-toggle="tab">
-                                <strong> - </strong><i class="fa fa-users"></i> in<br>
-                                <strong> - </strong> messages
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- Tab panes -->
-                    <div class="tab-content">
-                	<!-- scm tab -->
-                        <div class="tab-pane active" id="code">                   
-                            
-                            
+      <div class="row">
+        <div class="col-md-12">
+
+          <!-- info text -->
+          <div id="info" class="row">
+            <div class="col-md-6">
+	      <span class="SectionBreadcrumb"></span>
+	      <p>Some charts and tables for top domains in the project, and a summary
+                of the evolution of their participation with links to more detailed
+                information per domain.</p>  
+	    </div>
+	    <div class="col-md-6">
+	      <!-- evolution #domains -->
+              <i>
+                <b>Active Domains per month</b>
+              </i>
+              <div class="MetricsEvol" data-data-source="scm"
+                   data-metrics="scm_domains" data-legend="false" style="height: 80px;"></div>
+	    </div>
+          </div>
+          <!-- end info text -->
 
 
 
+          <!-- list of domains -->
+          <div id="nav" class="row-fluid">
+            <div class="FilterItemsNav" data-data-source="scm"
+                 data-order-by="scm_domains" data-filter="domains" style="align: center"></div>
+          </div>
+          <!-- end list of domains -->
 
 
-                            <!-- info text -->
-                            <div id="info" class="row">
-                                <div class="col-md-6">
-		                    <span class="SectionBreadcrumb"></span>
-		                    <p>Some charts and tables for top domains in the project, and a summary
-                                        of the evolution of their participation with links to more detailed
-                                        information per domain.</p>  
-		                </div>
-		                <div class="col-md-6">
-		                    <!-- evolution #domains -->
-                                    <i>
-                                        <b>Active Domains per month</b>
-                                    </i>
-                                    <div class="MetricsEvol" data-data-source="scm"
-                                         data-metrics="scm_domains" data-legend="false" style="height: 80px;"></div>
-		                </div>
-                            </div>
-                            <!-- end info text -->
+          <!-- commits, authors domains -->
+          <div class="well">
+            <div id="summary-static" class="row-fluid">
+              <!-- commits -->
+              <div class="span1"></div>
+              <div class="span4">
+                <i>
+                  <b>Commits per domain (aggregated)</b>
+                </i>
+                <div class="FilterItemsGlobal" data-data-source="scm"
+                     data-metric="scm_commits" data-filter="domains"
+                     data-legend-div="domains_legend" data-limit="10"
+                     data-order-by="scm_commits"></div>
+              </div>
+              <!-- end commits -->
 
+              <div class="span2" id="domains_legend"></div>
 
-
-                            <!-- list of domains -->
-                            <div id="nav" class="row-fluid">
-                                <div class="FilterItemsNav" data-data-source="scm"
-                                     data-order-by="scm_domains" data-filter="domains" style="align: center"></div>
-                            </div>
-                            <!-- end list of domains -->
-
-
-                            <!-- commits, authors domains -->
-                            <div class="well">
-                                <div id="summary-static" class="row-fluid">
-                                    <!-- commits -->
-                                    <div class="span1"></div>
-                                    <div class="span4">
-                                        <i>
-                                            <b>Commits per domain (aggregated)</b>
-                                        </i>
-                                        <div class="FilterItemsGlobal" data-data-source="scm"
-                                             data-metric="scm_commits" data-filter="domains"
-                                             data-legend-div="domains_legend" data-limit="10"
-                                             data-order-by="scm_commits"></div>
-                                    </div>
-                                    <!-- end commits -->
-
-                                    <div class="span2" id="domains_legend"></div>
-
-                                    <!-- authors -->
-                                    <div class="span4">
-                                        <i>
-                                            <b>Authors per company (aggregated)</b>
-                                        </i>
-                                        <div class="FilterItemsGlobal" data-data-source="scm"
-                                             data-metric="scm_authors" data-filter="domains"
-                                             data-legend="false" data-limit="10"
-                                             data-order-by="scm_commits"></div>
-                                    </div>
-                                    <!-- end authors -->
-                                    <div class="span1"></div>
-                                </div>
-                            </div>
-                            <!-- end commits, authors domains -->
-
-                            <div id="summary-static" class="row-fluid"></div>
-
-                            <!-- commits per domain -->
-                            <div id="list" class="row-fluid">
-                                <div class="FilterItemsMiniCharts" data-data-source="scm"
-                                     data-metrics="scm_commits,scm_authors" data-filter="domains"
-                                     data-order-by="scm_commits">
-                                </div>
-                            </div>
-                            <!-- end commits per domain -->
-
-                            </div>
-                    </div>
-                </div>
+              <!-- authors -->
+              <div class="span4">
+                <i>
+                  <b>Authors per company (aggregated)</b>
+                </i>
+                <div class="FilterItemsGlobal" data-data-source="scm"
+                     data-metric="scm_authors" data-filter="domains"
+                     data-legend="false" data-limit="10"
+                     data-order-by="scm_commits"></div>
+              </div>
+              <!-- end authors -->
+              <div class="span1"></div>
             </div>
-            <footer>
-                <div id="Footer"></div>
-            </footer>
+          </div>
+          <!-- end commits, authors domains -->
+
+          <div id="summary-static" class="row-fluid"></div>
+
+          <!-- commits per domain -->
+          <div id="list" class="row-fluid">
+            <div class="FilterItemsMiniCharts" data-data-source="scm"
+                 data-metrics="scm_commits,scm_authors" data-filter="domains"
+                 data-order-by="scm_commits">
+            </div>
+          </div>
+          <!-- end commits per domain -->
+
         </div>
-        <!-- Bootstrap core JavaScript
-             ================================================== -->
-        <!-- Placed at the end of the document so the pages load faster -->
-        <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
-        <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
-        <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+      </div>
+      <footer>
+        <div id="Footer"></div>
+      </footer>
+    </div>
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
 
 
-    </body>
+  </body>
 </html>
