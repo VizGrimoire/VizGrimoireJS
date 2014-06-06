@@ -1,84 +1,152 @@
 <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="Luis" >
+        <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
-<html lang="en">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<meta charset="utf-8" />
-<title></title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" type="text/css" id="theme"
-  href="VizGrimoireJS/vizgrimoire.css" />
-<link href="VizGrimoireJS/bootstrap/css/bootstrap.css" rel="stylesheet" />
-<link rel="stylesheet" type="text/css" href="custom.css" />
-<link href="VizGrimoireJS/bootstrap/css/bootstrap-responsive.css"
-  rel="stylesheet" />
-<link rel="shortcut icon" href="favicon.png" />
-</head>
+        <title>Grimoire Dashboard for Eclipse</title>
 
-<body>
-  <div class="container-narrow">
-    <div id="Navbar"></div>
+        <!-- Bootstrap core CSS -->
+        <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+              rel="stylesheet">
+        <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
 
-    <h4>Summary of companies activity</h4>
+        <!-- Custom styles for this template -->
+        <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+        
+        <!-- icons -->
+        <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
 
-    <!-- commits companies -->
-    <div class="row-fluid">
-      <div class="span10">
-        <b>Commits</b>
-        <div class="FilterItemsMetricsEvol" data-data-source="scm"
-          data-metric="scm_commits" data-legend-div='legend_commits'
-          data-filter="companies" data-limit="10" data-stacked="true"></div>
-      </div>
-      <div class="span2">
-        <div id="legend_commits"></div>
-      </div>
-    </div>
-    <!-- end commits companies -->
+        <!-- custom -->
+        <!--<link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+        <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+    </head>
+    <body>
 
-    <!-- authors companies -->
-    <div class="row-fluid">
-      <div class="span10">
-        <b>Authors</b>
-        <div class="FilterItemsMetricsEvol" data-data-source="scm"
-          data-metric="scm_authors" data-legend-div='legend_authors'
-          data-filter="companies" data-limit="10" data-stacked="true"></div>
-      </div>
-      <div class="span2">
-        <div id="legend_authors"></div>
-      </div>
-    </div>
-    <!-- end authors companies -->
+        <div id="Navbar"></div>
+        
+        <div class="container-fluid">
 
-    <!-- commits, authors pies -->
-    <div class="row-fluid">
-      <!-- commits pie -->
-      <div class="span6">
-        <b>Commits</b>
-        <div class="FilterItemsGlobal" data-data-source="scm"
-          data-metric="scm_commits" data-filter="companies" data-limit="5"
-          data-show-others="true" data-graph="pie" data-legend="true"></div>
-      </div>
-      <!-- end commits pie -->
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="nav nav-tabs nav-justified">
+                        <li class="active"><a href="scm.html" data-toggle="tab">
+                    		<strong class="GlobalData" data-data-source="scm" data-field="scm_authors"></strong>
+                                <i class="fa fa-users"></i> in<br>
+                                <strong class="GlobalData" data-data-source="scm" data-field="scm_commits"></strong> commits
+                            </a>
+                        </li>
+                        <li><a href="tickets.html" data-toggle="tab">
+                                <strong> - </strong><i class="fa fa-users"></i> in<br>
+                                <strong> - </strong> issues
+                            </a>
+                        </li>
+                        <li><a href="mls.html" data-toggle="tab">
+                                <strong> - </strong><i class="fa fa-users"></i> in<br>
+                                <strong> - </strong> emails
+                            </a>
+                        </li>
+                        <li><a href="scr.html" data-toggle="tab">
+                                <strong> - </strong><i class="fa fa-users"></i> in<br>
+                                <strong> - </strong> reviews
+                            </a>
+                        </li>
+                        <li><a href="irc.html" data-toggle="tab">
+                                <strong> - </strong><i class="fa fa-users"></i> in<br>
+                                <strong> - </strong> messages
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                	<!-- scm tab -->
+                        <div class="tab-pane active" id="code">                   
+                            
+                            
 
-      <!-- authors pie -->
-      <div class="span6">
-        <b>Authors</b>
-        <div class="FilterItemsGlobal" data-data-source="scm"
-          data-metric="scm_authors" data-filter="companies" data-limit="5"
-          data-order-by="scm_commits" data-show-others="true" data-graph="pie"
-          data-legend="true"></div>
-      </div>
-      <!-- end authors pie -->
-    </div>
-    <!-- end commits, authors pies -->
 
-    <footer>
-      <div id="Footer"></div>
-    </footer>
-  </div>
 
-  <script type="text/javascript" src="VizGrimoireJS/lib/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
-</body>
+
+
+                            <!-- info text -->
+                            <div id="info" class="row">
+                                <div class="col-md-6">
+		                    <span class="SectionBreadcrumb"></span>    
+		                </div>
+                            </div>
+                            <!-- end info text -->
+
+
+                            <!-- commits companies -->
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <b>Commits</b>
+                                    <div class="FilterItemsMetricsEvol" data-data-source="scm"
+                                         data-metric="scm_commits" data-legend-div='legend_commits'
+                                         data-filter="companies" data-limit="10" data-stacked="true"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div id="legend_commits"></div>
+                                </div>
+                            </div>
+                            <!-- end commits companies -->
+
+                            <!-- authors companies -->
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <b>Authors</b>
+                                    <div class="FilterItemsMetricsEvol" data-data-source="scm"
+                                         data-metric="scm_authors" data-legend-div='legend_authors'
+                                         data-filter="companies" data-limit="10" data-stacked="true"></div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div id="legend_authors"></div>
+                                </div>
+                            </div>
+                            <!-- end authors companies -->
+
+                            <!-- commits, authors pies -->
+                            <div class="row">
+                                <!-- commits pie -->
+                                <div class="col-md-6">
+                                    <b>Commits</b>
+                                    <div class="FilterItemsGlobal" data-data-source="scm"
+                                         data-metric="scm_commits" data-filter="companies" data-limit="5"
+                                         data-show-others="true" data-graph="pie" data-legend="true"></div>
+                                </div>
+                                <!-- end commits pie -->
+
+                                <!-- authors pie -->
+                                <div class="col-md-6">
+                                    <b>Authors</b>
+                                    <div class="FilterItemsGlobal" data-data-source="scm"
+                                         data-metric="scm_authors" data-filter="companies" data-limit="5"
+                                         data-order-by="scm_commits" data-show-others="true" data-graph="pie"
+                                         data-legend="true"></div>
+                                </div>
+                                <!-- end authors pie -->
+                            </div>
+                            <!-- end commits, authors pies -->
+
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <footer>
+                <div id="Footer"></div>
+            </footer>
+        </div>
+        <!-- Bootstrap core JavaScript
+             ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+        <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+        <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+        <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>
+
+
+    </body>
 </html>
