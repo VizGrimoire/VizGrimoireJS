@@ -35,10 +35,10 @@
       REPLACE_HERE
       <!-- END SECTION  HTML-->
 
+      <footer>
+        <div id="Footer"></div>
+      </footer>
     </div>
-    <footer>
-      <div id="Footer"></div>
-    </footer>
     
     <!-- Bootstrap core JavaScript
          ================================================== -->
