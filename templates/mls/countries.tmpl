@@ -1,0 +1,74 @@
+<!-- info text -->
+<div id="info" class="row">
+  <h4>Information about all companies</h4>
+  Some charts and tables for top countries in the project, and a summary of
+  the evolution of their participation with links to more detailed
+  information per country.
+</div>
+<!-- end info text -->
+
+<!-- evolution #countries -->
+<div id="summary-evol" class="row">
+  <!-- graph -->
+  <div class="col-md-6">
+    <div class="MetricsEvol" data-data-source="mls" data-metrics="mls_countries"
+         data-legend="false" data-help="false"></div>
+    <i><b>Active Countries per month</b></i>
+    <a href="notes.html#note:charts:countries"><img src="qm_15.png"></a>
+  </div>
+  <!-- end graph -->
+
+  <div class="col-md-6">
+    <div class="FilterItemsSummary" data-filter="countries"
+         data-data-source="mls"></div>
+  </div>
+</div>
+<!-- end evolution #countries -->
+
+<!-- sent msgs, senders per country -->
+<div id="summary-static" class="row">
+
+  <!-- sent msgs -->
+  <div class="col-md-5">
+    <div class="FilterItemsGlobal" data-data-source="mls"
+         data-metric="mls_sent" data-filter="countries"
+         data-legend-div="countries_legend"
+         data-limit="10" data-order-by="mls_sent"></div>
+    <i>
+      <b>Sent per country (aggregated)</b>
+      <a href="notes.html#note:charts:countries:sent"><img src="qm_15.png"></a>
+    </i>
+  </div>
+  <!-- end sent msgs -->
+
+  <div class="col-md-2" id="countries_legend"></div>
+
+  <!-- senders -->
+  <div class="col-md-5">
+    <div class="FilterItemsGlobal" data-data-source="mls"
+         data-metric="mls_senders" data-filter="countries"
+         data-legend="false" data-limit="10" data-order-by="mls_sent"></div>
+    <i>
+      <b>Senders per country (aggregated)</b>
+      <a href="notes.html#note:charts:countries:senders"><img src="qm_15.png"></a>
+    </i>
+  </div>
+  <!-- end senders -->
+
+</div>
+<!-- end sent msgs, senders per country -->
+
+<!-- companies list -->
+<div id="nav" class="row">
+  <div class="FilterItemsNav" data-order-by="mls_sent"
+       data-filter="countries" data-data-source="mls"></div>
+</div>
+<!-- end countries list -->
+
+<!-- countries charts -->
+<div id="list" class="row">
+  <div class="FilterItemsMiniCharts" data-metrics="mls_sent,mls_senders"
+       data-filter="countries" data-order-by="mls_sent"
+       data-data-source="mls"></div>
+</div>
+<!-- end countries charts -->

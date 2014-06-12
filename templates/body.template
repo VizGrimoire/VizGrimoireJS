@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
+          rel="stylesheet">
+    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+
+    <!-- custom -->
+    <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+  </head>
+  <body>
+    
+    <div id="Navbar"></div>
+    
+    <div class="container-fluid">
+      <div class="row"><span class="SectionBreadcrumb col-md-12"></span></div>
+
+      <!-- Section HTML will be placed here, do not modify manually -->
+      <!-- REPLACE SECTION HTML -->
+      REPLACE_HERE
+      <!-- END SECTION  HTML-->
+
+    </div>
+    <footer>
+      <div id="Footer"></div>
+    </footer>
+    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
+    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
+    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
+    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>    
+  </body>
+</html>

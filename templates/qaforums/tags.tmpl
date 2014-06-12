@@ -1,0 +1,55 @@
+<div class="row"><h4>Information about tags used</h4></div>
+
+<!-- list of repositories -->
+<div id="nav" class="row">
+  <div class="FilterItemsNav" data-data-source="qaforums"
+       data-order-by="qaforums_qsent" data-filter="repos" style="align: center"></div>                  
+</div>
+<!-- end list of repositories -->
+
+<!-- commits, authors repository -->
+<div class="well">
+  <div id="summary-static" class="row">
+    <!-- commits -->
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <i>
+        <b>Questions per tag (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="qaforums"
+           data-metric="qaforums_qsent" data-filter="repos"
+           data-legend-div="repos_legend" data-limit="10"
+           data-order-by="qaforums_qsent">
+      </div>
+    </div>
+    <!-- end commits -->
+
+    <div class="col-md-2" id="repos_legend"></div>
+
+    <!-- authors -->
+    <div class="col-md-4">
+      <i>
+        <b>Authors per tag (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="qaforums"
+           data-metric="qsenders" data-filter="repos"
+           data-legend="false" data-limit="10"
+           data-order-by="qsenders"></div>
+    </div>
+    <!-- end authors -->
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<!-- end commits, authors repository -->
+
+
+<div id="summary-static" class="row"></div>
+
+<!-- commits per repository -->
+<div id="list" class="row">
+  <div class="FilterItemsMiniCharts" data-data-source="qaforums"
+       data-metrics="qaforums_qsent,qsenders" data-filter="repos">
+  </div>
+</div>
+<!-- end commits per repository -->
+
