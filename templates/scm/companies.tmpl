@@ -1,0 +1,69 @@
+<!-- info text -->
+<div id="info" class="row">
+  <div class="col-md-6">
+
+    <p>Some charts and tables for top companies in the
+      project, and a summary of the evolution of their participation with
+      links to more detailed information per company.</p></div>
+  <div class="col-md-6">
+    <!-- evolution #companies -->
+    <i> <b>Active Companies per month</b>
+    </i>
+    <div class="MetricsEvol" data-data-source="scm"
+         data-metrics="scm_companies" data-legend="false" style="height: 80px;"></div>
+  </div>
+</div>
+<!-- end info text -->
+
+
+<!-- list of companies -->
+<div id="nav" class="row">
+  <div class="FilterItemsNav" data-data-source="scm"
+       data-order-by="scm_commits" data-filter="companies"
+       style="align: center"></div>
+</div>
+<!-- end list of companies -->
+
+
+<!-- commits, authors company -->
+<div class="well">
+  <div id="summary-static" class="row">
+    <!-- commits -->
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <i> <b>Commits per company (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scm"
+           data-metric="scm_commits" data-filter="companies"
+           data-legend-div="companies_legend" data-limit="10"
+           data-order-by="scm_commits"></div>
+    </div>
+    <!-- end commits -->
+
+    <div class="col-md-2" id="companies_legend"></div>
+
+    <!-- authors -->
+    <div class="col-md-4">
+      <i> <b>Authors per company (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scm"
+           data-metric="scm_authors" data-filter="companies"
+           data-legend="false" data-limit="10" data-order-by="scm_commits"></div>
+    </div>
+    <!-- end authors -->
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<!-- end commits, authors company -->
+
+<div id="summary-static" class="row"></div>
+
+<!-- commits per company -->
+<div id="list" class="row">
+  <div class="FilterItemsMiniCharts" data-data-source="scm"
+       data-metrics="scm_commits,scm_authors" data-filter="companies"
+       data-order-by="scm_commits"></div>
+</div>
+<!-- end commits per company -->
+
+

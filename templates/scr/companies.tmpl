@@ -1,0 +1,65 @@
+<!-- info text -->
+<div id="info" class="row">
+  <div class="col-md-5">Some charts and tables for top companies in the
+    project, and a summary of the evolution of their participation with
+    links to more detailed information per company.</div>
+  <div class="col-md-7">
+    <!-- evolution #companies -->
+    <i> <b>Active Companies per month</b>
+    </i>
+    <div class="MetricsEvol" data-data-source="scr"
+         data-metrics="scr_companies" data-legend="false" style="height: 80px;"></div>
+  </div>
+</div>
+<!-- end info text -->
+
+
+<!-- list of companies -->
+<div id="nav" class="row">
+  <div class="FilterItemsNav" data-data-source="scr"
+       data-order-by="scr_submitted" data-filter="companies"
+       style="align: center"></div>
+</div>
+<!-- end list of companies -->
+
+
+<!-- submitted, merged company -->
+<div class="well">
+  <div id="summary-static" class="row">
+    <!-- submitted -->
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <i> <b>Submitted per company (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scr"
+           data-metric="scr_submitted" data-filter="companies"
+           data-legend-div="companies_legend" data-limit="10"
+           data-order-by="scr_submitted"></div>
+    </div>
+    <!-- end submitted -->
+
+    <div class="col-md-2" id="companies_legend"></div>
+
+    <!-- merged -->
+    <div class="col-md-4">
+      <i> <b>Merged per company (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scr"
+           data-metric="scr_merged" data-filter="companies" data-legend="false"
+           data-limit="10" data-order-by="scr_submitted"></div>
+    </div>
+    <!-- end merged -->
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<!-- end submitted, merged company -->
+
+<div id="summary-static" class="row"></div>
+
+<!-- submitted per company -->
+<div id="list" class="row">
+  <div class="FilterItemsMiniCharts" data-data-source="scr"
+       data-metrics="scr_submitted,scr_merged" data-filter="companies"
+       data-order-by="scr_submitted"></div>
+</div>
+<!-- end submitted per company -->

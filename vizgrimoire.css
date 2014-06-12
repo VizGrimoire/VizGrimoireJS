@@ -95,12 +95,11 @@ img {
 	width: auto\9; /* ie8 */
 }
 
-body {
+/*body {
 	margin: 0;
 	padding: 0;
-	/* background: #FFA500; */
-	font: normal 0.75em georgia, sans-serif;
-}
+        font: normal 0.75em georgia, sans-serif;
+}*/
 
 /* GLOBAL PAGE LAYOUT */
 
@@ -500,15 +499,15 @@ width: 100%;
 }
 
 .grey-border{
-     border-bottom: 3px solid #E3E3E3;
-     text-align:center;
+     border-bottom: 2px solid #E3E3E3;
+     /*text-align:center;*/
      padding:6px 0px 0px 0px;
 }
 
 .big-fp-number{
-     font-size:3em;
+     font-size:2.5em;
      text-align:center;
-     padding:10px 0px 10px 0px;
+     /*dding:10px 0px 10px 0px;*/
 }
 
 .medium-fp-number{
