@@ -10,19 +10,18 @@
     <title></title>
 
     <!-- Bootstrap core CSS -->
-    <link href="VizGrimoireJS/bootstrap/css/bootstrap.min.css"
-          rel="stylesheet">
-    <link href="VizGrimoireJS/jasny-bootstrap/css/jasny-bootstrap.min.css" rel="stylesheet">
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/jasny-bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="VizGrimoireJS/navmenu-push.css" rel="stylesheet">
+    <link href="./css/navmenu-push.css" rel="stylesheet">
 
     <!-- icons -->
-    <link rel="stylesheet" href="VizGrimoireJS/awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./css/awesome/css/font-awesome.min.css">
 
     <!-- custom -->
     <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
-    <link rel="stylesheet" type="text/css" id="theme" href="VizGrimoireJS/vizgrimoire.css">
+    <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
   </head>
   <body>
     
@@ -44,9 +43,9 @@
     <!-- Bootstrap core JavaScript
          ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="VizGrimoireJS/lib/jquery-1.11.1.min.js"></script>
-    <script src="VizGrimoireJS/bootstrap/js/bootstrap.min.js"></script>
-    <script src="VizGrimoireJS/jasny-bootstrap/js/jasny-bootstrap.min.js"></script>
-    <script type="text/javascript" src="VizGrimoireJS/vizgrimoire.min.js"></script>    
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <script src="./lib/bootstrap.min.js"></script>
+    <script src="./lib/jasny-bootstrap.min.js"></script>
+    <script src="./lib/vizgrimoire.min.js"></script>
   </body>
 </html>
