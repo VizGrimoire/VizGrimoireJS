@@ -35,4 +35,6 @@ It is located at browser/data/metrics.json
 The project hierarchy is provided by the file browser/data/json/projects_hierarchy.json, if
 the file is not present the dash works with no subprojects support.
 
+## Q. What if I don't want to generate all the HTML files?
 
+Easy, comment the proper lines in the shell script at templates/gen.sh
