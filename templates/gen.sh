@@ -6,8 +6,8 @@ python apply_template.py --template body.template --content common/people.tmpl >
 python apply_template.py --template body.template --content common/company.tmpl > ../browser/company.html
 python apply_template.py --template body.template --content common/country.tmpl > ../browser/country.html
 python apply_template.py --template body.template --content common/repository.tmpl > ../browser/repository.html
-python apply_template.py --template body.template --content common/data-sources.tmpl > ../browser/data-sources.html
-python apply_template.py --template body.template --content common/project-map.tmpl > ../browser/project-map.html
+python apply_template.py --template body.template --content common/data_sources.tmpl > ../browser/data_sources.html
+python apply_template.py --template body.template --content common/project_map.tmpl > ../browser/project_map.html
 python apply_template.py --template body.template --content common/project.tmpl > ../browser/project.html
 
 cp common/footer.tmpl ../browser/footer.html
