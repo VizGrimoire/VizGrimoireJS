@@ -31,6 +31,17 @@
     </div>
     <!-- end authors -->
 
+    <!-- files -->
+    <div class="col-md-12">
+      <div class="well">
+	<div class="MetricsEvol" data-data-source="scm"
+             data-metrics="scm_files" data-min="true" style="height: 120px;"></div>
+	<div class="MicrodashText" data-metric="scm_files"></div>
+      </div>
+    </div>
+    <!-- end files -->
+
+
   </div>
   <!-- end left column -->
 
@@ -100,19 +111,8 @@
 
 <!-- files, lines -->
 <div class="row">
-
-  <!-- files -->
-  <div class="col-md-6">
-    <div class="well">
-      <div class="MetricsEvol" data-data-source="scm"
-           data-metrics="scm_files" data-min="true" style="height: 120px;"></div>
-      <div class="MicrodashText" data-metric="scm_files"></div>
-    </div>
-  </div>
-  <!-- end files -->
-
   <!-- lines -->
-  <div class="col-md-6">
+  <div class="col-md-12">
     <div class="well">
       <div class="MetricsEvol" data-data-source="scm"
            data-metrics="scm_added_lines,scm_removed_lines" data-min="true"
