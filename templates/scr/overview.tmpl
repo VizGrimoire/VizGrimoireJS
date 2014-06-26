@@ -7,19 +7,19 @@
     <div class="row">
       <div class="well">
         <div class="MetricsEvol" data-data-source="scr"
-             data-metrics="pending" data-convert="aggregate" data-min1="true"
-             style="height: 120px;" data-legend="true" data-frame-time="true"></div>
+             data-metrics="scr_pending" data-convert="aggregate" data-min1="true"
+             style="height: 120px;" data-frame-time="true"></div>
         <div class="MicrodashText" data-metric="pending"></div>
       </div>
     </div>
 
-    <div class="row">
+    <!--<div class="row">
       <div class="well">
         <div class="MetricsEvol" data-data-source="scr"
              data-metrics="review_time_days_median" data-legend="true"
              data-frame-time="true"></div>
       </div>
-    </div>
+    </div>-->
 
     <div class="row">
       <div class="well">
@@ -27,9 +27,9 @@
              data-metrics="scr_submitted,scr_merged,scr_abandoned"
              data-min1="true" data-legend="true" style="height: 120px;"
              data-frame-time="true" data-help="true"></div>
-        <div class="MicrodashText" data-metric="scr_submitted"></div>
-        <div class="MicrodashText" data-metric="scr_merged"></div>
-        <div class="MicrodashText" data-metric="scr_abandoned"></div>
+        <div class="MicrodashText" data-metric="scr_submitted" data-name="true"></div>
+        <div class="MicrodashText" data-metric="scr_merged" data-name="true"></div>
+        <div class="MicrodashText" data-metric="scr_abandoned" data-name="true"></div>
       </div>
     </div>
 
@@ -43,7 +43,7 @@
       <table class="table table-striped">
         <tr>
           <td><h5>Source code review <small> (updated on <span
-                                                            class="GlobalData" data-data-source="scr" data-field="last_date"></span>)</small></h5></td>
+                                                            class="GlobalData" data-data-source="scr" data-field="scr_last_date"></span>)</small></h5></td>
         </tr>
       </table>
     </div>
@@ -68,7 +68,7 @@
           </tr>
           <tr>
             <td><span class="GlobalData" data-data-source="scr"
-                      data-field="reviewers"></span></td>
+                      data-field="scr_reviewers"></span></td>
             <td>total code reviewers</td>
           </tr>
           <tr>
