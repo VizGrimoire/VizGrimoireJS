@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/navmenu-push.css" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="./css/awesome/css/font-awesome.min.css">
+
+    <!-- custom -->
+    <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
+  </head>
+  <body>
+    
+    <div id="Navbar"></div>
+    
+    <div class="container-fluid">
+      <div class="row"><span class="SectionBreadcrumb col-md-12"></span></div>
+
+      <!-- Section HTML will be placed here, do not modify manually -->
+      <!-- REPLACE SECTION HTML -->
+      <!-- commits, authors, stats, top authors -->
+<div class="row">
+
+  <!-- left column -->
+  <div class="col-md-6">
+
+    <div class="row">
+      <div class="well">
+        <div class="MetricsEvol" data-data-source="scr"
+             data-metrics="scr_pending" data-convert="aggregate" data-min1="true"
+             style="height: 120px;" data-frame-time="true"></div>
+        <div class="MicrodashText" data-metric="pending"></div>
+      </div>
+    </div>
+
+    <!--<div class="row">
+      <div class="well">
+        <div class="MetricsEvol" data-data-source="scr"
+             data-metrics="review_time_days_median" data-legend="true"
+             data-frame-time="true"></div>
+      </div>
+    </div>-->
+
+    <div class="row">
+      <div class="well">
+        <div class="MetricsEvol" data-data-source="scr"
+             data-metrics="scr_submitted,scr_merged,scr_abandoned"
+             data-min1="true" data-legend="true" style="height: 120px;"
+             data-frame-time="true" data-help="true"></div>
+        <div class="MicrodashText" data-metric="scr_submitted" data-name="true"></div>
+        <div class="MicrodashText" data-metric="scr_merged" data-name="true"></div>
+        <div class="MicrodashText" data-metric="scr_abandoned" data-name="true"></div>
+      </div>
+    </div>
+
+  </div>
+  <!-- end left column -->
+
+  <!-- right column -->
+  <div class="col-md-6">
+
+    <div class="row">
+      <table class="table table-striped">
+        <tr>
+          <td><h5>Source code review <small> (updated on <span
+                                                            class="GlobalData" data-data-source="scr" data-field="scr_last_date"></span>)</small></h5></td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <table class="table table-striped">
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_repositories"></span></td>
+            <td>repositories</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_new"></span></td>
+            <td>new code reviews</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_WaitingForReviewer"></span></td>
+            <td>code reviews waiting for reviewer</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_reviewers"></span></td>
+            <td>total code reviewers</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_review_time_days_median"></span></td>
+            <td>median time to review in days</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col-md-6">
+        <table class="table table-striped">
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_companies"></span></td>
+            <td>companies</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_merged"></span></td>
+            <td>accepted contributions</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_WaitingForSubmitter"></span></td>
+            <td>code reviews waiting for submitter</td>
+          </tr>
+          <tr>
+            <td><span class="GlobalData" data-data-source="scr"
+                      data-field="scr_reviewers_7"></span></td>
+            <td>code reviewers last week</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- end stats -->
+
+    <!-- top authors -->
+    <!--<div class="Top" data-data-source="scm" data-graph="bars"
+        data-metric="authors" data-limit="10"
+        data-people_links="false" ></div>-->
+    <div class="row">
+      <div class="col-md-6">
+        <div class="Top" data-data-source="scr" data-metric="openers"></div>
+      </div>
+      <div class="col-md-6">
+        <div class="Top" data-data-source="scr" data-metric="mergers"></div>
+      </div>
+    </div>
+    <!-- end top authors -->
+
+  </div>
+  <!-- end right column -->
+</div>
+<!-- end commits, authors, stats, top authors -->
+
+      <!-- END SECTION  HTML-->
+
+      <footer>
+        <div id="Footer"></div>
+      </footer>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <script src="./lib/bootstrap-3.1.1.min.js"></script>
+    <script src="./lib/jasny-bootstrap-3.1.3.min.js"></script>
+    <script src="./lib/vizgrimoire.min.js"></script>
+  </body>
+</html>
+

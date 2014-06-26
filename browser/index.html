@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Luis" >
+    <link rel="shortcut icon" href="../../assets/ico/favicon.png">
+
+    <title></title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link href="./css/jasny-bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="./css/navmenu-push.css" rel="stylesheet">
+
+    <!-- icons -->
+    <link rel="stylesheet" href="./css/awesome/css/font-awesome.min.css">
+
+    <!-- custom -->
+    <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
+    <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
+  </head>
+  <body>
+    
+    <div id="Navbar"></div>
+    
+    <div class="container-fluid">
+      <div class="row"><span class="SectionBreadcrumb col-md-12"></span></div>
+
+      <!-- Section HTML will be placed here, do not modify manually -->
+      <!-- REPLACE SECTION HTML -->
+      <!-- summary bar -->
+<div class="capped-box overall-summary ">
+  <div class="stats-switcher-viewport js-stats-switcher-viewport">
+    <ul class="numbers-summary">
+      <li><a href="scm.html"><span class="GlobalData"
+                                   data-data-source="scm" data-field="scm_commits"></span></a> commits</li>
+      <li><a href="scm.html"><span class="GlobalData"
+                                   data-data-source="scm" data-field="scm_authors"></span></a> developers
+      </li>
+      <li><a href="its.html"><span class="GlobalData"
+                                   data-data-source="its" data-field="its_opened"></span></a> tickets</li>
+      <li><a href="mls.html"><span class="GlobalData"
+                                   data-data-source="mls" data-field="mls_sent"></span></a> mail messages
+      </li>
+    </ul>
+  </div>
+</div>
+<!-- end of summary bar -->
+
+
+<!-- scm -->
+<div class="row invisible-box">
+
+  <!-- scm summary box -->
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">Code Developers</div>
+      </div>
+
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="scm.html"> <span class="GlobalData"
+                                    data-data-source="scm" data-field="scm_authors"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="row" style="padding: 5px 0px 0px 0px;">
+        <div class="col-md-4">
+          <div class="row thin-border">
+            <div class="col-md-12">Core</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="scm.html"> <span class="GlobalData"
+                                        data-data-source="scm" data-field="core"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+	<div class="col-md-4">                                                
+          <div class="row thin-border">
+            <div class="col-md-12">Regular</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="scm.html"> <span class="GlobalData"
+                                        data-data-source="scm" data-field="regular"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="row thin-border">
+            <div class="col-md-12">Occasional</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="scm.html"> <span class="GlobalData"
+                                        data-data-source="scm" data-field="occasional"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- end scm summary box -->
+  
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="scm"
+           data-metrics="scm_commits" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="scm.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="scm_commits"></span>
+      </a>
+    </div>
+  </div>
+  
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="scm"
+           data-metrics="scm_authors" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="scm.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="scm_authors"></span>
+      </a>
+    </div>
+  </div>
+  
+</div>
+<!-- end scm -->
+
+<!-- scr -->
+<div class="row invisible-box">
+
+  <!-- scr summary box -->
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">Code reviewers</div>
+      </div>
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="scr.html"> <span class="GlobalData"
+                                    data-data-source="scr" data-field="reviewers"></span>
+          </a>
+        </div>
+      </div>
+      <div class="row" style="padding: 5px 0px 0px 0px;">
+        <div class="col-md-12">
+          <div class="row thin-border">
+            <div class="col-md-12">Accepted contributions</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="scr.html"> <span class="GlobalData"
+                                        data-data-source="scr" data-field="scr_merged"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end scr summary box -->
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="scr"
+           data-metrics="scr_merged" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="scr.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="scr_merged"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="scr"
+           data-metrics="reviewers" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="scr.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="reviewers"></span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- end scr -->
+
+<!-- its -->
+<div class="row invisible-box">
+
+  <!-- its summary box -->
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">Ticket Participants</div>
+      </div>
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="its.html"> <span class="GlobalData"
+                                    data-data-source="its" data-field="allhistory_participants"></span>
+          </a>
+        </div>
+      </div>
+      <div class="row" style="padding: 5px 0px 0px 0px;">
+        <div class="col-md-6">
+          <div class="row thin-border">
+            <div class="col-md-12">Fixers</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="its.html"> <span class="GlobalData"
+                                        data-data-source="its" data-field="its_closers"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row thin-border">
+            <div class="col-md-12">Submitters</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="its.html"> <span class="GlobalData"
+                                        data-data-source="its" data-field="its_openers"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end its summary box -->
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="its"
+           data-metrics="its_closed" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="its.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="its_closed"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="its"
+           data-metrics="its_closers" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="its.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="its_closers"></span>
+      </a>
+    </div>
+  </div>
+</div>
+<!-- end its -->
+
+<!-- mls -->
+<div class="row invisible-box">
+
+  <!-- mls summary box-->
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">Discussion Participants</div>
+      </div>
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="mls.html"> <span class="GlobalData"
+                                    data-data-source="mls" data-field="mls_senders"></span>
+          </a>
+        </div>
+      </div>
+      <div class="row" style="padding: 5px 0px 0px 0px;">
+        <div class="col-md-6">
+          <div class="row thin-border">
+            <div class="col-md-12">Thread Initiators</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="mls.html"> <span class="GlobalData"
+                                        data-data-source="mls" data-field="senders_init"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="row thin-border">
+            <div class="col-md-12">First Repliers</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="mls.html"> <span class="GlobalData"
+                                        data-data-source="mls" data-field="senders_response"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end mls summary box -->
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="mls"
+           data-metrics="mls_sent" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="mls.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="mls_sent"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="mls"
+           data-metrics="mls_senders" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="mls.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="mls_senders"></span>
+      </a>
+    </div>
+  </div>
+
+</div>
+<!-- end mls -->
+
+<!-- qaforums -->
+<!-- qaforums summary box-->
+<div class="row invisible-box">
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">Participants</div>
+      </div>
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="qaforums.html"> <span class="GlobalData"
+                                         data-data-source="qaforums" data-field="qaforums_participants"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="row">              
+        <div class="col-md-12">
+          <div class="row thin-border medium-text">
+            <div class="col-md-12">Questions</div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 medium-fp-number">
+              <a href="qaforums.html"> <span class="GlobalData"
+                                             data-data-source="qaforums" data-field="qaforums_qsent"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>            
+  </div>
+  <!-- end qaforums summary box -->
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="qaforums"
+           data-metrics="qaforums_qsent" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="qaforums.html" style="color: black;"> <span
+                                                        class="MicrodashText" data-metric="qaforums_qsent"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="qaforums"
+           data-metrics="qaforums_qsenders" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="qaforums.html" style="color: black;"> <span
+                                                        class="MicrodashText" data-metric="qaforums_qsenders"></span>
+      </a>
+    </div>
+  </div>      
+
+</div>
+
+<!-- end qaforums -->
+
+<!-- irc -->
+<div class="row invisible-box">
+
+  <!-- irc summary box-->
+  <div class="col-md-2">
+    <div class="well well-small">
+      <div class="row thin-border">
+        <div class="col-md-12">IRC Participants</div>
+      </div>
+      <div class="row grey-border">
+        <div class="col-md-12 big-fp-number">
+          <a href="mls.html"> <span class="GlobalData"
+                                    data-data-source="irc" data-field="irc_senders"></span>
+          </a>
+        </div>
+      </div>
+      <div class="row" style="padding: 5px 0px 0px 0px;">
+        <div class="col-md-6">
+        </div>
+        <div class="col-md-6">
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- end irc summary box -->
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="irc"
+           data-metrics="irc_sent" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="irc.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="irc_sent"></span>
+      </a>
+    </div>
+  </div>
+
+  <div class="col-md-5">
+    <div class="well well-small">
+      <div class="MetricsEvol" data-data-source="irc"
+           data-metrics="irc_senders" data-min="true" style="height: 100px;"
+           data-light-style="true"></div>
+      <a href="irc.html" style="color: black;"> <span
+                                                   class="MicrodashText" data-metric="irc_senders"></span>
+      </a>
+    </div>
+  </div>
+
+</div>
+<!-- end irc -->
+
+<!--
+    <div class="row">
+      <div class="col-md-2">
+        <div class="well well-small">
+          <div class="row thin-border">
+            <div class="col-md-12"><abbr title="Questions and Answers">Q&amp;A</abbr> Participants</div>
+          </div>
+          
+          <div class="row grey-border">
+            <div class="col-md-12 big-fp-number">
+              <a href="scm.html"> <span class="GlobalData"
+                                        data-data-source="qaforums" data-field="qaforums_senders"></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="row" style="padding: 5px 0px 0px 0px;">
+            <div class="col-md-6">
+              <div class="row thin-border">
+                <div class="col-md-12">Askers</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 medium-fp-number">
+                  <a href="qaforums.html"> <span class="GlobalData"
+                                                 data-data-source="qaforums" data-field="qaforums_qsenders"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row thin-border">
+                <div class="col-md-12">Answerers</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 medium-fp-number">
+                  <a href="qaforums.html"> <span class="GlobalData"
+                                                 data-data-source="qaforums" data-field="qaforums_asenders"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="well well-small">
+          <div class="MetricsEvol" data-data-source="qaforums"
+               data-metrics="qaforums_qsent" data-min="true" style="height: 100px;"
+               data-light-style="true"></div>
+          <a href="irc.html" style="color: black;"> <span
+                                                       class="MicrodashText"
+                                                       data-data-source="qaforums"
+                                                       data-metric="qaforums_qsent"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="well well-small">
+          <div class="MetricsEvol" data-data-source="qaforums"
+               data-metrics="qaforums_senders" data-min="true" style="height: 100px;"
+               data-light-style="true"></div>
+          <a href="irc.html" style="color: black;"> <span
+                                                       class="MicrodashText" data-metric="qaforums_senders"></span>
+          </a>
+        </div>
+      </div>                    
+    </div>
+    -->
+
+<!-- forge -->
+<!--
+    <div class="row">
+      <div class="col-md-2">
+        <div class="well well-small">
+          <div class="row thin-border">
+            <div class="col-md-12">Module authors</div>
+          </div>
+          
+          <div class="row grey-border">
+            <div class="col-md-12 big-fp-number">
+              <a href="forge.html"> <span class="GlobalData"
+                                          data-data-source="releases"
+                                          data-field="authors"></span>
+              </a>
+            </div>
+          </div>
+
+          <div class="row" style="padding: 5px 0px 0px 0px;">
+            <div class="col-md-6">
+              <div class="row thin-border">
+                <div class="col-md-12">Modules</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 medium-fp-number">
+                  <a href="releases.html"> <span class="GlobalData"
+                                                 data-data-source="releases" data-field="releases_modules"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="row thin-border">
+                <div class="col-md-12">Releases</div>
+              </div>
+              <div class="row">
+                <div class="col-md-12 medium-fp-number">
+                  <a href="releases.html"> <span class="GlobalData"
+                                                 data-data-source="releases" data-field="releases"></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="well well-small">
+          <div class="MetricsEvol" data-data-source="releases"
+               data-metrics="releases_modules" data-min="true" style="height: 100px;"
+               data-light-style="true"></div>
+          <a href="forge.html" style="color: black;"> <span
+                                                         class="MicrodashText"
+                                                         data-data-source="releases"
+                                                         data-metric="releases_modules"></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="col-md-5">
+        <div class="well well-small">
+          <div class="MetricsEvol" data-data-source="releases"
+               data-metrics="authors" data-min="true" style="height: 100px;"
+               data-light-style="true"></div>
+          <a href="forge.html" style="color: black;"> <span
+                                                         class="MicrodashText"
+                                                         data-data-source="releases"
+                                                         data-metric="authors"></span>
+          </a>
+        </div>
+      </div>                    
+    </div>-->
+<!-- end forge -->
+
+
+
+<!-- end scm, its, mls -->
+
+
+      <!-- END SECTION  HTML-->
+
+      <footer>
+        <div id="Footer"></div>
+      </footer>
+    </div>
+    
+    <!-- Bootstrap core JavaScript
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="./lib/jquery-1.11.1.min.js"></script>
+    <script src="./lib/bootstrap-3.1.1.min.js"></script>
+    <script src="./lib/jasny-bootstrap-3.1.3.min.js"></script>
+    <script src="./lib/vizgrimoire.min.js"></script>
+  </body>
+</html>
+
