@@ -258,6 +258,12 @@
         "name" : "New reviews",
         "desc" : "Number of new review processes"
     },
+    "scr_pending" : {
+        "divid" : "scr_pending",
+        "column" : "pending",
+        "name" : "Pending reviews",
+        "desc" : "Number of pending reviews"
+    },
     "scr_abandoned" : {
         "divid" : "scr_abandoned",
         "column" : "abandoned",
@@ -349,6 +355,12 @@
          "column" : "submitters",
          "name" : "Reviews submitters",
          "desc" : "Number of people submitting review processes."
+     },
+    "scr_reviewers" : {
+         "divid" : "scr_reviewers",
+         "column" : "reviewers",
+         "name" : "Reviewers",
+         "desc" : "Number of people reviewing contributions"
      }
 },
 "qaforums": {
@@ -378,6 +390,7 @@
         "column" : "asenders"
     },
     "qaforums_qsenders" : {
+        "divid" : "qaforums_qsenders",
         "name" : "Persons posting questions",
         "desc" : "Number of persons asking questions in Q&A forums(s)",
         "column" : "qsenders"
