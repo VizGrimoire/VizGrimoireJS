@@ -17,8 +17,7 @@
         "repos"
     ],
     "qaforums": [
-        "contributors",
-        "repos"
+        "contributors"
     ],
     "irc": [
         "contributors",
@@ -29,7 +28,6 @@
     ],
     "its": [
         "companies",
-        "companies-summary",
         "contributors",
         "countries",
         "domains",
@@ -40,9 +38,7 @@
     "scr": [
         "companies",
         "companies-summary",
-        "contributors",
         "countries",
-        "domains",
         "projects",
         "repos"
     ],
