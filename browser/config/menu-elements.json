@@ -1,0 +1,51 @@
+{
+    "scm": [
+        "companies",
+        "companies-summary",
+        "contributors",
+        "countries",
+        "domains",
+        "projects",
+        "repos"
+    ],
+    "mls": [
+        "companies",
+        "contributors",
+        "countries",
+        "domains",
+        "projects",
+        "repos"
+    ],
+    "qaforums": [
+        "contributors",
+        "repos"
+    ],
+    "irc": [
+        "contributors",
+        "repos"
+    ],
+    "studies": [
+        "demographics"
+    ],
+    "its": [
+        "companies",
+        "companies-summary",
+        "contributors",
+        "countries",
+        "domains",
+        "projects",
+        "repos",
+        "states"
+    ],
+    "scr": [
+        "companies",
+        "companies-summary",
+        "contributors",
+        "countries",
+        "domains",
+        "projects",
+        "repos"
+    ],
+    "downloads": [],
+    "wiki": []
+}
