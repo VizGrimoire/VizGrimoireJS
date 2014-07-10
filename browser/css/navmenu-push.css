@@ -3,7 +3,12 @@ html, body {
 }
 
 body {
-  padding: 50px 0 0 0;
+    background-color: #F5F5F5;
+    padding: 50px 0 0 0;
+    color: #333333;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 1.42857;
 }
 
 /*.navbar-toggle {
