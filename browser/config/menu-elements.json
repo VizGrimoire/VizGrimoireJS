@@ -3,23 +3,14 @@
         "companies",
         "companies-summary",
         "contributors",
-        "countries",
-        "domains",
-        "projects",
         "repos"
     ],
     "mls": [
         "companies",
         "contributors",
-        "countries",
-        "domains",
-        "projects",
         "repos"
     ],
-    "qaforums": [
-        "contributors",
-        "repos"
-    ],
+    "qaforums": [],
     "irc": [
         "contributors",
         "repos"
@@ -29,23 +20,14 @@
     ],
     "its": [
         "companies",
-        "companies-summary",
         "contributors",
-        "countries",
-        "domains",
-        "projects",
-        "repos",
-        "states"
+        "repos"
     ],
     "scr": [
         "companies",
         "companies-summary",
-        "contributors",
-        "countries",
-        "domains",
-        "projects",
-        "repos"
+        "contributors"
     ],
-    "downloads": [],
-    "wiki": []
+    "downloads_OFF": [],
+    "wiki_OFF": []
 }

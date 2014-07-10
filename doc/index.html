@@ -3,40 +3,25 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<title></title>
+<title>VizJS Documentation</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" type="text/css" id="theme" href="../vizgrimoire.css" />
-<link href="../bootstrap/css/bootstrap.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" id="theme" href="css/vizgrimoire.css" />
+<link href="css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="custom.css" />
-<link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+
 <link rel="shortcut icon" href="favicon.png">
 </head>
 
 <body>
-  <div class="navbar navbar-fixed-top">
-    <div class="navbar-inner">
-      <div class="container-fluid">
-        <button type="button" class="btn btn-navbar" data-toggle="collapse"
-          data-target=".nav-collapse">
-          <span class="icon-bar"></span> <span class="icon-bar"></span> <span
-            class="icon-bar"></span>
-        </button>
-        <a class="brand" href="./">VizJS 2.1 Doc</a>
-        <div class="nav-collapse collapse">
-          <ul class="nav"></ul>
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span7">
+    <div class="row">
+      <div class="col-md-7">
         <div class="well" id="display" style="height: 250px; overflow: auto;"></div>
       </div>
-      <div class="span5">
-        <div class="well" id="divSyntaxHelp" style="height: 30px;"></div>
-        <div class="well" id="divSyntax" style="height: 40px;">DIV:</div>
-        <div class="well" id="divParams" style="height: 150px;">Params:</div>
+      <div class="col-md-5">
+        <div class="well" id="divSyntaxHelp" style="height: 100px;"></div>
+        <div class="well" id="divSyntax" style="height: 100px;">DIV:</div>
+        <div class="well" id="divParams" style="height: 350px;">Params:</div>
       </div>
     </div>
     <div class="row-fluid">
@@ -44,9 +29,9 @@
     </div>
   </div>
   <div id="Footer"></div>
-  <script type="text/javascript" src="../lib/jquery-1.7.1.min.js"></script>
-  <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
-  <script type="text/javascript" src="../vizgrimoire.min.js"></script>
+  <script type="text/javascript" src="lib/jquery-1.11.1.min.js"></script>
+  <script type="text/javascript" src="lib/bootstrap-3.1.1.min.js"></script>
+  <script type="text/javascript" src="lib/vizgrimoire.min.js"></script>
   <script type="text/javascript" src="js/vizjsDoc.js"></script>
   <script>
             vizjsDoc.show('sections', 'display', 'divSyntax', 'divSyntaxHelp',
