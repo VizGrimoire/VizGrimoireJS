@@ -1,81 +1,70 @@
 
-<div class="col-md-12">
-  <!-- Tab panes -->
-  <div class="tab-content">
-    <!-- scm tab -->
-    <div class="tab-pane active" id="code">           
-
-
-      <!-- info text -->
-      <div id="info" class="row">
-        <div class="col-md-6">
-          
-          <p>Some charts and tables for top repositories in
-            the project, and a summary of the evolution of their participation with
-            links to more detailed information per repository</p></div>
-        <div class="col-md-6">
-          <!-- evolution #repositories -->
-          <i> <b>Active Repositories per month</b>
-          </i>
-          <div class="MetricsEvol" data-data-source="scm"
-               data-metrics="scm_repositories" data-legend="false"
-               style="height: 80px;"></div>
-        </div>
-      </div>
-      <!-- end info text -->
-
-
-      <!-- list of repositories -->
-      <div id="nav" class="row">
-        <div class="FilterItemsNav" data-data-source="scm"
-             data-order-by="scm_commits" data-filter="repos" style="align: center"></div>
-      </div>
-      <!-- end list of repositories -->
-
-
-      <!-- commits, authors repository -->
-      <div class="well">
-        <div id="summary-static" class="row">
-          <!-- commits -->
-          <div class="col-md-1"></div>
-          <div class="col-md-4">
-            <i> <b>Commits per repository (aggregated)</b>
-            </i>
-            <div class="FilterItemsGlobal" data-data-source="scm"
-                 data-metric="scm_commits" data-filter="repos"
-                 data-legend-div="repos_legend" data-limit="50"
-                 data-order-by="scm_commits"></div>
-          </div>
-          <!-- end commits -->
-
-          <div class="col-md-2" id="repos_legend"></div>
-
-          <!-- authors -->
-          <div class="col-md-4">
-            <i> <b>Authors per repository (aggregated)</b>
-            </i>
-            <div class="FilterItemsGlobal" data-data-source="scm"
-                 data-metric="scm_authors" data-filter="repos" data-legend="false"
-                 data-limit="50" data-order-by="scm_commits"></div>
-          </div>
-          <!-- end authors -->
-          <div class="col-md-1"></div>
-        </div>
-      </div>
-      <!-- end commits, authors repository -->
-
-      <div id="summary-static" class="row"></div>
-
-      <!-- commits per repository -->
-      <div id="list" class="row">
-        <div class="FilterItemsMiniCharts" data-data-source="scm"
-             data-metrics="scm_commits,scm_authors" data-filter="repos"
-             data-order-by="scm_commits"></div>
-      </div>
-      <!-- end commits per repository -->
-      
-      
-    </div>
-    <!-- end of scm tab -->
+<!-- info text -->
+<div id="info" class="row">
+  <div class="col-md-6">
+    
+    <p>Some charts and tables for top repositories in
+      the project, and a summary of the evolution of their participation with
+      links to more detailed information per repository</p></div>
+  <div class="col-md-6">
+    <!-- evolution #repositories -->
+    <i> <b>Active Repositories per month</b>
+    </i>
+    <div class="MetricsEvol" data-data-source="scm"
+         data-metrics="scm_repositories" data-legend="false"
+         style="height: 80px;"></div>
   </div>
 </div>
+<!-- end info text -->
+
+
+<!-- list of repositories -->
+<div id="nav" class="row">
+  <div class="FilterItemsNav" data-data-source="scm"
+       data-order-by="scm_commits" data-filter="repos" style="align: center"></div>
+</div>
+<!-- end list of repositories -->
+
+
+<!-- commits, authors repository -->
+<div class="well">
+  <div id="summary-static" class="row">
+    <!-- commits -->
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
+      <i> <b>Commits per repository (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scm"
+           data-metric="scm_commits" data-filter="repos"
+           data-legend-div="repos_legend" data-limit="50"
+           data-order-by="scm_commits"></div>
+    </div>
+    <!-- end commits -->
+
+    <div class="col-md-2" id="repos_legend"></div>
+
+    <!-- authors -->
+    <div class="col-md-4">
+      <i> <b>Authors per repository (aggregated)</b>
+      </i>
+      <div class="FilterItemsGlobal" data-data-source="scm"
+           data-metric="scm_authors" data-filter="repos" data-legend="false"
+           data-limit="50" data-order-by="scm_commits"></div>
+    </div>
+    <!-- end authors -->
+    <div class="col-md-1"></div>
+  </div>
+</div>
+<!-- end commits, authors repository -->
+
+<div id="summary-static" class="row"></div>
+
+<!-- commits per repository -->
+<div id="list" class="row">
+  <div class="FilterItemsMiniCharts" data-data-source="scm"
+       data-metrics="scm_commits,scm_authors" data-filter="repos"
+       data-order-by="scm_commits"></div>
+</div>
+<!-- end commits per repository -->
+
+
