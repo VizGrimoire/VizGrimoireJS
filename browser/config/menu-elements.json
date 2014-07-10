@@ -10,7 +10,7 @@
         "contributors",
         "repos"
     ],
-    "qaforums": [],
+    "qaforums": ["tags"],
     "irc": [
         "contributors",
         "repos"
