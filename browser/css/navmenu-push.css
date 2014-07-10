@@ -81,11 +81,11 @@ does not work
 /*.breadcrumbtitle >li > a { 
     color: #ED9C06;
     text-decoration: none;
-}*/
+}
 .breadcrumbtitle >li > a:hover { 
     color: #FFFFFF;
     text-decoration: none;
-}
+}*/
 .ol { 
     margin-bottom: 10px;
     margin-top: 15px;
@@ -145,5 +145,11 @@ a {
     color: #C43422;
     text-decoration: none;
 }
+
+.breadcrumbtitle >li > a:hover { 
+    color: #2A6496;
+    text-decoration: none;
+}
+
 
 /** */

@@ -356,7 +356,7 @@
          "name" : "Reviews submitters",
          "desc" : "Number of people submitting review processes."
      },
-    "scr_reviewers" : {
+    "src_reviewers" : {
          "divid" : "scr_reviewers",
          "column" : "reviewers",
          "name" : "Reviewers",
