@@ -21,6 +21,7 @@
     "its": [
         "companies",
         "contributors",
+	"states",
         "repos"
     ],
     "scr": [
