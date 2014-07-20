@@ -364,6 +364,11 @@
      }
 },
 "qaforums": {
+    "qaforums_participants" : {
+        "name" : "Participants",
+        "desc" : "Number of persons posting messages",
+        "column" : "participants"
+    },
     "qaforums_sent" : {
         "name" : "Messages posted",
         "desc" : "Number of messages posted to Q&A forums(s)",
