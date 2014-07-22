@@ -11,11 +11,6 @@ body {
     line-height: 1.42857;
 }
 
-/*.navbar-toggle {
-  float: left;
-  margin-left: 15px;
-}*/
-
 @media (min-width: 0) {
   .navbar-toggle {
     display: block;
@@ -28,12 +23,29 @@ body {
   body {
     padding: 0;
   }
-/*  .navbar {
-    right: auto;
-    background: none;
-    border: none;
-  }*/
 }
+
+/** Filter bar used to select repository in
+scm-contributors **/
+
+.filterbar { 
+    background-color: #f5f5f5;
+    border-radius: 4px;
+    list-style: none outside none;
+    margin-bottom: 20px;
+    padding: 8px 15px;              
+}
+.filterbar > li { 
+    display: inline-block;
+}
+
+/** Trends **/
+.FilterItemMicrodashText { 
+    text-align: center;
+}
+
+
+/** Background **/
 
 .container-fluid { 
     margin-left: auto;
@@ -44,22 +56,7 @@ body {
     background-color: #F5F5F5;
 }
 
-/*
-does not work
-#ProjectNavbar .breadcrumb li
-{ 
-  font-size: 1.2em;
-}*/
-
-/*.breadcrumb { 
-    border-radius: 4px 4px 4px 4px !important;
-    list-style: none outside none;
-    padding: 0 0 0 0;
-    margin-top: 15px;
-    background-color: transparent;
-    font-size: 1.1em;
-}*/
-/* this style is used to display the project nav bar*/
+/* Project navigation bar*/
 .breadcrumbtitle {
     background-color: transparent;
     border-radius: 4px 4px 4px 4px;
@@ -91,51 +88,49 @@ does not work
     margin-top: 15px;
 }
 
-.FilterItemMicrodashText { 
-    text-align: center;
-}
+/** Navigation breadcrumb (on navigation bar) **/
 
 .navbar-default .navbar-brand { 
-    color: #ED9C06;
+    /*color: #ED9C06;*/
+    color: #f5f5f5;
 }
 .navbar-default .navbar-brand:hover { 
-    color: #ED9C06;
+    /*color: #ED9C06;*/
+    color: #f5f5f5;
 }
 .navbar-default { 
-    background-color: #000000;
-    border-color: #ED9C06;
-                  }
+/*    background-color: #000000;
+    border-color: #ED9C06;*/
+    background-color: #ED9C06;
+    border-color: #000000;
+}
 .navbar-fixed-top { 
     border-width: 0 0 2px;
     top: 0;
-                    }
+}
 
 .navbar-default .navbar-toggle { 
     background-color: #FFFFFF;
     border-color: #FFFFFF;
-                                 }
+}
+
+/** Section breadcrumb (Project overview)**/
+
+.breadcrumb { 
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    list-style: none outside none;
+    margin-bottom: 20px;
+    padding: 8px 15px;
+}
+
+/** Boxes (well is a boostrap 3 class)**/
 .well{ 
-background-color: #FFFFFF; }
+    background-color: #FFFFFF; }
+
+/** Links **/
 
 a{ 
    color: #ED9C06;
  }
 
-/* style created for filter bar */
-
-.filterbar { 
-/*    border-radius: 1px 1px 1px 1px !important;
-    list-style: none outside none;
-    padding: 0 0 0 0;
-    margin-top: 1px;
-    background-color: transparent;
-    font-size: 0.9em;*/
-    background-color: #f5f5f5;
-    border-radius: 4px;
-    list-style: none outside none;
-    margin-bottom: 20px;
-    padding: 8px 15px;              
-}
-.filterbar > li { 
-    display: inline-block;
-}
