@@ -2,7 +2,6 @@
 <!-- info text -->
 <div id="info" class="row">
   <div class="col-md-6">
-    <span class="SectionBreadcrumb"></span>
     <p>Some charts and tables for top domains in the project, and a summary
       of the evolution of their participation with links to more detailed
       information per domain.</p>  
@@ -21,7 +20,7 @@
 
 
 <!-- list of domains -->
-<div id="nav" class="row-fluid">
+<div id="nav" class="row">
   <div class="FilterItemsNav" data-data-source="scm"
        data-order-by="scm_domains" data-filter="domains" style="align: center"></div>
 </div>
@@ -30,10 +29,10 @@
 
 <!-- commits, authors domains -->
 <div class="well">
-  <div id="summary-static" class="row-fluid">
+  <div id="summary-static" class="row">
     <!-- commits -->
-    <div class="span1"></div>
-    <div class="span4">
+    <div class="col-md-1"></div>
+    <div class="col-md-4">
       <i>
         <b>Commits per domain (aggregated)</b>
       </i>
@@ -44,10 +43,10 @@
     </div>
     <!-- end commits -->
 
-    <div class="span2" id="domains_legend"></div>
+    <div class="col-md-2" id="domains_legend"></div>
 
     <!-- authors -->
-    <div class="span4">
+    <div class="col-md-4">
       <i>
         <b>Authors per company (aggregated)</b>
       </i>
@@ -57,15 +56,15 @@
            data-order-by="scm_commits"></div>
     </div>
     <!-- end authors -->
-    <div class="span1"></div>
+    <div class="col-md-1"></div>
   </div>
 </div>
 <!-- end commits, authors domains -->
 
-<div id="summary-static" class="row-fluid"></div>
+<div id="summary-static" class="row"></div>
 
 <!-- commits per domain -->
-<div id="list" class="row-fluid">
+<div id="list" class="row">
   <div class="FilterItemsMiniCharts" data-data-source="scm"
        data-metrics="scm_commits,scm_authors" data-filter="domains"
        data-order-by="scm_commits">
