@@ -10,6 +10,7 @@ python apply_template.py --template body.template --content common/data_sources.
 python apply_template.py --template body.template --content common/project_map.tmpl > ../browser/project_map.html
 python apply_template.py --template body.template --content common/project.tmpl > ../browser/project.html
 python apply_template.py --template body.template --content common/demographics.tmpl > ../browser/demographics.html
+python apply_template.py --template body.template --content common/domain.tmpl > ../browser/domain.html
 
 cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
