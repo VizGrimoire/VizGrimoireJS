@@ -49,13 +49,13 @@ body {
 }
 
 .toptable-title{ 
-    font-family: Cambria,"Palatino Linotype","Book Antiqua",Palatino,serif;
     font-size: 105%;
     letter-spacing: 1px;
     margin-bottom: 10px;
     /*font-weight: bold;*/
     line-height: 1.1;
     text-align:center;
+    color: #555;
 }
 
 /** Filter bar used to select repository in
@@ -166,4 +166,3 @@ scm-contributors **/
 a{ 
    color: #ED9C06;
  }
-
