@@ -7,7 +7,7 @@
       <div class="col-md-12">
 	<div class="well">
           <div class="MetricsEvol" data-data-source="irc"
-               data-metrics="irc_sent" data-min="true" style="height: 120px;"
+               data-metrics="irc_sent" data-min="true" style="height: 160px;"
                data-frame-time="true"></div>
           <div class="MicrodashText" data-metric="irc_sent"></div>
 	</div>
@@ -28,56 +28,42 @@
     </div>
     <!-- end senders -->
 
-    <!-- mixed sent, senders -->
-<!--    <div class="row">
-      <div class="col-md-12">
-	<div class="well">
-          <em>Messages per sender</em>
-          <div class="MetricsEvol" data-data-source="irc"
-               data-metrics="irc_sent,irc_senders" data-min="true"
-               style="height: 120px;" data-convert="divide"
-               data-frame-time="true"></div>
-	</div>
-      </div>
-    </div>
--->
     <!-- end mixed sent, senders -->
   </div>
   <!-- end evol charts -->
 
   <!-- top senders -->
   <div class="col-md-6">
-    <div class="row">
-      <table class="table table-striped">
-	<tr>
-          <td><h5>IRC channels <small> (updated on <span
-                                                      class="GlobalData" data-data-source="irc" data-field="last_date"></span>)</small></h5></td>
-	</tr>
-      </table>
-    </div>
-
-    <div class="row">
-      <div class="col-md-6">
-	<table class="table table-striped">
-          <tr>
-            <td><span class="GlobalData" data-data-source="irc"
+    <div class="panel panel-default">
+      <div class="panel-body">
+	
+	<div class="row">
+	  <div class="col-md-12">
+	    <p class="section-title"><i class="fa fa-comment-o"></i> IRC Channels</p>
+	  </div>
+	</div>
+	
+	<div class="row">
+	  <div class="col-md-12">
+	    <table class="table">
+              <tr>
+		<td><span class="GlobalData" data-data-source="irc"
                       data-field="irc_sent"></span></td>
-            <td>messages sent</td>
-          </tr>
-	</table>
+		<td>messages sent</td>
+		<td><span class="GlobalData" data-data-source="irc"
+			  data-field="irc_senders"></span></td>
+		<td>irc participants</td>
+              </tr>
+	    </table>
+	  </div>
+	</div>
       </div>
-      <div class="col-md-6">
-	<table class="table table-striped">
-          <tr>
-            <td><span class="GlobalData" data-data-source="irc"
-                      data-field="irc_senders"></span></td>
-            <td>irc participants</td>
-          </tr>
-	</table>
+      
+      <div class="panel-body">
+	<div class="Top" data-data-source="irc" data-period_all="true"
+	     data-metric="senders" data-limit="10" data-people_links="true">
+	</div>
       </div>
-    </div>
-    <div class="Top" data-data-source="irc" data-period_all="true"
-	 data-metric="senders" data-limit="10" data-people_links="true">
     </div>
   </div>
   <!-- end top senders -->
