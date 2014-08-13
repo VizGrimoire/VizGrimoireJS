@@ -160,6 +160,9 @@ scm-contributors **/
 /** Boxes (well is a boostrap 3 class)**/
 .well{ 
     background-color: #FFFFFF; }
+.wellmin{ 
+    background-color: #FFFFFF; }
+
 
 /** Links **/
 
