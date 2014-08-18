@@ -39,13 +39,26 @@ body {
     padding: 3px 20px;
 }
 
-.section-title{
+.section-title{ /* FIXME to be moved to vizgrimoire.css*/
     font-family: 'Nadia Serif',Helvetica,"Helvetica Neue",Arial,sans-serif;
-    font-size: 115%;
+    font-size: 120%;
     color: #555;
     margin-bottom: 10px;
     font-weight: bold;
     line-height: 1.2;                 
+}
+
+.numberInTD{  /* FIXME to be moved to vizgrimoire.css*/
+    text-align: right;
+}
+
+.subsection-title{ /* FIXME to be moved to vizgrimoire.css*/
+    font-family: 'Nadia Serif',Helvetica,"Helvetica Neue",Arial,sans-serif;
+    font-size: 105%;
+    color: #555;
+    margin-bottom: 7px;
+    font-weight: bold;
+    line-height: 1.0;                 
 }
 
 .toptable-title{ 
