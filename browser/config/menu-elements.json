@@ -1,41 +1,44 @@
 {
-    "scm": [
-        "companies",
-        "companies-summary",
-        "contributors",
-        "repos"
-    ],
-    "mls": [
-        "companies",
-        "contributors",
-        "repos"
-    ],
-    "qaforums": ["tags"],
-    "irc": [
-        "contributors",
-        "repos"
-    ],
-    "studies": [
-        "demographics"
-    ],
-    "its": [
-        "companies",
-        "contributors",
-	"states",
-        "repos"
-    ],
-    "scr": [
-        "companies",
-        "companies-summary",
-        "contributors"
-    ],
-    "downloads_OFF": [],
-    "wiki_OFF": [],
-    "extra": [
-	["Icehouse release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/icehouse"],
-	["Havana release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/havana"],
-	["Grizzly release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/grizzly"],
-	["Folson release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/folsom"],
-	["Essex release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/essex"]
-    ]
+    "menu":{
+        "scm": [
+            "companies",
+            "companies-summary",
+            "contributors",
+            "repos"
+        ],
+        "mls": [
+            "companies",
+            "contributors",
+            "repos"
+        ],
+        "qaforums": ["tags"],
+        "irc": [
+            "contributors",
+            "repos"
+        ],
+        "studies": [
+            "demographics"
+        ],
+        "its": [
+            "companies",
+            "contributors",
+	    "states",
+            "repos"
+        ],
+        "scr": [
+            "companies",
+            "companies-summary",
+            "contributors"
+        ],
+        "downloads_OFF": [],
+        "wiki_OFF": [],
+        "extra": [
+	    ["Icehouse release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/icehouse"],
+	    ["Havana release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/havana"],
+	    ["Grizzly release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/grizzly"],
+	    ["Folson release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/folsom"],
+	    ["Essex release","http://activity.openstack.org/dash/releases/index.html?data_dir=data/essex"]
+        ]
+    },
+    "releases":["essex","folsom","havana","icehouse"]
 }
