@@ -167,5 +167,12 @@ a {
     text-decoration: none;
 }
 
+.btn-releaseselector{
+    background-color: #c43422;
+    border-color: #c43422;
+    color: #fff;
+    padding: 10px 20px;
+}
+
 
 /** */
