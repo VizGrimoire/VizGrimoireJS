@@ -17,7 +17,8 @@
             "repos"
         ],
         "studies": [
-            "demographics"
+            "demographics",
+            "release"
         ],
         "its": [
             "companies",
