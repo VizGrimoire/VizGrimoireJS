@@ -1,6 +1,6 @@
 {
 "date":"",
-"project_name" :"Openstack Community", 
+"project_name" :"Project template", 
 "project_url" :"http://incubator.apache.org/allura/",
 "scm_url":"https://github.com/apache/incubator-allura",
 "scm_name":"git://git.apache.org/incubator-allura.git",

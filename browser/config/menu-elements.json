@@ -1,38 +1,55 @@
 {
     "menu":{
-        "scm": [
+	"scm": [
             "companies",
             "companies-summary",
             "contributors",
+            "countries",
+            "domains",
+            "projects",
             "repos"
-        ],
-        "mls": [
+	],
+	"mls": [
             "companies",
             "contributors",
+            "countries",
+            "domains",
+            "projects",
             "repos"
-        ],
-        "qaforums": ["tags"],
-        "irc": [
-            "contributors",
-            "repos"
-        ],
-        "studies": [
-            "demographics",
-            "release"
-        ],
-        "its": [
-            "companies",
-            "contributors",
-	    "states",
-            "repos"
-        ],
-        "scr": [
-            "companies",
-            "companies-summary",
+	],
+	"qaforums": [
             "contributors"
-        ],
-        "downloads_OFF": [],
-        "wiki_OFF": []
+	],
+	"irc": [
+            "contributors",
+            "repos"
+	],
+	"studies": [
+            "demographics"
+	],
+	"its": [
+            "companies",
+            "contributors",
+            "countries",
+            "domains",
+            "projects",
+            "repos",
+            "states"
+	],
+	"scr": [
+            "companies",
+            "companies-summary",
+            "countries",
+            "projects",
+            "repos"
+	],
+	"downloads": [],
+	"wiki": [],
+	"extra": [
+	    ["Link 1", "http://bitergia.com"],
+	    ["Link 2", "https://twitter.com/bitergia"],
+	    ["Link 2", "https://twitter.com/flossmetrics"]
+	]
     },
-    "releases":["essex","folsom","havana","icehouse"]
+    "releases":[]
 }
