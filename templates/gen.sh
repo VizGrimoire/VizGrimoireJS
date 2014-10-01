@@ -87,3 +87,7 @@ python apply_template.py --template body.template --content wiki/contributors.tm
 
 # downloads
 python apply_template.py --template body.template --content downloads/overview.tmpl > ../browser/downloads.html
+
+# forge
+python apply_template.py --template body.template --content forge/overview.tmpl > ../browser/forge.html
+python apply_template.py --template body.template --content forge/contributors.tmpl > ../browser/forge-contributors.html
