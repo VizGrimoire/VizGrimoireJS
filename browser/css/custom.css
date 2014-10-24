@@ -203,3 +203,6 @@ a{
     line-height: 1.7;
 }
 */
+
+/** Fix for issue in jasny offside canvas menu in dropdowns */
+.navmenu-nav.dropdown-menu { position: relative; }
