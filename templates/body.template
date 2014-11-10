@@ -24,9 +24,9 @@
     <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
   </head>
   <body>
-    
+
     <div id="Navbar"></div>
-    
+
     <div class="container-fluid">
       <div class="row"><span class="SectionBreadcrumb col-md-12"></span></div>
 
@@ -39,7 +39,7 @@
         <div id="Footer"></div>
       </footer>
     </div>
-    
+
     <!-- Bootstrap core JavaScript
          ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
@@ -47,5 +47,23 @@
     <script src="./lib/bootstrap-3.1.1.min.js"></script>
     <script src="./lib/jasny-bootstrap-3.1.3.min.js"></script>
     <script src="./lib/vizgrimoire.min.js"></script>
+
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="//mon.bitergia.com/piwik/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 2]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//mon.bitergia.com/piwik/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
+
   </body>
 </html>
