@@ -17,6 +17,13 @@
             "projects",
             "repos"
 	],
+	"qaforums": [
+            "contributors"
+	],
+	"irc": [
+            "contributors",
+            "repos"
+	],
 	"studies": [
             "demographics"
 	],
@@ -35,7 +42,14 @@
             "countries",
             "projects",
             "repos"
+	],
+	"downloads": [],
+	"wiki": [],
+	"extra": [
+	    ["Link 1", "http://bitergia.com"],
+	    ["Link 2", "https://twitter.com/bitergia"],
+	    ["Link 2", "https://twitter.com/flossmetrics"]
 	]
     },
-    "releases" : []
+    "releases":[]
 }
