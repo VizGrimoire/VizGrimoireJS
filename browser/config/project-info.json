@@ -1,16 +1,16 @@
 {
 "date":"",
-"project_name" :"Project template", 
+"project_name" :"Liferay", 
 "project_url" :"http://incubator.apache.org/allura/",
-"scm_url":"https://github.com/apache/incubator-allura",
-"scm_name":"git://git.apache.org/incubator-allura.git",
+"scm_url":"https://github.com/liferay",
+"scm_name":"https://github.com/liferay",
 "scm_type":"git",
-"its_url":"http://sourceforge.net/p/allura/tickets/",
+"its_url":"https://issues.liferay.com/",
 "its_name":"Tickets",
-"its_type":"",
-"mls_url":"http://incubator.apache.org/allura/mailing-lists.html",
+"its_type":"Jira",
+"mls_url":"",
 "mls_name":"Mailing lists",
-"mls_type":"mailman",
+"mls_type":"",
 "producer":"",
 "blog_url":""
 }
