@@ -1,107 +1,106 @@
 <div class="well">
-  <div class="row">
-    <div class="col-md-3">
-      <p><i><b>Evolution of States</b> charts show the evolution of
-          the states in the analysis of the issue tracking system.
-      </i></p>
+    <div class="row">
+        <div class="col-md-12">
+            <p><i><b>Ticket backlogs over time</b></i></p>
 
-      <p><i>Each chart represents the number of issues in such state
-          in each period of time.</i></P>
+            <p>Evolution of the backlog of tickets in the different states over time.</p>
 
+            <p>Each chart represents, for each of the states defined for tickets, how
+            many tickets were in that state the first day of each period (eg, the
+            first day of each month).</p>
+        </div>
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Open"
-               data-min="false" help="false" data-custom-title="<strong>Open</strong>"  style="height:120px;"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Open" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
         </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="In Progress"
-               data-min="false" help="false" data-custom-title="<strong>In Progress</strong>" style="height:120px;"></div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="In Progress" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Resolved"
-               data-min="false" data-custom-title="<strong>Resolved</strong>" help="false" style="height:120px;"></div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Resolved" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
         </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Closed"
-               data-min="false" data-custom-title="<strong>Closed</strong>" help="false" style="height:120px;"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Reviewable"
-               data-min="false" data-custom-title="<strong>Reviewable</strong>" help="false" style="height:120px;"></div>
-        </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Ready To Review"
-               data-min="false" data-custom-title="<strong>Ready To Review</strong>" help="false" style="height:120px;"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="Reopened"
-               data-min="false" data-custom-title="<strong>Reopened</strong>" help="false" style="height:120px;"></div>
-        </div>
-        <div class="col-md-6"></div>
-      </div>
     </div>
-  </div>            
+    <div class="row">
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Closed" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Reviewable" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Ready To Review" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-metrics="Reopened" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+    </div>
 </div>
 
 <div class="well">
-  <div class="row">
-    <div class="col-md-3">
-      <p><i><b>Current Status</b> charts show the current 'photo' of each of the states.
-      </i></p>
-      <p><i>For each of the states shown, it is specified when the issue was born.</i></P>
+    <div class="row">
+        <div class="col-md-12">
+            <p><i><b>Structure of the current backlog</b></i></p>
+
+            <p>Age structure of tickets, by current state.</p>
+
+            <p>Each chart represents, for all tickets currently in a given state, how
+            many of them were opened during each of the periods (eg., how many were
+            opened for each of the months).</p>
+
+        </div>
     </div>
-    <div class="col-md-9">
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_Open"
-               data-min="false" help="false" data-custom-title="<strong>Current status 'Open'</strong>"  style="height:120px;"></div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_Open" data-custom-title="Open" data-frame-time="yes" 
+             data-min="true" style="height:120px;"></div>
         </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_In Progress"
-               data-min="false" help="false" data-custom-title="<strong>Current status 'In Progress'</strong>" style="height:120px;"></div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_In Progress" data-custom-title="In Progress" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
         </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_Resolved"
-               data-min="false" data-custom-title="<strong>Current status 'Resolved'</strong>" help="false" style="height:120px;"></div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_Resolved" data-custom-title="Resolved" data-frame-time="yes" 
+             data-min="true" style="height:120px;"></div>
         </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_Closed"
-               data-min="false" data-custom-title="<strong>Current status 'Closed'</strong>" help="false" style="height:120px;"></div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_Reviewable"
-               data-min="false" data-custom-title="<strong>Current status 'Reviewable'</strong>" help="false" style="height:120px;"></div>
-        </div>
-        <div class="col-md-6">
-          <div class="MetricsEvol" data-data-source="its" data-metrics="current_Reopened"
-               data-min="false" data-custom-title="<strong>Current status 'Reopened'</strong>" help="false" style="height:120px;"></div>
-        </div>
-      </div>
     </div>
-  </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_Closed" data-custom-title="Closed" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+        <div class="col-md-4">
+           <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_Reviewable" data-custom-title="Reviewable" data-frame-time="yes"
+            data-min="true" style="height:120px;"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="MetricsEvol" data-data-source="its" data-graph="bars" data-metrics="current_Reopened" data-custom-title="Reopened" data-frame-time="yes"
+             data-min="true" style="height:120px;"></div>
+        </div>
+    </div>
 </div>
 
 <div class="well">
-  <div class="row">
-    <div class="col-md-3">
-      <p><i><b>The most likely changes</b> tables show the percentages of changes among states.
-      </i></p>
-    </div>
-    <div class="col-md-9">
-      <div class="MarkovTable" data-data-source="its" data-title="Transitions among statuses"></div>
-    </div>
-  </div>
-  
+    <div class="row">
+        <div class="col-md-3">
+            <p><i><b>State transitions</b></i></p>
 
+            <p>Transitions of tickets between ticket states.</p>
+
+            <p>The table shows, for the whole life of the project, how many tickets did
+            transition between any two states.</p>
+        </div>
+        <div class="col-md-9">
+            <div class="MarkovTable" data-data-source="its" data-title="Transitions among statuses"></div>
+        </div>
+    </div>
+</div>
