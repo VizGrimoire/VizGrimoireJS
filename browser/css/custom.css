@@ -138,6 +138,13 @@ scm-contributors **/
     margin-top: 15px;
 }
 
+/** We need this for the long list in scm-contributors */
+ul.scroll-menu {
+    height: auto;
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
 /** Navigation breadcrumb (on navigation bar) **/
 
 .navbar-default .navbar-brand {
