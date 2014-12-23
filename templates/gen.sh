@@ -18,18 +18,15 @@ cp common/navbar.tmpl ../browser/navbar.html
 
 # its
 python apply_template.py --template body.template --content its/overview.tmpl > ../browser/its.html
-#python apply_template.py --template body.template --content its/companies.tmpl > ../browser/its-companies.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-companies > ../browser/its-companies.html
 python apply_template.py --template body.template --content its/contributors.tmpl > ../browser/its-contributors.html
-#python apply_template.py --template body.template --content its/countries.tmpl > ../browser/its-countries.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-countries > ../browser/its-countries.html
-#python apply_template.py --template body.template --content its/domains.tmpl > ../browser/its-domains.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-domains > ../browser/its-domains.html
 python apply_template.py --template body.template --content its/projects.tmpl > ../browser/its-projects.html
-#python apply_template.py --template body.template --content its/repos.tmpl > ../browser/its-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-repos > ../browser/its-repos.html
 python apply_template.py --template body.template --content its/states.tmpl > ../browser/its-states.html
-python apply_template.py --template body.template --content its/states-jira.tmpl > ../browser/its-states-jira.html
+# the template below contains the basic jira states
+#python apply_template.py --template body.template --content its/states-jira.tmpl > ../browser/its-states-jira.html
 
 # irc
 python apply_template.py --template body.template --content irc/overview.tmpl > ../browser/irc.html
