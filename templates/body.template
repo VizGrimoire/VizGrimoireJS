@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="Luis" >
+    <meta name="author" content="Bitergia" >
     <link rel="shortcut icon" href="../../assets/ico/favicon.png">
 
     <title></title>
@@ -22,6 +22,7 @@
     <!-- custom -->
     <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
     <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
+    <title><span id="ProjectName"></title>
   </head>
   <body>
 
