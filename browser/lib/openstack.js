@@ -44,7 +44,7 @@ var Openstack = {};
                 if (company === "Others") return true;
                 if (company.match("^\-")) return true;
 
-                link = '<a href="company.html?company=' + company + 
+                link = '<a href="company.html?company=' + company +
                        '&data_dir=' + Report.getDataDir() + '">' + company + '</a> | ';
                 links = links + link;
 
@@ -68,8 +68,8 @@ var Openstack = {};
         $.getJSON(json_file, null, function(data) {
             $.each(data, function(field, values) {
                 if ($.inArray(field, marks) == -1) {
-                    Openstack.addCompanyEvol(ds, field, metric, values);   
-                } 
+                    Openstack.addCompanyEvol(ds, field, metric, values);
+                }
                 else {
                     Openstack.addDatesField(ds, field, values);
                 }
@@ -128,7 +128,7 @@ var Openstack = {};
     Openstack.addDatesField = function(ds, field, values) {
         if (!Openstack.dates[ds])
             Openstack.dates[ds] = {};
-        Openstack.dates[ds][field] = values;   
+        Openstack.dates[ds][field] = values;
     };
 
     Openstack.addCompanyEvol = function(ds, name, field, values) {
