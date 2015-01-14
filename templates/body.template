@@ -22,7 +22,6 @@
     <!-- custom -->
     <!-- <link rel="stylesheet" href="VizGrimoireJS/custom.css">-->
     <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
-    <title><span id="ProjectName"></title>
   </head>
   <body>
 
