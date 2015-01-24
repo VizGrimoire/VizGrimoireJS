@@ -18,26 +18,161 @@ describe("VizGrimoireJS data", function() {
             var ds_data = Report.getDataSources()[0].data;
             expect(ds_data instanceof Array).toBeFalsy();
         });
-        it("data update", function() {
+    });
+    describe("Updated Data", function() {
+        var data_sources = Report.getDataSources();
+        var max_days_old = 2;
+        var now = new Date();
+        var day_mseconds = 60*60*24*1000;
+
+        function isEnabled(ds_name){
+            var found = false;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === ds_name &
+                    DS.people.length > 0) {
+                    found = true;
+                    return false;
+                }
+            });
+            return found;
+        }
+
+        it("scm data is up to date or disabled", function() {
+            if(isEnabled('scm') == false ) return true;
             var update = null;
-            var data_sources = Report.getDataSources();
             $.each(data_sources, function(index, DS) {
                 if (DS.getName() === "scm") {
                     update = DS.getGlobalData()['last_date'];
                     return false;
                 }
             });
-            var max_days_old = 2;
-            var now = new Date();
             var update_time = new Date(update+"T00:00:00.000Z");
-            var day_mseconds = 60*60*24*1000;
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+                expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("its data is up to date or disabled", function() {
+            if(isEnabled('its') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "its") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
             var days_old = parseInt(
                     (now.getTime()-update_time.getTime())/(day_mseconds),null);
             expect(days_old).toBeLessThan(max_days_old+1);
-            
+        });
+
+        it("scr data is up to date or disabled", function() {
+            if(isEnabled('scr') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "scr") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+                expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("mls data is up to date or disabled", function() {
+            if(isEnabled('mls') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "mls") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("irc data is up to date or disabled", function() {
+            if(isEnabled('irc') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "irc") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("qaforums data is up to date or disabled", function() {
+            if(isEnabled('qaforums') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "qaforums") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("releases data is up to date or disabled", function() {
+            if(isEnabled('releases') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "releases") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("downloads data is up to date or disabled", function() {
+            if(isEnabled('downloads') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "downloads") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
+        });
+
+        it("mediawiki data is up to date or disabled", function() {
+            if(isEnabled('mediawiki') == false ) return true;
+            var update = null;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "mediawiki") {
+                    update = DS.getGlobalData()['last_date'];
+                    return false;
+                }
+            });
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+            expect(days_old).toBeLessThan(max_days_old+1);
         });
     });
-    
+
     describe("Data checking", function() {
         it("Evol metrics should be present in the Global metrics", function () {
             var data_sources = Report.getDataSources();
@@ -70,12 +205,12 @@ describe("VizGrimoireJS data", function() {
                         expect(metric_total).toEqual(global[field]);
                     }
                 }
-            });            
+            });
         });
     });
 
     function checkDataReport(report) {
-        if ($.inArray(report,['repos','companies','countries'])===-1) 
+        if ($.inArray(report,['repos','companies','countries'])===-1)
             return;
         var data_sources = Report.getDataSources();
         var repos = 0, repos_global = {}, repos_metrics = {};
@@ -103,7 +238,7 @@ describe("VizGrimoireJS data", function() {
                     }
                 }
             }
-        });        
+        });
     }
     describe("Repositories checking", function() {
         it("All repositories should have Evol and Global metrics", function () {
