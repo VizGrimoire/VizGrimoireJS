@@ -19,7 +19,7 @@ describe("VizGrimoireJS data", function() {
             expect(ds_data instanceof Array).toBeFalsy();
         });
     });
-    describe("Updated Data", function() {
+    describe("Updated Data: ", function() {
         var data_sources = Report.getDataSources();
         var max_days_old = 2;
         var now = new Date();
@@ -29,7 +29,7 @@ describe("VizGrimoireJS data", function() {
             var found = false;
             $.each(data_sources, function(index, DS) {
                 if (DS.getName() === ds_name &
-                    DS.people.length > 0) {
+                    DS.data.date !== undefined) {
                     found = true;
                     return false;
                 }
@@ -37,7 +37,7 @@ describe("VizGrimoireJS data", function() {
             return found;
         }
 
-        it("scm data is up to date or disabled", function() {
+        it("scm data is not updated", function() {
             if(isEnabled('scm') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -51,8 +51,19 @@ describe("VizGrimoireJS data", function() {
                 (now.getTime()-update_time.getTime())/(day_mseconds),null);
                 expect(days_old).toBeLessThan(max_days_old+1);
         });
+        it("scm contributors (top) data not available", function() {
+            if(isEnabled('scm') === false ) return true;
+            var nids = 0;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "scm") {
+                    nids = DS.getGlobalTopData()['authors.']['id'].length;
+                    return false;
+                }
+            });
+            expect(nids).toBeGreaterThan(0);
+        });
 
-        it("its data is up to date or disabled", function() {
+        it("its data is not updated", function() {
             if(isEnabled('its') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -67,7 +78,7 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("scr data is up to date or disabled", function() {
+        it("scr data is not updated", function() {
             if(isEnabled('scr') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -82,7 +93,7 @@ describe("VizGrimoireJS data", function() {
                 expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("mls data is up to date or disabled", function() {
+        it("mls data is not updated", function() {
             if(isEnabled('mls') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -97,7 +108,7 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("irc data is up to date or disabled", function() {
+        it("irc data is not updated", function() {
             if(isEnabled('irc') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -112,8 +123,8 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("qaforums data is up to date or disabled", function() {
-            if(isEnabled('qaforums') == false ) return true;
+        it("qaforums data is not updated", function() {
+            if(isEnabled('qaforums') === false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
                 if (DS.getName() === "qaforums") {
@@ -127,7 +138,19 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("releases data is up to date or disabled", function() {
+        it("qaforums contributors (top) data not available", function() {
+            if(isEnabled('qaforums') === false ) return true;
+            var nids = 0;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "qaforums") {
+                    nids = DS.getGlobalTopData()['asenders.']['id'].length;
+                    return false;
+                }
+            });
+            expect(nids).toBeGreaterThan(0);
+        });
+
+        it("releases data is not updated", function() {
             if(isEnabled('releases') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -142,7 +165,7 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("downloads data is up to date or disabled", function() {
+        it("downloads data is not updated", function() {
             if(isEnabled('downloads') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
@@ -157,7 +180,7 @@ describe("VizGrimoireJS data", function() {
             expect(days_old).toBeLessThan(max_days_old+1);
         });
 
-        it("mediawiki data is up to date or disabled", function() {
+        it("mediawiki data is not updated", function() {
             if(isEnabled('mediawiki') == false ) return true;
             var update = null;
             $.each(data_sources, function(index, DS) {
