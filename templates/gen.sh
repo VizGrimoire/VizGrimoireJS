@@ -15,6 +15,8 @@ python apply_template.py --template body.template.releases --content common/rele
 cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
 
+# scm
+python apply_template.py --template body.template --content scm/alerts.tmpl > ../browser/scm-alerts.html
 
 # its
 python apply_template.py --template body.template --content its/overview.tmpl > ../browser/its.html
