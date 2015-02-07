@@ -68,7 +68,15 @@ var Alerts = {};
     function HTMLAlerts (ds_name, alert){
         var html = '<div class="row">';
         html += '<div class="col-md-12"><div class="well">';
-        html += "ALERTS";
+        $.each(Alerts.alerts[ds_name][alert].uid, function(i, value) {
+            // date, email, name, uid
+            name = Alerts.alerts[ds_name][alert].name[i];
+            first_date = Alerts.alerts[ds_name][alert].date[i];
+            email = Alerts.alerts[ds_name][alert].email[i];
+            html += "<div id =alert-uid-'"+value+"' class='alert alert-success'>";
+            html += "New code developer: " + name + "<br>" + first_date;
+            html += "</div>";
+        });
         html += '</div></div></div>';
         return html;
     }
