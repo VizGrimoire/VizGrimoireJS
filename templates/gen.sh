@@ -16,7 +16,7 @@ cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
 
 # scm
-python apply_template.py --template body.template --content scm/events.tmpl > ../browser/scm-events.html
+python apply_template.py --template body.template.events --content scm/events.tmpl > ../browser/scm-events.html
 
 # its
 python apply_template.py --template body.template --content its/overview.tmpl > ../browser/its.html
