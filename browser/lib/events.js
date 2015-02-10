@@ -22,58 +22,58 @@
  *
  */
 
-var Alerts = {};
+var Events = {};
 
 (function() {
 
-    Alerts.alerts = {};
+    Events.events = {};
 
-    Alerts.widget = function(){
-        var divs = $(".Alerts");
+    Events.widget = function(){
+        var divs = $(".Events");
         if (divs.length > 0){
             $.each(divs, function(id, div) {
                 ds_name = $(this).data('data-source');
-                alert = $(this).data('alert');
+                event_ = $(this).data('event');
                 /* this is a typical check, should be moved to a generic funct*/
                 DS = Report.getDataSourceByName(ds_name);
                 if (DS === null) return;
                 if (DS.getData().length === 0) return; /* no data for data source*/
 
-                loadAlertsData(ds_name,
+                loadEventsData(ds_name,
                     function(){
-                        displayAlerts(div, ds_name, alert);
+                        displayEvents(div, ds_name, event_);
                         });
             });
         }
     };
 
-    function loadAlertsData (ds_name, cb) {
+    function loadEventsData (ds_name, cb) {
         suffix = ds_name.toLowerCase();
-        var json_file = "data/json/" + suffix + "-alerts.json";
+        var json_file = "data/json/" + suffix + "-events.json";
         $.when($.getJSON(json_file)
                 ).done(function(json_data) {
-                Alerts.alerts[suffix] = json_data;
+                Events.events[suffix] = json_data;
                 cb();
         }).fail(function() {
-            console.log("Alerts widget disabled. Missing " + json_file);
+            console.log("Events widget disabled. Missing " + json_file);
         });
     }
 
-    function displayAlerts (div, ds_name, alert) {
-        var html = HTMLAlerts(ds_name, alert);
+    function displayEvents (div, ds_name, event_) {
+        var html = HTMLEvents(ds_name, event_);
         if (!div.id) div.id = "Parsed" + getRandomId();
         $("#"+div.id).append(html);
     }
 
-    function HTMLAlerts (ds_name, alert){
+    function HTMLEvents (ds_name, event_){
         var html = '<div class="row">';
         html += '<div class="col-md-12"><div class="well">';
-        $.each(Alerts.alerts[ds_name][alert].uid, function(i, value) {
+        $.each(Events.events[ds_name][event_].uid, function(i, value) {
             // date, email, name, uid
-            name = Alerts.alerts[ds_name][alert].name[i];
-            first_date = Alerts.alerts[ds_name][alert].date[i];
-            email = Alerts.alerts[ds_name][alert].email[i];
-            html += "<div id =alert-uid-'"+value+"' class='alert alert-success'>";
+            name = Events.events[ds_name][event_].name[i];
+            first_date = Events.events[ds_name][event_].date[i];
+            email = Events.events[ds_name][event_].email[i];
+            html += "<div id =event-uid-'"+value+"' class='alert alert-success'>";
             html += "New code developer: " + name + "<br>" + first_date;
             html += "</div>";
         });
@@ -88,5 +88,5 @@ var Alerts = {};
 })();
 
 Loader.data_ready(function() {
-    Alerts.widget();
+    Events.widget();
 });
