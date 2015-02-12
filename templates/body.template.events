@@ -24,7 +24,7 @@
     <link rel="stylesheet" type="text/css" id="theme" href="./css/vizgrimoire.css">
 
     <style>
-        .timeline {max-height: 640px; overflow-y: scroll;}
+        .timeline {max-height: 500px; overflow-y: scroll;}
         .timeline .list-group-item {margin: 0; padding: 5px;}
         .timeline .list-group-item:hover {background-color: #F5F5F5;}
         .timeline .list-group-item .avatar {display: block; float: left; margin: 0 15px 0 0;}
