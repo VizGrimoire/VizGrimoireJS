@@ -50,7 +50,8 @@
 	    ["Link 2", "https://twitter.com/bitergia"],
 	    ["Link 2", "https://twitter.com/flossmetrics"]
 	],
-	"project_map-OFF": []
+	"project_map-OFF": [],
+    "filter": ["scm:company+country"]
     },
     "releases":[]
 }
