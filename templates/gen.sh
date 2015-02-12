@@ -11,6 +11,8 @@ python apply_template.py --template body.template --content common/project_map.t
 python apply_template.py --template body.template --content common/project.tmpl > ../browser/project.html
 python apply_template.py --template body.template --content common/demographics.tmpl > ../browser/demographics.html
 python apply_template.py --template body.template.releases --content common/releases.tmpl > ../browser/release.html
+python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
+
 
 cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
