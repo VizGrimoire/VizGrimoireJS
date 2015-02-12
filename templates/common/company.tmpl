@@ -2,24 +2,30 @@
 
   <div class="col-md-12">
     <div class="wellmin">
-      <div class="FilterItemData" data-filter="companies"></div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="FilterItemData" data-filter="companies"></div>
+            </div>
+            <div class="col-md-9 text-left">
+                <div class="CompanyFilters"></div>
+            </div>
+        </div>
     </div>
   </div>
 </div>
 
 <div class="row">
 
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="scm" 
+    <div class="FilterDSBlock" data-filter="companies" data-data-source="scm"
          data-metrics="scm_commits,scm_authors"></div>
 
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="scr" 
+    <div class="FilterDSBlock" data-filter="companies" data-data-source="scr"
          data-metrics="scr_submitted:scr_merged"></div>
 
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="its" 
+    <div class="FilterDSBlock" data-filter="companies" data-data-source="its"
          data-metrics="its_closed:its_opened,its_closers:its_openers"></div>
 
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="mls" 
+    <div class="FilterDSBlock" data-filter="companies" data-data-source="mls"
          data-metrics="mls_sent,mls_senders"></div>
 
 </div>
-
