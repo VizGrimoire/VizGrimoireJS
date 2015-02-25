@@ -52,7 +52,8 @@
 	    ["Link 2", "https://twitter.com/flossmetrics"]
 	],
 	"project_map-OFF": [],
-    "filter": ["scm:company+country"]
+    "filter": ["scm:company+country","its:company+country"],
+    "filter_companies":["Liferay","non Liferay"]
     },
     "releases":[]
 }
