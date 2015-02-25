@@ -1,4 +1,18 @@
 describe("VizGrimoireJS data", function() {
+    var data_sources = Report.getDataSources();
+
+    function isDSEnabled(ds_name){
+        var found = false;
+        $.each(data_sources, function(index, DS) {
+            if (DS.getName() === ds_name &
+                DS.data.date !== undefined) {
+                found = true;
+                return false;
+            }
+        });
+        return found;
+    }
+
     beforeEach(function() {
         Report.setLog(false);
         waitsFor(function() {
@@ -18,158 +32,54 @@ describe("VizGrimoireJS data", function() {
             var ds_data = Report.getDataSources()[0].data;
             expect(ds_data instanceof Array).toBeFalsy();
         });
+        it("scm contributors (top) data available", function() {
+            if(isDSEnabled('scm') === false ) return true;
+            var nids = 0;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "scm") {
+                    nids = DS.getGlobalTopData()['authors.']['id'].length;
+                    return false;
+                }
+            });
+            expect(nids).toBeGreaterThan(0);
+        });
+        it("qaforums contributors (top) data not available", function() {
+            if(isDSEnabled('qaforums') === false ) return true;
+            var nids = 0;
+            $.each(data_sources, function(index, DS) {
+                if (DS.getName() === "qaforums") {
+                    nids = DS.getGlobalTopData()['asenders.']['id'].length;
+                    return false;
+                }
+            });
+            expect(nids).toBeGreaterThan(0);
+        });
     });
-    describe("Updated Data", function() {
-        var data_sources = Report.getDataSources();
-        var max_days_old = 2;
+
+    describe("Updated Data: ", function() {
+        var max_days_old = 2000; // Change it to your project expected update time
         var now = new Date();
         var day_mseconds = 60*60*24*1000;
 
-        function isEnabled(ds_name){
-            var found = false;
+        function isDSUpdated(ds_name) {
+            if(isDSEnabled(ds_name) == false ) return true;
+            var update = null;
             $.each(data_sources, function(index, DS) {
-                if (DS.getName() === ds_name &
-                    DS.people.length > 0) {
-                    found = true;
+                if (DS.getName() === ds_name) {
+                    update = DS.getGlobalData()['last_date'];
                     return false;
                 }
             });
-            return found;
+            var update_time = new Date(update+"T00:00:00.000Z");
+            var days_old = parseInt(
+                (now.getTime()-update_time.getTime())/(day_mseconds),null);
+                expect(days_old).toBeLessThan(max_days_old+1, ds_name + " data is not updated.");
         }
 
-        it("scm data is up to date or disabled", function() {
-            if(isEnabled('scm') == false ) return true;
-            var update = null;
+        it("Data Sources are not updated", function() {
             $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "scm") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
+                isDSUpdated(DS.getName());
             });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-                expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("its data is up to date or disabled", function() {
-            if(isEnabled('its') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "its") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("scr data is up to date or disabled", function() {
-            if(isEnabled('scr') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "scr") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-                expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("mls data is up to date or disabled", function() {
-            if(isEnabled('mls') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "mls") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("irc data is up to date or disabled", function() {
-            if(isEnabled('irc') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "irc") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                    (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("qaforums data is up to date or disabled", function() {
-            if(isEnabled('qaforums') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "qaforums") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("releases data is up to date or disabled", function() {
-            if(isEnabled('releases') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "releases") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("downloads data is up to date or disabled", function() {
-            if(isEnabled('downloads') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "downloads") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
-        });
-
-        it("mediawiki data is up to date or disabled", function() {
-            if(isEnabled('mediawiki') == false ) return true;
-            var update = null;
-            $.each(data_sources, function(index, DS) {
-                if (DS.getName() === "mediawiki") {
-                    update = DS.getGlobalData()['last_date'];
-                    return false;
-                }
-            });
-            var update_time = new Date(update+"T00:00:00.000Z");
-            var days_old = parseInt(
-                (now.getTime()-update_time.getTime())/(day_mseconds),null);
-            expect(days_old).toBeLessThan(max_days_old+1);
         });
     });
 
@@ -181,6 +91,8 @@ describe("VizGrimoireJS data", function() {
                 var evol = DS.getData();
                 for (field in evol) {
                     if (DS.getMetrics()[field]) {
+                        // Metric not in old JSON files for tests
+                        if (field === 'qaforums_unanswered') {return;}
                         expect(global[field]).toBeDefined();
                     }
                 }

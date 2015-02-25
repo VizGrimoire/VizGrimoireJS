@@ -44,13 +44,16 @@
             "repos"
 	],
 	"downloads": [],
+	"forge": [],
 	"wiki": [],
 	"extra": [
 	    ["Link 1", "http://bitergia.com"],
 	    ["Link 2", "https://twitter.com/bitergia"],
 	    ["Link 2", "https://twitter.com/flossmetrics"]
 	],
-	"project_map-OFF": []
+	"project_map-OFF": [],
+    "filter": ["scm:company+country","its:company+country"],
+    "filter_companies":["Liferay","non Liferay"]
     },
     "releases":[]
 }
