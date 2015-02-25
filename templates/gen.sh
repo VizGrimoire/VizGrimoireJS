@@ -12,6 +12,7 @@ python apply_template.py --template body.template --content common/project.tmpl 
 python apply_template.py --template body.template --content common/demographics.tmpl > ../browser/demographics.html
 python apply_template.py --template body.template.releases --content common/releases.tmpl > ../browser/release.html
 python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
+python apply_template.py --template body.template --content common/project_comparison.tmpl > ../browser/project_comparison.html
 
 
 cp common/footer.tmpl ../browser/footer.html
