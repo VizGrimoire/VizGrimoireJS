@@ -247,7 +247,7 @@ var ProjectsComparison = {};
             var divs = $("#Top" + class_name);
             if (divs.length > 0) {
                 $.each(divs, function(id, div2) {
-                    Table.simpleTable(div2, top_project[pro], ['Companies','Commits'], ['companies','company_commits']);
+                    Table.simpleTable(div2, top_project[pro], ['Companies','Commits'], ['name','company_commits']);
                 });
             }
         });
