@@ -36,6 +36,11 @@
             "repos",
             "states"
 	],
+	"its_1": [
+            "companies",
+            "contributors",
+            "repos"
+    ],
 	"scr": [
             "companies",
             "companies-summary",
