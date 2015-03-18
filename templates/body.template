@@ -50,7 +50,6 @@
     <script src="./lib/timezones.js"></script>
     <script src="./lib/filter_panel.js"></script>
     <script src="./lib/events.js"></script>
-    <script src="./lib/project_comparison.js"></script>
     <!-- Piwik code will be included here-->
     REPLACE_WEBSTATS
     <!-- End of Piwik code -->

@@ -12,7 +12,6 @@ python apply_template.py --template body.template --content common/project.tmpl 
 python apply_template.py --template body.template --content common/demographics.tmpl > ../browser/demographics.html
 python apply_template.py --template body.template.releases --content common/releases.tmpl > ../browser/release.html
 python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
-python apply_template.py --template body.template --content common/project_comparison.tmpl > ../browser/project_comparison.html
 
 
 cp common/footer.tmpl ../browser/footer.html
@@ -27,21 +26,12 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python apply_template.py --template body.template --content its/contributors.tmpl > ../browser/its-contributors.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-countries > ../browser/its-countries.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-domains > ../browser/its-domains.html
-python apply_template.py --template body.template --content its/projects.tmpl > ../browser/its-projects.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-projects > ../browser/its-projects.html
+#python apply_template.py --template body.template --content its/projects.tmpl > ../browser/its-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-repos > ../browser/its-repos.html
 python apply_template.py --template body.template --content its/states.tmpl > ../browser/its-states.html
 # the template below contains the basic jira states
 #python apply_template.py --template body.template --content its/states-jira.tmpl > ../browser/its-states-jira.html
-
-# its_1
-python apply_template.py --template body.template --content its_1/overview.tmpl > ../browser/its_1.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-companies > ../browser/its_1-companies.html
-python apply_template.py --template body.template --content its_1/contributors.tmpl > ../browser/its_1-contributors.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-countries > ../browser/its_1-countries.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-domains > ../browser/its_1-domains.html
-python apply_template.py --template body.template --content its_1/projects.tmpl > ../browser/its_1-projects.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-repos > ../browser/its_1-repos.html
-python apply_template.py --template body.template --content its_1/states.tmpl > ../browser/its_1-states.html
 
 # irc
 python apply_template.py --template body.template --content irc/overview.tmpl > ../browser/irc.html
@@ -58,7 +48,8 @@ python apply_template.py --template body.template --content mls/contributors.tmp
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-countries > ../browser/mls-countries.html
 #python apply_template.py --template body.template --content mls/domains.tmpl > ../browser/mls-domains.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-domains > ../browser/mls-domains.html
-python apply_template.py --template body.template --content mls/projects.tmpl > ../browser/mls-projects.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-projects > ../browser/mls-projects.html
+#python apply_template.py --template body.template --content mls/projects.tmpl > ../browser/mls-projects.html
 #python apply_template.py --template body.template --content mls/repos.tmpl > ../browser/mls-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-repos > ../browser/mls-repos.html
 
@@ -78,7 +69,8 @@ python apply_template.py --template body.template --content scm/contributors.tmp
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-countries > ../browser/scm-countries.html
 #python apply_template.py --template body.template --content scm/domains.tmpl > ../browser/scm-domains.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-domains > ../browser/scm-domains.html
-python apply_template.py --template body.template --content scm/projects.tmpl > ../browser/scm-projects.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-projects > ../browser/scm-projects.html
+#python apply_template.py --template body.template --content scm/projects.tmpl > ../browser/scm-projects.html
 #python apply_template.py --template body.template --content scm/repos.tmpl > ../browser/scm-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-repos > ../browser/scm-repos.html
 
@@ -89,7 +81,8 @@ python apply_template.py --template body.template --content scr/companies-summar
 #python apply_template.py --template body.template --content scr/countries.tmpl > ../browser/scr-countries.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-countries > ../browser/scr-countries.html
 python apply_template.py --template body.template --content scr/overview.tmpl > ../browser/scr.html
-python apply_template.py --template body.template --content scr/projects.tmpl > ../browser/scr-projects.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-projects > ../browser/scr-projects.html
+#python apply_template.py --template body.template --content scr/projects.tmpl > ../browser/scr-projects.html
 #python apply_template.py --template body.template --content scr/repos.tmpl > ../browser/scr-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-repos > ../browser/scr-repos.html
 
