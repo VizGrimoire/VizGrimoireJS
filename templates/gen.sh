@@ -12,6 +12,7 @@ python apply_template.py --template body.template --content common/project.tmpl 
 python apply_template.py --template body.template --content common/demographics.tmpl > ../browser/demographics.html
 python apply_template.py --template body.template.releases --content common/releases.tmpl > ../browser/release.html
 python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
+python apply_template.py --template body.template --content common/project_comparison.tmpl > ../browser/project_comparison.html
 
 
 cp common/footer.tmpl ../browser/footer.html
@@ -32,6 +33,16 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python apply_template.py --template body.template --content its/states.tmpl > ../browser/its-states.html
 # the template below contains the basic jira states
 #python apply_template.py --template body.template --content its/states-jira.tmpl > ../browser/its-states-jira.html
+
+# its_1
+python apply_template.py --template body.template --content its_1/overview.tmpl > ../browser/its_1.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-companies > ../browser/its_1-companies.html
+python apply_template.py --template body.template --content its_1/contributors.tmpl > ../browser/its_1-contributors.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-countries > ../browser/its_1-countries.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-domains > ../browser/its_1-domains.html
+python apply_template.py --template body.template --content its_1/projects.tmpl > ../browser/its_1-projects.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-repos > ../browser/its_1-repos.html
+python apply_template.py --template body.template --content its_1/states.tmpl > ../browser/its_1-states.html
 
 # irc
 python apply_template.py --template body.template --content irc/overview.tmpl > ../browser/irc.html
