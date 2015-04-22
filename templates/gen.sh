@@ -103,3 +103,7 @@ python apply_template.py --template body.template --content downloads/overview.t
 # forge
 python apply_template.py --template body.template --content forge/overview.tmpl > ../browser/forge.html
 python apply_template.py --template body.template --content forge/contributors.tmpl > ../browser/forge-contributors.html
+
+# meetup
+python apply_template.py --template body.template --content meetup/overview.tmpl > ../browser/meetup.html
+python apply_template.py --template body.template --content meetup/past-events.tmpl > ../browser/meetup-past_events.html

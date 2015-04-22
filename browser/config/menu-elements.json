@@ -48,6 +48,9 @@
             "projects",
             "repos"
 	],
+    "meetup": [
+            "past_events"
+    ],
 	"downloads": [],
 	"forge": [],
 	"wiki": [],
