@@ -86,16 +86,16 @@ python build_panel.py --template body.template --content common/list-of-filters.
 #python apply_template.py --template body.template --content scm/repos.tmpl > ../browser/scm-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-repos > ../browser/scm-repos.html
 
-# scr
-#python apply_template.py --template body.template --content scr/companies.tmpl > ../browser/scr-companies.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-companies > ../browser/scr-companies.html
-python apply_template.py --template body.template --content scr/companies-summary.tmpl > ../browser/scr-companies-summary.html
-#python apply_template.py --template body.template --content scr/countries.tmpl > ../browser/scr-countries.html
-python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-countries > ../browser/scr-countries.html
+# scr (Github)
+#python apply_template.py --template body.template --content scr_github/overview.tmpl > ../browser/scr.html
+#python apply_template.py --template body.template --content scr_github/contributors.tmpl > ../browser/scr-contributors.html
+
+#scr (standard)
 python apply_template.py --template body.template --content scr/overview.tmpl > ../browser/scr.html
+python apply_template.py --template body.template --content scr/contributors.tmpl > ../browser/scr-contributors.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-companies > ../browser/scr-companies.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-countries > ../browser/scr-countries.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-projects > ../browser/scr-projects.html
-#python apply_template.py --template body.template --content scr/projects.tmpl > ../browser/scr-projects.html
-#python apply_template.py --template body.template --content scr/repos.tmpl > ../browser/scr-repos.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-repos > ../browser/scr-repos.html
 
 # wiki
