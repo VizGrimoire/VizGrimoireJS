@@ -50,7 +50,34 @@ var Events = {};
                         });
             });
         }
+        var divs = $(".Scout");
+        if (divs.length > 0){
+            $.each(divs, function(id, div) {
+                ds_name = $(this).data('data-source');
+                event_ = $(this).data('event');
+
+                loadScoutEventsData(
+                    function(){
+                        displayEventsScout(div);
+                    });
+            });
+        }
     };
+
+    function loadScoutEventsData (cb) {
+        var json_file = "data/json/scout.json";
+        $.when($.getJSON(json_file)
+                ).done(function(json_data) {
+                Events.scout = json_data;
+                cb();
+                for (var j = 0; j < data_callbacks.length; j++) {
+                    if (data_callbacks[j].called !== true) data_callbacks[j]();
+                    data_callbacks[j].called = true;
+                }
+        }).fail(function() {
+            console.log("Events widget disabled. Missing " + json_file);
+        });
+    }
 
     function loadEventsData (ds_name, cb) {
         suffix = ds_name.toLowerCase();
@@ -73,6 +100,13 @@ var Events = {};
         // if (!div.id) div.id = "Parsed" + getRandomId();
         // $("#"+div.id).append(html);
         show_timeline(ds_name, event_);
+    }
+
+    function displayEventsScout (div, ds_name, event_) {
+        // var html = HTMLEvents(ds_name, event_);
+        // if (!div.id) div.id = "Parsed" + getRandomId();
+        // $("#"+div.id).append(html);
+        show_timeline_scout();
     }
 
     function HTMLEvents (ds_name, event_){
@@ -116,9 +150,32 @@ var Events = {};
         Mustache.parse(template);
         var rendered = Mustache.render(template, data);
         $('#target').html(rendered);
-    }
+    };
 
+    show_timeline_scout = function(ds_name, event_) {
+        var data = {
+            "events":[]
+        };
 
+        // {"date":[], "url":[], "summary":[],field1:[],...}
+        var events = Events.scout;
+
+        $.each(events.date, function(index){
+            data.events.push({"url":events.url[index],"summary":events.summary[index],
+                              "timestamp":events.date[index],
+                              "event_text": "Not yet available"});
+        });
+
+        $.each(data.events, function(index, event){
+            event.timestamp = moment(event.timestamp, "YYYY-MM-DD hh:mm:ss").fromNow();
+        });
+
+        var template = $('#template_scout').html();
+
+        Mustache.parse(template);
+        var rendered = Mustache.render(template, data);
+        $('#target').html(rendered);
+    };
 
     function getRandomId() {
         return Math.floor(Math.random()*1000+1);
