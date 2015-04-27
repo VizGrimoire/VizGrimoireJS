@@ -135,8 +135,8 @@ img {
 }
 
 .container-fluid {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
     /* max-width: 1280px; */
     margin-left: auto;
     margin-right: auto;
@@ -153,7 +153,7 @@ img {
 }
 
 
-/* 
+/*
         FOOTER COMPONENTS
 */
 
@@ -165,7 +165,7 @@ img {
 
 
 /*
-        TEXT 
+        TEXT
 */
 
 h1 {
@@ -306,9 +306,9 @@ body {
 }
 
 .demographic-bars,
-.Demographics {
-    width:250px;
-    height:200px;
+.Demographics,
+.DemographicsCompany{
+    height:380px;
 }
 
 .subreport-list-item {
@@ -363,20 +363,20 @@ body {
 
 .subreport-list-item {float:right;height:80px;width:100%;}
 
-.table td.respository-name{ 
+.table td.respository-name{
   padding: 30px 0 0 10px;
 }
 
-.table-repositories{ 
+.table-repositories{
   margin-top: 20px;
 }
 
-.pagination{ 
+.pagination{
   margin-top: 0px;
   margin-bottom: 0px;
   float: left;
 }
-.pagination-text{ 
+.pagination-text{
   padding: 15px 0 0 10px;
   float: left;
 }
@@ -427,17 +427,17 @@ body {
 }
 
 /* trends/momentos */
-.fppercent{ 
+.fppercent{
     font-size: 1.1em;
 }
-.zeropercent{ 
+.zeropercent{
     font-size: 1.1em;
 }
-.pospercent{ 
+.pospercent{
     font-size: 1.1em;
     color: green;
 }
-.negpercent{ 
+.negpercent{
     font-size: 1.1em;
     color: red;
 }
@@ -514,7 +514,7 @@ width: 100%;
      padding:5px 0px 0px 0px;
 }
 
-.medium-text{ 
+.medium-text{
      font-size: 0.8em;
 }
 
@@ -563,27 +563,27 @@ width: 100%;
                                             }
 /* end from gb*/
 
-.flotr-title{ 
+.flotr-title{
   float: left;
  }
 
-.text-center{ 
+.text-center{
   text-align: center;
  }
 
-.text-big{ 
+.text-big{
   font-size: 1.1em;
  }
 
 /* Bootstrap tabs */
 
-.nav{ 
+.nav{
   margin-bottom: 2px !important;
 }
 
 /* Footer */
 
-#Footer{ 
+#Footer{
          border-top: 1px solid #EEEEEE;
          color: #777777;
          font-size: 12px;
@@ -596,12 +596,12 @@ width: 100%;
 
 .envision-component-container {
     width: 325px;
-    height : 50px;	
+    height : 50px;
 }
 
 .envision-component-container.envision-first {
     width: 325px;
-    height : 200px;			
+    height : 200px;
 }
 
 .envision-component {
@@ -624,7 +624,7 @@ width: 100%;
   border-top: 0px;
 }
  */
- 
+
 /* Connection overlay */
 .milestone0-connection .canvas {
   z-index: 10;
@@ -644,7 +644,7 @@ width: 100%;
 /* Mouse Tracker */
 .envision-component-container.envision-first .flotr-mouse-value {
     font-size: 12px;
-    display:inline;    
+    display:inline;
 }
 
 .envision-component-container .flotr-mouse-value
@@ -655,9 +655,9 @@ width: 100%;
 /* @media screen and (max-width: 600px) {
   .milestone0-scm-commits {
     width: 100%;
-  }  
- 
-  .milestone0-scm-commits .envision-component 
+  }
+
+  .milestone0-scm-commits .envision-component
    {
     height: 120px;
   }
