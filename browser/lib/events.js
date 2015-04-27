@@ -53,9 +53,6 @@ var Events = {};
         var divs = $(".Scout");
         if (divs.length > 0){
             $.each(divs, function(id, div) {
-                ds_name = $(this).data('data-source');
-                event_ = $(this).data('event');
-
                 loadScoutEventsData(
                     function(){
                         displayEventsScout(div);
@@ -102,7 +99,7 @@ var Events = {};
         show_timeline(ds_name, event_);
     }
 
-    function displayEventsScout (div, ds_name, event_) {
+    function displayEventsScout (div) {
         // var html = HTMLEvents(ds_name, event_);
         // if (!div.id) div.id = "Parsed" + getRandomId();
         // $("#"+div.id).append(html);
@@ -152,23 +149,85 @@ var Events = {};
         $('#target').html(rendered);
     };
 
+    function get_event(data, index, fields) {
+        // Create a dict with event data
+        event = {};
+        $.each(fields, function(i) {
+            var val = undefined;
+            if (data[fields[i]] !== undefined) {
+                val = data[fields[i]][index];
+            }
+            event[fields[i]] = val;
+        });
+        return event;
+    }
+
+    function join_time_series(s1, s2, field) {
+        // Join to s1 time series s2 items using "field" for ordering
+        // s1 and s2 should be ordered using "field"
+        // Create a new s time series with events
+        var s = {};
+        s[field] = [];
+        s.event = []; // All fields for the event
+        // Find all possible fields for ell events
+        var evfields  = Object.keys(s1);
+        evfields = evfields.concat(Object.keys(s2));
+        evfields = $.unique(evfields);
+        var s1_newest = Date.parse(s1[field][0]);
+        var s2_newest = Date.parse(s2[field][0]);
+        if (s1_newest<s2_newest) {
+            // s1 should be the newest time series
+            var aux = s1;
+            s1 = s2;
+            s2 = aux;
+        }
+        var index_s2 = 0;
+        $.each(s1[field], function(index){ 
+            // Add an item from s1, get next item date and 
+            // check next item with s2 items before adding them
+            // We will remove elements from s2
+            s[field].push(s1[field][index]);
+            event = get_event(s1, index, evfields);
+            s.event.push(event);
+            s1_next = s1[field][index+1];
+            s2_next = s2[field][index_s2];
+            while (Date.parse(s2_next)>Date.parse(s1_next)) {
+                s[field].push(s2[field][index_s2]);
+                event = get_event(s2, index_s2, evfields);
+                s.event.push(event);
+                index_s2++;
+                s2_next = s2[field][index_s2];
+            }
+        });
+        // Add the oldest elements remaining from s2
+        while (s2[field].length > index_s2) {
+            s[field].push(s2[field][index_s2]);
+            event = get_event(s2, index_s2, evfields);
+            s.event.push(event);
+            index_s2++;
+        }
+        return s;
+    }
+
     show_timeline_scout = function(ds_name, event_) {
         var data = {
             "events":[]
         };
 
-        // {"date":[], "url":[], "summary":[],field1:[],...}
         var events = Events.scout;
 
-        $.each(events.date, function(index){
-            data_event = {"url":events.url[index],"summary":events.summary[index],
-                    "timestamp":events.date[index],
-                    "event_text": "Not yet available"};
-            if (events.views !== undefined) {
-                data_event.views = events.views[index];
-            }
-            if (events.score !== undefined) {
-                data_event.score = events.score[index];
+        // If there are more, join two, then the third with the result and so on
+        // Not yet working, but this is the idea. all_events does not have the same format
+        all_events = join_time_series(events.github, events.stackoverflow, "date");
+
+        $.each(all_events.date, function(index){
+            data_event = all_events.event[index];
+            data_event.timestamp = data_event.date;
+            // Addhoc logic to check if stackoverflow or github
+            if (data_event.views !== undefined) {
+                data_event.stackoverflow = 1;
+            } else {
+                data_event.github = 1;
             }
             data.events.push(data_event);
         });
