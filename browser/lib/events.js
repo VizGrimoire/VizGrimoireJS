@@ -161,9 +161,16 @@ var Events = {};
         var events = Events.scout;
 
         $.each(events.date, function(index){
-            data.events.push({"url":events.url[index],"summary":events.summary[index],
-                              "timestamp":events.date[index],
-                              "event_text": "Not yet available"});
+            data_event = {"url":events.url[index],"summary":events.summary[index],
+                    "timestamp":events.date[index],
+                    "event_text": "Not yet available"};
+            if (events.views !== undefined) {
+                data_event.views = events.views[index];
+            }
+            if (events.score !== undefined) {
+                data_event.score = events.score[index];
+            }
+            data.events.push(data_event);
         });
 
         $.each(data.events, function(index, event){

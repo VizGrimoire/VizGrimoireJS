@@ -61,7 +61,11 @@
         {{#events}}
         <li class="list-group-item">
             <a class="avatar" href="{{url}}"><i class="fa fa-stack-overflow fa-3x"></i></a>
-            <p><strong><a href="{{url}}">{{summary}}</a></strong> <small>{{data_source}}</small> &bull; <small class="when">{{timestamp}}</small></p>
+            <p><strong><a href="{{url}}">{{summary}}</a></strong>
+                &bull; <small class="when">{{timestamp}}</small>
+                &bull; <small>Views: {{views}}</small>
+                &bull; <small>Score: {{score}}</small>    
+            </p>
             <p class="event">contents</p>
         </li>
         {{/events}}
