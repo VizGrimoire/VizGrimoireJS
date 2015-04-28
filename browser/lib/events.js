@@ -162,84 +162,50 @@ var Events = {};
         return event;
     }
 
-    function join_time_series(s1, s2, field) {
-        // Join to s1 time series s2 items using "field" for ordering
-        // s1 and s2 should be ordered using "field"
-        // Create a new s time series with events
-        var s = {};
-        s[field] = [];
-        s.event = []; // All fields for the event
-        // Find all possible fields for ell events
-        var evfields  = Object.keys(s1);
-        evfields = evfields.concat(Object.keys(s2));
-        evfields = $.unique(evfields);
-        var s1_newest = Date.parse(s1[field][0]);
-        var s2_newest = Date.parse(s2[field][0]);
-        if (s1_newest<s2_newest) {
-            // s1 should be the newest time series
-            var aux = s1;
-            s1 = s2;
-            s2 = aux;
-        }
-        var index_s2 = 0;
-        $.each(s1[field], function(index){ 
-            // Add an item from s1, get next item date and 
-            // check next item with s2 items before adding them
-            // We will remove elements from s2
-            s[field].push(s1[field][index]);
-            event = get_event(s1, index, evfields);
-            s.event.push(event);
-            s1_next = s1[field][index+1];
-            s2_next = s2[field][index_s2];
-            while (Date.parse(s2_next)>Date.parse(s1_next)) {
-                s[field].push(s2[field][index_s2]);
-                event = get_event(s2, index_s2, evfields);
-                s.event.push(event);
-                index_s2++;
-                s2_next = s2[field][index_s2];
+    function events_sort(events,  field) {
+        // All events include a date field
+        function compare(event1, event2) {
+            var res;
+
+            date1 = Date.parse(event1.date.replace(/-/g,"/"));
+            date2 = Date.parse(event2.date.replace(/-/g,"/"));
+
+            if (date1<date2) {
+                res = 1;
             }
-        });
-        // Add the oldest elements remaining from s2
-        while (s2[field].length > index_s2) {
-            s[field].push(s2[field][index_s2]);
-            event = get_event(s2, index_s2, evfields);
-            s.event.push(event);
-            index_s2++;
+            else if (date1>date2) {
+                res = -1;
+            }
+            else {
+                res = 0;
+            }
+            return res;
         }
-        return s;
+        events.sort(compare);
+        return events;
     }
 
     show_timeline_scout = function(ds_name, event_) {
-        var data = {
-            "events":[]
-        };
+        var events_ds = Events.scout;
+        var timeline_events = []; // All events to be shown in the timeline
 
-        var events = Events.scout;
-
-        // If there are more, join two, then the third with the result and so on
-        // Not yet working, but this is the idea. all_events does not have the same format
-        all_events = join_time_series(events.github, events.stackoverflow, "date");
-
-        $.each(all_events.date, function(index){
-            data_event = all_events.event[index];
-            data_event.timestamp = data_event.date;
-            // Addhoc logic to check if stackoverflow or github
-            if (data_event.views !== undefined) {
-                data_event.stackoverflow = 1;
-            } else {
-                data_event.github = 1;
-            }
-            data.events.push(data_event);
+        // First, create the common time series format: [date:[d1,d2, ...], event:[e1,e2, ...]]
+        $.each(events_ds, function(data_source, events){
+            fields = Object.keys(events);
+            $.each(events.date, function(i){
+                event = get_event(events, i, fields);
+                event[data_source] = 1;
+                event.timestamp = moment(event.date, "YYYY-MM-DD hh:mm:ss").fromNow();
+                timeline_events.push(event);
+            });
         });
-
-        $.each(data.events, function(index, event){
-            event.timestamp = moment(event.timestamp, "YYYY-MM-DD hh:mm:ss").fromNow();
-        });
+        // Order events in time to build a common time line with the events from all data sources
+        timeline_events = events_sort(timeline_events);
 
         var template = $('#template_scout').html();
 
         Mustache.parse(template);
-        var rendered = Mustache.render(template, data);
+        var rendered = Mustache.render(template, {"events":timeline_events});
         $('#target').html(rendered);
     };
 
