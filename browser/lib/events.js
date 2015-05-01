@@ -149,7 +149,30 @@ var Events = {};
         $('#target').html(rendered);
     };
 
-    function get_event(data, index, fields) {
+    function get_event_type(type, data_source) {
+        // Translare event code to human language
+        var human_type = type;
+        if (data_source === "github") {
+            if (type == "CreateEvent") {
+                human_type = "new repository";
+            }
+        }
+        else if (data_source === "stackoverflow") {
+            if (type === 1) {
+                human_type = "new question";
+            } else if (type == 2) {
+                human_type = "new answer";
+            } else if (type == 3) {
+                human_type = "new comment";
+            }
+        }
+        else if (data_source === "mail") {
+            human_type = "mail sent";
+        }
+        return human_type;
+    }
+
+    function get_event(data, index, fields, data_source) {
         // Create a dict with event data
         event = {};
         $.each(fields, function(i) {
@@ -158,7 +181,14 @@ var Events = {};
                 val = data[fields[i]][index];
             }
             event[fields[i]] = val;
+            if (fields[i] === "type") {
+                event[fields[i]] = get_event_type(val, data_source);
+            }
         });
+        if (data_source === "mail") {
+            // mail events do not include type
+            event.type = "email sent";
+        }
         return event;
     }
 
@@ -193,7 +223,7 @@ var Events = {};
         $.each(events_ds, function(data_source, events){
             fields = Object.keys(events);
             $.each(events.date, function(i){
-                event = get_event(events, i, fields);
+                event = get_event(events, i, fields,data_source);
                 event[data_source] = 1;
                 event.timestamp = moment(event.date, "YYYY-MM-DD hh:mm:ss").fromNow();
                 timeline_events.push(event);
