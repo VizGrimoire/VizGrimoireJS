@@ -73,6 +73,9 @@
             <p><strong><a href="{{url}}">{{summary}}</a></strong>
                 &bull; <small class="when">{{timestamp}}</small>
                 &bull; <small>Type: {{type}}</small>
+                {{#status}}
+                &bull; <small>Status: {{status}}</small>
+                {{/status}}
                 {{#stackoverflow}}
                 &bull; <small>Views: {{views}}</small>
                 &bull; <small>Score: {{score}}</small>
