@@ -78,7 +78,7 @@
                 &bull; <small>Score: {{score}}</small>
                 {{/stackoverflow}}
             </p>
-            <p class="event">contents</p>
+            <p class="event">{{#limitLength}}{{body}}{{/limitLength}}</p>
         </li>
         {{/events}}
     </script>

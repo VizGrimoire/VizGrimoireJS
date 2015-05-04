@@ -235,7 +235,14 @@ var Events = {};
         var template = $('#template_scout').html();
 
         Mustache.parse(template);
-        var rendered = Mustache.render(template, {"events":timeline_events});
+        var rendered = Mustache.render(template,
+                {"events":timeline_events,
+                 "limitLength" : function() {
+                     return function(text, render) {
+                         return render(text).substr(0,80) + '...';
+                     };
+                 }
+                });
         $('#target').html(rendered);
     };
 
