@@ -15,9 +15,18 @@ whose main focus is to parse information (mainly `json` files) from any of the t
 
 ## Q. How do I generate the HTML?
 
-In the VizGrimoire directory:
+In the VizGrimoireJS directory:
 
 <pre><code>$ make</code></pre>
+
+Once the html files are generated and the data is copied in the right directory (`browser/data/json`), 
+you can visualize the dashboard as easy as launching a webserver in current directory:
+
+<pre><code>$ python -m SimpleHTTPServer 8080 </code></pre>
+
+And loading the webpage in your web browser:
+
+`http://localhost:8080`
 
 ## Q. How do I clean the generated HTML?
 
@@ -25,7 +34,7 @@ In the VizGrimoire directory:
 
 ## Q. Where do I include the JSON files?
 
-Copy them to the directory `browser/data/json
+Copy them to the directory `browser/data/json`
 
 ## Q. Where is the famous metrics.json file located?
 
