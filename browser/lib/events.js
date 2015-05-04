@@ -238,8 +238,22 @@ var Events = {};
         var rendered = Mustache.render(template,
                 {"events":timeline_events,
                  "limitLength" : function() {
+                     var limit = 80;
                      return function(text, render) {
-                         return render(text).substr(0,80) + '...';
+                         var r = render(text);
+                         var keyword = 'centos';
+                         var n = r.search(new RegExp(keyword, "i"));
+                         var out = '';
+                         if (n>-1) {
+                             if (n-limit>0) {
+                                 out = "..." + r.substr(n-limit,limit);
+                             }
+                             out += "<b>"+r.substr(n,keyword.length)+"</b>";
+                             out += r.substr(n+keyword.length,limit) +'...';
+                         } else {
+                             out = r.substr(0,80) + '...';
+                         }
+                         return out;
                      };
                  }
                 });
