@@ -52,6 +52,15 @@
     <script src="./lib/filter_panel.js"></script>
     <script src="./lib/events.js"></script>
     <script src="./lib/project_comparison.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('.collapse').on('shown.bs.collapse', function(){
+                $(this).parent().find(".fa-plus").removeClass("fa-plus").addClass("fa-minus");
+                }).on('hidden.bs.collapse', function(){
+                    $(this).parent().find(".fa-minus").removeClass("fa-minus").addClass("fa-plus");
+                });
+        });
+    </script>
     <!-- Piwik code will be included here-->
     REPLACE_WEBSTATS
     <!-- End of Piwik code -->
