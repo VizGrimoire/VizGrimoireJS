@@ -93,6 +93,7 @@ describe("VizGrimoireJS data", function() {
                     if (DS.getMetrics()[field]) {
                         // Metric not in old JSON files for tests
                         if (field === 'qaforums_unanswered') {return;}
+                        if (field === 'unanswered_posts') {return;}
                         expect(global[field]).toBeDefined();
                     }
                 }
