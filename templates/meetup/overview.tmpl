@@ -1,27 +1,10 @@
 
 <div class="row">
-    <div class="col-md-8">
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <h4>Past events</h4>
-          <!-- top authors -->
-          <div class="TopMultiColumn" data-data-source="meetup" data-period_all="true"
-           data-metric="events"
-           data-headers="Event,Group,Date,City,Rating,Attendees,Country"
-           data-columns="event_name,group_name,date,city,rating,attendees,country"
-           data-limit="5"></div>
-           <p class="navbar-right">See <a href="meetup-past_events.html" class="navbar-link">complete
-               list of past events</a></p>
-        </div>
-        </div>
+    <div class="col-md-6">
+
     </div>
-    <div class="col-md-4">
-        <div class="panel panel-default">
-        <div class="panel-body">
-            <h4>Upcoming events</h4>
-            <p>Work in progress</p>
-        </div>
-        </div>
+    <div class="col-md-6">
+
     </div>
 </div>
 
@@ -30,6 +13,19 @@
 
   <!-- left column -->
   <div class="col-md-6">
+
+    <!-- authors -->
+     <div class="row">
+         <div class="col-md-12">
+          <div class="well">
+            <div class="MetricsEvol" data-data-source="meetup"
+                 data-metrics="meetup_attendees" data-min="true"
+                 style="height: 120px;"></div>
+            <div class="MicrodashText" data-metric="meetup_attendees"></div>
+          </div>
+        </div>
+      </div>
+      <!-- end authors -->
 
     <!-- -->
     <div class="row">
@@ -44,47 +40,70 @@
     </div>
     <!-- -->
 
-    <!-- authors -->
+    <!-- -->
     <div class="row">
       <div class="col-md-12">
-        <div class="well">
+    <div class="well">
           <div class="MetricsEvol" data-data-source="meetup"
-               data-metrics="meetup_attendees" data-min="true"
-               style="height: 120px;"></div>
-          <div class="MicrodashText" data-metric="meetup_attendees"></div>
-        </div>
+               data-metrics="meetup_groups" data-min="true"
+               style="height: 120px;" data-frame-time="true"></div>
+          <div class="MicrodashText" data-metric="meetup_groups"></div>
+    </div>
       </div>
     </div>
-    <!-- end authors -->
+    <!-- -->
+
+    <!-- -->
+    <div class="row">
+      <div class="col-md-12">
+    <div class="well">
+          <div class="MetricsEvol" data-data-source="meetup"
+               data-metrics="meetup_events,meetup_groups" data-min="true"
+               data-convert="divide"
+               data-custom-title="Ratio: Events per Group"
+               style="height: 120px;" data-frame-time="true"></div>
+    </div>
+      </div>
+    </div>
+    <!-- -->
 
   </div>
   <!-- end left column -->
 
   <!-- right column -->
   <div class="col-md-6">
-    <div class="row"><div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h4>Top groups by events last year</h4>
-        <!-- top authors -->
-        <div class="Top" data-data-source="meetup" data-period="last year"
-         data-metric="groups" data-limit="5"></div>
+      <div class="row"><div class="col-md-12">
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <h4>Groups activity during last year</h4>
+          <div class="TopFilter" data-data-source="meetup" data-metric="repos"
+          data-limit="5"
+          data-headers="Group,Events,RVSPs"
+          data-columns="name,events_365,rvsps_365"
+          data-ratio="rvsps_365,events_365"
+          data-ratio-header="RVSPs per event"
+          style="max-height: 240px; overflow-x: hidden;"></div>
+        </div>
       </div>
-    </div>
-    <!-- end right column -->
-    </div>
-    </div>
-    <div class="row"><div class="col-md-12">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h4>Top cities by events last year</h4>
-        <!-- top authors -->
-        <div class="Top" data-data-source="meetup" data-period="last year"
-         data-metric="cities" data-limit="5"></div>
+      <!-- end right column -->
       </div>
-    </div>
-    <!-- end right column -->
-    </div>
-    </div>
+      </div>
+
+      <div class="row"><div class="col-md-12">
+      <div class="panel panel-default">
+      <div class="panel-body">
+          <h4>Past events</h4>
+        <!-- top authors -->
+        <div class="TopMultiColumn" data-data-source="meetup" data-period_all="true"
+         data-metric="events"
+         data-headers="Event,Group,Date,City"
+         data-columns="event_name,group_name,date,city"
+         data-limit="5"></div>
+         <p class="navbar-right">See <a href="meetup-past_events.html" class="navbar-link">complete
+             list of past events</a></p>
+      </div>
+      </div>
+  </div></div>
+
   </div>
 </div>
