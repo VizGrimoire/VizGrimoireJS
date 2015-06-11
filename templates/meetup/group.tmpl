@@ -1,11 +1,9 @@
-
 <div class="row">
-    <div class="col-md-6">
-
+  <div class="col-md-12">
+    <div class="wellmin">
+      <div class="FilterItemData"></div>
     </div>
-    <div class="col-md-6">
-
-    </div>
+  </div>
 </div>
 
 <!-- commits, authors, stats, top authors -->
@@ -18,24 +16,26 @@
      <div class="row">
          <div class="col-md-12">
           <div class="well">
-            <div class="MetricsEvol" data-data-source="eventizer"
+            <div class="FilterItemMetricsEvol" data-data-source="eventizer"
                  data-metrics="eventizer_attendees" data-min="true"
                  data-frame-time="true"
+                 data-filter="repos"
                  style="height: 120px;"></div>
-            <div class="MicrodashText" data-metric="eventizer_attendees"></div>
+                 <div class="FilterItemMicrodashText" data-filter="repos" data-metric="eventizer_attendees"></div>
           </div>
         </div>
-    </div>
+      </div>
       <!-- end authors -->
 
     <!-- -->
     <div class="row">
       <div class="col-md-12">
     <div class="well">
-          <div class="MetricsEvol" data-data-source="eventizer"
+          <div class="FilterItemMetricsEvol" data-data-source="eventizer"
                data-metrics="eventizer_events" data-min="true"
+               data-filter="repos"
                style="height: 120px;" data-frame-time="true"></div>
-          <div class="MicrodashText" data-metric="eventizer_events"></div>
+               <div class="FilterItemMicrodashText" data-filter="repos" data-metric="eventizer_events"></div>
     </div>
       </div>
     </div>
@@ -45,23 +45,11 @@
     <div class="row">
       <div class="col-md-12">
     <div class="well">
-          <div class="MetricsEvol" data-data-source="eventizer"
-               data-metrics="eventizer_groups" data-min="true"
-               style="height: 120px;" data-frame-time="true"></div>
-          <div class="MicrodashText" data-metric="eventizer_groups"></div>
-    </div>
-      </div>
-    </div>
-    <!-- -->
-
-    <!-- -->
-    <div class="row">
-      <div class="col-md-12">
-    <div class="well">
-          <div class="MetricsEvol" data-data-source="eventizer"
-               data-metrics="eventizer_events,eventizer_groups" data-min="true"
+          <div class="FilterItemMetricsEvol" data-data-source="eventizer"
+               data-metrics="eventizer_attendees,eventizer_events" data-min="true"
+               data-filter="repos"
                data-convert="divide"
-               data-custom-title="Ratio: Meetings per Group"
+               data-custom-title="Ratio: RVSPs per Meeting"
                style="height: 120px;" data-frame-time="true"></div>
     </div>
       </div>
@@ -76,7 +64,7 @@
       <div class="row"><div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h4>Groups activity during last year</h4>
+          <h4>Top events by RVSPs</h4>
           <div class="TopFilter" data-data-source="eventizer" data-metric="repos"
           data-limit="5"
           data-headers="Group,Meetings,RSVPs"
@@ -91,20 +79,17 @@
       </div>
 
       <div class="row"><div class="col-md-12">
-      <div class="panel panel-default">
-      <div class="panel-body">
-          <h4>Past meetings</h4>
-        <!-- top authors -->
-        <div class="TopMultiColumn" data-data-source="eventizer" data-period_all="true"
-         data-metric="events"
-         data-headers="Meeting,Group,Date,City"
-         data-columns="event_name,group_name,date,city"
-         data-limit="5"></div>
-         <p class="navbar-right">See <a href="meetup-past_meetings.html" class="navbar-link">complete
-             list of past events</a></p>
-      </div>
-      </div>
-  </div></div>
+          <div class="panel panel-default">
+            <div class="panel-body">
+                <h4>Top RSVPs</h4>
+
+            <div class="FilterItemTop" data-filter="repos" data-metric="attendees"
+                data-period="all" data-data-source="eventizer"
+                data-people_links="true" data-height="340"></div>
+            </div></div>
+        </div>
+    </div>
+
 
   </div>
 </div>
