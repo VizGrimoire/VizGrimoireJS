@@ -76,13 +76,12 @@
       <div class="row"><div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h4>Groups activity during last year</h4>
           <div class="TopFilter" data-data-source="eventizer" data-metric="repos"
           data-limit="5"
-          data-headers="Group,Meetings,RSVPs"
+          data-headers="Groups meetings during last year,Meetings,RSVPs"
           data-columns="name,events_365,rsvps_365"
           data-ratio="rsvps_365,events_365"
-          data-ratio-header="RSVPs per meeting"
+          data-ratio-header="RSVPs/meeting"
           style="max-height: 240px; overflow-x: hidden;"></div>
         </div>
       </div>
@@ -93,18 +92,18 @@
       <div class="row"><div class="col-md-12">
       <div class="panel panel-default">
       <div class="panel-body">
-          <h4>Past meetings</h4>
         <!-- top authors -->
         <div class="TopMultiColumn" data-data-source="eventizer" data-period_all="true"
          data-metric="events"
-         data-headers="Meeting,Group,Date,City"
+         data-headers="Past meetings,Group,Date,City"
          data-columns="event_name,group_name,date,city"
-         data-limit="5"></div>
+         data-limit="8"></div>
          <p class="navbar-right">See <a href="meetup-past_meetings.html" class="navbar-link">complete
              list of past events</a></p>
       </div>
       </div>
-  </div></div>
+      </div>
+      </div>
 
   </div>
 </div>

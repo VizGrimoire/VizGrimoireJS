@@ -1,19 +1,38 @@
-<div class="row">
-  <div class="col-md-12">
-    <div class="wellmin">
-      <div class="FilterItemData"></div>
-    </div>
-  </div>
-</div>
-
 <!-- commits, authors, stats, top authors -->
 <div class="row">
 
   <!-- left column -->
   <div class="col-md-6">
 
+    <div class="row">
+      <div class="col-md-12">
+       <div class="well">
+           <div class="row">
+            <div class="col-md-3">
+                  <div class="FilterItemData"></div>
+            </div>
+            <div class="col-md-3"><div class="row">
+                  <div class="col-xs-6 text-right"><span style="font-size:25px;">123</span></div>
+                  <div class="col-xs-6 text-left">total members</div>
+                  </div>
+            </div>
+            <div class="col-md-3"><div class="row">
+                <div class="col-xs-6 text-right"><span style="font-size:25px;">8.5</span></div>
+                <div class="col-xs-6 text-left">RSVPs per meeting</div>
+                </div>
+            </div>
+            <div class="col-md-3"><div class="row">
+                <div class="col-xs-6 text-right"><span style="font-size:25px;">1.2</span></div>
+                <div class="col-xs-6 text-left">meetings per month</div>
+            </div>
+            </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
     <!-- authors -->
-     <div class="row">
+    <div class="row">
          <div class="col-md-12">
           <div class="well">
             <div class="FilterItemMetricsEvol" data-data-source="eventizer"
@@ -61,35 +80,25 @@
 
   <!-- right column -->
   <div class="col-md-6">
-      <div class="row"><div class="col-md-12">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <h4>Top events by RVSPs</h4>
-          <div class="TopFilter" data-data-source="eventizer" data-metric="repos"
-          data-limit="5"
-          data-headers="Group,Meetings,RSVPs"
-          data-columns="name,events_365,rsvps_365"
-          data-ratio="rsvps_365,events_365"
-          data-ratio-header="RSVPs per meeting"
-          style="max-height: 240px; overflow-x: hidden;"></div>
-        </div>
-      </div>
-      <!-- end right column -->
-      </div>
-      </div>
 
-      <div class="row"><div class="col-md-12">
+     <div class="row"><div class="col-md-12">
           <div class="panel panel-default">
             <div class="panel-body">
-                <h4>Top RSVPs</h4>
-
-            <div class="FilterItemTop" data-filter="repos" data-metric="attendees"
-                data-period="all" data-data-source="eventizer"
+            <div class="FilterItemTop" data-filter="repos" data-metric="events"
+                data-period="" data-data-source="eventizer"
                 data-people_links="true" data-height="340"></div>
             </div></div>
         </div>
     </div>
 
-
+    <div class="row"><div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+          <div class="FilterItemTop" data-filter="repos" data-metric="attendees"
+              data-period="" data-data-source="eventizer"
+              data-people_links="true" data-height="340"></div>
+          </div></div>
+      </div>
+    </div>
   </div>
 </div>
