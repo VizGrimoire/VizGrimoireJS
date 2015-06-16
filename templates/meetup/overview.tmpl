@@ -18,23 +18,24 @@
      <div class="row">
          <div class="col-md-12">
           <div class="well">
-            <div class="MetricsEvol" data-data-source="meetup"
-                 data-metrics="meetup_attendees" data-min="true"
+            <div class="MetricsEvol" data-data-source="eventizer"
+                 data-metrics="eventizer_rsvps" data-min="true"
+                 data-frame-time="true"
                  style="height: 120px;"></div>
-            <div class="MicrodashText" data-metric="meetup_attendees"></div>
+            <div class="MicrodashText" data-metric="eventizer_rsvps"></div>
           </div>
         </div>
-      </div>
+    </div>
       <!-- end authors -->
 
     <!-- -->
     <div class="row">
       <div class="col-md-12">
     <div class="well">
-          <div class="MetricsEvol" data-data-source="meetup"
-               data-metrics="meetup_events" data-min="true"
+          <div class="MetricsEvol" data-data-source="eventizer"
+               data-metrics="eventizer_events" data-min="true"
                style="height: 120px;" data-frame-time="true"></div>
-          <div class="MicrodashText" data-metric="meetup_events"></div>
+          <div class="MicrodashText" data-metric="eventizer_events"></div>
     </div>
       </div>
     </div>
@@ -44,10 +45,10 @@
     <div class="row">
       <div class="col-md-12">
     <div class="well">
-          <div class="MetricsEvol" data-data-source="meetup"
-               data-metrics="meetup_groups" data-min="true"
+          <div class="MetricsEvol" data-data-source="eventizer"
+               data-metrics="eventizer_groups" data-min="true"
                style="height: 120px;" data-frame-time="true"></div>
-          <div class="MicrodashText" data-metric="meetup_groups"></div>
+          <div class="MicrodashText" data-metric="eventizer_groups"></div>
     </div>
       </div>
     </div>
@@ -57,10 +58,10 @@
     <div class="row">
       <div class="col-md-12">
     <div class="well">
-          <div class="MetricsEvol" data-data-source="meetup"
-               data-metrics="meetup_events,meetup_groups" data-min="true"
+          <div class="MetricsEvol" data-data-source="eventizer"
+               data-metrics="eventizer_events,eventizer_groups" data-min="true"
                data-convert="divide"
-               data-custom-title="Ratio: Events per Group"
+               data-custom-title="Ratio: Meetings per Group"
                style="height: 120px;" data-frame-time="true"></div>
     </div>
       </div>
@@ -75,13 +76,12 @@
       <div class="row"><div class="col-md-12">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h4>Groups activity during last year</h4>
-          <div class="TopFilter" data-data-source="meetup" data-metric="repos"
+          <div class="TopFilter" data-data-source="eventizer" data-metric="repos"
           data-limit="5"
-          data-headers="Group,Events,RVSPs"
-          data-columns="name,events_365,rvsps_365"
-          data-ratio="rvsps_365,events_365"
-          data-ratio-header="RVSPs per event"
+          data-headers="Groups meetings during last year,Meetings,RSVPs"
+          data-columns="name,events_365,rsvps_365"
+          data-ratio="rsvps_365,events_365"
+          data-ratio-header="RSVPs/meeting"
           style="max-height: 240px; overflow-x: hidden;"></div>
         </div>
       </div>
@@ -92,18 +92,18 @@
       <div class="row"><div class="col-md-12">
       <div class="panel panel-default">
       <div class="panel-body">
-          <h4>Past events</h4>
         <!-- top authors -->
-        <div class="TopMultiColumn" data-data-source="meetup" data-period_all="true"
+        <div class="TopMultiColumn" data-data-source="eventizer" data-period_all="true"
          data-metric="events"
-         data-headers="Event,Group,Date,City"
+         data-headers="Past meetings,Group,Date,City"
          data-columns="event_name,group_name,date,city"
-         data-limit="5"></div>
-         <p class="navbar-right">See <a href="meetup-past_events.html" class="navbar-link">complete
+         data-limit="8"></div>
+         <p class="navbar-right">See <a href="meetup-past_meetings.html" class="navbar-link">complete
              list of past events</a></p>
       </div>
       </div>
-  </div></div>
+      </div>
+      </div>
 
   </div>
 </div>
