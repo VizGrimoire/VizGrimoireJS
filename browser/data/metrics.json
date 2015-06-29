@@ -356,11 +356,29 @@
          "name" : "Reviews submitters",
          "desc" : "Number of people submitting review processes."
      },
-    "src_reviewers" : {
+    "scr_reviewers" : {
          "divid" : "scr_reviewers",
          "column" : "reviewers",
          "name" : "Reviewers",
          "desc" : "Number of people reviewing contributions"
+     },
+     "scr_voted_patchsets" : {
+         "divid" : "scr_voted_patchsets",
+         "column" : "voted_patchsets",
+         "name" : "Total reviews received by Patchsets",
+         "desc" : "Total reviews received by Patchsets"
+     },
+     "scr_sent_patchsets" : {
+         "divid" : "scr_sent_patchsets",
+         "column" : "sent_patchsets",
+         "name" : "Total sent patchsets ",
+         "desc" : "Total sent patchsets"
+     },
+     "scr_patchset_submitters" : {
+         "divid" : "scr_patchset_submitters",
+         "column" : "patchset_submitters",
+         "name" : "People uploading patchsets",
+         "desc" : "People uploading patchsets"
      },
      "scr_ReviewsWaiting_ts" : {
          "column" : "ReviewsWaiting_ts",
