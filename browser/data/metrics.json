@@ -356,12 +356,100 @@
          "name" : "Reviews submitters",
          "desc" : "Number of people submitting review processes."
      },
-    "src_reviewers" : {
+    "scr_reviewers" : {
          "divid" : "scr_reviewers",
          "column" : "reviewers",
          "name" : "Reviewers",
          "desc" : "Number of people reviewing contributions"
+     },
+     "scr_voted_patchsets" : {
+         "divid" : "scr_voted_patchsets",
+         "column" : "voted_patchsets",
+         "name" : "Total reviews received by Patchsets",
+         "desc" : "Total reviews received by Patchsets"
+     },
+     "scr_sent_patchsets" : {
+         "divid" : "scr_sent_patchsets",
+         "column" : "sent_patchsets",
+         "name" : "Total sent patchsets ",
+         "desc" : "Total sent patchsets"
+     },
+     "scr_patchset_submitters" : {
+         "divid" : "scr_patchset_submitters",
+         "column" : "patchset_submitters",
+         "name" : "People uploading patchsets",
+         "desc" : "People uploading patchsets"
+     },
+     "scr_ReviewsWaiting_ts" : {
+         "column" : "ReviewsWaiting_ts",
+         "name" : "New changesets",
+         "desc" : "Number of changesets that are open (not merged nor abandoned) at the end of the specified month."
+     },
+     "scr_ReviewsWaitingForReviewer" : {
+         "column" : "ReviewsWaitingForReviewer",
+         "name" : "Waiting for review",
+         "desc" : "For the subset of current backlog of open changesets which are waiting for review, number of chan    gesets submitted during each month."
+     },
+     "scr_ReviewsWaitingForReviewer_ts" : {
+         "column" : "ReviewsWaitingForReviewer_ts",
+         "name" : "Waiting for review",
+         "desc" : "Subset of open changesets that are waiting for review (not 'WIP', with no review or just +1) at t    he end of the specified month. Open changesets with 'WIP' in the subject or with -1/-2 are not counted."
+     },
+     "scr_review_time_days_avg" : {
+         "column" : "review_time_days_avg",
+         "name" : "Review time in days (average)",
+         "desc" : "Average review time in days"
+     },
+     "scr_review_time_days_median" : {
+         "column" : "review_time_days_median",
+         "name" : "Review time in days",
+         "desc" : "Median review time in days"
+     },
+     "scr_review_time_pending_days_acc_median" : {
+         "column" : "review_time_pending_days_acc_median",
+         "name" : "Review time for pending in days",
+         "desc" : "Median review time for pending submissions in days"
+     },
+     "scr_review_time_pending_ReviewsWaitingForReviewer_days_acc_median" : {
+         "column" : "review_time_pending_ReviewsWaitingForReviewer_days_acc_median",
+         "name" : "Time from submission",
+         "desc" : "For open changesets at the end of the specified month, median time from the initial upload of tho    se changesets until the end of the specified month."
+     },
+     "scr_review_time_pending_update_days_acc_median" : {
+         "column" : "review_time_pending_update_days_acc_median",
+         "name" : "Update time for pending in days",
+         "desc" : "Median update time for pending submissions in days"
+     },
+     "scr_review_time_pending_update_ReviewsWaitingForReviewer_days_acc_median" : {
+         "column" : "review_time_pending_update_ReviewsWaitingForReviewer_days_acc_median",
+         "name" : "Most recent updates",
+         "desc" : "Median age of changesets counting since updated (days)."
+     },
+     "scr_review_time_pending_upload_days_acc_median" : {
+         "column" : "review_time_pending_upload_days_acc_median",
+         "name" : "Upload time for pending in days",
+         "desc" : "Median upload time for pending submissions in days"
+     },
+     "scr_review_time_pending_upload_ReviewsWaitingForReviewer_days_acc_median" : {
+        "column" : "review_time_pending_upload_ReviewsWaitingForReviewer_days_acc_median",
+        "name" : "Time from last patchset",
+        "desc" : "For changesets that are still open at the end of the specified month, median time from the last p    atchset at that time until the end of the specified month."
+     },
+     "scr_participants":{
+        "divid" : "scr_participants",
+        "column" : "participants",
+        "name" : "Code review users",
+        "desc" : "Number of participants in the review process",
+        "action": "actions"
+         },
+     "scr_active_core_reviewers":{
+        "divid" : "scr_active_core_reviewers",
+        "column" : "active_core_reviewers",
+        "name" : "Code review committers",
+        "desc" : "Number of active core reviewers",
+        "action": "+2/-2 votes"
      }
+
 },
 "qaforums": {
     "qaforums_participants" : {
