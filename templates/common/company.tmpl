@@ -14,44 +14,22 @@
   </div>
 </div>
 
-<div class="row">
+<div class="CompanyDSBlock" data-data-source="scm"
+    data-metrics="scm_commits,scm_authors:scm_newauthors"
+    data-top-metric="authors">
+</div>
 
-    <div class="col-md-9">
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="scm"
-         data-metrics="scm_commits,scm_authors:scm_newauthors"></div>
-    </div>
-    <div class="col-md-3">
-        <div class="col-md-12 well">
-        <div class="DemographicsCompany" data-data-source="scm" data-period="0.5"></div>
-        </div>
-    </div>
+<div class="CompanyDSBlock" data-data-source="scr"
+    data-metrics="scr_submitted:scr_merged,scr_timeto_merge_median"
+    data-top-metric="mergers">
+</div>
 
-    <div class="col-md-9">
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="scr"
-         data-metrics="scr_submitted:scr_merged,scr_timeto_merge_median"></div>
-    </div>
-    <div class="col-md-3">
-        <div class="DemographicsCompany" data-data-source="scr" data-period="0.5"></div>
-    </div>
+<div class="CompanyDSBlock" data-data-source="its"
+    data-metrics="its_closed:its_opened,its_closers:its_openers"
+    data-top-metric="closers">
+</div>
 
-    <div class="col-md-9">
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="its"
-         data-metrics="its_closed:its_opened,its_closers:its_openers"></div>
-    </div>
-    <div class="col-md-3">
-        <div class="col-md-12 well">
-        <div class="DemographicsCompany" data-data-source="its" data-period="0.5"></div>
-        </div>
-    </div>
-
-    <div class="col-md-9">
-    <div class="FilterDSBlock" data-filter="companies" data-data-source="mls"
-         data-metrics="mls_sent,mls_senders"></div>
-    </div>
-    <div class="col-md-3">
-        <div class="col-md-12 well">
-        <div class="DemographicsCompany" data-data-source="mls" data-period="0.5"></div>
-        </div>
-    </div>
-
+<div class="CompanyDSBlock" data-data-source="mls"
+    data-metrics="mls_sent,mls_senders"
+    data-top-metric="senders">
 </div>
