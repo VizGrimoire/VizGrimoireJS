@@ -109,5 +109,6 @@ python apply_template.py --template body.template --content forge/contributors.t
 
 # meetup
 python apply_template.py --template body.template --content meetup/overview.tmpl > ../browser/meetup.html
-python apply_template.py --template body.template --content meetup/past-meetings.tmpl > ../browser/meetup-past_meetings.html
+python apply_template.py --template body.template --content meetup/past-meetings.tmpl > ../browser/meetup-past.html
+python apply_template.py --template body.template --content meetup/next-meetings.tmpl > ../browser/meetup-next.html
 python apply_template.py --template body.template --content meetup/group.tmpl > ../browser/meetup-group.html
