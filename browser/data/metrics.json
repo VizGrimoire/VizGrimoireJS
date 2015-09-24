@@ -57,7 +57,13 @@
         "column" : "companies",
         "name" : "Organziations",
         "desc" : "Number of organizations (companies, etc.) with persons active in the ticketing system"
-    }, 
+    },
+    "its_organizations" : {
+        "divid" : "its_organizations",
+        "column" : "organizations",
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
+    },
     "its_countries" : {
         "divid" : "its_countries",
         "column" : "countries",
@@ -117,6 +123,12 @@
         "column" : "companies",
         "name" : "Organizations",
         "desc" : "Number of organizations (companies, etc.) with persons active in mailing list(s)"
+    },
+    "mls_organizations" : {
+        "divid" : "mls_organizations",
+        "column" : "organizations",
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
     },
     "mls_countries" : {
         "divid" : "mls_countries",
@@ -206,6 +218,12 @@
         "column" : "companies",
         "name" : "Organizations",
         "desc" : "Number of organizations (companies, etc.) with persons active in changing code"
+    },
+    "scm_organizations" : {
+        "divid" : "scm_organizations",
+        "column" : "organizations",
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
     },
     "scm_countries" : {
         "divid" : "scm_countries",
@@ -311,6 +329,12 @@
         "column" : "companies",
         "name" : "Organizations",
         "desc" : "Number of organizations (companies, etc.) with persons active in code review"
+    },
+    "scr_organizations" : {
+        "divid" : "scr_organizations",
+        "column" : "organizations",
+        "name" : "Organizations",
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
     },
     "scr_countries" : {
         "divid" : "scr_countries",
