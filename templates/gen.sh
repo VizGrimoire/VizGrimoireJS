@@ -14,7 +14,7 @@ python apply_template.py --template body.template --content common/demographics.
 python apply_template.py --template body.template.releases --content common/releases.tmpl > ../browser/release.html
 python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
 python apply_template.py --template body.template --content common/project_comparison.tmpl > ../browser/project_comparison.html
-
+python apply_template.py --template body.template --content common/organizations.tmpl > ../browser/organizations.html
 
 cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
@@ -31,7 +31,7 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-projects > ../browser/its-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-repos > ../browser/its-repos.html
 python apply_template.py --template body.template --content its/states.tmpl > ../browser/its-states.html
-
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its-organizations > ../browser/its-organizations.html
 
 # its_1
 python apply_template.py --template body.template --content its_1/overview.tmpl > ../browser/its_1.html
@@ -42,6 +42,7 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-projects > ../browser/its_1-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-repos > ../browser/its_1-repos.html
 python apply_template.py --template body.template --content its_1/states.tmpl > ../browser/its_1-states.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel its_1-organizations > ../browser/its_1-organizations.html
 
 # its_1 - maniphest
 #python apply_template.py --template body.template --content maniphest/overview.tmpl > ../browser/maniphest.html
@@ -65,6 +66,7 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-domains > ../browser/mls-domains.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-projects > ../browser/mls-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-repos > ../browser/mls-repos.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel mls-organizations > ../browser/mls-organizations.html
 
 # qaforums
 python apply_template.py --template body.template --content qaforums/overview.tmpl > ../browser/qaforums.html
@@ -80,6 +82,7 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-domains > ../browser/scm-domains.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-projects > ../browser/scm-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-repos > ../browser/scm-repos.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scm-organizations > ../browser/scm-organizations.html
 
 # scr (Github)
 #python apply_template.py --template body.template --content scr_github/overview.tmpl > ../browser/scr.html
@@ -95,6 +98,7 @@ python build_panel.py --template body.template --content common/list-of-filters.
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-countries > ../browser/scr-countries.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-projects > ../browser/scr-projects.html
 python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-repos > ../browser/scr-repos.html
+python build_panel.py --template body.template --content common/list-of-filters.tmpl --conf conf/main.conf --panel scr-organizations > ../browser/scr-organizations.html
 
 # wiki
 python apply_template.py --template body.template --content wiki/overview.tmpl > ../browser/wiki.html
@@ -109,6 +113,6 @@ python apply_template.py --template body.template --content forge/contributors.t
 
 # meetup
 python apply_template.py --template body.template --content meetup/overview.tmpl > ../browser/meetup.html
-python apply_template.py --template body.template --content meetup/past-meetings.tmpl > ../browser/meetup-past.html
-python apply_template.py --template body.template --content meetup/next-meetings.tmpl > ../browser/meetup-next.html
+python apply_template.py --template body.template --content meetup/past-meetings.tmpl > ../browser/meetup-past_meetings.html
+python apply_template.py --template body.template --content meetup/next-meetings.tmpl > ../browser/meetup-next_meetings.html
 python apply_template.py --template body.template --content meetup/group.tmpl > ../browser/meetup-group.html
