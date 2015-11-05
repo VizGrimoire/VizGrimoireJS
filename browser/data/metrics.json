@@ -324,6 +324,12 @@
         "name" : "submitted",
         "desc" : "Number of submitted code review processes"
     },
+    "scr_submissions" : {
+        "divid" : "scr_submissions",
+        "column" : "submissions",
+        "name" : "Reviews submitted",
+        "desc" : "Reviews submitted"
+    },
     "scr_companies" : {
         "divid" : "scr_companies",
         "column" : "companies",
