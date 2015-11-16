@@ -116,3 +116,6 @@ python apply_template.py --template body.template --content meetup/overview.tmpl
 python apply_template.py --template body.template --content meetup/past-meetings.tmpl > ../browser/meetup-past_meetings.html
 python apply_template.py --template body.template --content meetup/next-meetings.tmpl > ../browser/meetup-next_meetings.html
 python apply_template.py --template body.template --content meetup/group.tmpl > ../browser/meetup-group.html
+
+# dockerhub
+python apply_template.py --template body.template --content dockerhub/overview.tmpl > ../browser/dockerhub.html
