@@ -1,4 +1,131 @@
 {
+"eventizer": {
+    "eventizer_events" : {
+        "divid" : "eventizer_events",
+        "action" : "attendees",
+        "column" : "events",
+        "name" : "Meetup meetings",
+        "desc" : "Meetup meetings"
+    },
+    "eventizer_attendees" : {
+        "divid" : "eventizer_attendees",
+        "column" : "attendees",
+        "action": "events",
+        "name" : "Meetup RSVPs",
+        "desc" : "Meetup RSVPs"
+    },
+    "eventizer_rsvps" : {
+        "divid" : "eventizer_rsvps",
+        "column" : "rsvps",
+        "action": "events",
+        "name" : "Meetup RSVPs",
+        "desc" : "Meetup RSVPs"
+    },
+    "eventizer_members" : {
+        "divid" : "eventizer_members",
+        "column" : "members",
+        "name" : "Meetup members",
+        "desc" : "Meetup members"
+    },
+    "eventizer_cities": {
+        "name" : "Cities with Meetup events",
+        "action" : "events",
+        "desc": "Cities where events took place"
+    },
+    "eventizer_groups" : {
+        "divid" : "eventizer_groups",
+        "column" : "groups",
+        "name" : "Active Meetup groups",
+        "desc" : "Active Meetup groups"
+    }
+},
+"dockerhub": {
+    "dockerhub_pulls": {
+        "divid": "dockerhub_pulls",
+        "column": "pulls",
+        "name": "Docker Hub repo pulls",
+        "desc": "Pulls for a Docker Hub repo"
+    },
+    "dockerhub_starred": {
+        "divid": "dockerhub_starred",
+        "column": "starred",
+        "name": "Docker Hub repo stars",
+        "desc": "Stars for a Docker Hub repo"
+    }
+},
+"downloads": {
+    "downloads_downloads":{
+        "name" : "Total downloads",
+        "column" : "downloads"
+    },
+    "downloads_packages" : {
+        "divid" : "",
+        "column" : "packages",
+        "name" : "Packages downloaded",
+        "desc" : "",
+        "action" : "downloads"
+    },
+    "downloads_ips" : {
+        "divid" : "",
+        "column" : "ips",
+        "name" : "IP addresses",
+        "desc" : "",
+        "action" : "downloads"
+    },
+    "downloads_bounces" : {
+        "divid" : "",
+        "column" : "bounces",
+        "name" : "Bounces",
+        "desc" : ""
+    },
+    "downloads_uvisitors" : {
+        "divid" : "",
+        "column" : "uvisitors",
+        "name" : "Unique visitors",
+        "desc" : ""
+    },
+    "downloads_visits" : {
+        "divid" : "",
+        "column" : "visits",
+        "name" : "Visits",
+        "desc" : ""
+    },
+    "downloads_pages" : {
+        "divid" : "",
+        "column" : "page",
+        "name" : "Pages",
+        "desc" : "",
+        "action": "visits"
+    },
+    "downloads_countries" : {
+        "divid" : "",
+        "column" : "country",
+        "name" : "Countries",
+        "desc" : "",
+        "action": "visits"
+    }
+},
+"irc": {
+    "irc_sent" : {
+        "divid" : "irc_sent",
+        "column" : "sent",
+        "name" : "Sent",
+        "desc" : "Messages sent"
+    },
+    "irc_senders" : {
+        "divid" : "irc_senders",
+        "column" : "senders",
+        "name" : "Senders",
+        "desc" : "Messages senders",
+        "action" : "sent"
+    },
+    "irc_repositories" : {
+        "divid" : "irc_repositories",
+        "column" : "repositories",
+        "name" : "Repositories",
+        "desc" : "Number of active repositories"
+    }
+},
 "its": {
     "its_opened" : {
         "divid" : "its_opened",
@@ -62,7 +189,7 @@
         "divid" : "its_organizations",
         "column" : "organizations",
         "name" : "Organizations",
-        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
+        "desc" : "Number of organizations (companies, etc.) with persons active in the ticketing system"
     },
     "its_countries" : {
         "divid" : "its_countries",
@@ -87,6 +214,143 @@
         "column" : "people",
         "name" : "Active persons",
         "desc" : "Number of persons active in the ticketing system"
+    }
+},
+"its_1": {
+    "its_1_opened" : {
+        "divid" : "its_1_opened",
+        "column" : "opened",
+        "name" : "Opened tickets",
+        "desc" : "Number of opened tickets",
+        "envision" : {
+            "y_labels" : true,
+            "show_markers" : true
+        }
+    },
+    "its_1_openers" : {
+        "divid" : "its_1_openers",
+        "column" : "openers",
+        "name" : "Openers",
+        "desc" : "Unique identities opening tickets",
+        "action" : "opened",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "its_1_stories_opened" : {
+        "divid" : "its_1_stories_opened",
+        "column" : "stories_opened",
+        "name" : "Stories Opened",
+        "desc" : "Number of opened stories"
+    },
+    "its_1_stories_openers" : {
+        "divid" : "its_1_stories_openers",
+        "column" : "stories_openers",
+        "name" : "Stories Openers",
+        "desc" : "Unique identities opening stories",
+        "action" : "opened"
+    },
+    "its_1_closed" : {
+        "divid" : "its_1_closed",
+        "column" : "closed",
+        "name" : "Closed tickets",
+        "desc" : "Number of closed tickets"
+    },
+    "its_1_closers" : {
+        "divid" : "its_1_closers",
+        "column" : "closers",
+        "name" : "Closers",
+        "desc" : "Number of identities closing tickets",
+        "action" : "closed",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "its_1_closers_7" : {
+        "divid" : "its_1_closers_7",
+        "column" : "closers_7",
+        "name" : "Closers",
+        "desc" : "Number of identities closing tickets during last week",
+        "action" : "closed"
+    },
+    "its_1_stories_closed" : {
+        "divid" : "its_1_stories_closed",
+        "column" : "stories_closed",
+        "name" : "Closed stories",
+        "desc" : "Number of closed stories"
+    },
+    "its_1_stories_pending" : {
+        "divid" : "its_1_stories_pending",
+        "column" : "stories_pending",
+        "name" : "Pending stories",
+        "desc" : "Number of pending stories"
+    },
+    "its_1_bmitickets" : {
+        "divid" : "its_1_bmitickets",
+        "column" : "bmitickets",
+        "name" : "Efficiency",
+        "desc" : "Efficiency closing tickets: number of closed ticket out of the opened ones in a given period"
+    },
+    "its_1_changed" : {
+        "divid" : "its_1_changed",
+        "column" : "changed",
+        "name" : "Changed",
+        "desc" : "Number of changes to the state of tickets"
+    },
+    "its_1_changers" : {
+        "divid" : "its_1_changers",
+        "column" : "changers",
+        "name" : "Changers",
+        "desc" : "Number of identities changing the state of tickets",
+        "action" : "changed",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "its_1_companies" : {
+        "divid" : "its_1_companies",
+        "column" : "companies",
+        "name" : "Companies",
+        "desc" : "Number of active companies"
+    },
+    "its_1_countries" : {
+        "divid" : "its_1_countries",
+        "column" : "countries",
+        "name" : "Countries",
+        "desc" : "Number of active countries"
+    },
+    "its_1_repositories" : {
+        "divid" : "its_1_repositories",
+        "column" : "repositories",
+        "name" : "Respositories",
+        "desc" : "Number of active respositories"
+    },
+    "its_1_domains" : {
+        "divid" : "its_1_domains",
+        "column" : "domains",
+        "name" : "Domains",
+        "desc" : "Number of active domains"
+    }
+},
+"mediawiki": {
+    "mediawiki_reviews" : {
+        "divid" : "mediawiki_reviews",
+        "column" : "reviews",
+        "name" : "Editions",
+        "desc" : "Wiki page editions"
+    },
+    "mediawiki_authors" : {
+        "divid" : "mediawiki_authors",
+        "column" : "authors",
+        "name" : "Editors",
+        "desc" : "Editors doing editions",
+        "action" : "reviews"
+    },
+    "mediawiki_pages" : {
+        "divid" : "mediawiki_pages",
+        "column" : "pages",
+        "name" : "Pages",
+        "desc" : "Wiki pages"
     }
 },
 "mls": {
@@ -128,7 +392,7 @@
         "divid" : "mls_organizations",
         "column" : "organizations",
         "name" : "Organizations",
-        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
+        "desc" : "Number of organizations (companies, etc.) with persons active in mailing list(s)"
     },
     "mls_countries" : {
         "divid" : "mls_countries",
@@ -147,6 +411,13 @@
         "column" : "repositories",
         "name" : "Mailing lists",
         "desc" : "Number of active mailing lists"
+    }
+},
+"people": {
+    "people_members" : {
+        "column" : "members",
+        "name" : "Members",
+        "desc" : "Community Members"
     }
 },
 "scm": {
@@ -175,6 +446,16 @@
         "column" : "authors",
         "name" : "Authors",
         "desc" : "Number of persons authoring commits (changes to source code)",
+        "action" : "commits",
+        "envision" : {
+            "gtype" : "whiskers"
+        }
+    },
+    "scm_newauthors" : {
+        "divid" : "scm_newauthors",
+        "column" : "newauthors",
+        "name" : "New Authors",
+        "desc" : "Number of new people authoring commits (changes to source code)",
         "action" : "commits",
         "envision" : {
             "gtype" : "whiskers"
@@ -223,7 +504,7 @@
         "divid" : "scm_organizations",
         "column" : "organizations",
         "name" : "Organizations",
-        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
+        "desc" : "Number of organizations (companies, etc.) with persons active in changing code"
     },
     "scm_countries" : {
         "divid" : "scm_countries",
@@ -311,7 +592,7 @@
         "column" : "WaitingForReviewer",
         "name" : "Waiting for reviewer",
         "desc" : "Number of code review processes waiting for reviewer"
-    },        
+    },
     "scr_WaitingForSubmitter" : {
         "divid" : "scr_WaitingForSubmitter",
         "column" : "WaitingForSubmitter",
@@ -324,12 +605,6 @@
         "name" : "submitted",
         "desc" : "Number of submitted code review processes"
     },
-    "scr_submissions" : {
-        "divid" : "scr_submissions",
-        "column" : "submissions",
-        "name" : "Reviews submitted",
-        "desc" : "Reviews submitted"
-    },
     "scr_companies" : {
         "divid" : "scr_companies",
         "column" : "companies",
@@ -340,7 +615,7 @@
         "divid" : "scr_organizations",
         "column" : "organizations",
         "name" : "Organizations",
-        "desc" : "Number of organizations (companies, etc.) with persons active in changing code" 
+        "desc" : "Number of organizations (companies, etc.) with persons active in code review"
     },
     "scr_countries" : {
         "divid" : "scr_countries",
