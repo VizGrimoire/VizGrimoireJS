@@ -58,6 +58,10 @@
         "name" : "Total downloads",
         "column" : "downloads"
     },
+    "downloads_udownloads":{
+        "name" : "Unique downloads",
+        "column" : "udownloads"
+    },
     "downloads_packages" : {
         "divid" : "",
         "column" : "packages",
