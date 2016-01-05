@@ -10,7 +10,7 @@ project.
 ## Q. What libraries are used by this front-end?
 
 - Bootstrap 3.1.1
-- Jasny Boostrap 3.1.3
+- Jasny Bootstrap 3.1.3
 - JQuery 1.11.1
 - VizGrimoireJS-lib
 
