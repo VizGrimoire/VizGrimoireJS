@@ -55,6 +55,15 @@
 	    ["Link 2", "https://twitter.com/flossmetrics"]
 	],
 ```
+
+aliases allow user to customize label in sidebar for data sources names
+```
+    "aliases": {
+        "its": "defunct Bugzilla"
+    },
+```
+
+```
 studies_extra will link ad-hoc studies
 
 ```

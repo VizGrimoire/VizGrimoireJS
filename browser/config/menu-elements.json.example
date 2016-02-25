@@ -61,7 +61,10 @@
 	],
 	"project_map-OFF": [],
     "filter": ["scm:company+country","its:company+country"],
-    "filter_companies":["Liferay","non Liferay"]
+    "filter_companies":["Liferay","non Liferay"],
+    "aliases": {
+        "its": "defunct Bugzilla"
+    }
     },
     "releases":[],
     "threads_site":"https://groups.google.com/"
