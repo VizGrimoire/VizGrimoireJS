@@ -1,5 +1,10 @@
 {
 "eventizer": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Meetup metrics",
+        "desc" : ""
+    },
     "eventizer_events" : {
         "divid" : "eventizer_events",
         "action" : "attendees",
@@ -40,6 +45,11 @@
     }
 },
 "dockerhub": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "DockerHub metrics",
+        "desc" : ""
+    },
     "dockerhub_pulls": {
         "divid": "dockerhub_pulls",
         "column": "pulls",
@@ -54,6 +64,11 @@
     }
 },
 "downloads": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Downloads metrics",
+        "desc" : ""
+    },
     "downloads_downloads":{
         "name" : "Total downloads",
         "column" : "downloads"
@@ -110,6 +125,11 @@
     }
 },
 "irc": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "IRC metrics",
+        "desc" : ""
+    },
     "irc_sent" : {
         "divid" : "irc_sent",
         "column" : "sent",
@@ -131,6 +151,11 @@
     }
 },
 "its": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Tickets metrics",
+        "desc" : ""
+    },
     "its_opened" : {
         "divid" : "its_opened",
         "column" : "opened",
@@ -221,6 +246,11 @@
     }
 },
 "its_1": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "ITS (2)",
+        "desc" : ""
+    },
     "its_1_opened" : {
         "divid" : "its_1_opened",
         "column" : "opened",
@@ -337,6 +367,11 @@
     }
 },
 "mediawiki": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Mediawiki metrics",
+        "desc" : ""
+    },
     "mediawiki_reviews" : {
         "divid" : "mediawiki_reviews",
         "column" : "reviews",
@@ -358,6 +393,11 @@
     }
 },
 "mls": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Mailing lists metrics",
+        "desc" : ""
+    },
     "mls_responses" : {
         "divid" : "mls_responses",
         "column" : "responses",
@@ -425,6 +465,11 @@
     }
 },
 "scm": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Source Code Management metrics",
+        "desc" : "Metrics obtained from git repositories. For each git repository, all branches are scanned for commits. The list of git repositores analyzed is shown on the <a href='data_sources.html'>Data Sources</a> panel"
+    },
     "scm_commits" : {
         "divid" : "scm_commits",
         "column" : "commits",
@@ -530,6 +575,11 @@
     }
 },
 "scr": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Code Review metrics",
+        "desc" : ""
+    },
     "scr_merged" : {
         "divid" : "scr_merged",
         "column" : "merged",
@@ -761,6 +811,11 @@
 
 },
 "qaforums": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Q&A Forums metrics",
+        "desc" : ""
+    },
     "qaforums_participants" : {
         "name" : "Participants",
         "desc" : "Number of persons posting messages",
@@ -800,6 +855,11 @@
 
 },
 "releases": {
+    "desc" : {
+        "column" : "desc",
+        "name" : "Releases metrics",
+        "desc" : ""
+    },
     "releases_authors":{
         "name" : "Module authors",
         "desc" : "Module authors",
