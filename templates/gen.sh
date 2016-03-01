@@ -15,6 +15,8 @@ python apply_template.py --template body.template.releases --content common/rele
 python apply_template.py --template body.template --content common/filter.tmpl > ../browser/filter.html
 python apply_template.py --template body.template --content common/project_comparison.tmpl > ../browser/project_comparison.html
 python apply_template.py --template body.template --content common/organizations.tmpl > ../browser/organizations.html
+python apply_template.py --template body.template --content common/definitions.tmpl > ../browser/definitions.html
+
 
 cp common/footer.tmpl ../browser/footer.html
 cp common/navbar.tmpl ../browser/navbar.html
